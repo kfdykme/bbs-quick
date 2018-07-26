@@ -74,6 +74,8 @@
   import storage from '@system.storage'
   import UserCache from '../Common/UserCache'
   import Api from '../Common/Api'
+  import webview from "@system.webview"
+  import prompt from "@system.prompt"
 
 
   export default {
@@ -88,19 +90,28 @@
     onInit(){
 
 
-      //读取登陆缓存
+      var app = this.$app
+
+         //读取登陆缓存
       storage.get({
         key : "user",
         success: function (data) {
-          const user = JSON.parse(data)
-          console.log('get userinfo oninit : ' + user.token)
+          if(data){
+            const user = JSON.parse(data)
+            console.log('get userinfo oninit : ' + user.token)
 
 
-          if(user != null){
-            router.push({
-              uri: "Main"
+            if(user != null && user.rs != 0){
+
+             app.initUser(user)
+
+             UserCache.init(app)
+
+             router.push({
+                uri: "Main"
             })
           }
+        }
 
         },
         fail: function (data, code) {
@@ -108,8 +119,15 @@
         }
       })
     },
-    doLogin () {
+    onShow(){
 
+      if(UserCache.user() != null ){
+
+        this.username = UserCache.user().userName
+      }
+    },
+    doLogin () {
+      var app = this.$app
       //检查表单信息
 
 
@@ -125,38 +143,34 @@
         success: function (data) {
 
           const user = JSON.parse(data.data)
-          if(user == null)
-            return
+          if(user != null && user.rs != 0){
 
+             app.initUser(user)
 
-          storage.set({
-            key :"user",
-            value :JSON.stringify(user),
-            success: function (data) {
-              console.log('save userinfo success : ' + data)
+             UserCache.init(app)
 
-            },
-            fail: function (data, code) {
-              console.log(`handling fail, code = ${code}`)
-            }
-          })
-          this.title = "Login success\n" + user.token
-          this.img = user.avatar
-          console.log(JSON.stringify(data))
-          router.push({
-            uri: "Main"
-          })
+             router.push({
+                uri: "Main"
+             })
+          } else{
+            prompt.showToast({
+              message : user.errcode
+            })
+          }
+
         }.bind(this),
         fail: function (data, code) {
 
-          console.log(`handling fail, code = ${code}`)
+          console.log(`handling fail,`)
         }
       })
     }
     ,
     doRegister (e){
 
-        this.log = this.username+"/"+this.password;
+      webview.loadUrl({
+        url : Api.REGISTER_URL
+      })
     },
     onUserNameChange(e){
       this.username = e.target.attr.value

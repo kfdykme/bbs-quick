@@ -1,33 +1,220 @@
 <template>
 
   <div class="post-page">
+    <text class="title">{{topic.title}}</text>
+    <list>
 
-    <text>{{text}}</text>
+
+      <list-item type="topic-header">
+        <image class="avatar" src="{{topic.icon}}"/>
+
+        <div class="header-text">
+
+          <text class="name">{{topic.user_nick_name}}</text>
+          <text class="date">{{topic.create_date}}</text>
+        </div>
+      </list-item>
+
+
+      <block for="{{topic.content}}">
+        <list-item type="topic text" if="{{$item.type  == 0 }}">
+          <text class="content">{{$item.infor}}</text>
+        </list-item>
+        <list-item type="topic-image" if="{{$item.type  == 1 }}">
+          <image class="content " src="{{$item.originalInfo}}"/>
+        </list-item>
+
+      </block>
+
+
+
+      <block for="re in list">
+
+        <list-item type="topic-footer" >
+          <text class="topic-footer"></text>
+        </list-item>
+
+        <list-item type="reply-header">
+          <image class="avatar" src="{{re.icon}}"/>
+
+          <div class="header-text">
+
+            <text class="name">{{re.reply_name}}</text>
+            <text class="date">{{re.posts_date}}</text>
+          </div>
+        </list-item>
+
+
+        <block for="{{re.reply_content}}">
+
+          <list-item type="reply-text" if="{{$item.type  == 0 }}">
+            <text class="content">{{$item.infor}}</text>
+          </list-item>
+          <list-item type="reply-image" if="{{$item.type  == 1 }}">
+            <image class="content"  src="{{$item.originalInfo}}"/>
+          </list-item>
+          <list-item type="image-type4" if="{{$item.type  == 4 }}">
+            <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
+          </list-item>
+        </block>
+
+
+        <list-item type="reply-footer">
+          <div class="reply-footer content">
+            <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
+            <text class="reply-position">#{{re.position}}</text>
+          </div>
+        </list-item>
+
+
+
+      </block>
+    </list>
   </div>
 </template>
 
+<!-- type == 0
+infor -> 文本
+aid != 0 && aid != null
+originalInfo -> url
+aid == 0
+没图
+
+
+type == 1
+infor -> 图片url , aid = 0 -->
+
 
 <style lang="less">
+
+
+.post-page{
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  image{
+    resize-mode : contain;
+  }
+
+  .title{
+    width: 100%;
+    background-color: #ffbc4d;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 40px;
+  }
+
+  .avatar{
+      width: 64px;
+      height :64px;
+      margin: 8px;
+  }
+
+
+  .header-text{
+    flex-direction: column;
+
+
+    .name {
+      width: 70%;
+      color: #aabcd4;
+      font-size: 30px;
+    }
+
+    .date{
+      font-size: 30px;
+      color: #ffbc4d;
+    }
+  }
+
+
+  .content{
+    margin-left: 72px;
+  }
+
+  .reply-footer{
+    width: 100%;
+    flex-direction: row;
+
+
+    .reply-support{
+        flex-grow: 1;
+        color: #ffcde7;
+    }
+
+
+    .reply-position{
+        flex-grow: 1;
+        text-align: right;
+        margin: 8px;
+    }
+  }
+
+
+  .topic-footer{
+    height: 1px;
+    width: 90%;
+    background-color: #ffbc4d;
+    margin: 20px;
+  }
+
+  a{
+    color:#00bcd4;
+  }
+
+
+}
+
 </style>
 
 
 <script>
 
 import PostApi from '../../Common/PostApi'
+import prompt from '@system.prompt'
+import DateUtil from '../../Common/DateUtil'
 
 export default{
   protected :{
     topicid : "url",
-    text : "tex"
+    text : "tex",
+    topic :{
+      title :"",
+      content : []
+    },
+    list :[]
   },
   onInit(){
 
     this.text = this.topicid
 
+
+    var app = this.$app
+
+    PostApi.init(app)
+
     PostApi.fetchPostDetail(1,this.topicid,
       function(data){
-        let e = JSON.parse(data.data)
-        this.text = JSON.stringify(e)
+
+        let json = JSON.parse(data.data)
+        if(json.rs == 1){
+          json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
+
+          this.topic = json.topic
+
+          let x
+          for (x in json.list){
+            json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
+          }
+          this.list = json.list
+        } else {
+          prompt.showToast({
+            message : json.errcode
+          })
+        }
+
+
       }.bind(this),
       function(data,code){
         console.log(data);

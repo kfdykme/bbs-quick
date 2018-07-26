@@ -9,9 +9,20 @@
 
   // 注入regeneratorRuntime
   injectRef.regeneratorRuntime = require('babel-runtime/regenerator')
- 
+
+  function initUser(u){
+    this.$def.cache.user = u
+  }
+
   export default {
     showMenu: util.showMenu,
-    createShortcut: util.createShortcut
+    createShortcut: util.createShortcut,
+    cache :{
+      user : null
+    },
+    onCreate(){
+
+    },
+    initUser
   }
 </script>

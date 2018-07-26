@@ -15,8 +15,8 @@
           <img class="avatar" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
           <div class="header-text">
             <text class="user-nike-name">{{$item.user_nick_name}}</text>
-            <text class="title" onclick="onClickPost" topicid="{{$item.topic_id}}">{{$item.title}}</text>
-
+            <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
+            <text class="date" >{{$item.last_reply_date}}</text>
           </div>
 
         </list-item>
@@ -75,6 +75,7 @@
       text-align: right;
       font-size: 20px;
       text-align: right;
+      color: #333333;
     }
 
     .header{
@@ -98,8 +99,13 @@
 
       .user-nike-name{
         width: 70%;
-        color: #333333;
+        color: #aabcd4;
         font-size: 30px;
+      }
+
+      .date{
+        font-size: 30px;
+        color: #ffbc4d;
       }
     }
 
@@ -145,6 +151,7 @@
 import FormApi from '../Common/FormApi'
 import prompt from '@system.prompt'
 import router from '@system.router'
+import DateUtil from  '../Common/DateUtil'
 
 export default{
   props:[
@@ -164,13 +171,11 @@ export default{
   },
   dore(e){
     this.isRefreshing =e.refreshing
-
     this.refresh()
   },
   refresh(){
     this.page = 1
     this.fetchPosts(this.tag,this.page)
-
   },
   goToTop(){
 
@@ -218,6 +223,12 @@ export default{
     FormApi.getPostByTag(tag,page,
       function (data){
         const re = JSON.parse(data.data)
+
+        let x
+        for(x in re.list){
+          let time = re.list[x].last_reply_date
+          re.list[x].last_reply_date = DateUtil.convertTime(time)
+        }
 
         if(page == 1){
           this.render(re.list)

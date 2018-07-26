@@ -49,7 +49,7 @@
       height: 100px;
     }
 
-    .active{ 
+    .active{
       background-color: #ffbc4d;
       color: #ffffff;
     }
@@ -87,8 +87,7 @@
     },
     onInit(){
 
-      console.log(UserCache.token());
-
+      UserCache.init(this.$app)
 
     },
     onChangeForm(index){
@@ -105,6 +104,9 @@
     },
     onMenuPress() {
       this.$app.$def.showMenu()
+    },
+    onBackPress(){
+      //UserCache.logout()
     }
   }
 </script>

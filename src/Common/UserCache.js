@@ -3,7 +3,48 @@ import crypto from "md5"
 import storage from "@system.storage"
 const KEY_APP_BY_ME = "appbyme_key"
 
- 
+
+// {
+//     "rs": 1,
+//     "errcode": "",
+//     "head": {
+//         "errCode": "00000000",
+//         "errInfo": "调用成功,没有任何错误",
+//         "version": "2.6.1.7",
+//         "alert": 0
+//     },
+//     "body": {
+//         "externInfo": {
+//             "padding": ""
+//         }
+//     },
+//     "isValidation": 0,
+//     "token": "3a92218375094ad61d1afb42d3627",
+//     "secret": "2870f155b160fa40addd801dd71ab",
+//     "score": 20,
+//     "uid": 199446,
+//     "userName": "kfdykme",
+//     "avatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+//     "gender": 0,
+//     "userTitle": "蝌蚪 (Lv.1)",
+//     "repeatList": [],
+//     "verify": [],
+//     "creditShowList": [
+//         {
+//             "type": "credits",
+//             "title": "积分",
+//             "data": 20
+//         },
+//         {
+//             "type": "extcredits2",
+//             "title": "水滴",
+//             "data": 15
+//         }
+//     ],
+//     "mobile": "",
+//     "groupid": 26
+// }
+
 
 function appHash(){
 
@@ -23,60 +64,71 @@ function appHash(){
 
 
 function token(){
-  storage.get({
-    key:"user",
-    success : function(data){
-      const user = JSON.parse(data)
-      return user.token
-    },
-    fail : function(data,code){
-      console.log(code);
+
+    if(this.app!=null){
+      return this.app.$def.cache.user.token
     }
-  })
+
+    console.log("UserCache : return null token");
+    return null
 
 };
 
 function secret(){
-  storage.get({
-    key:"user",
-    success : function(data){
-      const user = JSON.parse(data)
-      return user.secret
-    },
-    fail : function(data,code){
-      console.log(code);
-    }
-  })
+  if(this.app!=null){
+    return this.app.$def.cache.user.secret
+  }
 
+  console.log("UserCache : return null secret");
+    return null
 };
 
-function user(suc,fai){
-  storage.get({
-    key:"user",
-    success : function(data){
-      console.log(data);
-    },
-    fail : function(data,code){
-      console.log(code);
-    }
-  })
+function user(){
 
-
-
+  if(this.app!= null){
+    return this.app.$def.cache.user
+  }
+  console.log("UserCache : return null user");
+    return null
 }
 
 function updateUser(u){
   storage.set({
     key:"user",
     value :JSON.stringify(u),
-    success : function(data){
-        user = JSON.parse(data)
+    success: function (data) {
+      console.log('save userinfo success : ' + data)
+
     },
-    fail : function(data,code){
-      console.log(code);
+    fail: function (data, code) {
+      console.log(`handling fail, code = ${code}`)
     }
   })
-  user = u
+}
+
+function getUserFromApp(app){
+  return app.$def.cache.user
+}
+
+var app = null
+
+function logout(){
+  storage.delete({
+  key: 'user',
+  success: function (data) {
+    console.log('logout success')
+  },
+  fail: function (data, code) {
+    console.log(`handling fail, code = ${code}`)
+  }
+})
+}
+
+
+function init(app){
+  this.app = app
+  this.updateUser(app.$def.cache.user)
+  console.log("init app successfully");
 }
 
 export default {
@@ -84,5 +136,8 @@ export default {
   token,
   secret,
   user,
-  updateUser
+  updateUser,
+  getUserFromApp,
+  init,
+  logout
 }
