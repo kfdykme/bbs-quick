@@ -1,0 +1,110 @@
+<import name="post-list-view" src="../Comp/PostListView"></import>
+
+
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="main-page">
+
+    <div  class="tab-bar-top">
+      <image src="{{avatar}}"/>
+      <text class="{{currentIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">今日hot</text>
+      <text class="{{currentIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新回复</text>
+      <text class="{{currentIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">最新发表</text>
+    </div>
+    <tabs onchange="changeTabactive" index="{{currentIndex}}">
+
+      <tab-content  class="flexible-tab-content" >
+        <div class="tab-content-section">
+          <post-list-view tag="{{tags[0]}}"  ></post-list-view>
+        </div>
+        <div class="tab-content-section">
+          <post-list-view tag="{{tags[1]}}" ></post-list-view>
+        </div>
+        <div class="tab-content-section">
+          <post-list-view tag="{{tags[2]}}"  ></post-list-view>
+        </div>
+
+      </tab-content>
+    </tabs>
+
+  </div>
+</template>
+
+<style lang="less">
+  .main-page {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+  }
+
+  .tab-bar-top{
+
+    width: 100%;
+
+    text{
+      text-align: center;
+      flex-grow: 1;
+      height: 100px;
+    }
+
+    .active{ 
+      background-color: #ffbc4d;
+      color: #ffffff;
+    }
+
+  }
+
+  .title {
+    font-size: 40px;
+    text-align: center;
+  }
+</style>
+
+<script>
+
+  import fetch from  '@system.fetch'
+  import storage from '@system.storage'
+  import FormApi from '../Common/FormApi'
+  import UserCache from '../Common/UserCache'
+
+
+  export default {
+    private: {
+      text: '欢迎打开详情页',
+      avatar : "",
+      username : "",
+      user : "",
+      forms : [],
+      currentIndex :0,
+      tags :[
+        FormApi.Tag.todayHot,
+        FormApi.Tag.newReply,
+        FormApi.Tag.newPublish
+      ]
+
+    },
+    onInit(){
+
+      console.log(UserCache.token());
+
+
+    },
+    onChangeForm(index){
+      this.currentIndex = index
+      switch(index){
+        case 0:
+      }
+    },
+    clickTabBar(index){
+      this.onChangeForm(index)
+    },
+    changeTabactive (evt) {
+      this.onChangeForm(evt.index)
+    },
+    onMenuPress() {
+      this.$app.$def.showMenu()
+    }
+  }
+</script>

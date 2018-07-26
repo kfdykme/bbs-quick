@@ -1,0 +1,39 @@
+<template>
+
+  <div class="post-page">
+
+    <text>{{text}}</text>
+  </div>
+</template>
+
+
+<style lang="less">
+</style>
+
+
+<script>
+
+import PostApi from '../../Common/PostApi'
+
+export default{
+  protected :{
+    topicid : "url",
+    text : "tex"
+  },
+  onInit(){
+
+    this.text = this.topicid
+
+    PostApi.fetchPostDetail(1,this.topicid,
+      function(data){
+        let e = JSON.parse(data.data)
+        this.text = JSON.stringify(e)
+      }.bind(this),
+      function(data,code){
+        console.log(data);
+      })
+
+  }
+}
+
+</script>

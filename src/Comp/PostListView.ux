@@ -1,0 +1,257 @@
+<template >
+  <div class="post-list-view" >
+
+    <refresh onrefresh="dore" refreshing={{isRefreshing}}>
+    <list onscrollbottom="loadMore">
+      <block  for="{{list}}">
+
+
+
+        <list-item type="post-item-board">
+            <text class="board-name">{{$item.board_name}}</text>
+        </list-item>
+
+        <list-item type="post-item-header" class="header">
+          <img class="avatar" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
+          <div class="header-text">
+            <text class="user-nike-name">{{$item.user_nick_name}}</text>
+            <text class="title" onclick="onClickPost" topicid="{{$item.topic_id}}">{{$item.title}}</text>
+
+          </div>
+
+        </list-item>
+
+
+
+        <list-item type="post-item-username" >
+        </list-item>
+
+
+        <list-item type="post-item-subject"  >
+          <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
+        </list-item>
+        <list-item type="post-item-hnr">
+          <div class="hnr">
+            <text class="hit">hits: {{$item.hits}}</text>
+            <text class="replycount">re : {{$item.replies}}</text>
+
+          </div>
+        </list-item>
+        <list-item type="post-item-footer" >
+          <text class="item-footer"></text>
+        </list-item>
+
+
+      </block>
+
+      <list-item type="loadMore" class="load-more">
+        <progress type="circular"></progress>
+        <text>加载更多</text>
+      </list-item>
+    </list>
+</refresh>
+  </div>
+
+</template>
+
+
+<style lang="less">
+
+.post-list-view {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  refresh{
+
+      height: 100%;
+  }
+
+  list{
+    height: 100%;
+
+    .board-name{
+      width: 100%;
+      text-align: right;
+      font-size: 20px;
+      text-align: right;
+    }
+
+    .header{
+      flex-direction: row;
+      margin-bottom: 16px;
+
+      .avatar{
+          width: 64px;
+          height :64px;
+          margin: 8px;
+      }
+
+
+      div{
+        flex-direction: column;
+      }
+
+      .title{
+
+      }
+
+      .user-nike-name{
+        width: 70%;
+        color: #333333;
+        font-size: 30px;
+      }
+    }
+
+
+
+    .subject{
+      padding: 8px;
+      margin-left: 64px;
+    }
+
+    .hnr{
+      width: 100%;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+
+      text{
+        padding: 16px;
+      }
+      .hit{
+        color :#00bcd4;
+      }
+
+      .replycount{
+        color : #ffbcd4;
+      }
+    }
+
+    .item-footer{
+      height: 1px;
+      width: 90%;
+      background-color: #ffbc4d;
+    }
+
+
+
+  }
+
+}
+</style>
+
+<script>
+import FormApi from '../Common/FormApi'
+import prompt from '@system.prompt'
+import router from '@system.router'
+
+export default{
+  props:[
+    'datalist',
+    'tag'
+  ],
+  data:{
+    list:[],
+    page:1,
+    canLoadMore :true,
+    isRefreshing :false
+  },
+  onInit(){
+
+    this.refresh()
+
+  },
+  dore(e){
+    this.isRefreshing =e.refreshing
+
+    this.refresh()
+  },
+  refresh(){
+    this.page = 1
+    this.fetchPosts(this.tag,this.page)
+
+  },
+  goToTop(){
+
+  },
+  renderMore(list){
+    if(list != null && list.length != 0){
+
+      this.list = this.list.concat(list);
+    } else {
+        this.renderError("没有更多了~~")
+    }
+    this.loadMoreComplete()
+  },
+  render(list){
+    if(list != null && list.length!=0){
+      this.list = list
+
+      this.refreshComplete()
+    } else {
+      this.renderError("没有更多了~~")
+    }
+
+  },
+  renderError(msg){
+    console.error(msg)
+  },
+  loadMoreComplete(){
+    this.canLoadMore = true
+    console.log("loadMoreComplete");
+
+  },
+  refreshComplete(){
+    console.log("refreshComplete");
+    if(this.isRefreshing){
+      this.isRefreshing = false
+
+      prompt.showToast({
+          message: 'refresh complete'
+      })
+    }
+
+  },
+  fetchPosts(tag,page){
+    console.log("fetpost page : "+page);
+    FormApi.getPostByTag(tag,page,
+      function (data){
+        const re = JSON.parse(data.data)
+
+        if(page == 1){
+          this.render(re.list)
+        } else {
+
+          console.log(JSON.stringify(re.list));
+          this.renderMore(re.list)
+        }
+
+
+      }.bind(this),
+      function(data,code){
+        //this.refreshComplete();
+      })
+  },
+  loadMore(){
+    if(this.canLoadMore){
+      this.canLoadMore = false
+      this.page = this.page+ 1
+      this.fetchPosts(this.tag,this.page)
+
+    }
+  },
+  onClickPost(a){
+    console.log("click : " + a.target.attr.topicid);
+
+    router.push({
+      uri : 'Post/Detail',
+      params : {
+        topicid : a.target.attr.topicid
+      }
+    })
+
+  }
+}
+
+</script>
