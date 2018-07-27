@@ -15,8 +15,7 @@ function fetchPostDetail(page,topic_id,suc,fai){
   const url = Api.BASE_URL + "app/web/index.php?r=forum/postlist&pageSize=25"
 
   const user = UserCache.getUserFromApp(this.app)
-
-  console.log(JSON.stringify(user));
+ 
 
 
   fetch.fetch({

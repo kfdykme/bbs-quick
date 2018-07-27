@@ -1,0 +1,51 @@
+
+<template >
+  <div class="loading-progress-view" >
+    <text>{{msg}}</text>
+    <progress type="circular" show="{{show}}"></progress>
+  </div>
+
+</template>
+
+
+<style lang="less">
+
+  .loading-progress-view{
+
+      flex-direction: column;
+
+
+      progress{
+        color : #ffbc4d;
+        width: 120px;
+        height: 120px;
+      }
+
+
+      text{
+        font-size: 60px;
+      }
+  }
+
+</style>
+
+<script>
+import FormApi from '../Common/FormApi'
+import prompt from '@system.prompt'
+import router from '@system.router'
+import DateUtil from  '../Common/DateUtil'
+
+export default{
+  props:[
+    'msg',
+    'show'
+  ],
+  data:{
+  },
+  onInit(){
+    this.msg = "Loading more..."
+    this.show = true
+  }
+}
+
+</script>

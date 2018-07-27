@@ -1,12 +1,16 @@
+<import name="loading-progress-view" src="../../Comp/LoadingProgressView"></import>
+
 <template>
 
   <div class="post-page">
     <text class="title">{{topic.title}}</text>
-    <list>
+
+    <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
+    <list @scrollbottom="onScrollBottom">
 
 
       <list-item type="topic-header">
-        <image class="avatar" src="{{topic.icon}}"/>
+        <image class="avatar" src="{{topic.icon}}" />
 
         <div class="header-text">
 
@@ -17,22 +21,32 @@
 
 
       <block for="{{topic.content}}">
-        <list-item type="topic text" if="{{$item.type  == 0 }}">
-          <text class="content">{{$item.infor}}</text>
-        </list-item>
-        <list-item type="topic-image" if="{{$item.type  == 1 }}">
-          <image class="content " src="{{$item.originalInfo}}"/>
-        </list-item>
+
+        <block if="{{$item.type  == 0 }}">
+          <list-item type="topic-text" >
+            <text class="content">{{$item.infor}}</text>
+          </list-item>
+        </block>
+
+        <block if="{{$item.type  == 1 }}">
+
+          <list-item type="topic-image" >
+            <image class="content " src="{{$item.originalInfo}}" alt="../../Common/logo.png"/>
+          </list-item>
+
+        </block>
+
 
       </block>
+
+      <list-item type="topic-footer" show="{{topic.content.length != 0}}">
+        <text class="topic-footer"></text>
+      </list-item>
 
 
 
       <block for="re in list">
 
-        <list-item type="topic-footer" >
-          <text class="topic-footer"></text>
-        </list-item>
 
         <list-item type="reply-header">
           <image class="avatar" src="{{re.icon}}"/>
@@ -61,166 +75,309 @@
 
         <list-item type="reply-footer">
           <div class="reply-footer content">
-            <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
-            <text class="reply-position">#{{re.position}}</text>
+            <div class="">
+
+              <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
+              <text class="reply-position">#{{re.position}}</text>
+            </div>
+
+            <text class="line"></text>
           </div>
         </list-item>
 
 
 
       </block>
+      <list-item type="loadMore" class="load-more" >
+        <loading-progress-view show="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
+      </list-item>
     </list>
+  </refresh>
   </div>
 </template>
 
-<!-- type == 0
-infor -> 文本
-aid != 0 && aid != null
-originalInfo -> url
-aid == 0
-没图
 
-
-type == 1
-infor -> 图片url , aid = 0 -->
 
 
 <style lang="less">
 
-
-.post-page{
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  image{
-    resize-mode : contain;
-  }
-
-  .title{
-    width: 100%;
-    background-color: #ffbc4d;
-    color: #ffffff;
-    padding: 10px;
-    font-size: 40px;
-  }
-
-  .avatar{
-      width: 64px;
-      height :64px;
-      margin: 8px;
-  }
-
-
-  .header-text{
+  .post-page{
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
 
-    .name {
-      width: 70%;
-      color: #aabcd4;
-      font-size: 30px;
+    image{
+      resize-mode : contain;
     }
 
-    .date{
-      font-size: 30px;
-      color: #ffbc4d;
-    }
-  }
-
-
-  .content{
-    margin-left: 72px;
-  }
-
-  .reply-footer{
-    width: 100%;
-    flex-direction: row;
-
-
-    .reply-support{
-        flex-grow: 1;
-        color: #ffcde7;
+    .title{
+      width: 100%;
+      background-color: #ffbc4d;
+      color: #ffffff;
+      padding: 10px;
+      font-size: 40px;
     }
 
-
-    .reply-position{
-        flex-grow: 1;
-        text-align: right;
+    .avatar{
+        width: 64px;
+        height :64px;
         margin: 8px;
     }
+
+
+    .header-text{
+      flex-direction: column;
+
+
+      .name {
+        width: 70%;
+        color: #aabcd4;
+        font-size: 30px;
+      }
+
+      .date{
+        font-size: 30px;
+        color: #ffbc4d;
+      }
+    }
+
+
+    .content{
+      margin-left: 72px;
+    }
+
+    .reply-footer{
+      width: 100%;
+      flex-direction: column;
+
+
+      div{
+        flex-direction: row;
+
+              .reply-support{
+                  flex-grow: 1;
+                  color: #ffcde7;
+              }
+
+
+              .reply-position{
+                  flex-grow: 1;
+                  text-align: right;
+                  margin: 8px;
+              }
+      }
+
+
+      .line{
+        height: 1px;
+        width: 90%;
+        background-color: #ffbc4d;
+        margin: 20px;
+      }
+    }
+
+
+    .topic-footer{
+      height: 1px;
+      width: 90%;
+      background-color: #ffbc4d;
+      margin: 20px;
+    }
+
+    a{
+      color:#00bcd4;
+    }
+
+
   }
-
-
-  .topic-footer{
-    height: 1px;
-    width: 90%;
-    background-color: #ffbc4d;
-    margin: 20px;
-  }
-
-  a{
-    color:#00bcd4;
-  }
-
-
-}
 
 </style>
 
 
 <script>
 
-import PostApi from '../../Common/PostApi'
-import prompt from '@system.prompt'
-import DateUtil from '../../Common/DateUtil'
+  import PostApi from '../../Common/PostApi'
+  import prompt from '@system.prompt'
+  import DateUtil from '../../Common/DateUtil'
 
-export default{
-  protected :{
-    topicid : "url",
-    text : "tex",
-    topic :{
-      title :"",
-      content : []
+  export default{
+    protected :{
+      topicid : "id",
+      topic :{
+        title :"",
+        content : []
+      },
+      list :[],
+      canLoadMore :true,
+      isRefreshing :false,
+      page : 0,
+      pro_show : true,
+      pro_msg : ""
+
     },
-    list :[]
-  },
-  onInit(){
+    onInit(){
 
-    this.text = this.topicid
+      var app = this.$app
 
+      PostApi.init(app)
 
-    var app = this.$app
+    },
+    onShow(){
+        this.refresh()
+    },
+    onScrollBottom(){
+      this.loadMore()
+    },
+    render(){
+      this.renderTopic()
+    },
+    renderTopic(json){
+      json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
 
-    PostApi.init(app)
+      this.topic = json.topic
+    },
+    renderTopicComplete(){
+      this.renderReply()
+    },
+    renderReply(json){
 
-    PostApi.fetchPostDetail(1,this.topicid,
-      function(data){
+      if(json.list != null && json.list.length != 0){
 
-        let json = JSON.parse(data.data)
-        if(json.rs == 1){
-          json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
-
-          this.topic = json.topic
-
-          let x
-          for (x in json.list){
-            json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
-          }
-          this.list = json.list
-        } else {
-          prompt.showToast({
-            message : json.errcode
-          })
+        let x
+        for (x in json.list){
+          json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
         }
+        this.list = json.list
+        this.renderReplyComplete()
+      }  else {
+       this.renderError("没有更多了")
+       this.loadMoreComplete()
+      }
+
+      this.refreshComplete()
 
 
-      }.bind(this),
-      function(data,code){
-        console.log(data);
+    },
+    renderMoreReply(json){
+
+      if(json.list != null && json.list.length != 0){
+
+        let x
+        for (x in json.list){
+          json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
+        }
+        this.list = this.list.concat(json.list)
+
+        this.renderReplyComplete()
+      } else {
+        this.renderError("没有更多了")
+        this.loadMoreComplete()
+      }
+    },
+    renderReplyComplete(){
+      // prompt.showToast({
+      //   message : "加载新的回复"
+      // })
+
+      this.loadMoreComplete()
+    },
+    renderError(msg){
+      prompt.showToast({
+        message : msg
       })
+    },
+    refresh(){
+      this.fetchTopic()
+    },
+    loadMore(){
+      if(this.canLoadMore){
+        this.canLoadMore = false
 
+        this.page = this.page+ 1
+        this.fetchReplys()
+
+      }
+    },
+    loadMoreComplete(){
+      this.canLoadMore = true
+    },
+    renderProgress(tag){
+      switch (tag) {
+        case "has_not_next":
+            this.pro_msg = "no more.."
+            this.pro_show = false
+          break;
+        default:
+          break;
+      }
+    },
+    fetchTopic(){
+
+        PostApi.fetchPostDetail(1,this.topicid,
+          function(data){
+
+            let json = JSON.parse(data.data)
+            if(json.rs == 1){
+              this.renderTopic(json)
+
+              if(json.has_next == 0){
+                this.renderProgress("has_not_next")
+              }
+
+
+            } else {
+              this.renderError(json.errcode)
+            }
+
+          }.bind(this),
+          function(data,code){
+            console.log(data);
+          })
+
+    },
+    fetchReplys(){
+
+            PostApi.fetchPostDetail(this.page,this.topicid,
+              function(data){
+
+                let json = JSON.parse(data.data)
+                if(json.rs == 1){
+                  if(this.page == 1){
+                    this.renderReply(json)
+                  }else{
+                    this.renderMoreReply(json)
+                  }
+                } else {
+                  this.renderError(json.errcode)
+                }
+
+              }.bind(this),
+              function(data,code){
+                console.log(data);
+              })
+
+    },
+    goTop(e){
+      console.log(JSON.stringify(e));
+      //e.target.scrollTo(1)
+    },
+    reqRefresh(e){
+      this.isRefreshing = e.refreshing
+
+      this.page = 1
+      this.fetchReplys()
+    },
+    refreshComplete(){
+      if(this.isRefreshing){
+        this.isRefreshing = false
+
+        prompt.showToast({
+            message: 'refresh complete'
+        })
+      }
+
+    }
   }
-}
 
 </script>

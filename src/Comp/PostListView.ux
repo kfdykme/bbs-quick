@@ -1,3 +1,7 @@
+
+<import name="loading-progress-view" src="./LoadingProgressView"></import>
+
+
 <template >
   <div class="post-list-view" >
 
@@ -44,12 +48,12 @@
 
       </block>
 
-      <list-item type="loadMore" class="load-more">
-        <progress type="circular"></progress>
-        <text>加载更多</text>
+      <list-item type="loadMore" >
+
+          <loading-progress-view show="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
       </list-item>
     </list>
-</refresh>
+  </refresh>
   </div>
 
 </template>
@@ -162,7 +166,9 @@ export default{
     list:[],
     page:1,
     canLoadMore :true,
-    isRefreshing :false
+    isRefreshing :false,
+    pro_show : true,
+    pro_msg : ""
   },
   onInit(){
 
@@ -204,11 +210,11 @@ export default{
   },
   loadMoreComplete(){
     this.canLoadMore = true
-    console.log("loadMoreComplete");
+    // console.log("loadMoreComplete");
 
   },
   refreshComplete(){
-    console.log("refreshComplete");
+    // console.log("refreshComplete");
     if(this.isRefreshing){
       this.isRefreshing = false
 
@@ -219,7 +225,7 @@ export default{
 
   },
   fetchPosts(tag,page){
-    console.log("fetpost page : "+page);
+    // console.log("fetpost page : "+page);
     FormApi.getPostByTag(tag,page,
       function (data){
         const re = JSON.parse(data.data)
@@ -230,11 +236,16 @@ export default{
           re.list[x].last_reply_date = DateUtil.convertTime(time)
         }
 
+
+        if(re.has_next == 0){
+          this.renderProgress("has_not_next")
+        }
+
         if(page == 1){
           this.render(re.list)
         } else {
 
-          console.log(JSON.stringify(re.list));
+          // console.log(JSON.stringify(re.list));
           this.renderMore(re.list)
         }
 
@@ -253,7 +264,7 @@ export default{
     }
   },
   onClickPost(a){
-    console.log("click : " + a.target.attr.topicid);
+    // console.log("click : " + a.target.attr.topicid);
 
     router.push({
       uri : 'Post/Detail',
@@ -262,6 +273,16 @@ export default{
       }
     })
 
+  },
+  renderProgress(tag){
+    switch (tag) {
+      case "has_not_next":
+          this.pro_msg = "no more.."
+          this.pro_show = false
+        break;
+      default:
+        break;
+    }
   }
 }
 
