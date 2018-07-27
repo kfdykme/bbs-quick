@@ -31,7 +31,8 @@
         <block if="{{$item.type  == 1 }}">
 
           <list-item type="topic-image" >
-            <image class="content " src="{{$item.originalInfo}}" alt="../../Common/logo.png"/>
+            <a class="content " href="{{$item.originalInfo}}">{{$item.originalInfo}}</a>
+             <!-- alt="../../Common/logo.png"/> -->
           </list-item>
 
         </block>
