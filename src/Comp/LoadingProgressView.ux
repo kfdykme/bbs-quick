@@ -1,8 +1,8 @@
 
 <template >
   <div class="loading-progress-view" >
-    <text>{{msg}}</text>
-    <progress type="circular" show="{{show}}"></progress>
+    <text show="{{!isShow}}">{{msg}}</text>
+    <progress type="circular" show="{{isShow}}"></progress>
   </div>
 
 </template>
@@ -37,14 +37,20 @@ import DateUtil from  '../Common/DateUtil'
 
 export default{
   props:[
-    'msg',
-    'show'
   ],
   data:{
+    msg : "Loading...",
+    isShow : true
+
   },
   onInit(){
-    this.msg = "Loading more..."
-    this.show = true
+    this.$on('has_not_next', this.onHasNotNext)
+  },
+  onHasNotNext(e){
+  console.log("on hex");
+    console.log(e.detail);
+    this.msg = "no more.."
+    this.isShow = false
   }
 }
 

@@ -50,7 +50,7 @@
 
       <list-item type="loadMore" >
 
-          <loading-progress-view show="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
+          <loading-progress-view ></loading-progress-view>
       </list-item>
     </list>
   </refresh>
@@ -275,15 +275,9 @@ export default{
 
   },
   renderProgress(tag){
-    switch (tag) {
-      case "has_not_next":
-          this.pro_msg = "no more.."
-          this.pro_show = false
-        break;
-      default:
-        break;
-    }
+    this.$broadcast(tag, { params: 'aaa' })
   }
+
 }
 
 </script>

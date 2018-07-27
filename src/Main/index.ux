@@ -6,10 +6,11 @@
   <div class="main-page">
 
     <div  class="tab-bar-top">
-      <image src="{{avatar}}"/>
-      <text class="{{currentIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">今日hot</text>
-      <text class="{{currentIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新回复</text>
-      <text class="{{currentIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">最新发表</text>
+        <text class="{{currentIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">今日hot</text>
+        <text class="{{currentIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新回复</text>
+        <text class="{{currentIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">最新发表</text>
+        <text class="username" @click="clickUser">{{username}}</text>
+
     </div>
     <tabs onchange="changeTabactive" index="{{currentIndex}}">
 
@@ -40,8 +41,10 @@
   }
 
   .tab-bar-top{
+    flex-direction: row;
 
     width: 100%;
+
 
     text{
       text-align: center;
@@ -51,6 +54,11 @@
 
     .active{
       background-color: #ffbc4d;
+      color: #ffffff;
+    }
+
+    .username {
+      background-color: #00bcd4;
       color: #ffffff;
     }
 
@@ -68,8 +76,9 @@
   import storage from '@system.storage'
   import FormApi from '../Common/FormApi'
   import UserCache from '../Common/UserCache'
-
-
+  import prompt from '@system.prompt'
+  import router from '@system.router'
+  
   export default {
     private: {
       text: '欢迎打开详情页',
@@ -87,8 +96,10 @@
     },
     onInit(){
 
+
       UserCache.init(this.$app)
 
+      this.username = UserCache.user().userName
     },
     onChangeForm(index){
       this.currentIndex = index
@@ -105,8 +116,45 @@
     onMenuPress() {
       this.$app.$def.showMenu()
     },
-    onBackPress(){
-      //UserCache.logout()
+    clickUser(){
+      prompt.showDialog({
+        title: "Out..",
+        message : '吗???',
+        buttons: [
+          {
+            text :'Logout',
+            color :'#ffbc4d'
+          },
+          // {
+          //   text : 'Exit',
+          //   color : '#eeeeee'
+          // },
+          {
+            text : '按错了',
+            color : '#00bcd4'
+          }
+        ],
+        success :function (data){
+
+          switch(data.index){
+            case 0 :
+
+              UserCache.logout()
+              router.back()
+              break;
+            case 1 :
+
+              break;
+            case 2 :
+              break;
+          }
+        },
+        fail :function(data){
+          prompt.showToast({
+            message : "未知错误"
+          })
+        }
+      })
     }
   }
 </script>

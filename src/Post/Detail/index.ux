@@ -90,7 +90,7 @@
 
       </block>
       <list-item type="loadMore" class="load-more" >
-        <loading-progress-view show="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
+        <loading-progress-view isShow="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
       </list-item>
     </list>
   </refresh>
@@ -237,9 +237,10 @@
       json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
 
       this.topic = json.topic
+      this.renderTopicComplete()
     },
     renderTopicComplete(){
-      this.renderReply()
+      this.loadMore()
     },
     renderReply(json){
 
@@ -304,14 +305,8 @@
       this.canLoadMore = true
     },
     renderProgress(tag){
-      switch (tag) {
-        case "has_not_next":
-            this.pro_msg = "no more.."
-            this.pro_show = false
-          break;
-        default:
-          break;
-      }
+
+        this.$broadcast(tag, { params: 'aaa' })
     },
     fetchTopic(){
 

@@ -85,7 +85,8 @@
       username :"",
       password : "",
       register : "Register",
-      login : "Login"
+      login : "Login",
+      tryingLogin : false
     },
     onInit(){
 
@@ -127,9 +128,15 @@
       }
     },
     doLogin () {
+
+      if(this.tryingLogin)
+        return
       var app = this.$app
       //检查表单信息
 
+
+      this.tryingLogin = true
+      this.login = "稍我等在加中载"
 
       //发送登陆请求
       fetch.fetch({
@@ -162,7 +169,11 @@
         fail: function (data, code) {
 
           console.log(`handling fail,`)
-        }
+        },
+        complete : function (){
+          this.login = "Login"
+          this.tryingLogin = false
+        }.bind(this)
       })
     }
     ,
