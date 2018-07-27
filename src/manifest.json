@@ -1,10 +1,10 @@
 {
   "package": "org.starstudio.bbs",
-  "name": "BBS",
+  "name": "BBSuestc",
   "versionName": "1.0.0",
   "versionCode": "1",
   "minPlatformVersion": "101",
-  "icon": "/Common/logo.png",
+  "icon": "/Common/ic_launcher.png",
   "features": [
     { "name": "system.prompt" },
     { "name": "system.router" },
@@ -28,9 +28,6 @@
       "Main": {
         "component": "index"
       },
-      "About": {
-        "component": "index"
-      },
       "Post/Detail":{
         "component": "index"
       }
@@ -48,9 +45,6 @@
         "menu": false
       },
       "Main": {
-      },
-      "About": {
-        "menu": false
       },
       "Post/Detail":{
 

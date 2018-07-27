@@ -46,9 +46,7 @@ export default{
   onInit(){
     this.$on('has_not_next', this.onHasNotNext)
   },
-  onHasNotNext(e){
-  console.log("on hex");
-    console.log(e.detail);
+  onHasNotNext(e){ 
     this.msg = "no more.."
     this.isShow = false
   }

@@ -1,0 +1,113 @@
+<template>
+  <div class="boardlist-page">
+
+    <block for="c in board">
+      <div class="category">
+
+        <text class="board-category-name">{{c.board_category_name}}</text>
+
+
+        <list>
+          <block for="b in c.board_list">
+              <list-item type="board-name">
+
+                 <text class="board-name" @click="onClickBoard" boardId="{{b.board_id}}">{{b.board_name}} </text>
+
+              </list-item>
+          </block>
+        </list>
+
+      </div>
+
+    </block>
+
+  </div>
+</template>
+
+
+<style lang="less">
+
+  .boardlist-page{
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+
+    .category{
+      flex-direction: row;
+
+
+      height: 25%;
+      margin-top: 20px;
+
+
+      .board-category-name{
+          width: 20%;
+          height: 100%;
+          color: #ffbc4d;
+          border-right-width: 2px;
+          border-color: #ffbc4d;
+      }
+
+      list{
+        width: 80%;
+        height: 100%;
+        flex-direction: row;
+        columns:2;
+
+        .board-name{
+            margin: 24px;
+            margin-left: 40px;
+            font-size: 30px;
+            background-color: #00bcd4;
+            padding: 30px;
+            color: #ffffff;
+            border-radius: 10px;
+            border-width: 10px;
+            border-color: #00bcd4;
+        }
+
+      }
+    }
+
+
+
+  }
+</style>
+
+
+<script>
+import BoardApi from '../Common/BoardApi'
+
+
+export default{
+  props:[
+
+  ],
+  data :{
+    board : [],
+
+  },
+  onInit(){
+    BoardApi.init(this.$app)
+
+
+    BoardApi.getForumList(
+      function (data){
+        const re = JSON.parse(data.data)
+        this.board = re.list
+
+      }.bind(this),
+      function (data,code){
+        console.log(code);
+      }
+    )
+  },
+  onShow(){
+
+  },
+  onClickBoard(e){
+    console.log(e.target.attr.boardId);
+  }
+}
+
+</script>

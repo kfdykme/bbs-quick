@@ -1,6 +1,5 @@
 import Api from "./Api"
-import fetch from "@system.fetch"
-import storage from "@system.storage"
+import fetch from "@system.fetch" 
 import UserCache from './UserCache'
 
 
@@ -15,7 +14,7 @@ function fetchPostDetail(page,topic_id,suc,fai){
   const url = Api.BASE_URL + "app/web/index.php?r=forum/postlist&pageSize=25"
 
   const user = UserCache.getUserFromApp(this.app)
- 
+
 
 
   fetch.fetch({

@@ -1,32 +1,54 @@
 <import name="post-list-view" src="../Comp/PostListView"></import>
+<import name="board-list-view" src="../Comp/BoardListView"></import>
+
 
 
 <template>
   <!-- template里只能有一个根节点 -->
   <div class="main-page">
 
-    <div  class="tab-bar-top">
-        <text class="{{currentIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">今日hot</text>
-        <text class="{{currentIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新回复</text>
-        <text class="{{currentIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">最新发表</text>
+    <div  class="tab-bar-top {{homeIndex == 0 ? '' : 'hide'}}">
+        <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">今日hot</text>
+        <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新回复</text>
+        <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">最新发表</text>
         <text class="username" @click="clickUser">{{username}}</text>
 
     </div>
-    <tabs onchange="changeTabactive" index="{{currentIndex}}">
+      <div class="paper">
 
-      <tab-content  class="flexible-tab-content" >
-        <div class="tab-content-section">
-          <post-list-view tag="{{tags[0]}}"  ></post-list-view>
-        </div>
-        <div class="tab-content-section">
-          <post-list-view tag="{{tags[1]}}" ></post-list-view>
-        </div>
-        <div class="tab-content-section">
-          <post-list-view tag="{{tags[2]}}"  ></post-list-view>
-        </div>
+            <div class="" show="{{homeIndex == 0}}">
+              <tabs onchange="changeTabactive" index="{{formIndex}}">
 
-      </tab-content>
-    </tabs>
+                <tab-content  class="flexible-tab-content" >
+                  <div class="tab-content-section">
+                    <post-list-view tag="{{tags[0]}}"  ></post-list-view>
+                  </div>
+                  <div class="tab-content-section">
+                    <post-list-view tag="{{tags[1]}}" ></post-list-view>
+                  </div>
+                  <div class="tab-content-section">
+                    <post-list-view tag="{{tags[2]}}"  ></post-list-view>
+                  </div>
+
+                </tab-content>
+              </tabs>
+            </div>
+
+            <div class="" show="{{homeIndex == 1}}">
+              <board-list-view>
+              </board-list-view>
+            </div>
+      </div>
+
+
+
+
+    <div  class="tab-bar-top ">
+        <text @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'active' : ''}}"  >home</text>
+        <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'active' : ''}}"  >board</text>
+         <text   class="  {{homeIndex != 0 ? '' : 'hide'}}  {{homeIndex === 2 ? 'active' : 'username'}}"  >{{username}}</text>
+
+    </div>
 
   </div>
 </template>
@@ -37,7 +59,17 @@
     justify-content: center;
     align-items: center;
 
+    .paper{
+      height: 100%;
+      flex-direction: row;
 
+    }
+
+
+  }
+
+  .hide{
+    display: none;
   }
 
   .tab-bar-top{
@@ -78,15 +110,13 @@
   import UserCache from '../Common/UserCache'
   import prompt from '@system.prompt'
   import router from '@system.router'
-  
+
   export default {
     private: {
-      text: '欢迎打开详情页',
-      avatar : "",
       username : "",
-      user : "",
       forms : [],
-      currentIndex :0,
+      formIndex :0,
+      homeIndex : 0,
       tags :[
         FormApi.Tag.todayHot,
         FormApi.Tag.newReply,
@@ -102,10 +132,8 @@
       this.username = UserCache.user().userName
     },
     onChangeForm(index){
-      this.currentIndex = index
-      switch(index){
-        case 0:
-      }
+      this.formIndex = index
+
     },
     clickTabBar(index){
       this.onChangeForm(index)
@@ -113,8 +141,14 @@
     changeTabactive (evt) {
       this.onChangeForm(evt.index)
     },
+    changeHomeTag(evt){
+      this.homeIndex = evt.index
+    },
     onMenuPress() {
       this.$app.$def.showMenu()
+    },
+    onClickBottom(index){
+      this.homeIndex = index
     },
     clickUser(){
       prompt.showDialog({
