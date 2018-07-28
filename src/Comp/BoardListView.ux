@@ -11,7 +11,7 @@
           <block for="b in c.board_list">
               <list-item type="board-name">
 
-                 <text class="board-name" @click="onClickBoard" boardId="{{b.board_id}}">{{b.board_name}} </text>
+                 <text class="board-name" onclick="onClickBoard" boardId="{{b.board_id}}">{{b.board_name}} </text>
 
               </list-item>
           </block>
@@ -43,6 +43,8 @@
       .board-category-name{
           width: 20%;
           height: 100%;
+          margin-top: 20px;
+          margin-bottom: 20px;
           color: #ffbc4d;
           border-right-width: 2px;
           border-color: #ffbc4d;
@@ -77,7 +79,7 @@
 
 <script>
 import BoardApi from '../Common/BoardApi'
-
+import router from '@system.router'
 
 export default{
   props:[
@@ -88,6 +90,8 @@ export default{
 
   },
   onInit(){
+
+
     BoardApi.init(this.$app)
 
 
@@ -101,12 +105,21 @@ export default{
         console.log(code);
       }
     )
+
+
   },
   onShow(){
 
   },
   onClickBoard(e){
-    console.log(e.target.attr.boardId);
+    const boardId = e.target.attr.boardid
+    router.push({
+      uri : "Board",
+      params : {
+        boardId : boardId
+      }
+    })
+
   }
 }
 

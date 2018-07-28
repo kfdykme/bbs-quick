@@ -30,6 +30,9 @@
       },
       "Post/Detail":{
         "component": "index"
+      },
+      "Board":{
+        "component": "index"
       }
     }
   },
@@ -48,6 +51,9 @@
       },
       "Post/Detail":{
 
+      },
+      "Board":{
+        
       }
     }
   }

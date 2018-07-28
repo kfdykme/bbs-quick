@@ -19,7 +19,7 @@
             <div class="" show="{{homeIndex == 0}}">
               <tabs onchange="changeTabactive" index="{{formIndex}}">
 
-                <tab-content  class="flexible-tab-content" >
+                <tab-content   >
                   <div class="tab-content-section">
                     <post-list-view tag="{{tags[0]}}"  ></post-list-view>
                   </div>
@@ -46,7 +46,7 @@
     <div  class="tab-bar-top ">
         <text @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'active' : ''}}"  >home</text>
         <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'active' : ''}}"  >board</text>
-         <text   class="  {{homeIndex != 0 ? '' : 'hide'}}  {{homeIndex === 2 ? 'active' : 'username'}}"  >{{username}}</text>
+        <text   class="  {{homeIndex != 0 ? '' : 'hide'}}  {{homeIndex === 2 ? 'active' : 'username'}}"  >{{username}}</text>
 
     </div>
 

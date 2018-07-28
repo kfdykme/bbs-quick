@@ -24,13 +24,6 @@
           </div>
 
         </list-item>
-
-
-
-        <list-item type="post-item-username" >
-        </list-item>
-
-
         <list-item type="post-item-subject"  >
           <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
         </list-item>
@@ -38,7 +31,6 @@
           <div class="hnr">
             <text class="hit">hits: {{$item.hits}}</text>
             <text class="replycount">re : {{$item.replies}}</text>
-
           </div>
         </list-item>
         <list-item type="post-item-footer" >

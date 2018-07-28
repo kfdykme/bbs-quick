@@ -1,0 +1,262 @@
+<template>
+  <div class="board-page">
+    <div class="board-top-bar">
+        <div class="foruminfo-title">
+
+          <text class="title  {{boardIndex == 0 ? 'active' : '' }}" onclick="onClickBoard" idx="0">{{forumInfo.title}}</text>
+
+        </div>
+
+          <list id="child-board" class="child-boards">
+          <block for="(i,b) in boardList">
+
+            <list-item type="child-board-name">
+                <text class="board-name {{boardIndex == (i+1) ? 'active' : '' }}"  onclick="onClickBoard" idx="{{i+1}}">{{b.board_name}}</text>
+            </list-item>
+
+          </block>
+        </list>
+    </div>
+
+    <tabs onchange="changeTabBoard"  index="{{boardIndex}}" class="board-content">
+        <tab-content >
+          <block for="(i,l) in list">
+
+              <div class="tab-content">
+                  <list> 
+                    <block for="post in l.postlist">
+                        <list-item type="post-item">
+
+                              <text>{{post.title}}</text>
+                        </list-item>
+                    </block>
+                  </list>
+
+              </div>
+          </block>
+        </tab-content>
+
+    </tabs>
+
+  </div>
+</template>
+
+
+<style lang="less">
+
+  .board-page{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    .board-top-bar {
+      height: 100px;
+      width: 100%;
+      flex-direction: row;
+
+        .foruminfo-title {
+          height: 100%;
+          width: 20%;
+
+
+          .title {
+            padding: 10px;
+            color: #ffbc4d;
+            border-right-width: 2px;
+            border-color: #ffbc4d;
+          }
+
+          .active{
+            color : #00bcd4;
+            font-size: 40px;
+            border-right-width: 0px;
+          }
+
+
+        }
+
+        .child-boards{
+          flex-direction: row;
+
+          text {
+            margin: 16px;
+          }
+
+
+          .active{
+            color : #00bcd4;
+            font-size: 40px;
+            border-right-width: 0px;
+          }
+
+        }
+
+    }
+
+    .board-content {
+      height: 100%;
+
+      .tab-content{
+        height: 100%;
+
+        list{
+
+            height: 100%;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+
+  import BoardApi from '../Common/BoardApi'
+
+  export default{
+    protected :{
+      boardId :"",
+      list : [{
+        page :0,
+        postlist :[]
+      }],
+      forumInfo :{
+        title : ""
+      },
+      boardList : [],
+      boardIndex :0,
+
+    },
+    onInit(){
+      BoardApi.init(this.$app)
+    },
+    onShow(){
+      this.refresh()
+    },
+    onClickBoard(e){
+      const index = e.target.attr.idx
+
+      this.onChangeBoard(index)
+    },
+    onChangeBoard(index){
+
+      if(this.boardIndex != index){
+
+        this.boardIndex = index
+
+        let listview = this.$element("child-board")
+
+        listview.scrollTo({
+          index : index-1
+        })
+
+
+        if(this.list[index].page <1)
+          this.fetchBoardPostList(index)
+      }
+
+    },
+    changeTabBoard(e){
+
+        const index = e.index
+        this.onChangeBoard(index)
+
+    },
+    refresh(){
+      this.fetchClassificationTypeList()
+    },
+    renderPost(index,list){
+
+       this.list[index].postlist = list
+       this.list[index].page = this.list[index].page+1
+
+    },
+    renderMorePost(index,list){
+
+       this.list[index].postlist = this.list[index].postlist.concat(list)
+       this.list[index].page = this.list[index].page+1
+    },
+    fetchClassificationTypeList(){
+
+      BoardApi.fetchClassificationTypeList(this.boardId,
+        function (data){
+          const re = JSON.parse(data.data)
+
+
+          this.forumInfo = re.forumInfo
+          this.renderPost(0,re.list)
+
+          this.loadChild()
+
+        }.bind(this))
+    },
+    fetchBoardPostList(boardIndex){
+
+        //先根据传进来的board索引，转换成对应的id
+        let boardId = this.boardId
+
+        if(boardIndex > 0)
+          boardId = this.boardList[boardIndex-1].board_id
+
+
+
+        //同样获取page
+        let requestPage = this.list[boardIndex].page +1
+
+
+        //现在有对应的boardid和page了 ，就根据id和page获取对应的postlist
+
+
+
+        //callback
+        var success = function (re){
+
+          if(requestPage>1){
+            this.renderMorePost(boardIndex,re.list)
+          } else{
+            this.renderPost(boardIndex,re.list)
+          }
+
+        }.bind(this)
+
+
+        //进行请求数据
+        BoardApi.fetchBoardPostList(
+          requestPage,
+          boardId,
+          success)
+
+    },
+    loadChild(){
+      BoardApi.fetchChildBoardList(this.forumInfo.id,
+        function (re){
+          if(re.list.length > 0){
+
+            this.boardList = re.list[0].board_list
+          }
+
+          this.loadChildComplete()
+        }.bind(this))
+    },
+    loadChildComplete(){
+
+      this.initList()
+
+    },
+    initList(){
+
+      for(let x in this.boardList){
+        this.list.push({
+          page :0,
+          postlist :[]
+        })
+      }
+
+
+
+    },
+
+
+  }
+
+</script>
