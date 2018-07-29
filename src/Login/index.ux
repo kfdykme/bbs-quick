@@ -11,7 +11,6 @@
     <input class="input" type="password" id="password-input" placeholder="password" onchange="onPasswordChange" value="{{password}}"/>
 
 
-
     <input class="btn-color btn" type="button" value="{{login}}" onclick="doLogin" />
 
     <input class="btn" type="button" value="{{register}}" onclick="doRegister" />

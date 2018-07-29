@@ -31,7 +31,30 @@ function fetchPostDetail(page,topic_id,suc,fai){
 }
 
 
-function comment(jsonobject){
+function comment(commentContent,topicId,suc){
+  // build json Object
+
+  var contentList = []
+  var publishContent = {}
+  publishContent.infor = commentContent
+  publishContent.type = 0
+  contentList.push(publishContent)
+
+  var body = {}
+  var info = {}
+
+  info.content = JSON.stringify(contentList)
+  info.tid = topicId
+  body.json = info
+
+  var publishJson = {
+    'body' : body
+  }
+
+
+
+
+  //
   const url = Api.BASE_URL + "app/web/index.php?r=forum/topicadmin"
 
   const user = UserCache.user()
@@ -40,15 +63,13 @@ function comment(jsonobject){
     url : url,
     method : "POST",
     data : {
-      json : jsonobject,
+      json : JSON.stringify(publishJson),
       act : 'reply',
       apphash :UserCache.appHash(),
       accessSecret : UserCache.secret(),
       accessToken : UserCache.token()
     },
-    success: function(data){
-
-    },
+    success: suc,
     fail: function(data,code){
 
     }
@@ -58,6 +79,7 @@ function comment(jsonobject){
 export default{
   fetchPostDetail,
   init,
+  comment
 }
 
 
@@ -1118,7 +1140,7 @@ export default{
 //             "reply_type": "normal",
 //             "reply_name": "dyymppch",
 //             "reply_posts_id": 30813114,
-//             "poststick": 0,
+//          x`   "poststick": 0,
 //             "position": 15,
 //             "posts_date": "1529457760000",
 //             "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=107358&size=middle",

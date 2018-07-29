@@ -40,7 +40,6 @@
     "titleBarBackgroundColor": "#f2f2f2",
     "titleBarTextColor": "#414141",
     "menu": true,
-    "fullScreen": true,
     "titleBar" :false,
     "pages": {
       "Login": {
@@ -53,7 +52,7 @@
 
       },
       "Board":{
-        
+
       }
     }
   }
