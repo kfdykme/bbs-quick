@@ -444,20 +444,21 @@ function fetchClassificationTypeList(boardId,suc){
 function fetchBoardPostList(page,boardId,suc){
     const url = Api.BASE_URL + "app/web/index.php?r=forum/topiclist&pageSize=10"
 
+
     fetch.fetch({
       url : url,
       mothod :"POST",
       data :{
-        page : page,
-        apphash :UserCache.appHash(),
         accessToken : UserCache.token(),
+        apphash :UserCache.appHash(),
         accessSecret : UserCache.secret(),
-        sdkVersion : Api.sdkVersion,
+        page : page,
         boardId : boardId
       },
       success :function(data){
 
-          const re = JSON.parse(data.data)
+         const re = JSON.parse(data.data)
+
 
           suc(re)
       },

@@ -8,9 +8,9 @@
   <div class="main-page">
 
     <div  class="tab-bar-top {{homeIndex == 0 ? '' : 'hide'}}">
-        <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">今日hot</text>
-        <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新回复</text>
-        <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">最新发表</text>
+        <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
+        <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
+        <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">今日hot</text>
         <text class="username" @click="clickUser">{{username}}</text>
 
     </div>
@@ -118,9 +118,9 @@
       formIndex :0,
       homeIndex : 0,
       tags :[
-        FormApi.Tag.todayHot,
         FormApi.Tag.newReply,
-        FormApi.Tag.newPublish
+        FormApi.Tag.newPublish,
+        FormApi.Tag.todayHot
       ]
 
     },

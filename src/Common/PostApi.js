@@ -1,5 +1,5 @@
 import Api from "./Api"
-import fetch from "@system.fetch" 
+import fetch from "@system.fetch"
 import UserCache from './UserCache'
 
 
@@ -14,8 +14,6 @@ function fetchPostDetail(page,topic_id,suc,fai){
   const url = Api.BASE_URL + "app/web/index.php?r=forum/postlist&pageSize=25"
 
   const user = UserCache.getUserFromApp(this.app)
-
-
 
   fetch.fetch({
     url : url,
@@ -32,6 +30,30 @@ function fetchPostDetail(page,topic_id,suc,fai){
   })
 }
 
+
+function comment(jsonobject){
+  const url = Api.BASE_URL + "app/web/index.php?r=forum/topicadmin"
+
+  const user = UserCache.user()
+
+  fetch.fetch({
+    url : url,
+    method : "POST",
+    data : {
+      json : jsonobject,
+      act : 'reply',
+      apphash :UserCache.appHash(),
+      accessSecret : UserCache.secret(),
+      accessToken : UserCache.token()
+    },
+    success: function(data){
+
+    },
+    fail: function(data,code){
+
+    }
+  })
+}
 
 export default{
   fetchPostDetail,

@@ -6,94 +6,98 @@
     <text class="title">{{topic.title}}</text>
 
     <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
-    <list @scrollbottom="onScrollBottom">
+      <list @scrollbottom="onScrollBottom">
 
 
-      <list-item type="topic-header">
-        <image class="avatar" src="{{topic.icon}}" />
-
-        <div class="header-text">
-
-          <text class="name">{{topic.user_nick_name}}</text>
-          <text class="date">{{topic.create_date}}</text>
-        </div>
-      </list-item>
-
-
-      <block for="{{topic.content}}">
-
-        <block if="{{$item.type  == 0 }}">
-          <list-item type="topic-text" >
-            <text class="content">{{$item.infor}}</text>
-          </list-item>
-        </block>
-
-        <block if="{{$item.type  == 1 }}">
-
-          <list-item type="topic-image" >
-            <a class="content " href="{{$item.originalInfo}}">{{$item.originalInfo}}</a>
-             <!-- alt="../../Common/logo.png"/> -->
-          </list-item>
-
-        </block>
-
-
-      </block>
-
-      <list-item type="topic-footer" show="{{topic.content.length != 0}}">
-        <text class="topic-footer"></text>
-      </list-item>
-
-
-
-      <block for="re in list">
-
-
-        <list-item type="reply-header">
-          <image class="avatar" src="{{re.icon}}"/>
+        <list-item type="topic-header">
+          <image class="avatar" src="{{topic.icon}}" />
 
           <div class="header-text">
 
-            <text class="name">{{re.reply_name}}</text>
-            <text class="date">{{re.posts_date}}</text>
+            <text class="name">{{topic.user_nick_name}}</text>
+            <text class="date">{{topic.create_date}}</text>
           </div>
         </list-item>
 
 
-        <block for="{{re.reply_content}}">
+        <block for="{{topic.content}}">
 
-          <list-item type="reply-text" if="{{$item.type  == 0 }}">
-            <text class="content">{{$item.infor}}</text>
-          </list-item>
-          <list-item type="reply-image" if="{{$item.type  == 1 }}">
-            <image class="content"  src="{{$item.originalInfo}}"/>
-          </list-item>
-          <list-item type="image-type4" if="{{$item.type  == 4 }}">
-            <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
-          </list-item>
+          <block if="{{$item.type  == 0 }}">
+            <list-item type="topic-text" >
+              <text class="content">{{$item.infor}}</text>
+            </list-item>
+          </block>
+
+          <block if="{{$item.type  == 1 }}">
+
+            <list-item type="topic-image" >
+              <a class="content " href="{{$item.originalInfo}}">{{$item.originalInfo}}</a>
+               <!-- alt="../../Common/logo.png"/> -->
+            </list-item>
+
+          </block>
+
+
         </block>
 
-
-        <list-item type="reply-footer">
-          <div class="reply-footer content">
-            <div class="">
-
-              <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
-              <text class="reply-position">#{{re.position}}</text>
-            </div>
-
-            <text class="line"></text>
-          </div>
+        <list-item type="topic-footer" show="{{topic.content.length != 0}}">
+          <text class="topic-footer"></text>
         </list-item>
 
 
 
-      </block>
-      <list-item type="loadMore" class="load-more" >
-        <loading-progress-view isShow="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
-      </list-item>
-    </list>
-  </refresh>
+        <block for="re in list">
+
+
+          <list-item type="reply-header">
+            <image class="avatar" src="{{re.icon}}"/>
+
+            <div class="header-text">
+
+              <text class="name">{{re.reply_name}}</text>
+              <text class="date">{{re.posts_date}}</text>
+            </div>
+          </list-item>
+
+
+          <block for="{{re.reply_content}}">
+
+            <list-item type="reply-text" if="{{$item.type  == 0 }}">
+              <text class="content">{{$item.infor}}</text>
+            </list-item>
+            <list-item type="reply-image" if="{{$item.type  == 1 }}">
+              <image class="content"  src="{{$item.originalInfo}}"/>
+            </list-item>
+            <list-item type="image-type4" if="{{$item.type  == 4 }}">
+              <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
+            </list-item>
+          </block>
+
+
+          <list-item type="reply-footer">
+            <div class="reply-footer content">
+              <div class="">
+
+                <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
+                <text class="reply-position">#{{re.position}}</text>
+              </div>
+
+              <text class="line"></text>
+            </div>
+          </list-item>
+
+
+
+        </block>
+        <list-item type="loadMore" class="load-more" >
+          <loading-progress-view isShow="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
+        </list-item>
+      </list>
+    </refresh>
+
+  <div class="comment">
+
+  </div>
   </div>
 </template>
 
@@ -108,87 +112,98 @@
     align-items: center;
 
 
-    image{
-      resize-mode : contain;
+    refresh{
+
+      height :80%
+
+
+          image{
+            resize-mode : contain;
+          }
+
+          .title{
+            width: 100%;
+            background-color: #ffbc4d;
+            color: #ffffff;
+            padding: 10px;
+            font-size: 40px;
+          }
+
+          .avatar{
+              width: 64px;
+              height :64px;
+              margin: 8px;
+          }
+
+
+          .header-text{
+            flex-direction: column;
+
+
+            .name {
+              width: 70%;
+              color: #aabcd4;
+              font-size: 30px;
+            }
+
+            .date{
+              font-size: 30px;
+              color: #ffbc4d;
+            }
+          }
+
+
+          .content{
+            margin-left: 72px;
+          }
+
+          .reply-footer{
+            width: 100%;
+            flex-direction: column;
+
+
+            div{
+              flex-direction: row;
+
+                    .reply-support{
+                        flex-grow: 1;
+                        color: #ffcde7;
+                    }
+
+
+                    .reply-position{
+                        flex-grow: 1;
+                        text-align: right;
+                        margin: 8px;
+                    }
+            }
+
+
+            .line{
+              height: 1px;
+              width: 90%;
+              background-color: #ffbc4d;
+              margin: 20px;
+            }
+          }
+
+
+          .topic-footer{
+            height: 1px;
+            width: 90%;
+            background-color: #ffbc4d;
+            margin: 20px;
+          }
+
+          a{
+            color:#00bcd4;
+          }
     }
 
-    .title{
-      width: 100%;
-      background-color: #ffbc4d;
-      color: #ffffff;
-      padding: 10px;
-      font-size: 40px;
-    }
 
-    .avatar{
-        width: 64px;
-        height :64px;
-        margin: 8px;
-    }
+    .
 
 
-    .header-text{
-      flex-direction: column;
-
-
-      .name {
-        width: 70%;
-        color: #aabcd4;
-        font-size: 30px;
-      }
-
-      .date{
-        font-size: 30px;
-        color: #ffbc4d;
-      }
-    }
-
-
-    .content{
-      margin-left: 72px;
-    }
-
-    .reply-footer{
-      width: 100%;
-      flex-direction: column;
-
-
-      div{
-        flex-direction: row;
-
-              .reply-support{
-                  flex-grow: 1;
-                  color: #ffcde7;
-              }
-
-
-              .reply-position{
-                  flex-grow: 1;
-                  text-align: right;
-                  margin: 8px;
-              }
-      }
-
-
-      .line{
-        height: 1px;
-        width: 90%;
-        background-color: #ffbc4d;
-        margin: 20px;
-      }
-    }
-
-
-    .topic-footer{
-      height: 1px;
-      width: 90%;
-      background-color: #ffbc4d;
-      margin: 20px;
-    }
-
-    a{
-      color:#00bcd4;
-    }
 
 
   }

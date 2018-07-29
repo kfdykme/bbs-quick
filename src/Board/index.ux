@@ -1,3 +1,7 @@
+
+<import name="loading-progress-view" src="../Comp/LoadingProgressView"></import>
+
+
 <template>
   <div class="board-page">
     <div class="board-top-bar">
@@ -23,14 +27,49 @@
           <block for="(i,l) in list">
 
               <div class="tab-content">
-                  <list> 
-                    <block for="post in l.postlist">
-                        <list-item type="post-item">
 
-                              <text>{{post.title}}</text>
-                        </list-item>
+                <refresh @refresh="reqRefresh(i)" refreshing="{{l.isRefreshing}}">
+                  <list onscrollbottom="loadMore(i)">
+
+
+                    <block  for="{{l.postlist}}">
+
+
+                      <list-item type="post-item-board">
+                          <text class="board-name">{{$item.board_name}}</text>
+                      </list-item>
+
+                      <list-item type="post-item-header" class="header">
+                        <img class="avatar" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
+                        <div class="header-text">
+                          <text class="user-nike-name">{{$item.user_nick_name}}</text>
+                          <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
+                          <text class="date" >{{$item.last_reply_date}}</text>
+                        </div>
+
+                      </list-item>
+                      <list-item type="post-item-subject"  >
+                        <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
+                      </list-item>
+                      <list-item type="post-item-hnr">
+                        <div class="hnr">
+                          <text class="hit">hits: {{$item.hits}}</text>
+                          <text class="replycount">re : {{$item.replies}}</text>
+                        </div>
+                      </list-item>
+                      <list-item type="post-item-footer" >
+                        <text class="item-footer"></text>
+                      </list-item>
                     </block>
+
+
+                    <list-item type="loadMore" >
+
+                        <loading-progress-view ></loading-progress-view>
+                    </list-item>
                   </list>
+
+                </refresh>
 
               </div>
           </block>
@@ -100,10 +139,83 @@
       .tab-content{
         height: 100%;
 
-        list{
 
+          list{
             height: 100%;
-        }
+
+            .board-name{
+              width: 100%;
+              text-align: right;
+              font-size: 20px;
+              text-align: right;
+              color: #333333;
+            }
+
+            .header{
+              flex-direction: row;
+              margin-bottom: 16px;
+
+              .avatar{
+                  width: 64px;
+                  height :64px;
+                  margin: 8px;
+              }
+
+
+              div{
+                flex-direction: column;
+              }
+
+              .title{
+
+              }
+
+              .user-nike-name{
+                width: 70%;
+                color: #aabcd4;
+                font-size: 30px;
+              }
+
+              .date{
+                font-size: 30px;
+                color: #ffbc4d;
+              }
+            }
+
+
+
+            .subject{
+              padding: 8px;
+              margin-left: 64px;
+            }
+
+            .hnr{
+              width: 100%;
+              flex-direction: row;
+              align-items: flex-end;
+              justify-content: flex-end;
+
+              text{
+                padding: 16px;
+              }
+              .hit{
+                color :#00bcd4;
+              }
+
+              .replycount{
+                color : #ffbcd4;
+              }
+            }
+
+            .item-footer{
+              height: 1px;
+              width: 90%;
+              background-color: #ffbc4d;
+            }
+
+
+
+          }
       }
     }
   }
@@ -112,13 +224,20 @@
 <script>
 
   import BoardApi from '../Common/BoardApi'
+  import DateUtil from '../Common/DateUtil'
+  import router from '@system.router'
+  import prompt from '@system.prompt'
 
   export default{
     protected :{
       boardId :"",
       list : [{
         page :0,
-        postlist :[]
+        postlist :[],
+        canLoadMore :true,
+        isRefreshing :false,
+        pro_show : true,
+        pro_msg : ""
       }],
       forumInfo :{
         title : ""
@@ -137,6 +256,17 @@
       const index = e.target.attr.idx
 
       this.onChangeBoard(index)
+    },
+    onClickPost(a){
+      // console.log("click : " + a.target.attr.topicid);
+
+      router.push({
+        uri : 'Post/Detail',
+        params : {
+          topicid : a.target.attr.topicid
+        }
+      })
+
     },
     onChangeBoard(index){
 
@@ -162,19 +292,46 @@
         this.onChangeBoard(index)
 
     },
+    convertList(list){
+
+       for(let x in  list){
+         let time =  list[x].last_reply_date
+          list[x].last_reply_date = DateUtil.convertTime(time)
+       }
+
+    },
     refresh(){
       this.fetchClassificationTypeList()
     },
     renderPost(index,list){
+        this.convertList(list)
+        this.list[index].postlist = list
+        this.list[index].page = this.list[index].page+1
 
-       this.list[index].postlist = list
-       this.list[index].page = this.list[index].page+1
+        if(this.list[index].isRefreshing){
+          this.refreshComplete(index)
+        }
 
     },
     renderMorePost(index,list){
+       this.convertList(list)
 
        this.list[index].postlist = this.list[index].postlist.concat(list)
        this.list[index].page = this.list[index].page+1
+
+       this.loadMoreComplete(index)
+    },
+    reqRefresh(i,e){
+      this.list[i].isRefreshing = e.refreshing
+      this.list[i].page = 0
+      this.fetchBoardPostList(i)
+    },
+    refreshComplete(i){
+      this.list[i].isRefreshing = false
+
+      prompt.showToast({
+          message: 'refresh complete'
+      })
     },
     fetchClassificationTypeList(){
 
@@ -192,6 +349,7 @@
     },
     fetchBoardPostList(boardIndex){
 
+
         //先根据传进来的board索引，转换成对应的id
         let boardId = this.boardId
 
@@ -203,7 +361,7 @@
         //同样获取page
         let requestPage = this.list[boardIndex].page +1
 
-
+        console.log(JSON.stringify(this.list) );
         //现在有对应的boardid和page了 ，就根据id和page获取对应的postlist
 
 
@@ -211,11 +369,20 @@
         //callback
         var success = function (re){
 
-          if(requestPage>1){
-            this.renderMorePost(boardIndex,re.list)
-          } else{
-            this.renderPost(boardIndex,re.list)
+
+          if(re.rs == 1){
+
+
+              if(requestPage>1){
+                        console.log("success");
+
+                this.renderMorePost(boardIndex,re.list)
+              } else{
+                this.renderPost(boardIndex,re.list)
+              }
+
           }
+
 
         }.bind(this)
 
@@ -243,17 +410,32 @@
       this.initList()
 
     },
+    loadMore(index){
+      let that = this.list[index]
+      if(that.canLoadMore){
+        that.canLoadMore = false
+        that.page = that.page+1
+
+                console.log("success");
+        this.fetchBoardPostList(index)
+
+      }
+    },
+    loadMoreComplete(index){
+      this.list[index].canLoadMore = true
+    },
     initList(){
 
       for(let x in this.boardList){
         this.list.push({
           page :0,
-          postlist :[]
+          postlist :[],
+          canLoadMore :true,
+          isRefreshing :false,
+          pro_show : true,
+          pro_msg : ""
         })
       }
-
-
-
     },
 
 
