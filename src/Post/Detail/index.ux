@@ -50,7 +50,7 @@
 
 
 
-            <block for="re in list">
+            <block for="(index,re) in list">
 
 
               <list-item type="reply-header">
@@ -82,9 +82,9 @@
                 <div class="reply-footer content">
                   <div class="reply-action">
 
-                      <popup target="btn-action"><text>{{re.reply_id}}</text></popup>
-                        <div id="btn-action" class="btn-action" @click="onClickReplyAction(re.reply_id)">
-
+                        <div  class="btn-action {{list[index].showAct != null && list[index].showAct ? 'active' : '' }}" @click="onClickReplyAction(index)">
+                            <text  @click="replyComment(index)">reply</text>
+                            <div  class="close-action-bar" show="{{re.showAct}}"></div>
                         </div>
 
                   </div>
@@ -112,7 +112,7 @@
       <div class="post-comment">
 
         <div class="btn-show">
-          <text @click="changeCommentBar">{{commentBtnText}}</text>
+          <text @click="onChangeCommentBar">{{commentBtnText}}</text>
         </div>
 
         <div show="{{showCommentBar}}" class="post-comment-input">
@@ -207,16 +207,40 @@
                       justify-content: flex-end;
                       align-items: flex-end;
 
-                      .btn-action{
 
+                      .btn-action{
+                        flex-direction: row;
                         margin-right :16px;
 
-                        height: 30px;
-                        width: 30px;
+                        background-color: #00bcd4;
+                        height: 40px;
+                        width: 40px;
                         border-width: 20px;
 
                         border-color: #00bcd4;
-                        border-radius: 15px;
+                        border-radius: 20px;
+
+                        text{
+                          color: #ffffff;
+                          flex-grow: 1;
+                          text-align: center;
+                        }
+
+                        .close-action-bar{
+                          background-color: #ffffff;
+                          height: 30px;
+                          width: 30px;
+                          border-width: 20px;
+
+                          border-color: #ffffff;
+                          border-radius: 15px;
+                        }
+                      }
+
+                      .active{
+                        width: 200px;
+                        height:80px;
+                        border-width: 10px;
                       }
 
                   }
@@ -270,9 +294,6 @@
       height: 500px;
 
 
-
-
-
       .btn-show{
         height: 100px;
         margin-top: 400px;
@@ -291,7 +312,10 @@
           background-color: #00bcd4;
           margin-left: -16px;
           padding-left: 24px;
+
         }
+
+
       }
 
 
@@ -301,20 +325,20 @@
 
 
           .comment-btn-send{
+
             flex-grow: 1;
             border-left-width : 8px;
             border-top-width : 8px;
             border-bottom-width: 8px;
-
             background-color: #ffbc4d;
             border-radius: 4px;
             margin-left: 8px;
-
             color: #ffffff;
 
           }
 
           .comment-content{
+
             margin-right: 8px;
             flex-grow: 4;
             background-color: #ffffff;
@@ -362,7 +386,8 @@
       commentSend : "send",
       commentContent : "",
       showCommentBar : false,
-      commentBtnText : "评论"
+      commentBtnText : "评论",
+      commentReplyId : 0
 
     },
     onInit(){
@@ -381,29 +406,58 @@
     onChangeCommentContent(e){
       this.commentContent = e.value
     },
-    onClickReplyAction(replyId){
-      console.log(replyId);
+    onClickReplyAction(index){
+      var re = this.list[index]
+      this.list[index].showAct = this.list[index].showAct  ? false : true
+
     },
-    changeCommentBar(){
+    onChangeCommentBar(){
       this.showCommentBar = this.showCommentBar == true ? false : true
     },
     onSendComment(){
 
-      PostApi.comment(this.commentContent,this.topic.topic_id,
-        function (data){
+      if(this.commentBtnText == "评论"){
 
-          const re = JSON.parse(data.data)
+          PostApi.comment(this.commentContent,this.topic.topic_id,
+            function (data){
 
-          prompt.showToast({
-            message:re.errcode
-          })
+              const re = JSON.parse(data.data)
 
-          this.commentContent = ""
+              prompt.showToast({
+                message:re.errcode
+              })
 
-        }.bind(this))
+              this.commentContent = ""
+
+              this.onChangeCommentBar()
+
+            }.bind(this))
+      } else {
+
+        console.log("send reply comment "+ this.commentReplyId +"topic "+this.topic.topic_id);
+        PostApi.replyComment(this.commentContent,this.topic.topic_id,this.commentReplyId,
+          function(data){
+
+              const re = JSON.parse(data.data)
+
+              prompt.showToast({
+                message:re.errcode
+              })
+
+              this.commentContent = ""
+              this.onChangeCommentBar()
+
+              this.commentBtnText = "评论"
+
+          }.bind(this))
+      }
 
     },
-    replyComment(replyId){
+    replyComment(index){
+      this.commentReplyId = this.list[index].reply_posts_id
+      this.commentBtnText = "回复"
+      this.onChangeCommentBar()
+      this.onClickReplyAction(index)
 
     },
     render(){
@@ -422,9 +476,10 @@
 
       if(json.list != null && json.list.length != 0){
 
-        let x
-        for (x in json.list){
+
+        for (let  x in json.list){
           json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
+          json.list[x].showAct = false
         }
         this.list = json.list
         this.renderReplyComplete()
@@ -441,9 +496,9 @@
 
       if(json.list != null && json.list.length != 0){
 
-        let x
-        for (x in json.list){
+        for (let x in json.list){
           json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
+          json.list[x].showAct = false
         }
         this.list = this.list.concat(json.list)
 

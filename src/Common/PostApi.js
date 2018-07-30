@@ -32,7 +32,7 @@ function fetchPostDetail(page,topic_id,suc,fai){
   })
 }
 
-function replyComment(commentContent,topicid,replyId,suc){
+function replyComment(commentContent,topicId,replyId,suc){
 
     var contentList = []
     var publishContent = {}
