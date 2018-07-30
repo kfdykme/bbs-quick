@@ -80,7 +80,15 @@
 
               <list-item type="reply-footer">
                 <div class="reply-footer content">
-                  <div class="">
+                  <div class="reply-action">
+
+                      <popup target="btn-action"><text>{{re.reply_id}}</text></popup>
+                        <div id="btn-action" class="btn-action" @click="onClickReplyAction(re.reply_id)">
+
+                        </div>
+
+                  </div>
+                  <div class="reply-exinfo">
 
                     <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
                     <text class="reply-position">#{{re.position}}</text>
@@ -108,7 +116,7 @@
         </div>
 
         <div show="{{showCommentBar}}" class="post-comment-input">
-          <textarea id="comment-textarea" type="text" class="comment-content" @change="onChangeCommentContent"  placeholder="comment st." > </textarea>
+          <textarea id="comment-textarea" type="text" class="comment-content" @change="onChangeCommentContent"  placeholder="comment st." value="{{commentContent}}"> </textarea>
           <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment">
 
         </div>
@@ -193,8 +201,28 @@
                   width: 100%;
                   flex-direction: column;
 
+                  .reply-action{
+                      width: 100%;
+                      flex-direction: row;
+                      justify-content: flex-end;
+                      align-items: flex-end;
 
-                  div{
+                      .btn-action{
+
+                        margin-right :16px;
+
+                        height: 30px;
+                        width: 30px;
+                        border-width: 20px;
+
+                        border-color: #00bcd4;
+                        border-radius: 15px;
+                      }
+
+                  }
+
+
+                  .reply-exinfo{
                     flex-direction: row;
 
                           .reply-support{
@@ -248,6 +276,7 @@
       .btn-show{
         height: 100px;
         margin-top: 400px;
+
 
 
         text{
@@ -352,6 +381,9 @@
     onChangeCommentContent(e){
       this.commentContent = e.value
     },
+    onClickReplyAction(replyId){
+      console.log(replyId);
+    },
     changeCommentBar(){
       this.showCommentBar = this.showCommentBar == true ? false : true
     },
@@ -363,10 +395,15 @@
           const re = JSON.parse(data.data)
 
           prompt.showToast({
-            message:JSON.stringify(re)
+            message:re.errcode
           })
 
-        })
+          this.commentContent = ""
+
+        }.bind(this))
+
+    },
+    replyComment(replyId){
 
     },
     render(){
