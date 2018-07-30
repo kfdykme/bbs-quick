@@ -33,6 +33,9 @@
       },
       "Board":{
         "component": "index"
+      },
+      "Post/Write":{
+        "component" :"index"
       }
     }
   },
@@ -43,17 +46,19 @@
     "titleBar" :false,
     "pages": {
       "Login": {
-        "titleBarText": "登陆",
-        "menu": false
       },
       "Main": {
       },
       "Post/Detail":{
 
       },
+      "Post/Write":{
+
+      },
       "Board":{
 
       }
+
     }
   }
 }

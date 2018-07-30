@@ -1,0 +1,28 @@
+<template>
+  <div class="write-page">
+
+  </div>
+
+</template>
+
+
+<style lang="less">
+    .write-page{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<script>
+
+    export default{
+      protected: {
+
+      },
+      onInit(){
+        console.log("write page on init");
+      }
+    }
+
+</script>

@@ -4,78 +4,94 @@
 
 <template>
   <div class="board-page">
-    <div class="board-top-bar">
-        <div class="foruminfo-title">
 
-          <text class="title  {{boardIndex == 0 ? 'active' : '' }}" onclick="onClickBoard" idx="0">{{forumInfo.title}}</text>
+    <stack>
 
-        </div>
+        <div class="page">
+          <div class="board-top-bar">
+              <div class="foruminfo-title">
 
-          <list id="child-board" class="child-boards">
-          <block for="(i,b) in boardList">
-
-            <list-item type="child-board-name">
-                <text class="board-name {{boardIndex == (i+1) ? 'active' : '' }}"  onclick="onClickBoard" idx="{{i+1}}">{{b.board_name}}</text>
-            </list-item>
-
-          </block>
-        </list>
-    </div>
-
-    <tabs onchange="changeTabBoard"  index="{{boardIndex}}" class="board-content">
-        <tab-content >
-          <block for="(i,l) in list">
-
-              <div class="tab-content">
-
-                <refresh @refresh="reqRefresh(i)" refreshing="{{l.isRefreshing}}">
-                  <list onscrollbottom="loadMore(i)">
-
-
-                    <block  for="{{l.postlist}}">
-
-
-                      <list-item type="post-item-board">
-                          <text class="board-name">{{$item.board_name}}</text>
-                      </list-item>
-
-                      <list-item type="post-item-header" class="header">
-                        <img class="avatar" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
-                        <div class="header-text">
-                          <text class="user-nike-name">{{$item.user_nick_name}}</text>
-                          <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
-                          <text class="date" >{{$item.last_reply_date}}</text>
-                        </div>
-
-                      </list-item>
-                      <list-item type="post-item-subject"  >
-                        <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
-                      </list-item>
-                      <list-item type="post-item-hnr">
-                        <div class="hnr">
-                          <text class="hit">hits: {{$item.hits}}</text>
-                          <text class="replycount">re : {{$item.replies}}</text>
-                        </div>
-                      </list-item>
-                      <list-item type="post-item-footer" >
-                        <text class="item-footer"></text>
-                      </list-item>
-                    </block>
-
-
-                    <list-item type="loadMore" >
-
-                        <loading-progress-view ></loading-progress-view>
-                    </list-item>
-                  </list>
-
-                </refresh>
+                <text class="title  {{boardIndex == 0 ? 'active' : '' }}" onclick="onClickBoard" idx="0">{{forumInfo.title}}</text>
 
               </div>
-          </block>
-        </tab-content>
 
-    </tabs>
+                <list id="child-board" class="child-boards">
+                <block for="(i,b) in boardList">
+
+                  <list-item type="child-board-name">
+                      <text class="board-name {{boardIndex == (i+1) ? 'active' : '' }}"  onclick="onClickBoard" idx="{{i+1}}">{{b.board_name}}</text>
+                  </list-item>
+
+                </block>
+              </list>
+          </div>
+
+          <tabs onchange="changeTabBoard"  index="{{boardIndex}}" class="board-content">
+              <tab-content >
+                <block for="(i,l) in list">
+
+                    <div class="tab-content">
+
+                      <refresh @refresh="reqRefresh(i)" refreshing="{{l.isRefreshing}}">
+                        <list onscrollbottom="loadMore(i)">
+
+
+                          <block  for="{{l.postlist}}">
+
+
+                            <list-item type="post-item-board">
+                                <text class="board-name">{{$item.board_name}}</text>
+                            </list-item>
+
+                            <list-item type="post-item-header" class="header">
+                              <img class="avatar" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
+                              <div class="header-text">
+                                <text class="user-nike-name">{{$item.user_nick_name}}</text>
+                                <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
+                                <text class="date" >{{$item.last_reply_date}}</text>
+                              </div>
+
+                            </list-item>
+                            <list-item type="post-item-subject"  >
+                              <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
+                            </list-item>
+                            <list-item type="post-item-hnr">
+                              <div class="hnr">
+                                <text class="hit">hits: {{$item.hits}}</text>
+                                <text class="replycount">re : {{$item.replies}}</text>
+                              </div>
+                            </list-item>
+                            <list-item type="post-item-footer" >
+                              <text class="item-footer"></text>
+                            </list-item>
+                          </block>
+
+
+                          <list-item type="loadMore" >
+
+                              <loading-progress-view ></loading-progress-view>
+                          </list-item>
+                        </list>
+
+                      </refresh>
+
+                    </div>
+                </block>
+              </tab-content>
+
+          </tabs>
+
+    </div>
+
+
+        <div class="float-bar">
+          <div  class="btn-action {{deFloatBar ? 'active' : '' }}" @click="onClickFloatBar">
+              <text  @click="onClickNew">new</text>
+              <div  class="close-action-bar" show="{{deFloatBar}}"></div>
+          </div>
+        </div>
+    </stack>
+
 
   </div>
 </template>
@@ -84,141 +100,201 @@
 <style lang="less">
 
   .board-page{
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+        flex-direction: column;
 
 
-    .board-top-bar {
-      height: 100px;
-      width: 100%;
-      flex-direction: row;
 
-        .foruminfo-title {
+
+        stack{
           height: 100%;
-          width: 20%;
-
-
-          .title {
-            padding: 10px;
-            color: #ffbc4d;
-            border-right-width: 2px;
-            border-color: #ffbc4d;
-          }
-
-          .active{
-            color : #00bcd4;
-            font-size: 40px;
-            border-right-width: 0px;
-          }
-
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: flex-end;
 
         }
 
-        .child-boards{
-          flex-direction: row;
+        .page{
 
-          text {
-            margin: 16px;
-          }
+              height: 100%;
+              width: 100%;
+              flex-direction: column;
 
 
-          .active{
-            color : #00bcd4;
-            font-size: 40px;
-            border-right-width: 0px;
-          }
+
+              .board-top-bar {
+                height: 100px;
+                width: 100%;
+                flex-direction: row;
+
+                      .foruminfo-title {
+                            height: 100%;
+                            width: 20%;
+
+
+                            .title {
+                              padding: 10px;
+                              color: #ffbc4d;
+                              border-right-width: 2px;
+                              border-color: #ffbc4d;
+                            }
+
+                            .active{
+                              color : #00bcd4;
+                              font-size: 40px;
+                              border-right-width: 0px;
+                            }
+
+
+                        }
+
+                    .child-boards{
+                          flex-direction: row;
+
+                          text {
+                            margin: 16px;
+                          }
+
+
+                          .active{
+                            color : #00bcd4;
+                            font-size: 40px;
+                            border-right-width: 0px;
+                          }
+
+                    }
+
+              }
+
+              .board-content {
+                    height: 100%;
+
+                    .tab-content{
+                          height: 100%;
+
+
+                          list{
+                              height: 100%;
+
+                              .board-name{
+                                width: 100%;
+                                text-align: right;
+                                font-size: 20px;
+                                text-align: right;
+                                color: #333333;
+                              }
+
+                              .header{
+                                flex-direction: row;
+                                margin-bottom: 16px;
+
+                                .avatar{
+                                    width: 64px;
+                                    height :64px;
+                                    margin: 8px;
+                                }
+
+
+                                div{
+                                  flex-direction: column;
+                                }
+
+                                .title{
+
+                                }
+
+                                .user-nike-name{
+                                  width: 70%;
+                                  color: #aabcd4;
+                                  font-size: 30px;
+                                }
+
+                                .date{
+                                  font-size: 30px;
+                                  color: #ffbc4d;
+                                }
+                          }
+
+
+
+                          .subject{
+                            padding: 8px;
+                            margin-left: 64px;
+                          }
+
+                          .hnr{
+                            width: 100%;
+                            flex-direction: row;
+                            align-items: flex-end;
+                            justify-content: flex-end;
+
+                            text{
+                              padding: 16px;
+                            }
+                            .hit{
+                              color :#00bcd4;
+                            }
+
+                            .replycount{
+                              color : #ffbcd4;
+                            }
+                          }
+
+                          .item-footer{
+                            height: 1px;
+                            width: 90%;
+                            background-color: #ffbc4d;
+                          }
+
+
+
+                        }
+                    }
+              }
 
         }
 
-    }
 
-    .board-content {
-      height: 100%;
+        .float-bar{
+              margin-bottom:148px;
+              margin-right: 16px;
 
-      .tab-content{
-        height: 100%;
+              .btn-action{
+                    flex-direction: row;
+                    margin-right :16px;
 
+                    background-color: #00bcd4;
+                    height: 40px;
+                    width: 40px;
+                    border-width: 40px;
+                    border-color: #00abc3;
+                    border-radius: 40px;
 
-          list{
-            height: 100%;
+                    text{
+                      color: #ffffff;
+                      flex-grow: 1;
+                      text-align: center;
+                    }
 
-            .board-name{
-              width: 100%;
-              text-align: right;
-              font-size: 20px;
-              text-align: right;
-              color: #333333;
-            }
+                    .close-action-bar{
+                      background-color: #ffffff;
+                      height: 30px;
+                      width: 30px;
+                      border-width: 10px;
 
-            .header{
-              flex-direction: row;
-              margin-bottom: 16px;
-
-              .avatar{
-                  width: 64px;
-                  height :64px;
-                  margin: 8px;
+                      border-color: #ffffff;
+                      border-radius: 15px;
+                    }
               }
 
-
-              div{
-                flex-direction: column;
+              .active{
+                width: 200px;
+                height:80px;
+                border-width: 10px;
               }
-
-              .title{
-
-              }
-
-              .user-nike-name{
-                width: 70%;
-                color: #aabcd4;
-                font-size: 30px;
-              }
-
-              .date{
-                font-size: 30px;
-                color: #ffbc4d;
-              }
-            }
-
-
-
-            .subject{
-              padding: 8px;
-              margin-left: 64px;
-            }
-
-            .hnr{
-              width: 100%;
-              flex-direction: row;
-              align-items: flex-end;
-              justify-content: flex-end;
-
-              text{
-                padding: 16px;
-              }
-              .hit{
-                color :#00bcd4;
-              }
-
-              .replycount{
-                color : #ffbcd4;
-              }
-            }
-
-            .item-footer{
-              height: 1px;
-              width: 90%;
-              background-color: #ffbc4d;
-            }
-
-
-
-          }
-      }
-    }
+        }
   }
+
+
 </style>
 
 <script>
@@ -244,6 +320,7 @@
       },
       boardList : [],
       boardIndex :0,
+      deFloatBar :false
 
     },
     onInit(){
@@ -267,6 +344,14 @@
         }
       })
 
+    },
+    onClickFloatBar(){
+      this.deFloatBar = this.deFloatBar ? false : true
+    },
+    onClickNew(){
+      router.push({
+        uri : "Post/Write"
+      })
     },
     onChangeBoard(index){
 

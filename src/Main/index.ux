@@ -7,99 +7,167 @@
   <!-- template里只能有一个根节点 -->
   <div class="main-page">
 
-    <div  class="tab-bar-top {{homeIndex == 0 ? '' : 'hide'}}">
-        <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
-        <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
-        <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">今日hot</text>
-        <text class="username" @click="clickUser">{{username}}</text>
+        <stack>
 
-    </div>
-      <div class="paper">
+              <div class="page">
 
-            <div class="" show="{{homeIndex == 0}}">
-              <tabs onchange="changeTabactive" index="{{formIndex}}">
+                <div  class="tab-bar {{homeIndex == 0 ? '' : 'hide'}}">
+                  <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
+                  <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
+                  <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">今日hot</text>
+                  <text class="username" @click="clickUser">{{username}}</text>
 
-                <tab-content   >
-                  <div class="tab-content-section">
-                    <post-list-view tag="{{tags[0]}}"  ></post-list-view>
+                </div>
+                <div class="paper">
+
+                  <div class="" show="{{homeIndex == 0}}">
+                    <tabs onchange="changeTabactive" index="{{formIndex}}">
+
+                      <tab-content   >
+                        <div class="tab-content-section">
+                          <post-list-view tag="{{tags[0]}}"  ></post-list-view>
+                        </div>
+                        <div class="tab-content-section">
+                          <post-list-view tag="{{tags[1]}}" ></post-list-view>
+                        </div>
+                        <div class="tab-content-section">
+                          <post-list-view tag="{{tags[2]}}"  ></post-list-view>
+                        </div>
+
+                      </tab-content>
+                    </tabs>
                   </div>
-                  <div class="tab-content-section">
-                    <post-list-view tag="{{tags[1]}}" ></post-list-view>
+
+                  <div class="" show="{{homeIndex == 1}}">
+                    <board-list-view>
+                    </board-list-view>
                   </div>
-                  <div class="tab-content-section">
-                    <post-list-view tag="{{tags[2]}}"  ></post-list-view>
-                  </div>
-
-                </tab-content>
-              </tabs>
-            </div>
-
-            <div class="" show="{{homeIndex == 1}}">
-              <board-list-view>
-              </board-list-view>
-            </div>
-      </div>
+                </div>
 
 
 
 
-    <div  class="tab-bar-top ">
-        <text @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'active' : ''}}"  >home</text>
-        <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'active' : ''}}"  >board</text>
-        <text   class="  {{homeIndex != 0 ? '' : 'hide'}}  {{homeIndex === 2 ? 'active' : 'username'}}"  >{{username}}</text>
+                <div  class="tab-bar">
+                  <text @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'active' : ''}}"  >home</text>
+                  <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'active' : ''}}"  >board</text>
+                  <text   class="  {{homeIndex != 0 ? '' : 'hide'}}  {{homeIndex === 2 ? 'active' : 'username'}}"  >{{username}}</text>
 
-    </div>
+                </div>
 
+        </div>
+
+              <div class="float-bar">
+                <div  class="btn-action {{deFloatBar ? 'active' : '' }}" @click="onClickFloatBar">
+                    <text  @click="onClickNew">new</text>
+                    <div  class="close-action-bar" show="{{deFloatBar}}"></div>
+                </div>
+              </div>
+
+        </stack>
   </div>
 </template>
 
 <style lang="less">
+
+
   .main-page {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
-    .paper{
-      height: 100%;
-      flex-direction: row;
+      flex-direction: column;
 
-    }
+      stack{
+        height: 100%;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+
+      }
+
+      .page{
+          height: 100%;
+          width: 100%;
+          flex-direction: column;
 
 
+            .paper{
+              height: 100%;
+              flex-direction: row;
+
+            }
+
+
+
+            .tab-bar{
+
+              flex-direction: row;
+              width: 100%;
+
+
+              text{
+                text-align: center;
+                flex-grow: 1;
+                height: 100px;
+              }
+
+              .active{
+                background-color: #ffbc4d;
+                color: #ffffff;
+              }
+
+              .username {
+                background-color: #00bcd4;
+                color: #ffffff;
+              }
+
+            }
+
+      }
+
+
+      .float-bar{
+            margin-bottom:148px;
+            margin-right: 16px;
+
+            .btn-action{
+                  flex-direction: row;
+                  margin-right :16px;
+
+                  background-color: #00bcd4;
+                  height: 40px;
+                  width: 40px;
+                  border-width: 40px;
+                  border-color: #00abc3;
+                  border-radius: 40px;
+
+                  text{
+                    color: #ffffff;
+                    flex-grow: 1;
+                    text-align: center;
+                  }
+
+                  .close-action-bar{
+                    background-color: #ffffff;
+                    height: 30px;
+                    width: 30px;
+                    border-width: 10px;
+
+                    border-color: #ffffff;
+                    border-radius: 15px;
+                  }
+            }
+
+            .active{
+              width: 200px;
+              height:80px;
+              border-width: 10px;
+            }
+      }
   }
+
 
   .hide{
     display: none;
   }
 
-  .tab-bar-top{
-    flex-direction: row;
-
-    width: 100%;
-
-
-    text{
-      text-align: center;
-      flex-grow: 1;
-      height: 100px;
-    }
-
-    .active{
-      background-color: #ffbc4d;
-      color: #ffffff;
-    }
-
-    .username {
-      background-color: #00bcd4;
-      color: #ffffff;
-    }
-
-  }
-
-  .title {
-    font-size: 40px;
-    text-align: center;
-  }
 </style>
 
 <script>
@@ -121,7 +189,8 @@
         FormApi.Tag.newReply,
         FormApi.Tag.newPublish,
         FormApi.Tag.todayHot
-      ]
+      ],
+      deFloatBar : false
 
     },
     onInit(){
@@ -134,6 +203,14 @@
     onChangeForm(index){
       this.formIndex = index
 
+    },
+    onClickFloatBar(){
+      this.deFloatBar = this.deFloatBar ? false : true
+    },
+    onClickNew(){
+      router.push({
+        uri : "Post/Write"
+      })
     },
     clickTabBar(index){
       this.onChangeForm(index)
