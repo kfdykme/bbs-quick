@@ -63,6 +63,13 @@
                 </div>
               </list-item>
 
+              <block if="{{re.quote_content != ''}}">
+                <list-item type="reply-quote">
+                  <div class="reply-quote content">
+                    <text>{{re.quote_content}}</text>
+                  </div>
+                </list-item>
+              </block>
 
               <block for="{{re.reply_content}}">
 
@@ -76,6 +83,7 @@
                   <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
                 </list-item>
               </block>
+
 
 
               <list-item type="reply-footer">
@@ -164,124 +172,135 @@
             height :80%;
 
 
-                image{
-                  resize-mode : contain;
-                }
+            image{
+              resize-mode : contain;
+            }
 
 
-                .avatar{
-                    width: 64px;
-                    height :64px;
-                    margin: 8px;
-                }
+            .avatar{
+                width: 64px;
+                height :64px;
+                margin: 8px;
+            }
 
 
-                .header-text{
-                  flex-direction: column;
+            .header-text{
+              flex-direction: column;
 
 
-                  .name {
-                    width: 70%;
-                    color: #aabcd4;
-                    font-size: 30px;
-                  }
+              .name {
+                width: 70%;
+                color: #aabcd4;
+                font-size: 30px;
+              }
 
-                  .date{
-                    font-size: 30px;
-                    color: #ffbc4d;
-                  }
-                }
+              .date{
+                font-size: 30px;
+                color: #ffbc4d;
+              }
+            }
 
 
-                .content{
-                  margin-left: 72px;
-                }
+            .content{
+              margin-left: 72px;
+            }
 
-                .reply-footer{
+            .reply-quote{
+              background-color: #eeeeee;
+              padding: 16px;
+              border-radius: 5px;
+              border-color: #eeeeee;
+              border-width: 5px;
+              text{
+                color:#333333;
+              }
+            }
+
+            .reply-footer{
+              width: 100%;
+              flex-direction: column;
+
+              .reply-action{
                   width: 100%;
-                  flex-direction: column;
-
-                  .reply-action{
-                      width: 100%;
-                      flex-direction: row;
-                      justify-content: flex-end;
-                      align-items: flex-end;
+                  flex-direction: row;
+                  justify-content: flex-end;
+                  align-items: flex-end;
 
 
-                      .btn-action{
-                        flex-direction: row;
-                        margin-right :16px;
-
-                        background-color: #00bcd4;
-                        height: 40px;
-                        width: 40px;
-                        border-width: 20px;
-
-                        border-color: #00bcd4;
-                        border-radius: 20px;
-
-                        text{
-                          color: #ffffff;
-                          flex-grow: 1;
-                          text-align: center;
-                        }
-
-                        .close-action-bar{
-                          background-color: #ffffff;
-                          height: 30px;
-                          width: 30px;
-                          border-width: 20px;
-
-                          border-color: #ffffff;
-                          border-radius: 15px;
-                        }
-                      }
-
-                      .active{
-                        width: 200px;
-                        height:80px;
-                        border-width: 10px;
-                      }
-
-                  }
-
-
-                  .reply-exinfo{
+                  .btn-action{
                     flex-direction: row;
+                    margin-right :16px;
 
-                          .reply-support{
-                              flex-grow: 1;
-                              color: #ffcde7;
-                          }
+                    background-color: #00bcd4;
+                    height: 40px;
+                    width: 40px;
+                    border-width: 20px;
 
+                    border-color: #00bcd4;
+                    border-radius: 20px;
 
-                          .reply-position{
-                              flex-grow: 1;
-                              text-align: right;
-                              margin: 8px;
-                          }
+                    text{
+                      color: #ffffff;
+                      flex-grow: 1;
+                      text-align: center;
+                    }
+
+                    .close-action-bar{
+                      background-color: #ffffff;
+                      height: 30px;
+                      width: 30px;
+                      border-width: 20px;
+
+                      border-color: #ffffff;
+                      border-radius: 15px;
+                    }
                   }
 
-
-                  .line{
-                    height: 1px;
-                    width: 90%;
-                    background-color: #ffbc4d;
-                    margin: 20px;
+                  .active{
+                    width: 200px;
+                    height:80px;
+                    border-width: 10px;
                   }
-                }
+
+              }
 
 
-                .topic-footer{
-                  height: 1px;
-                  width: 90%;
-                  background-color: #ffbc4d;
-                  margin: 20px;
-                }
+              .reply-exinfo{
+                flex-direction: row;
 
-                a{
-                  color:#00bcd4;
-                }
+                      .reply-support{
+                          flex-grow: 1;
+                          color: #ffcde7;
+                      }
+
+
+                      .reply-position{
+                          flex-grow: 1;
+                          text-align: right;
+                          margin: 8px;
+                      }
+              }
+
+
+              .line{
+                height: 1px;
+                width: 90%;
+                background-color: #ffbc4d;
+                margin: 20px;
+              }
+            }
+
+
+            .topic-footer{
+              height: 1px;
+              width: 90%;
+              background-color: #ffbc4d;
+              margin: 20px;
+            }
+
+            a{
+              color:#00bcd4;
+            }
           }
 
 
