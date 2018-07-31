@@ -77,6 +77,30 @@ function replyComment(commentContent,topicId,replyId,suc){
 
 }
 
+function publish(publishJson,suc){
+
+
+    //
+    const url = Api.BASE_URL + "app/web/index.php?r=forum/topicadmin"
+
+    fetch.fetch({
+      url : url,
+      method : "POST",
+      data : {
+        json : JSON.stringify(publishJson),
+        act : 'new',
+        apphash :UserCache.appHash(),
+        accessSecret : UserCache.secret(),
+        accessToken : UserCache.token()
+      },
+      success: suc,
+      fail: function(data,code){
+
+      }
+    })
+
+}
+
 
 function comment(commentContent,topicId,suc){
   // build json Object
@@ -104,8 +128,6 @@ function comment(commentContent,topicId,suc){
   //
   const url = Api.BASE_URL + "app/web/index.php?r=forum/topicadmin"
 
-  const user = UserCache.user()
-
   fetch.fetch({
     url : url,
     method : "POST",
@@ -127,7 +149,8 @@ export default{
   fetchPostDetail,
   init,
   comment,
-  replyComment
+  replyComment,
+  publish
 }
 
 

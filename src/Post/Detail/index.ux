@@ -124,7 +124,7 @@
         </div>
 
         <div show="{{showCommentBar}}" class="post-comment-input">
-          <textarea id="comment-textarea" type="text" class="comment-content" @change="onChangeCommentContent"  placeholder="comment st." value="{{commentContent}}"> </textarea>
+          <textarea id="comment-textarea"   class="comment-content" @change="onChangeCommentContent"  placeholder="comment st." value="{{commentContent}}"> </textarea>
           <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment">
 
         </div>
@@ -344,7 +344,7 @@
 
 
           .comment-btn-send{
-
+            height: 20%;
             flex-grow: 1;
             border-left-width : 8px;
             border-top-width : 8px;
@@ -406,7 +406,8 @@
       commentContent : "",
       showCommentBar : false,
       commentBtnText : "评论",
-      commentReplyId : 0
+      commentReplyId : 0,
+      isReplying :false
 
     },
     onInit(){
@@ -453,23 +454,29 @@
             }.bind(this))
       } else {
 
-        console.log("send reply comment "+ this.commentReplyId +"topic "+this.topic.topic_id);
-        PostApi.replyComment(this.commentContent,this.topic.topic_id,this.commentReplyId,
-          function(data){
 
-              const re = JSON.parse(data.data)
 
-              prompt.showToast({
-                message:re.errcode
-              })
+        if(isReplying){
+              this.isReplying = true
+              PostApi.replyComment(this.commentContent,this.topic.topic_id,this.commentReplyId,
+                function(data){
 
-              this.commentContent = ""
-              this.onChangeCommentBar()
+                  const re = JSON.parse(data.data)
 
-              this.commentBtnText = "评论"
+                  prompt.showToast({
+                    message:re.errcode
+                  })
 
-          }.bind(this))
-      }
+                  this.commentContent = ""
+                  this.onChangeCommentBar()
+
+                  this.commentBtnText = "评论"
+                  this.isReplying = false
+
+                }.bind(this))
+              }
+
+        }
 
     },
     replyComment(index){
