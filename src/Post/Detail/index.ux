@@ -110,7 +110,7 @@
 
             </block>
             <list-item type="loadMore" class="load-more" >
-              <loading-progress-view isShow="{{pro_show}}" msg="{{pro_msg}}"></loading-progress-view>
+              <loading-progress-view ></loading-progress-view>
             </list-item>
           </list>
         </refresh>

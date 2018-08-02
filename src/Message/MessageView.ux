@@ -1,0 +1,306 @@
+
+<import name="loading-progress-view" src="../Comp/LoadingProgressView"></import>
+
+
+<template >
+  <div class="message-view">
+
+        <div class="message-bar">
+
+            <text class="{{messageIndex ==0 ? 'active' : ''}}" onclick="onClickEvent('index',0)">回复</text>
+            <text class="{{messageIndex ==1? 'active' : ''}}" onclick="onClickEvent('index',1)">@me</text>
+            <text class="{{messageIndex == 2 ? 'active' : ''}}"     onclick="onClickEvent('index',2)">私信</text>
+            <text class="{{messageIndex == 3 ? 'active' : ''}}" onclick="onClickEvent('index',3)">系统</text>
+        </div>
+
+        <tabs @change="onChangeMessage" index="{{messageIndex}}">
+          <tab-content >
+
+              <block for="m in msgList">
+                  <div class="message-list" >
+
+                        <refresh @refresh="onRefrsh(m)" refreshing={{m.isRefreshing}}>
+                              <list @scrollbottom="onScrollBottom(m)">
+                                      <block  for="{{m.list}}">
+
+
+
+                                            <list-item type="message-item-header" class="header">
+                                              <img class="avatar" src="{{$item.icon}}" />
+                                              <div class="header-text">
+                                                <text class="user-nike-name">{{$item.user_name}}</text>
+                                                <text class="date" >{{$item.replied_date}}</text>
+
+                                                <text class="topic-content" @click="onClickEvent('topic',$item.topic_id)" if="{{m.tag != 2}}">{{$item.topic_content}}</text>
+                                                <text class="topic-content" @click="onClickEvent('pm',$item)" if="{{m.tag == 2}}">{{$item.topic_content}}</text>
+                                              </div>
+
+                                            </list-item>
+
+                                            <list-item type="messaage-item-reply"  >
+                                              <text class="reply-content" @click="onClickEvent('topic',$item.topic_id)" >{{$item.reply_content}}</text>
+                                            </list-item>
+                                            <list-item type="messaage-item-footer" >
+                                              <text class="item-footer"></text>
+                                            </list-item>
+
+
+                                      </block>
+
+                                      <list-item type="loadingProgress" >
+                                          <loading-progress-view tag="{{m.tag}}" ></loading-progress-view>
+                                      </list-item>
+                              </list>
+                        </refresh>
+                  </div>
+
+              </block>
+
+          </tab-content>
+        </tabs>
+
+
+  </div>
+</template>
+
+
+<style lang="less">
+
+
+    .message-view{
+
+          width: 100%;
+          height: 100%;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: #fdfdfd;
+
+          .message-bar{
+                width: 100%;
+                height: 100px;
+                flex-direction: row;
+
+
+                text{
+                  text-align: center;
+                  flex-grow: 1;
+                  height: 100px;
+                }
+
+                .active{
+                  background-color: #ffbc4d;
+                  color: #ffffff;
+                  border-radius: 50px;
+                }
+          }
+
+          tabs {
+
+              width: 100%;
+              height: 90%;
+
+
+                tab-content {
+                      width: 100%;
+                      height: 100%;
+
+                  .message-list {
+
+                        refresh{
+
+                          height: 100%;
+                        }
+
+                        list{
+                          height: 100%;
+
+                          .header{
+                                flex-direction: row;
+                                margin-bottom: 16px;
+
+                                .avatar{
+                                  width: 64px;
+                                  height :64px;
+                                  margin: 8px;
+                                }
+
+
+                                div{
+                                  flex-direction: column;
+                                }
+
+
+                                .user-nike-name{
+                                  width: 70%;
+                                  color: #aabcd4;
+                                  font-size: 30px;
+                                }
+
+                                .date{
+                                  font-size: 30px;
+                                  color: #ffbc4d;
+                                }
+
+                                .topic-content{
+                                  background-color: #eeeeee;
+                                  margin: 16px;
+                                  padding: 8px;
+                                  color: #222222;
+                                  border-radius: 8px;
+                                }
+                          }
+
+
+
+                          .reply-content{
+                                padding: 8px;
+                                margin-left: 64px;
+                          }
+
+                          .item-footer{
+                                height: 1px;
+                                width: 80%;
+                                margin-left:10%;
+
+                                background-color: #ffbc4d;
+                          }
+
+
+
+                        }
+
+
+                }
+
+          }
+
+
+    }
+
+
+}
+</style>
+
+<script>
+
+        import presenter from "./MessagePresenter"
+        import prompt from "@system.prompt"
+
+        function view(){
+            var mView = new Object
+            mView.renderData = this.renderData.bind(this)
+            mView.renderMoreData = this.renderMoreData.bind(this)
+            mView.renderNoMore = this.renderNoMore.bind(this)
+            mView.context = this
+            return mView
+        }
+
+
+
+        export default{
+          props:[
+            'tag'
+          ],
+          data:{
+            msgList :[
+              {
+                tag:presenter.TAG.post,
+                list:[],
+                isRefreshing:false
+              },
+              {
+                tag:presenter.TAG.atme,
+                list:[],
+                isRefreshing:false
+              },
+              {
+                tag:presenter.TAG.pm,
+                list:[],
+                isRefreshing:false
+              },
+              {
+                tag:presenter.TAG.system,
+                list:[],
+                isRefreshing:false
+              }
+            ],
+            messageIndex :0
+          },
+          onInit(){
+
+              presenter.init(this.view())
+
+          }
+          ,onRefrsh(m,e){
+
+              m.isRefreshing =e.refreshing
+
+              presenter.refresh(m.tag)
+
+
+              this.$broadcast("render_loading",{ tag :m.tag})
+          }
+          ,onScrollBottom(m){
+              presenter.loadMore(m.tag)
+              this.$broadcast("render_loading",{ tag :m.tag})
+
+          }
+          ,onRenderComplete(tag){
+              this.onRefreshComplete(tag)
+          }
+          ,onRenderMoreComplete(t){
+              this.$broadcast("render_normal",{ tag :t})
+
+          }
+          ,renderData(list,tag){
+
+
+                this.msgList[tag].list = list
+
+                this.onRenderComplete(tag)
+
+          }
+          ,onRefreshComplete(t){
+
+
+                if(this.msgList[t].isRefreshing){
+                  this.msgList[t].isRefreshing = false
+
+                  prompt.showToast({
+                      message: 'refresh complete'
+                  })
+                }
+                this.$broadcast("render_normal",{ tag :t})
+          }
+          ,renderMoreData(list,tag){
+
+                this.msgList[tag].list = this.msgList[tag].list.concat(list);
+                this.onRenderMoreComplete(tag)
+          }
+          ,renderNoMore(msg,t){
+                prompt.showToast({
+                  message : msg
+                })
+                this.$broadcast("render_no_more", { tag :t})
+          }
+          ,view
+          ,onClickEvent(type,arg){
+              switch (type) {
+                case 'index':
+                    this.messageIndex = arg
+                  break;
+                default:
+                  presenter.onClickEvent(type,arg)
+
+              }
+              console.log(this.messageIndex);
+          }
+          ,onChangeMessage(evt){
+              this.messageIndex = evt.index
+              console.log(this.messageIndex);
+          }
+
+        }
+
+</script>

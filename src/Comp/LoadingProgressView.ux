@@ -1,8 +1,8 @@
 
 <template >
   <div class="loading-progress-view" >
-    <text show="{{!isShow}}">{{msg}}</text>
-    <progress type="circular" show="{{isShow}}"></progress>
+    <text class="{{isNormal ? 'normal' : ''}}"  >{{msg}}</text>
+    <progress type="circular" show="{{isLoading}}"></progress>
   </div>
 
 </template>
@@ -25,9 +25,14 @@
       text{
         font-size: 60px;
       }
+
+      .normal{
+        height : 400px;
+      }
   }
 
 </style>
+
 
 <script>
 import FormApi from '../Common/FormApi'
@@ -37,18 +42,53 @@ import DateUtil from  '../Common/DateUtil'
 
 export default{
   props:[
+    'tag'
   ],
   data:{
-    msg : "Loading...",
-    isShow : true
+    msg : "正在加载...",
+    isLoading : false,
+    isNormal:true
 
   },
   onInit(){
-    this.$on('has_not_next', this.onHasNotNext)
-  },
-  onHasNotNext(e){ 
-    this.msg = "no more.."
-    this.isShow = false
+    this.$on('render_no_more',this.renderNoMore)
+    this.$on('render_loading',this.renderLoading)
+    this.$on('render_normal',this.renderNormal)
+    // this.renderNormal()
+  }
+  ,renderNoMore(e){
+
+        if(e.detail.tag == this.tag){
+
+                  console.log("render_no_more   " + JSON.stringify(e));
+                  this.isLoading = false
+                  this.isNormal = false
+                  this.msg = "没有更多了.."
+        }
+  }
+  ,renderLoading(e){
+
+        if(e.detail.tag == this.tag){
+
+                  console.log("render_loading  " + JSON.stringify(e));
+                  this.isNormal = false
+                  this.isLoading = true
+                  this.msg = "正在加载..."
+        }
+
+
+  }
+  ,renderNormal(e){
+
+        if(e.detail.tag == this.tag){
+
+              console.log("render_normal " + JSON.stringify(e));
+              this.msg = "继续下拉以刷新"
+              this.isLoading = false;
+              this.isNormal = true;
+
+        }
+
   }
 }
 

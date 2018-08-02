@@ -1,25 +1,32 @@
 <template>
   <div class="boardlist-page">
 
-    <block for="c in board">
-      <div class="category">
+    <list>
+      <block for="c in board">
+        <list-item class="category-item"  type="category-title">
 
-        <text class="board-category-name">{{c.board_category_name}}</text>
+          <div class="category">
+
+                  <text class="board-category-name">{{c.board_category_name}}</text>
+          </div>
+        </list-item>
 
 
-        <list>
-          <block for="b in c.board_list">
-              <list-item type="board-name">
+            <block for="b in c.board_list">
+                <list-item type="board-name">
 
-                 <text class="board-name" onclick="onClickBoard" boardId="{{b.board_id}}">{{b.board_name}} </text>
 
-              </list-item>
-          </block>
-        </list>
+                       <text class="board-name" onclick="onClickBoard" boardId="{{b.board_id}}">{{b.board_name}} </text>
+                       <text class="board-post-date" >{{b.last_posts_date}} </text>
 
-      </div>
+                </list-item>
+            </block>
 
-    </block>
+
+
+      </block>
+    </list>
+
 
   </div>
 </template>
@@ -33,49 +40,60 @@
     align-items: center;
     background-color: #fdfdfd;
 
-    .category{
-      flex-direction: row;
-
-
-      height: 25%;
-      margin-top: 20px;
-      margin-left: 16px;
-      padding-left: 8px;
-      .board-category-name{
-          width: 20%;
-          height: 60%;
-          margin-top: 20px;
-          margin-bottom: 20px;
-          color: #ffbc4d;
-          border-right-width: 2px;
-          border-bottom-width: 2px;
-
-          border-color: #ffbc4d;
-
-          margin-right: 16px;
-      }
-
-      list{
-        width: 80%;
+    list{
+        width: 100%;
         height: 100%;
-        flex-direction: row;
         columns:2;
 
-        .board-name{
-            margin: 24px;
-            margin-left: 40px;
-            font-size: 30px;
-            background-color: #00bcd4;
-            padding: 30px;
-            color: #ffffff;
-            border-radius: 10px;
-            border-width: 10px;
-            border-color: #00bcd4;
+
+        .category-item{
+          column-span :2;
         }
 
-      }
-    }
+        .category{
+          flex-direction: row;
+          width: 100%;
 
+
+          margin-top: 20px;
+          margin-left: 16px;
+          padding-left: 8px;
+          .board-category-name{
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #ffbc4d;
+            border-right-width: 2px;
+            border-bottom-width: 2px;
+
+            border-color: #ffbc4d;
+
+            margin-right: 16px;
+          }
+
+        }
+
+      .board-name{
+        margin: 24px;
+        margin-left: 40px;
+        font-size: 30px;
+        background-color: #00bcd4;
+        padding: 30px;
+        color: #ffffff;
+        border-radius: 10px;
+        border-width: 10px;
+        border-color: #00bcd4;
+
+
+      }
+
+
+      .board-post-date{
+        color: #00bcd4;
+
+      }
+
+    }
 
 
   }
@@ -85,6 +103,7 @@
 <script>
 import BoardApi from '../Common/BoardApi'
 import router from '@system.router'
+import DateUtil from '../Common/DateUtil'
 
 export default{
   props:[
@@ -102,7 +121,19 @@ export default{
 
     BoardApi.getForumList(
       function (data){
+
         const re = JSON.parse(data.data)
+
+        for(let x in re.list){
+
+            for(let y in re.list[x].board_list){
+                const t = re.list[x].board_list[y]
+
+
+                t.last_posts_date = DateUtil.convertTime(t.last_posts_date)
+            }
+        }
+
         this.board = re.list
 
       }.bind(this),

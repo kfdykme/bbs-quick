@@ -1,5 +1,6 @@
 <import name="post-list-view" src="../Comp/PostListView"></import>
 <import name="board-list-view" src="../Comp/BoardListView"></import>
+<import name="message-view" src="../Message/MessageView"></import>
 
 
 
@@ -14,7 +15,7 @@
                 <div  class="tab-bar {{homeIndex == 0 ? '' : 'hide'}}">
                   <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
                   <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
-                  <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">今日hot</text>
+                  <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">今日热门</text>
                   <text class="username" @click="clickUser">{{username}}</text>
 
                 </div>
@@ -39,8 +40,11 @@
                   </div>
 
                   <div class="" show="{{homeIndex == 1}}">
-                    <board-list-view>
-                    </board-list-view>
+                        <board-list-view>
+                        </board-list-view>
+                  </div>
+                  <div class="" show="{{homeIndex == 2}}">
+                      <message-view tag="message"></message-view>
                   </div>
                 </div>
 
@@ -48,9 +52,10 @@
 
 
                 <div  class="tab-bar">
-                  <text @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'active' : ''}}"  >home</text>
-                  <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'active' : ''}}"  >board</text>
-                  <text   class="  {{homeIndex != 0 ? '' : 'hide'}}  {{homeIndex === 2 ? 'active' : 'username'}}"  >{{username}}</text>
+                  <text  @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'active' : ''}}"  >首页</text>
+                  <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'active' : ''}}"  >板块</text>
+                  <text  @click="onClickBottom(2)" class="{{homeIndex === 2 ? 'active' : ''}}"  >消息</text>
+                  <text   class="  {{homeIndex != 0 ? '' : 'hide'}}  {{homeIndex === 3 ? 'active' : 'username'}}"  >{{username}}</text>
 
                 </div>
 
@@ -98,25 +103,25 @@
 
             .tab-bar{
 
-              flex-direction: row;
-              width: 100%;
+                  flex-direction: row;
+                  width: 100%;
 
 
-              text{
-                text-align: center;
-                flex-grow: 1;
-                height: 100px;
-              }
+                  text{
+                    text-align: center;
+                    flex-grow: 1;
+                    height: 100px;
+                  }
 
-              .active{
-                background-color: #ffbc4d;
-                color: #ffffff;
-              }
+                  .active{
+                    background-color: #ffbc4d;
+                    color: #ffffff;
+                  }
 
-              .username {
-                background-color: #00bcd4;
-                color: #ffffff;
-              }
+                  .username {
+                    background-color: #00bcd4;
+                    color: #ffffff;
+                  }
 
             }
 
@@ -135,7 +140,7 @@
                   height: 40px;
                   width: 40px;
                   border-width: 40px;
-                  border-color: #00abc3;
+                  border-color: #00bcd4;
                   border-radius: 40px;
 
                   text{

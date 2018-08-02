@@ -1,6 +1,7 @@
 import Api from "./Api"
 import fetch from "@system.fetch"
 import UserCache from './UserCache'
+import storage from '@system.storage'
 
 var app = null
 function init(app){
@@ -23,7 +24,22 @@ function getForumList(suc,fai){
       accessSecret : UserCache.secret(),
       sdkVersion : Api.sdkVersion
     },
-    success :suc,
+    success :function(data){
+
+      // //将数据缓存
+      // storage.set({
+      //   key : "getForumList",
+      //   value : data,
+      //   success :function(data){
+      //
+      //   },
+      //   fail :function(data,code){
+      //
+      //   }
+      // })
+
+      suc(data)
+    },
     fail : fai
   })
 }

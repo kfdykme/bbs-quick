@@ -36,6 +36,9 @@
       },
       "Post/Write":{
         "component" :"index"
+      },
+      "Message/PmList":{
+        "component" :"index"
       }
     }
   },
@@ -56,6 +59,9 @@
 
       },
       "Board":{
+
+      },
+      "Message/PmList":{
 
       }
 

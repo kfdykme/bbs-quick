@@ -50,7 +50,7 @@
 
       <list-item type="loadMore" >
 
-          <loading-progress-view ></loading-progress-view>
+          <loading-progress-view tag="{{tag}}"></loading-progress-view>
       </list-item>
     </list>
   </refresh>
@@ -181,10 +181,8 @@ export default{
   },
   refresh(){
     this.page = 1
+    this.$broadcast("render_loading",{ tag : this.tag})
     this.fetchPosts(this.tag,this.page)
-  },
-  goToTop(){
-
   },
   renderMore(list){
     if(list != null && list.length != 0){
@@ -206,21 +204,25 @@ export default{
 
   },
   renderError(msg){
-    console.error(msg)
+    prompt.showToast({
+        message: msg
+    })
+
+    this.$broadcast("render_no_more", { tag : this.tag})
   },
   loadMoreComplete(){
     this.canLoadMore = true
-    // console.log("loadMoreComplete");
-
+    this.$broadcast("render_no_more",{ tag : this.tag})
   },
   refreshComplete(){
-    // console.log("refreshComplete");
     if(this.isRefreshing){
       this.isRefreshing = false
 
       prompt.showToast({
           message: 'refresh complete'
       })
+
+      this.$broadcast("render_normal",{ tag : this.tag})
     }
 
   },
@@ -237,9 +239,6 @@ export default{
         }
 
 
-        if(re.has_next == 0){
-          this.renderProgress("has_not_next")
-        }
 
         if(page == 1){
           this.render(re.list)
@@ -249,6 +248,10 @@ export default{
           this.renderMore(re.list)
         }
 
+        if(re.has_next == 0){
+          this.renderError("没有更多了")
+          return
+        }
 
       }.bind(this),
       function(data,code){
@@ -257,6 +260,8 @@ export default{
   },
   loadMore(){
     if(this.canLoadMore){
+
+      this.$broadcast("render_loading",{ tag : this.tag})
       this.canLoadMore = false
       this.page = this.page+ 1
       this.fetchPosts(this.tag,this.page)
@@ -275,7 +280,7 @@ export default{
 
   },
   renderProgress(tag){
-    this.$broadcast(tag, { params: 'aaa' })
+      this.$broadcast("render_no_more",{ tag : this.tag})
   }
 
 }
