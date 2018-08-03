@@ -123,6 +123,7 @@
                                   width: 64px;
                                   height :64px;
                                   margin: 8px;
+                                  border-radius: 32px;
                                 }
 
 
@@ -143,11 +144,14 @@
                                 }
 
                                 .topic-content{
-                                  background-color: #eeeeee;
-                                  margin: 16px;
-                                  padding: 8px;
-                                  color: #222222;
-                                  border-radius: 8px;
+                                      text{
+
+                                            background-color: #eeeeee;
+                                            margin: 16px;
+                                            padding: 8px;
+                                            color: #333333;
+                                            border-radius: 4px;
+                                      }
                                 }
                           }
 
@@ -161,7 +165,7 @@
                           .item-footer{
                                 height: 1px;
                                 width: 80%;
-                                margin-left:10%;
+                                margin-left: 64px;
 
                                 background-color: #ffbc4d;
                           }
@@ -254,6 +258,7 @@
 
           }
           ,renderData(list,tag){
+
 
 
                 this.msgList[tag].list = list

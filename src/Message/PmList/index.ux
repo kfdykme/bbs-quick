@@ -1,9 +1,63 @@
 <template>
   <div class="pm-list-page">
       <div class="pm-list">
-          <text>{{json}}</text>
+          <text class="toUserName" >{{re.body.pmList[0].name}}</text>
+          <list>
+                <block for="(i,pm) in re.body.pmList[0].msgList" if="{{re}}">
+
+
+                    <!-- 如果不是由当前用户发送的消息，就从左开始显示 -->
+                    <block if="pm.sender != re.body.userInfo.uid">
+                          <list-item type="msg-time" if="{{pm.showTime }}">
+                                <div class="msg-date">
+
+                                    <text>{{pm.date}}</text>
+
+                                </div>
+                          </list-item>
+                          <list-item type="msg-left">
+                                <div class="msg">
+                                      <image class="avatar" src="{{re.body.pmList[0].avatar}}"></image>
+                                      <div class="pop"></div>
+                                      <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                      <image class="content" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
+                                </div>
+                          </list-item>
+                    </block>
+
+                    <!-- 反之从右开始显示 -->
+                    <block if="pm.sender == re.body.userInfo.uid">
+                            <list-item type="msg-time" if="{{pm.showTime }}">
+                                  <div class="msg-date">
+
+                                      <text>{{pm.date}}</text>
+
+                                  </div>
+                            </list-item>
+                            <list-item class="item-right"type="msg-right">
+                                  <div class="msg msg-right" >
+
+                                      <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                      <image class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
+                                      <div class="pop-big"></div>
+                                      <image  class="avatar"  src="{{re.body.userInfo.avatar}}"></image>
+
+                                  </div>
+                            </list-item>
+                    </block>
+
+
+                </block>
+          </list>
       </div>
       <div class="reply-view">
+
+            <div class="addImg"  @click="onClickImage">
+                <image if="{{imageToSend != ''}}"  src="{{imageToSend}}"  @click="onClickImage"></image>
+                <text if="{{imageToSend == ''}}"  @click="onClickImage">image</text>
+            </div>
+            <textarea @change="onChangeText" value="{{textToSend}}"></textarea>
+            <input class="send" @click="onClickSend" type="button" value="send" ></input>
 
       </div>
   </div>
@@ -27,6 +81,96 @@
           justify-content: center;
           align-items: center;
 
+          .toUserName{
+              background-color: #ffbc4d;
+              border-radius: 16px;
+              padding: 8px;
+              color: #ffffff;
+          }
+
+          list{
+
+              width: 100%;
+              height:100%;
+
+              .item-right{
+
+                  flex-direction: row;
+                  justify-content: flex-end;
+                  align-items: flex-end;
+
+              }
+
+              .msg{
+                  width: 80%;
+                  margin-top: 30px;
+
+                  .avatar{
+                      width: 64px;
+                      height :64px;
+                      margin: 8px;
+                      resize-mode : contain;
+                      border-radius: 32px;
+                  }
+
+
+                  .pop{
+                      width: 20px;
+                      height: 20px;
+                      border-radius: 10px;
+                      background-color: #00bcd4;
+                  }
+
+                  .pop-big{
+                      width: 24px;
+                      height: 24px;
+                      border-radius: 12px;
+                      background-color: #00bcd4;
+                  }
+
+                  .content{
+
+                      padding: 24px;
+                      font-size: 40px;
+                      border-radius: 16px;
+                      background-color: #00bcd4;
+                      color: #ffffff;
+                  }
+
+                  .content-image{
+                      width: 50%;
+                      border-radius: 16px;
+                      border-width: 3px;
+                      border-color: #00bcd4;
+                  }
+              }
+
+              .msg-date{
+                  width: 100%;
+                  justify-content: center;
+                  align-items: center;
+                  margin: 16px;
+
+                  text{
+                      padding: 16px;
+                      background-color: #eeeeee;
+                      border-radius: 16px;
+                      font-size: 32px;
+                      color: #333333;
+                  }
+              }
+
+              .msg-right{
+                  flex-direction: row;
+                  justify-content: flex-end;
+                  align-items: flex-end;
+                  width: 100%;
+
+
+              }
+
+          }
+
 
       }
 
@@ -34,22 +178,149 @@
         height: 10%;
 
 
+        .addImg{
+            width: 20%;
+            height: 100%;
+            background-color: #eeeeee;
+
+            text{
+                width: 100%;
+
+                text-align: center;
+            }
+
+            image{
+                resize-mode : stretch;
+            }
+        }
+
+        textarea{
+            width: 60%;
+            height: 100%;
+        }
+
+        .send{
+            width: 20%;
+            height: 100%;
+            background-color: #ffbc4d;
+            color: #ffffff;
+        }
+
       }
   }
 </style>
 
 <script>
+    import DateUtil from "../../Common/DateUtil"
+    import media from "@system.media"
+    import MessageApi from "../../Common/MessageApi"
+    import prompt from "@system.prompt"
 
     export default{
         protected:{
-          json : ""
+          re : {},
+          imageToSend : "",
+          textToSend :""
         },
         private :{
           TAG :"PmList"
-        },
-        onInit(){
+        }
+        ,onInit(){
           //TODO:test
-          console.info(this.TAG,"on Init")
+          this.re = JSON.parse(this.re)
+          var msl = this.re.body.pmList[0].msgList
+          MessageApi.init(this.$app)
+
+          for(let x in msl){
+
+              msl[x].date = DateUtil.convertTime(msl[x].time)
+              msl[x].showTime = x == 0 || this.re.body.pmList[0].msgList[x].time - this.re.body.pmList[0].msgList[x-1].time >120000
+
+          }
+           // console.info(this.TAG,"on Init"+JSON.stringify(this.re))
+
+        }
+        ,onClickImage(){
+
+            var that = this
+            var onPickImageSuccess = function (uri){
+                MessageApi.uploadPmFile(uri,
+                  function(re){
+                      that.imageToSend = re.body.attachment[0].urlName
+                  })
+            }
+            media.pickImage({
+              success: function (data) {
+                onPickImageSuccess(data.uri)
+              }
+            })
+        }
+        ,onChangeText(e){
+
+            this.textToSend = e.value
+        }
+        ,onClickSend(){
+
+
+            if(this.imageToSend != ""){
+
+                MessageApi.send(
+                  this.re.body.pmList[0].fromUid, //touid
+                  this.re.body.pmList[0].plid, //plid
+                  "image",
+                  this.imageToSend,
+                  function(re){
+
+                      this.imageToSend = ""
+                      this.onSendComplete()
+
+                  }.bind(this)
+
+                )
+
+            } else {
+
+                  MessageApi.send(
+                    this.re.body.pmList[0].fromUid, //touid
+                    this.re.body.pmList[0].plid, //plid
+                    "text",
+                    this.textToSend,
+                    function(re){
+                        this.textToSend  = ""
+                        this.onSendComplete()
+                    }.bind(this)
+
+                  )
+            }
+        }
+        ,onSendComplete(){
+
+            prompt.showToast({
+              message : "发送成功"
+            })
+
+
+            this.refresh()
+
+
+        }
+        ,refresh(){
+            MessageApi.fetchPmseMissionList(
+                this.re.body.pmList[0].fromUid,//fromUid
+                this.re.body.pmList[0].plid,//plid
+                this.re.body.pmList[0].plid,//pmid
+                function(re){
+                      this.re = re
+                      var msl = this.re.body.pmList[0].msgList
+
+                      for(let x in msl){
+
+                          msl[x].date = DateUtil.convertTime(msl[x].time)
+                          msl[x].showTime = x == 0 || this.re.body.pmList[0].msgList[x].time - this.re.body.pmList[0].msgList[x-1].time >120000
+
+                      }
+                }.bind(this)
+            )
         }
     }
 

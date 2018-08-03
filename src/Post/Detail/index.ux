@@ -26,21 +26,13 @@
 
             <block for="{{topic.content}}">
 
-              <block if="{{$item.type  == 0 }}">
-                <list-item type="topic-text" >
+                <list-item type="topic-text" if="{{$item.type  == 0 }}" >
                   <text class="content">{{$item.infor}}</text>
                 </list-item>
-              </block>
-
-              <block if="{{$item.type  == 1 }}">
-
-                <list-item type="topic-image" >
-                  <a class="content " href="{{$item.originalInfo}}">{{$item.originalInfo}}</a>
+                <list-item type="topic-image" if="{{$item.type  == 1 }}" >
+                  <image class="content " src="{{$item.originalInfo}}"></image>
                   <!-- alt="../../Common/logo.png"/> -->
                 </list-item>
-
-              </block>
-
 
             </block>
 
@@ -181,6 +173,7 @@
                 width: 64px;
                 height :64px;
                 margin: 8px;
+                border-radius: 32px;
             }
 
 

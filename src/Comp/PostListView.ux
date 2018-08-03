@@ -90,6 +90,7 @@
           width: 64px;
           height :64px;
           margin: 8px;
+          border-radius: 32px;
       }
 
 

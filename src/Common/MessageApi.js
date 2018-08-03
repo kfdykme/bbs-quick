@@ -98,7 +98,10 @@ function fetchMessagePmseMission(success,pageSize = 100, page){
 /**
  *fetchPmseMissionList() 获取与某个用户之间的消息记录
  *
- *
+ * @param <Integer> fromUid
+ * @param <Integer> plid
+ * @param <Integer> pmid
+ * @param <function> success
  */
  function fetchPmseMissionList(fromUid,plid,pmid,success){
 
@@ -131,11 +134,102 @@ function fetchMessagePmseMission(success,pageSize = 100, page){
      success)
  }
 
+
+ /**
+  *fetchPmseMissionList() 获取与某个用户之间的消息记录
+  *
+  * @param <Integer> fromUid
+  * @param <Integer> plid
+  * @param <Integer> pmid
+  * @param <function> success
+  */
+function uploadPmFile(fileUri,success){
+
+
+      Api.upload(
+            {
+              files :[
+              {
+                uri : fileUri,
+                name: "uploadFile[]",
+                filename : fileUri.substring(fileUri.length-5)
+              }
+              ],
+              data :[
+                {
+                  name :'accessToken',
+                  value : UserCache.token()
+                },
+                {
+                  name : 'accessSecret',
+                  value : UserCache.secret()
+                },
+                {
+                  name : 'sdkVersion',
+                  value : Api.sdkVersion
+                },
+                {
+                  name : 'apphash',
+                  value : UserCache.appHash()
+                },
+                {
+                  name : 'module',
+                  value : 'pm'
+                },
+                {
+                  name : 'type',
+                  value : 'image'
+                }]
+          },success
+      )
+
+  }
+
+
+ /**
+  *fetchPmseMissionList() 获取与某个用户之间的消息记录
+  *
+  * @param <Integer> touid
+  * @param <Integer> pid
+  * @param <string> type
+  * @param <string> content
+  * @param <function> success
+  */
+function send(touid,pid,type,content,success){
+    const url = "http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmadmin"
+
+
+    Api.fetch(
+      url,
+      {
+
+        json : JSON.stringify({
+          'action' : "send",
+          'toUid' : touid,
+          'plid' : pid,
+          'pmid' : pid,
+          'msg' : {
+              'type' : type,
+              'content' : content
+          }
+        }),
+        accessToken :UserCache.token(),
+        accessSecret :UserCache.secret(),
+        sdkVersion : Api.sdkVersion,
+        appHash :UserCache.appHash()
+      },
+      success
+    )
+}
+
+
 export default{
   fetchMessagePost,
   fetchMessageAtMe,
   fetchMessageSystem,
   fetchMessagePmseMission,
   fetchPmseMissionList,
+  uploadPmFile,
+  send,
   init
 }

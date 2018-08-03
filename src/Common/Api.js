@@ -1,6 +1,39 @@
 import prompt from "@system.prompt"
 import fetchModule from "@system.fetch"
+import request from '@system.request'
 
+ /**
+  *upload() 获取与某个用户之间的消息记录
+  *
+  * @param <Object> o : { files : { url : "",filename:"*.*"},name:"uploadFile[]"},data : { ...}}
+  * @param <function> success
+  */
+
+
+function upload(o,success){
+
+
+    console.info(JSON.stringify(o));
+    var that = this
+    request.upload({
+        url : "http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=forum/sendattachmentex",
+        files : o.files,
+        data : o.data,
+        method:"POST",
+        success : function(data){
+            const re = JSON.parse(data.data)
+            if(re.rs == 0)
+            {
+              that.onSuccessError(re)
+            } else {
+              success(re)
+            }
+        },
+        fail: that.onFetchFail
+    })
+
+
+}
 
 function onFetchFail(data,code){
   console.error("发生了错误: "+code +"\n"+data);
@@ -10,6 +43,7 @@ function onFetchFail(data,code){
 }
 
 function onSuccessError(re){
+  console.info(JSON.stringify(re));
   prompt.showToast({
     message :re.errcode
   })
@@ -17,6 +51,7 @@ function onSuccessError(re){
 
 function fetch(url,data,suc){
 
+    var that = this
     fetchModule.fetch({
       url : url,
       method : "POST",
@@ -25,13 +60,13 @@ function fetch(url,data,suc){
         const re = JSON.parse(data.data)
 
         if(re.rs == 0)
-            this.onSuccessError(re)
+            that.onSuccessError(re)
         else if (re.rs == 1)
             suc(re)
 
       },
       fail : function(data,code){
-        this.onFetchFail(data,code)
+        that.onFetchFail(data,code)
       }
     })
 }
@@ -49,5 +84,6 @@ export default {
   sdkVersion : "2.5.0.0",
   fetch,
   onFetchFail,
-  onSuccessError
+  onSuccessError,
+  upload
 }

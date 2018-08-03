@@ -130,7 +130,7 @@ function refresh(tag){
     var success = function(re){
 
         //
-        console.info("data",JSON.stringify(re));
+        // console.info("data",JSON.stringify(re));
         var list = that.convertData(re,tag)
 
         that.cache[tag].totalNum = re.total_num
@@ -185,7 +185,7 @@ function onClickEvent(type,arg){
           router.push({
             uri :"Message/PmList",
             params :{
-              json :JSON.stringify(re)
+              re :re
             }
           })
         }
@@ -208,7 +208,7 @@ function convertData(re,tag){
         for (let x in list){
           var l = list[x]
           l.replied_date = DateUtil.convertTime(l.lastDateline)
-          l.topic_content = l.lastSummary
+          l.topic_content = l.lastSummary == "" ? "[image]" : l.lastSummary
           l.icon = l.toUserAvatar
         }
 
