@@ -234,11 +234,11 @@
     },
     clickUser(){
       prompt.showDialog({
-        title: "Out..",
-        message : '吗???',
+        title: "要退出了吗..",
+        message : '吗吗吗???',
         buttons: [
           {
-            text :'Logout',
+            text :'登出',
             color :'#ffbc4d'
           },
           // {

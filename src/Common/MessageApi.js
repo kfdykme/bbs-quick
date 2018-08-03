@@ -21,6 +21,7 @@ function fetchMessagePost(success,pageSize = 100,page){
   Api.fetch(
        Api.BASE_URL + "app/web/index.php?r=message/notifylistex&type=post&pageSize="+pageSize,
       {
+          page : page,
           accessToken :UserCache.token(),
           accessSecret :UserCache.secret(),
           sdkVersion : Api.sdkVersion,
@@ -42,6 +43,7 @@ function fetchMessageAtMe(success,pageSize = 100,page){
     Api.fetch(
       Api.BASE_URL + "app/web/index.php?r=message/notifylistex&type=at&pageSize="+pageSize,
       {
+          page : page,
           accessToken :UserCache.token(),
           accessSecret :UserCache.secret(),
           sdkVersion : Api.sdkVersion,
@@ -63,6 +65,7 @@ function fetchMessageSystem(success,pageSize = 100,page){
       Api.fetch(
         Api.BASE_URL + "app/web/index.php?r=message/notifylistex&type=system&pageSize="+pageSize,
         {
+            page : page,
             accessToken :UserCache.token(),
             accessSecret :UserCache.secret(),
             sdkVersion : Api.sdkVersion,

@@ -1,8 +1,8 @@
 
 <template >
   <div class="loading-progress-view" >
-    <text class="{{isNormal ? 'normal' : ''}}"  >{{msg}}</text>
     <progress type="circular" show="{{isLoading}}"></progress>
+    <text class="{{isNormal ? 'normal' : ''}}"  >{{msg}}</text>
   </div>
 
 </template>
@@ -13,7 +13,10 @@
   .loading-progress-view{
 
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
+      height: 400px;
 
       progress{
         color : #ffbc4d;
@@ -23,11 +26,15 @@
 
 
       text{
+        width: 100%;
         font-size: 60px;
+        text-align: center;
+        color: #333333;
+        border-radius: 18px;
       }
 
       .normal{
-        height : 400px;
+        /* height : 400px; */
       }
   }
 
@@ -46,7 +53,7 @@ export default{
   ],
   data:{
     msg : "正在加载...",
-    isLoading : false,
+    isLoading : true,
     isNormal:true
 
   },
@@ -83,7 +90,7 @@ export default{
         if(e.detail.tag == this.tag){
 
               console.log("render_normal " + JSON.stringify(e));
-              this.msg = "继续下拉以刷新"
+              this.msg = "继续下拉加载更多"
               this.isLoading = false;
               this.isNormal = true;
 

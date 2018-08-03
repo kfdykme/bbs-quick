@@ -102,7 +102,7 @@
 
             </block>
             <list-item type="loadMore" class="load-more" >
-              <loading-progress-view ></loading-progress-view>
+              <loading-progress-view tag="{{TAG}}"></loading-progress-view>
             </list-item>
           </list>
         </refresh>
@@ -400,7 +400,8 @@
       showCommentBar : false,
       commentBtnText : "评论",
       commentReplyId : 0,
-      isReplying :false
+      isReplying :false,
+      TAG :"PostDetail"
 
     },
     onInit(){
@@ -535,9 +536,10 @@
       this.loadMoreComplete()
     },
     renderError(msg){
-      prompt.showToast({
-        message : msg
-      })
+        this.$broadcast("render_no_more", { tag : this.TAG })
+        prompt.showToast({
+          message : msg
+        })
     },
     refresh(){
       this.fetchTopic()
@@ -554,10 +556,6 @@
     loadMoreComplete(){
       this.canLoadMore = true
     },
-    renderProgress(tag){
-
-        this.$broadcast(tag, { params: 'aaa' })
-    },
     fetchTopic(){
 
         PostApi.fetchPostDetail(1,this.topicid,
@@ -567,9 +565,6 @@
             if(json.rs == 1){
               this.renderTopic(json)
 
-              if(json.has_next == 0){
-                this.renderProgress("has_not_next")
-              }
 
 
             } else {
@@ -603,10 +598,6 @@
                 console.log(data);
               })
 
-    },
-    goTop(e){
-      console.log(JSON.stringify(e));
-      //e.target.scrollTo(1)
     },
     reqRefresh(e){
       this.isRefreshing = e.refreshing

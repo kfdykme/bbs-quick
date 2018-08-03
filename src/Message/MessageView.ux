@@ -196,6 +196,7 @@
             mView.renderData = this.renderData.bind(this)
             mView.renderMoreData = this.renderMoreData.bind(this)
             mView.renderNoMore = this.renderNoMore.bind(this)
+            mView.renderLoading = this.renderLoading.bind(this)
             mView.context = this
             return mView
         }
@@ -240,14 +241,14 @@
 
               m.isRefreshing =e.refreshing
 
+
               presenter.refresh(m.tag)
 
 
-              this.$broadcast("render_loading",{ tag :m.tag})
           }
           ,onScrollBottom(m){
+
               presenter.loadMore(m.tag)
-              this.$broadcast("render_loading",{ tag :m.tag})
 
           }
           ,onRenderComplete(tag){
@@ -256,6 +257,10 @@
           ,onRenderMoreComplete(t){
               this.$broadcast("render_normal",{ tag :t})
 
+          }
+          ,renderLoading(tag){
+
+              this.$broadcast("render_loading",{ tag :tag})
           }
           ,renderData(list,tag){
 
@@ -277,6 +282,7 @@
                   })
                 }
                 this.$broadcast("render_normal",{ tag :t})
+                presenter.onRefreshComplete(t)
           }
           ,renderMoreData(list,tag){
 
@@ -303,7 +309,6 @@
           }
           ,onChangeMessage(evt){
               this.messageIndex = evt.index
-              console.log(this.messageIndex);
           }
 
         }

@@ -70,6 +70,8 @@ function loadMore(tag){
 
     if(this.cache[tag].canLoadMore){
 
+        this.view.renderLoading(tag)
+
         if(this.cache[tag].totalNum <= this.cache[tag].dataLength){
             this.view.renderNoMore("没有更多了",tag)
             this.cache[tag].canLoadMore = false
@@ -85,9 +87,14 @@ function loadMore(tag){
         var success = function(re){
 
 
+            if(tag == 0 && that.cache[tag].page == 2)
+                console.info("re  ",JSON.stringify(re))
+            else
+                console.info("none")
 
             var list = that.convertData(re,tag)
 
+            that.cache[tag].hax_next = re.has_next
             that.cache[tag].totalNum = re.total_num
             that.cache[tag].dataLength += list.length
 
@@ -130,11 +137,12 @@ function refresh(tag){
     var success = function(re){
 
         //
-        // console.info("data",JSON.stringify(re));
+
         var list = that.convertData(re,tag)
 
+        that.cache[tag].hax_next = re.has_next
         that.cache[tag].totalNum = re.total_num
-        that.cache[tag].dataLength += list.length
+        that.cache[tag].dataLength = list.length
         that.cache[tag].canLoadMore = true
 
         if(list != null && list.length != 0)
@@ -199,11 +207,22 @@ function onClickEvent(type,arg){
 }
 
 
+function onRefreshComplete(tag){
+
+      if(this.cache[tag].hax_next == 0){
+          this.cache[tag].canLoadMore = false
+          this.view.renderNoMore("没有更多了",tag)
+
+      }
+}
+
 function convertData(re,tag){
 
   var list = null
   switch (tag) {
     case this.TAG.pm:
+        re.has_next = re.body.hasNext
+        re.totalNum = re.body.count
         list = re.body.list
         for (let x in list){
           var l = list[x]
@@ -215,7 +234,6 @@ function convertData(re,tag){
         break;
 
     case this.TAG.system:
-        console.log(JSON.stringify(re) + tag);
         list = re.body.data
 
         for (let x in list){
@@ -234,6 +252,7 @@ function convertData(re,tag){
 
         for (let x in list){
           var l = list[x]
+          if(l.topic_contetn == "") l.topic_content = l.content
           l.replied_date = DateUtil.convertTime(l.replied_date)
         }
         break;
@@ -252,5 +271,6 @@ export default{
   view,
   cache,
   convertData,
+  onRefreshComplete,
   TAG
 }
