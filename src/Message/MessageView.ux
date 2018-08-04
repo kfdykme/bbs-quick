@@ -31,8 +31,10 @@
                                                 <text class="user-nike-name">{{$item.user_name}}</text>
                                                 <text class="date" >{{$item.replied_date}}</text>
 
-                                                <text class="topic-content" @click="onClickEvent('topic',$item.topic_id)" if="{{m.tag != 2}}">{{$item.topic_content}}</text>
-                                                <text class="topic-content" @click="onClickEvent('pm',$item)" if="{{m.tag == 2}}">{{$item.topic_content}}</text>
+                                                <text  if="{{$item.topic_content != null && m.tag == 3}}">{{$item.topic_content}}</text>
+                                                <text class="topic-content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag ==1}}">{{$item.topic_content}}</text>
+                                                <text class="topic-content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag ==0}}">{{$item.topic_subject}}</text>
+                                                <text class="reply-content" @click="onClickEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 2}}">{{$item.topic_content}}</text>
                                               </div>
 
                                             </list-item>
@@ -139,19 +141,17 @@
                                 }
 
                                 .date{
-                                  font-size: 30px;
-                                  color: #ffbc4d;
+                                      font-size: 30px;
+                                      color: #ffbc4d;
                                 }
 
                                 .topic-content{
-                                      text{
 
-                                            background-color: #eeeeee;
-                                            margin: 16px;
-                                            padding: 8px;
-                                            color: #333333;
-                                            border-radius: 4px;
-                                      }
+                                      background-color: #eeeeee;
+                                      margin: 16px;
+                                      padding: 8px;
+                                      color: #333333;
+                                      border-radius: 4px;
                                 }
                           }
 
@@ -290,9 +290,6 @@
                 this.onRenderMoreComplete(tag)
           }
           ,renderNoMore(msg,t){
-                prompt.showToast({
-                  message : msg
-                })
                 this.$broadcast("render_no_more", { tag :t})
           }
           ,view

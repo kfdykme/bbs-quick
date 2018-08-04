@@ -24,13 +24,13 @@
             </list-item>
 
 
-            <block for="{{topic.content}}">
+            <block for="t in topic.content">
 
-                <list-item type="topic-text" if="{{$item.type  == 0 }}" >
-                  <text class="content">{{$item.infor}}</text>
+                <list-item type="topic-text" if="{{t.type  == 0 }}" >
+                  <text class="content">{{t.infor}}</text>
                 </list-item>
-                <list-item type="topic-image" if="{{$item.type  == 1 }}" >
-                  <image class="content " src="{{$item.originalInfo}}"></image>
+                <list-item type="topic-image" if="{{showImage && t.type  == 1 }}" >
+                  <image class="content-image" src="{{t.originalInfo}}"></image>
                   <!-- alt="../../Common/logo.png"/> -->
                 </list-item>
 
@@ -163,12 +163,6 @@
 
             height :80%;
 
-
-            image{
-              resize-mode : contain;
-            }
-
-
             .avatar{
                 width: 64px;
                 height :64px;
@@ -195,7 +189,15 @@
 
 
             .content{
-              margin-left: 72px;
+                margin-left: 72px;
+            }
+
+            .content-image{
+                width:60%;
+                margin: 8px;
+                margin-left: 72px;
+
+                resize-mode : contain;
             }
 
             .reply-quote{
@@ -401,6 +403,7 @@
       commentBtnText : "评论",
       commentReplyId : 0,
       isReplying :false,
+      showImage : true,
       TAG :"PostDetail"
 
     },
@@ -450,7 +453,7 @@
 
 
 
-        if(isReplying){
+        if(this.isReplying){
               this.isReplying = true
               PostApi.replyComment(this.commentContent,this.topic.topic_id,this.commentReplyId,
                 function(data){
@@ -532,7 +535,7 @@
       // prompt.showToast({
       //   message : "加载新的回复"
       // })
-
+      this.showImage = true;
       this.loadMoreComplete()
     },
     renderError(msg){

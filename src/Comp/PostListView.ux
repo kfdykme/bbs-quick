@@ -204,11 +204,7 @@ export default{
     }
 
   },
-  renderError(msg){
-    prompt.showToast({
-        message: msg
-    })
-
+  renderError(msg){ 
     this.$broadcast("render_no_more", { tag : this.tag})
   },
   loadMoreComplete(){

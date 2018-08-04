@@ -107,7 +107,7 @@
 
              UserCache.init(app)
 
-             router.push({
+             router.replace({
                 uri: "Main"
             })
           }
@@ -155,7 +155,7 @@
 
              UserCache.init(app)
 
-             router.push({
+             router.replace({
                 uri: "Main"
              })
           } else{

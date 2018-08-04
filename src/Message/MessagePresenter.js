@@ -245,6 +245,13 @@ function convertData(re,tag){
         break;
 
     case this.TAG.post:
+        list = re.body.data
+        for (let x in list){
+            var l = list[x]
+            if(l.topic_contetn == null) l.topic_content = l.content
+            l.replied_date = DateUtil.convertTime(l.replied_date)
+        }
+        break;
     case this.TAG.atme:
     default:
 
@@ -252,7 +259,6 @@ function convertData(re,tag){
 
         for (let x in list){
           var l = list[x]
-          if(l.topic_contetn == "") l.topic_content = l.content
           l.replied_date = DateUtil.convertTime(l.replied_date)
         }
         break;

@@ -75,7 +75,7 @@
 
       .pm-list{
 
-          height: 90%;
+          height: 93%;
           width: 100%;
           flex-direction: column;
           justify-content: center;
@@ -175,7 +175,7 @@
       }
 
       .reply-view{
-        height: 10%;
+        height: 7%;
 
 
         .addImg{
