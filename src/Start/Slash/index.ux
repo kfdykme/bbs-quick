@@ -1,0 +1,16 @@
+<template>
+    <div class="slash-page">
+        <div class="pic-container">
+            <image src="{{imageUrl}}" style="resize-mode : cover"></image>
+        </div>
+
+        <div class="bottom-bar">
+              <text>清水河畔</text>
+        </div>
+    </div>
+</template>
+
+<style lang="less" src="./slash.css">
+</style>
+<script src="./slash.js">
+</script>

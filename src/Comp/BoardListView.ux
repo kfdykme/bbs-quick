@@ -16,8 +16,8 @@
                 <list-item type="board-name">
 
 
-                       <text class="board-name" onclick="onClickBoard" boardId="{{b.board_id}}">{{b.board_name}} </text>
-                       <text class="board-post-date" >{{b.last_posts_date}} </text>
+                       <text class="board-name" onclick="onClickBoard(b.board_id)" boardId="{{b.board_id}}">{{b.board_name}} </text>
+                       <text class="board-post-date" onclick="onClickBoard(b.board_id)" >{{b.last_posts_date}} </text>
 
                 </list-item>
             </block>
@@ -51,38 +51,41 @@
         }
 
         .category{
-          flex-direction: row;
-          width: 100%;
 
 
-          margin-top: 20px;
-          margin-left: 16px;
-          padding-left: 8px;
-          .board-category-name{
+            flex-direction: row;
             width: 100%;
             margin-top: 20px;
-            margin-bottom: 20px;
-            color: #ffbc4d;
-            border-right-width: 2px;
-            border-bottom-width: 2px;
+            margin-left: 16px;
+            padding-left: 8px;
 
-            border-color: #ffbc4d;
 
-            margin-right: 16px;
-          }
+            .board-category-name{
+              width: 100%;
+              margin-top: 20px;
+              margin-bottom: 20px;
+              color: #ffbc4d;
+              font-size: 50px;
+              border-right-width: 2px;
+              border-bottom-width: 2px;
+              border-color: #ffbc4d;
+
+              margin-right: 16px;
+            }
 
         }
 
       .board-name{
-        margin: 24px;
-        margin-left: 40px;
-        font-size: 30px;
-        background-color: #00bcd4;
-        padding: 30px;
-        color: #ffffff;
-        border-radius: 10px;
-        border-width: 10px;
-        border-color: #00bcd4;
+
+          margin: 14px;
+          margin-left: 40px;
+          font-size: 40px;
+
+          padding: 10px;
+          color: #00bcd4;
+
+          border-left-width: 8px;
+          border-color: #00bcd4;
 
 
       }
@@ -147,10 +150,10 @@ export default{
   onShow(){
 
   },
-  onClickBoard(e){
-    const boardId = e.target.attr.boardid
+  onClickBoard(id){
+    const boardId = id//e.target.attr.boardid
     router.push({
-      uri : "Board",
+      uri : "Main/Board",
       params : {
         boardId : boardId
       }

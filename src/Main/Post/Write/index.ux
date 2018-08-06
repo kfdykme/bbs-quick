@@ -1,0 +1,61 @@
+<template>
+  <div class="write-page">
+
+    <div class="board-select-bar">
+        <div class="category">
+            <text>请选择分区</text>
+aaa
+            <select class="category-select"   @change="onChangeGategory" if="{{category.length != 0}}" >
+
+                    <option value="{{$item}}" for="category">{{$item.board_category_name}}</option>
+
+            </select>
+
+        </div>
+        <div class="board"  if="{{board.length != 0}}">
+              <text>请选择板块</text>
+
+              <select class="board-select" @change="onSelectBoard"  >
+
+                      <option selected="{{i == 0}}" value="{{b}}" for="(i,b) in board">{{b.board_name}}</option>
+
+              </select>
+
+        </div>
+        
+    </div>
+
+    <div class="write-content">
+
+        <div class="input input-header">
+                <input id="publish-title" @change="onChangeTitle"class="input-title" placeholder="请输入标题" type="text"  value="{{publishTitle}}"></input>
+
+                <input class="btn" type="button" value="发布" @click="onPublish" ></input>
+
+
+        </div>
+        <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容"></textarea>
+
+        <list class="input input-classifi" columns="2">
+                <list-item type="classi-text"  for="cl in classificationType_list">
+
+                      <text class="classi-text {{cl.classificationType_id == targetClass.classificationType_id ? 'active' : ''}}" @click="onClickClassification(cl)">{{cl.classificationType_name}}</text>
+
+                </list-item>
+        </list>
+
+    </div>
+
+  </div>
+
+</template>
+
+
+<style lang="less" src="./write.css">
+
+</style>
+
+<script src="./write.js">
+
+
+</script>

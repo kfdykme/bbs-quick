@@ -1,0 +1,25 @@
+<template>
+    <image src="{{src}}" style="resize-mode : contain"></image>
+
+</template>
+
+<style lang="less">
+
+    image{
+        background-color: #222222;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<script>
+
+
+    export default {
+        protected :{
+            src : ""
+        },
+        onInit(){
+        }
+    }
+
+</script>

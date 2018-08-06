@@ -1,0 +1,196 @@
+
+  .board-page{
+        flex-direction: column;
+
+
+
+
+        stack{
+          height: 100%;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: flex-end;
+
+        }
+
+        .page{
+
+              height: 100%;
+              width: 100%;
+              flex-direction: column;
+
+
+
+              .board-top-bar {
+                height: 100px;
+                width: 100%;
+                flex-direction: row;
+
+                      .foruminfo-title {
+                            height: 100%;
+                            width: 20%;
+
+
+                            .title {
+                              padding: 10px;
+                              color: #ffbc4d;
+                              border-right-width: 2px;
+                              border-color: #ffbc4d;
+                            }
+
+                            .active{
+                              color : #00bcd4;
+                              font-size: 40px;
+                              border-right-width: 0px;
+                            }
+
+
+                        }
+
+                    .child-boards{
+                          flex-direction: row;
+
+                          text {
+                            margin: 16px;
+                          }
+
+
+                          .active{
+                            color : #00bcd4;
+                            font-size: 40px;
+                            border-right-width: 0px;
+                          }
+
+                    }
+
+              }
+
+              .board-content {
+                    height: 100%;
+
+                    .tab-content{
+                          height: 100%;
+
+
+                          list{
+                              height: 100%;
+
+                              .board-name{
+                                width: 100%;
+                                text-align: right;
+                                font-size: 20px;
+                                text-align: right;
+                                color: #333333;
+                              }
+
+                              .header{
+                                flex-direction: row;
+                                margin-bottom: 16px;
+
+                                .avatar{
+                                    width: 64px;
+                                    height :64px;
+                                    margin: 8px;
+                                    border-radius: 32px;
+                                }
+
+
+                                div{
+                                  flex-direction: column;
+                                }
+
+                                .title{
+
+                                }
+
+                                .user-nike-name{
+                                  width: 70%;
+                                  color: #aabcd4;
+                                  font-size: 30px;
+                                }
+
+                                .date{
+                                  font-size: 30px;
+                                  color: #ffbc4d;
+                                }
+                          }
+
+
+
+                          .subject{
+                            padding: 8px;
+                            margin-left: 64px;
+                          }
+
+                          .hnr{
+                            width: 100%;
+                            flex-direction: row;
+                            align-items: flex-end;
+                            justify-content: flex-end;
+
+                            text{
+                              padding: 16px;
+                            }
+                            .hit{
+                              color :#00bcd4;
+                            }
+
+                            .replycount{
+                              color : #ffbcd4;
+                            }
+                          }
+
+                          .item-footer{
+                            height: 1px;
+                            width: 90%;
+                            background-color: #ffbc4d;
+                          }
+
+
+
+                        }
+                    }
+              }
+
+        }
+
+
+        .float-bar{
+              margin-bottom:148px;
+              margin-right: 16px;
+
+              .btn-action{
+                    flex-direction: row;
+                    margin-right :16px;
+
+                    background-color: #00bcd4;
+                    height: 40px;
+                    width: 40px;
+                    border-width: 40px;
+                    border-color: #00abc3;
+                    border-radius: 40px;
+
+                    text{
+                      color: #ffffff;
+                      flex-grow: 1;
+                      text-align: center;
+                    }
+
+                    .close-action-bar{
+                      background-color: #ffffff;
+                      height: 30px;
+                      width: 30px;
+                      border-width: 10px;
+
+                      border-color: #ffffff;
+                      border-radius: 15px;
+                    }
+              }
+
+              .active{
+                width: 200px;
+                height:80px;
+                border-width: 10px;
+              }
+        }
+  }

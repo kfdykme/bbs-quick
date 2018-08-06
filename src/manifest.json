@@ -1,10 +1,10 @@
 {
-  "package": "org.starstudio.bbs",
+  "package": "org.starstudio.quick.bbs",
   "name": "清水河畔",
-  "versionName": "1.0.0",
-  "versionCode": "1",
+  "versionName": "1.0.2",
+  "versionCode": "3",
   "minPlatformVersion": "101",
-  "icon": "/Common/ic_launcher.png",
+  "icon": "/Common/logo.png",
   "features": [
     { "name": "system.prompt" },
     { "name": "system.router" },
@@ -13,7 +13,10 @@
     {"name": "system.storage"},
     {"name": "system.webview"},
     {"name": "system.request"},
-    {"name": "system.media"}
+    {"name": "system.media"},
+    {"name": "system.file"},
+    {"name": "system.image"}
+
   ],
   "permissions": [
     { "origin": "*" }
@@ -22,24 +25,30 @@
     "logLevel": "debug"
   },
   "router": {
-    "entry": "Login",
+    "entry": "Start/Slash",
     "pages": {
-      "Login": {
+      "Start/Slash":{
+        "component" : "index"
+      },
+      "Start/Login": {
         "component": "index"
       },
       "Main": {
         "component": "index"
       },
-      "Post/Detail":{
+      "Main/Post/Detail":{
         "component": "index"
       },
-      "Board":{
+      "Main/Board":{
         "component": "index"
       },
-      "Post/Write":{
+      "Main/Post/Write":{
         "component" :"index"
       },
-      "Message/PmList":{
+      "Main/Message/PmList":{
+        "component" :"index"
+      }
+      ,"Other/ImageView" :{
         "component" :"index"
       }
     }
@@ -50,20 +59,26 @@
     "menu": true,
     "titleBar" :false,
     "pages": {
-      "Login": {
+      "Start/Login": {
+      },
+      "Start/Slash":{
+
       },
       "Main": {
       },
-      "Post/Detail":{
+      "Main/Post/Detail":{
 
       },
-      "Post/Write":{
+      "Main/Post/Write":{
 
       },
-      "Board":{
+      "Main/Board":{
 
       },
-      "Message/PmList":{
+      "Main/Message/PmList":{
+
+      }
+      ,"Other/Image":{
 
       }
 

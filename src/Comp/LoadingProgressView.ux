@@ -19,7 +19,7 @@
       height: 400px;
 
       progress{
-        color : #ffbc4d;
+        color : #dddddd;
         width: 120px;
         height: 120px;
       }
@@ -29,7 +29,7 @@
         width: 100%;
         font-size: 60px;
         text-align: center;
-        color: #333333;
+        color: #dddddd;
         border-radius: 18px;
       }
 
@@ -42,10 +42,6 @@
 
 
 <script>
-import FormApi from '../Common/FormApi'
-import prompt from '@system.prompt'
-import router from '@system.router'
-import DateUtil from  '../Common/DateUtil'
 
 export default{
   props:[

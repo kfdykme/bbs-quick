@@ -1,0 +1,74 @@
+<template>
+  <div class="pm-list-page">
+      <div class="pm-list">
+          <text class="toUserName" >{{re.body.pmList[0].name}}</text>
+          <list>
+                <block for="(i,pm) in re.body.pmList[0].msgList" if="{{re}}">
+
+
+                    <!-- 如果不是由当前用户发送的消息，就从左开始显示 -->
+                    <block if="pm.sender != re.body.userInfo.uid">
+                          <list-item type="msg-time" if="{{pm.showTime }}">
+                                <div class="msg-date">
+
+                                    <text>{{pm.date}}</text>
+
+                                </div>
+                          </list-item>
+                          <list-item type="msg-left">
+                                <div class="msg">
+                                      <image  class="avatar" src="{{re.body.pmList[0].avatar}}"></image>
+                                      <div class="pop"></div>
+                                      <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                      <image onclick="onClickImage2(pm.content)"  class="content" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
+                                </div>
+                          </list-item>
+                    </block>
+
+                    <!-- 反之从右开始显示 -->
+                    <block if="pm.sender == re.body.userInfo.uid">
+                            <list-item type="msg-time" if="{{pm.showTime }}">
+                                  <div class="msg-date">
+
+                                      <text>{{pm.date}}</text>
+
+                                  </div>
+                            </list-item>
+                            <list-item class="item-right"type="msg-right">
+                                  <div class="msg msg-right" >
+
+                                      <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                      <image onclick="onClickImage2(pm.content)" class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
+                                      <div class="pop-big"></div>
+                                      <image  class="avatar"  src="{{re.body.userInfo.avatar}}"></image>
+
+                                  </div>
+                            </list-item>
+                    </block>
+
+
+                </block>
+          </list>
+      </div>
+      <div class="reply-view">
+
+            <div class="addImg"  @click="onClickImage">
+                <image if="{{imageToSend != ''}}"  src="{{imageToSend}}"  @click="onClickImage"></image>
+                <text if="{{imageToSend == ''}}"  @click="onClickImage">+</text>
+            </div>
+            <textarea @change="onChangeText" value="{{textToSend}}"></textarea>
+            <input class="send" @click="onClickSend" type="button" value="send" ></input>
+
+      </div>
+  </div>
+</template>
+
+
+<style lang="less" src="./pmlist.css">
+
+</style>
+
+<script src="./pmlist.js">
+
+
+</script>

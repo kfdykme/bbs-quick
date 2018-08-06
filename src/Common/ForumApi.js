@@ -1,6 +1,5 @@
 import Api from "./Api"
-import fetch from "@system.fetch"
-import storage from "@system.storage"
+
 import UserCache from './UserCache'
 
 
@@ -66,43 +65,42 @@ function getPostByTag(tag,page,suc,fai){
 // 	"sourceWebUrl": "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1727663",
 // 	"verify": []
 // }
-function getNewReply(page,suc,fai){
+
+/**
+ * getNewReply
+ * @param <Integer> page
+ * @param <funtciont> success
+ */
+function getNewReply(page,suc){
   let url = Api.BASE_URL + "app/web/index.php?r=forum/topiclist&pageSize=10"
+ 
 
-
-  fetch.fetch({
-    url : url,
-    method : "POST",
-    data : {
-      page : page,
-      apphash :UserCache.appHash(),
-      accessSecret : UserCache.secret(),
-      accessToken : UserCache.token()
-    },
-    success: suc,
-    fail: fai
-  })
-
-
+  Api.fetch(
+      url,
+      {
+        page : page,
+        apphash :UserCache.appHash(),
+        accessSecret : UserCache.secret(),
+        accessToken : UserCache.token()
+      },
+      suc
+  )
 
 }
 
-function getTodayHot(page,suc,fai){
+function getTodayHot(page,suc){
   let url = Api.BASE_URL + "app/web/index.php?r=portal/newslist&moduleId=2"
 
-
-  fetch.fetch({
-    url : url,
-    method : "POST",
-    data : {
-      page : page,
-      apphash :UserCache.appHash(),
-      accessSecret : UserCache.secret(),
-      accessToken : UserCache.token()
-    },
-    success: suc,
-    fail: fai
-  })
+    Api.fetch(
+        url,
+        {
+          page : page,
+          apphash :UserCache.appHash(),
+          accessSecret : UserCache.secret(),
+          accessToken : UserCache.token()
+        },
+        suc
+    )
 
 }
 
@@ -111,20 +109,17 @@ function getNewPublish(page,suc,fai){
   let url = Api.BASE_URL +"app/web/index.php?r=forum/topiclist&pageSize=10"
 
 
-  fetch.fetch({
-    url : url,
-    method : "POST",
-    data : {
-      page : page,
-      apphash :UserCache.appHash(),
-      accessSecret : UserCache.secret(),
-      accessToken : UserCache.token(),
-      sortby : "new"
-    },
-    success: suc,
-    fail: fai
-  })
-
+    Api.fetch(
+        url,
+        {
+          sortby : "new",
+          page : page,
+          apphash :UserCache.appHash(),
+          accessSecret : UserCache.secret(),
+          accessToken : UserCache.token()
+        },
+        suc
+    )
 }
 
 export default{

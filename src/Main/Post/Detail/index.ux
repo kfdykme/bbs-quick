@@ -1,0 +1,146 @@
+<import name="loading-progress-view" src="../../../Comp/LoadingProgressView"></import>
+
+<template>
+
+  <div class="post-page">
+    <stack>
+
+      <div class="post-content">
+        <text class="title">{{topic.title}}</text>
+
+        <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
+          <list @scrollbottom="onScrollBottom">
+
+
+            <list-item type="topic-header">
+              <image class="avatar" src="{{topic.icon}}" />
+
+              <div class="header-text">
+
+                <text class="name">{{topic.user_nick_name}}</text>
+                <text class="date">{{topic.create_date}}</text>
+              </div>
+            </list-item>
+
+
+            <block for="t in topic.content">
+
+                <list-item type="topic-text" if="{{t.type  == 0 }}" >
+                  <text class="content">{{t.infor}}</text>
+                </list-item>
+                <list-item type="topic-image" if="{{showImage && t.type  == 1 }}" >
+                  <image onclick="onClickImage(t.originalInfo)" class="content-image" src="{{t.originalInfo}}"></image>
+                </list-item>
+
+            </block>
+
+            <list-item type="topic-footer" show="{{topic.content.length != 0}}">
+              <text class="topic-footer"></text>
+            </list-item>
+
+
+
+            <block for="(index,re) in list">
+
+
+              <list-item type="reply-header">
+                <image class="avatar" src="{{re.icon}}"/>
+
+                <div class="header-text">
+
+                  <text class="name">{{re.reply_name}}</text>
+                  <text class="date">{{re.posts_date}}</text>
+                </div>
+              </list-item>
+
+              <block if="{{re.quote_content != ''}}">
+                <list-item type="reply-quote">
+                  <div class="reply-quote content">
+                    <text>{{re.quote_content}}</text>
+                  </div>
+                </list-item>
+              </block>
+
+              <block for="{{re.reply_content}}">
+
+                <list-item type="reply-text" if="{{$item.type  == 0 }}">
+                  <text class="content">{{$item.infor}}</text>
+                </list-item>
+                <list-item type="reply-image" if="{{$item.type  == 1 }}">
+                  <image onclick="onClickImage($item.originalInfo)" class="content"  src="{{$item.originalInfo}}"/>
+                </list-item>
+                <list-item type="image-type4" if="{{$item.type  == 4 }}">
+                  <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
+                </list-item>
+              </block>
+
+
+
+              <list-item type="reply-footer">
+                <div class="reply-footer content">
+                  <div class="reply-action">
+
+                        <div  class="btn-action {{list[index].showAct != null && list[index].showAct ? 'active' : '' }}" @click="onClickReplyAction(index)">
+                            <text  @click="replyComment(index)">reply</text>
+                            <div  class="close-action-bar" show="{{re.showAct}}"></div>
+                        </div>
+
+                  </div>
+                  <div class="reply-exinfo">
+
+                    <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
+                    <text class="reply-position">#{{re.position}}</text>
+                  </div>
+
+                  <text class="line"></text>
+                </div>
+              </list-item>
+
+
+
+            </block>
+            <list-item type="loadMore" class="load-more" >
+              <loading-progress-view tag="{{TAG}}"></loading-progress-view>
+            </list-item>
+          </list>
+        </refresh>
+
+      </div>
+
+      <div class="post-comment">
+
+        <div  show="{{!showCommentBar}}"  class="btn-show" >
+          <text @click="onChangeCommentBar">{{commentBtnText}}</text>
+        </div>
+
+
+      </div>
+
+
+      <div class="post-input">
+
+        <div show="{{showCommentBar}}" class="post-comment-input">
+          <textarea id="comment-textarea"   class="comment-content" @change="onChangeCommentContent"  placeholder="说点什么吧." value="{{commentContent}}"> </textarea>
+          <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment">
+
+        </div>
+      </div>
+
+    </stack>
+
+
+  </div>
+</template>
+
+
+
+
+<style lang="less" src="./detail.css">
+
+
+</style>
+
+
+<script src="./detail.js">
+
+</script>

@@ -8,8 +8,6 @@ import request from '@system.request'
   * @param <Object> o : { files : { url : "",filename:"*.*"},name:"uploadFile[]"},data : { ...}}
   * @param <function> success
   */
-
-
 function upload(o,success){
 
 
@@ -35,6 +33,8 @@ function upload(o,success){
 
 }
 
+
+
 function onFetchFail(data,code){
   console.error("发生了错误: "+code +"\n"+data);
   prompt.showToast({
@@ -49,6 +49,15 @@ function onSuccessError(re){
   })
 }
 
+
+
+ /**
+  * fetch POST网络请求
+  *
+  * @param <string> url 请求地址
+  * @param <Object> data post的表格数据
+  * @param <function> success(re) 请求成功后的回调
+  */
 function fetch(url,data,suc){
 
     var that = this

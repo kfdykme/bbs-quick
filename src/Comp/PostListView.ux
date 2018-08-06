@@ -143,6 +143,7 @@
       height: 1px;
       width: 90%;
       background-color: #ffbc4d;
+      margin: 16px;
     }
 
 
@@ -153,7 +154,7 @@
 </style>
 
 <script>
-import FormApi from '../Common/FormApi'
+import ForumApi from '../Common/ForumApi'
 import prompt from '@system.prompt'
 import router from '@system.router'
 import DateUtil from  '../Common/DateUtil'
@@ -204,7 +205,7 @@ export default{
     }
 
   },
-  renderError(msg){ 
+  renderError(msg){
     this.$broadcast("render_no_more", { tag : this.tag})
   },
   loadMoreComplete(){
@@ -225,9 +226,9 @@ export default{
   },
   fetchPosts(tag,page){
     // console.log("fetpost page : "+page);
-    FormApi.getPostByTag(tag,page,
-      function (data){
-        const re = JSON.parse(data.data)
+    ForumApi.getPostByTag(tag,page,
+      function (re){
+
 
         let x
         for(x in re.list){
@@ -250,10 +251,8 @@ export default{
           return
         }
 
-      }.bind(this),
-      function(data,code){
-        //this.refreshComplete();
-      })
+      }.bind(this)
+    )
   },
   loadMore(){
     if(this.canLoadMore){
@@ -269,7 +268,7 @@ export default{
     // console.log("click : " + a.target.attr.topicid);
 
     router.push({
-      uri : 'Post/Detail',
+      uri : 'Main/Post/Detail',
       params : {
         topicid : a.target.attr.topicid
       }

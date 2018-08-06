@@ -1,5 +1,5 @@
-import MessageApi from "../Common/MessageApi"
-import DateUtil from "../Common/DateUtil"
+import MessageApi from "../../Common/MessageApi"
+import DateUtil from "../../Common/DateUtil"
 import router from '@system.router'
 
 //TODO:有时候为了测试方便直接在presenter内部使用prompt
@@ -177,7 +177,7 @@ function onClickEvent(type,arg){
 
         console.log("id : "+topicId);
         router.push({
-          uri : 'Post/Detail',
+          uri : 'Main/Post/Detail',
           params : {
             topicid : topicId
           }
@@ -191,7 +191,7 @@ function onClickEvent(type,arg){
         var success = function(re){
 
           router.push({
-            uri :"Message/PmList",
+            uri :"Main/Message/PmList",
             params :{
               re :re
             }

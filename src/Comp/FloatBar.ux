@@ -1,0 +1,81 @@
+<template>
+
+                <div class="float-bar">
+                  <div  class="btn-action {{deFloatBar ? 'active' : '' }}" @click="onClickFloatBar">
+                      <text  @click="onClickNew" show="{{deFloatBar}}">发表</text>
+                      <text  id="icon" show="{{!deFloatBar}}">+</text>
+                      <div  class="close-action-bar" show="{{deFloatBar}}"></div>
+                  </div>
+                </div>
+</template>
+
+
+<style lang="less">
+
+      .float-bar{
+            margin-bottom:148px;
+            margin-right: 16px;
+
+            .btn-action{
+                  flex-direction: row;
+                  margin-right :16px;
+
+                  background-color: #00cde5;
+                  height: 80px;
+                  width: 80px;
+                  border-width: 8px;
+                  border-color: #ffffff;
+                  border-radius: 40px;
+
+                  text{
+                    color: #ffffff;
+                    flex-grow: 1;
+                    text-align: center;
+                  }
+
+                  #icon{
+                      font-size: 40px;
+                  }
+
+                  .close-action-bar{
+                    background-color: #ffffff;
+                    height: 30px;
+                    width: 30px;
+                    border-width: 10px;
+
+                    border-color: #ffffff;
+                    border-radius: 15px;
+                  }
+            }
+
+            .active{
+              width: 200px;
+              height:80px;
+              border-width: 10px;
+            }
+      }
+</style>
+
+<script>
+
+    import router from '@system.router'
+
+    export default {
+        props:[
+
+        ],
+        data : {
+
+          deFloatBar : false,
+        }
+        ,onClickFloatBar(){
+          this.deFloatBar = this.deFloatBar ? false : true
+        }
+        ,onClickNew(){
+          router.push({
+            uri : "Main/Post/Write"
+          })
+        }
+    }
+
+</script>
