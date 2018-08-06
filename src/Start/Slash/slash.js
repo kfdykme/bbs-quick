@@ -25,23 +25,23 @@ export default {
                         srcUri: data.uri,
                         dstUri: 'internal://files/home.jpg',
                         success: function (uri) {
-                          console.log(`move success: ${uri}`)
+                          console.info(`move success: ${uri}`)
                         },
                         fail: function (data, code) {
-                          console.log(`handling fail, code = ${code}`)
+                          console.info(`handling fail, code = ${code}`)
                         }
                       })
                     },
                     fail: function (data, code) {
-                      console.log(`handling fail, code = ${code}`)
+                      console.info(`handling fail, code = ${code}`)
                     }
                   })
                 },
                 fail: function (data, code) {
-                  console.log(`handling fail, code = ${code}`)
+                  console.info(`handling fail, code = ${code}`)
                 }
               })
-          }
+          }.bind(this)
       })
 
 
