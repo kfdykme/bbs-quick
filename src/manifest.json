@@ -3,7 +3,7 @@
   "name": "清水河畔",
   "versionName": "1.0.2",
   "versionCode": "3",
-  "minPlatformVersion": "101",
+  "minPlatformVersion": "1010",
   "icon": "/Common/logo.png",
   "features": [
     { "name": "system.prompt" },
@@ -48,6 +48,9 @@
       "Main/Message/PmList":{
         "component" :"index"
       }
+      ,"Main/User":{
+        "component":"index"
+      }
       ,"Other/ImageView" :{
         "component" :"index"
       }
@@ -76,6 +79,9 @@
 
       },
       "Main/Message/PmList":{
+
+      }
+      ,"Main/User":{
 
       }
       ,"Other/Image":{

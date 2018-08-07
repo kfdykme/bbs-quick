@@ -15,32 +15,32 @@ export default {
               const re = JSON.parse(data.data)
               this.imageUrl = "http://www.bing.com"+re.images[0].url
 
-              request.download({
-                url:   this.imageUrl,
-                success: function (d) {
-                  request.onDownloadComplete({
-                    token: d.token,
-                    success: function (data) {
-                      file.move({
-                        srcUri: data.uri,
-                        dstUri: 'internal://files/home.jpg',
-                        success: function (uri) {
-                          console.info(`move success: ${uri}`)
-                        },
-                        fail: function (data, code) {
-                          console.info(`handling fail, code = ${code}`)
-                        }
-                      })
-                    },
-                    fail: function (data, code) {
-                      console.info(`handling fail, code = ${code}`)
-                    }
-                  })
-                },
-                fail: function (data, code) {
-                  console.info(`handling fail, code = ${code}`)
-                }
-              })
+              // request.download({
+              //   url:   this.imageUrl,
+              //   success: function (d) {
+              //     request.onDownloadComplete({
+              //       token: d.token,
+              //       success: function (data) {
+              //         file.move({
+              //           srcUri: data.uri,
+              //           dstUri: 'internal://files/home.jpg',
+              //           success: function (uri) {
+              //             console.info(`move success: ${uri}`)
+              //           },
+              //           fail: function (data, code) {
+              //             console.info(`handling fail, code = ${code}`)
+              //           }
+              //         })
+              //       },
+              //       fail: function (data, code) {
+              //         console.info(`handling fail, code = ${code}`)
+              //       }
+              //     })
+              //   },
+              //   fail: function (data, code) {
+              //     console.info(`handling fail, code = ${code}`)
+              //   }
+              // })
           }.bind(this)
       })
 

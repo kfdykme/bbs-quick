@@ -65,7 +65,7 @@ function fetch(url,data,suc){
       url : url,
       method : "POST",
       data : data,
-      success :function(data){
+      success :function(data){ 
         const re = JSON.parse(data.data)
 
         if(re.rs == 0)

@@ -7,6 +7,7 @@
     private: {
       username : "",
       forms : [],
+      uid : 0,
       formIndex :0,
       homeIndex : 0,
       tags :[
@@ -14,14 +15,13 @@
         ForumApi.Tag.newPublish,
         ForumApi.Tag.todayHot
       ],
-      userInfo :{}
     }
     ,onInit(){
 
       UserCache.init(this.$app)
 
       this.username = UserCache.user().userName
-      this.userInfo = UserCache.user()
+      this.uid = UserCache.user().uid
     }
     ,onChangeForm(index){
       this.formIndex = index

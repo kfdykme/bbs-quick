@@ -3,6 +3,7 @@
   import prompt from '@system.prompt'
   import DateUtil from '../../../Common/DateUtil'
   import ImageUtil from '../../../Common/ImageUtil'
+  import router from '@system.router'
   export default{
     protected :{
       topicid : "id",
@@ -60,8 +61,16 @@
     }
     ,onChangeCommentBar(){
       this.showCommentBar = this.showCommentBar == true ? false : true
-    },
-    onSendComment(){
+    }
+    ,onClickUser(id){
+        router.push({
+            uri : "Main/User",
+            params :{
+                uid :id
+            }
+        })
+    }
+    ,onSendComment(){
 
       if(this.commentBtnText == "评论"){
 
@@ -248,4 +257,5 @@
       }
 
     }
+
   }

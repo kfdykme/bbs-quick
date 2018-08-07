@@ -63,7 +63,7 @@ export default{
 
         if(e.detail.tag == this.tag){
 
-                  console.log("render_no_more   " + JSON.stringify(e));
+                 // console.log("render_no_more   " + JSON.stringify(e));
                   this.isLoading = false
                   this.isNormal = false
                   this.msg = "没有更多了.."
@@ -73,7 +73,7 @@ export default{
 
         if(e.detail.tag == this.tag){
 
-                  console.log("render_loading  " + JSON.stringify(e));
+                //  console.log("render_loading  " + JSON.stringify(e));
                   this.isNormal = false
                   this.isLoading = true
                   this.msg = "正在加载..."
@@ -85,7 +85,7 @@ export default{
 
         if(e.detail.tag == this.tag){
 
-              console.log("render_normal " + JSON.stringify(e));
+             // console.log("render_normal " + JSON.stringify(e));
               this.msg = "继续下拉加载更多"
               this.isLoading = false;
               this.isNormal = true;

@@ -13,11 +13,11 @@
 
 
             <list-item type="topic-header">
-              <image class="avatar" src="{{topic.icon}}" />
+              <image class="avatar"  @click="onClickUser(topic.user_id)" src="{{topic.icon}}" />
 
               <div class="header-text">
 
-                <text class="name">{{topic.user_nick_name}}</text>
+                <text class="name"  @click="onClickUser(topic.user_id)" >{{topic.user_nick_name}}</text>
                 <text class="date">{{topic.create_date}}</text>
               </div>
             </list-item>
@@ -44,11 +44,11 @@
 
 
               <list-item type="reply-header">
-                <image class="avatar" src="{{re.icon}}"/>
+                <image class="avatar" @click="onClickUser(re.reply_id)" src="{{re.icon}}"/>
 
                 <div class="header-text">
 
-                  <text class="name">{{re.reply_name}}</text>
+                  <text class="name"  @click="onClickUser(re.reply_id)">{{re.reply_name}}</text>
                   <text class="date">{{re.posts_date}}</text>
                 </div>
               </list-item>

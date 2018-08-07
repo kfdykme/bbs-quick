@@ -2,6 +2,7 @@
 <import name="board-list-view" src="../Comp/BoardListView"></import>
 <import name="message-view" src="./Message/MessageView"></import>
 <import name="float-bar" src="../Comp/FloatBar"></import>
+<import name="user-view" src="./User/UserView"></import>
 
 
 <template>
@@ -46,25 +47,10 @@
                   <div class="" show="{{homeIndex == 2}}">
                       <message-view tag="message"></message-view>
                   </div>
-                  <div class="user-page" show="{{homeIndex == 3}}">
+                  <div  show="{{homeIndex == 3}}">
 
+                      <user-view uid="{{uid}}"></user-view >
 
-
-                      <image class="user-image" src="{{userInfo.avatar}}"></image>
-                      <div class="">
-
-                          <text>{{userInfo.userName}}</text>
-                          <text>{{userInfo.userTitle}}</text>
-
-                      </div>
-                      <div class="">
-
-                          <block for=" c in userInfo.creditShowList">
-                            <text>{{c.title}} : {{c.data}}</text>
-                          </block>
-
-                      </div>
-                      <input class="btn-logout" type="button" @click="clickUser" value="注销"></input>
                   </div>
                 </div>
 
