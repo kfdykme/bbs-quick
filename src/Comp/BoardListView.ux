@@ -92,7 +92,8 @@
 
 
       .board-post-date{
-        color: #ff534d;
+        color: #ff645e;
+        opacity: 0.6;
 
       }
 

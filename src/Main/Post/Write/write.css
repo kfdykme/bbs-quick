@@ -16,6 +16,9 @@
               width: 30%;
               flex-grow: 1;
               justify-content: center;
+              border-radius: 16px;
+              margin: 8px;
+              padding: 8px;
 
               text{
                   padding: 8px;
@@ -38,6 +41,9 @@
               width: 30%;
               background-color: #ffbc4d;
               flex-grow: 1;
+              border-radius: 16px;
+              margin: 8px;
+              padding: 8px;
 
               justify-content: center;
 
@@ -76,8 +82,18 @@
                 width: 100%;
                 margin: 16px;
                 padding: 8px;
-                border-bottom-width: 0.5px;
-                border-color: #00bcd4;
+          }
+
+          .input-content {
+
+              border-bottom-width: 0.5px;
+              border-color: #00bcd4;
+          }
+
+          .input-title{
+
+              border-bottom-width: 0.5px;
+              border-color: #00bcd4;
           }
 
           .input-header{
@@ -93,8 +109,9 @@
                       width: 30%;
                       height: 100%;
                       background-color: #ffbc4d;
-                      color: #eeeeee;
+                      color: #ffffff;
                       padding: 9px;
+                      border-radius: 16px;
                 }
 
 

@@ -3,8 +3,7 @@
 
     <div class="board-select-bar">
         <div class="category">
-            <text>请选择分区</text>
-aaa
+
             <select class="category-select"   @change="onChangeGategory" if="{{category.length != 0}}" >
 
                     <option value="{{$item}}" for="category">{{$item.board_category_name}}</option>
@@ -13,16 +12,16 @@ aaa
 
         </div>
         <div class="board"  if="{{board.length != 0}}">
-              <text>请选择板块</text>
+              <!-- <text>请选择板块</text> -->
 
               <select class="board-select" @change="onSelectBoard"  >
 
-                      <option selected="{{i == 0}}" value="{{b}}" for="(i,b) in board">{{b.board_name}}</option>
+                      <option id="board-select-option-{{i}}"   selected="{{i == 0}}" value="{{b}}" for="(i,b) in board">{{b.board_name}}</option>
 
               </select>
 
         </div>
-        
+
     </div>
 
     <div class="write-content">
@@ -34,7 +33,7 @@ aaa
 
 
         </div>
-        <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容"></textarea>
+        <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容" value="{{publishContent}}"></textarea>
 
         <list class="input input-classifi" columns="2">
                 <list-item type="classi-text"  for="cl in classificationType_list">

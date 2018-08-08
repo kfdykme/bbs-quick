@@ -64,6 +64,10 @@
 </style>
 <script >
 import UserApi from "../../Common/UserApi"
+import prompt from '@system.prompt'
+import UserCache from '../../Common/UserCache'
+import router from '@system.router'
+
 export default{
     props:[
         'uid'
@@ -78,11 +82,49 @@ export default{
         this.myId = UserApi.user().uid
         UserApi.getUserInfo(
             this.uid,
-            function(re){ 
+            function(re){
                 this.re.push(re)
             }.bind(this)
         )
 
+    }
+    ,clickUser(){
+      prompt.showDialog({
+        title: "要退出了吗..",
+        message : '吗吗吗???',
+        buttons: [
+          {
+            text :'登出',
+            color :'#ffbc4d'
+          },
+          {
+            text : '按错了',
+            color : '#00bcd4'
+          }
+        ],
+        success :function (data){
+
+          switch(data.index){
+            case 0 :
+
+                UserCache.logout()
+                router.replace({
+                    uri : "Start/Login",
+                })
+              break;
+            case 1 :
+
+              break;
+            case 2 :
+              break;
+          }
+        },
+        fail :function(data){
+          prompt.showToast({
+            message : "未知错误"
+          })
+        }
+      })
     }
 }
 
