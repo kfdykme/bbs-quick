@@ -23,7 +23,7 @@ function getUserInfo(uid,success){
         appHash :UserCache.appHash()
     }
 
-    console.log(JSON.stringify(data));
+
 
     Api.fetch(
         Api.BASE_URL + "/app/web/index.php?r=user/userinfo",

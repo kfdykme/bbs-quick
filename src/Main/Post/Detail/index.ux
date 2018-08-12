@@ -13,30 +13,32 @@
 
 
             <list-item type="topic-header">
-              <image class="avatar"  @click="onClickUser(topic.user_id)" src="{{topic.icon}}" />
+                <div class="tpic-header big-card">
+                    <image class="avatar"  @click="onClickUser(topic.user_id)" src="{{topic.icon}}" />
+                    <div class="header-text">
+                        <text class="name"  @click="onClickUser(topic.user_id)" >{{topic.user_nick_name}}</text>
+                        <text class="date">{{topic.create_date}}</text>
+                    </div>
 
-              <div class="header-text">
-
-                <text class="name"  @click="onClickUser(topic.user_id)" >{{topic.user_nick_name}}</text>
-                <text class="date">{{topic.create_date}}</text>
-              </div>
+                </div>
             </list-item>
 
 
             <block for="t in topic.content">
 
                 <list-item type="topic-text" if="{{t.type  == 0 }}" >
-                  <text class="content">{{t.infor}}</text>
+                    <div class="topic-content big-card">
+                        <richtext type="html">{{t.infor}}</richtext>
+
+                    </div>
                 </list-item>
                 <list-item type="topic-image" if="{{showImage && t.type  == 1 }}" >
-                  <image onclick="onClickImage(t.originalInfo)" class="content-image" src="{{t.originalInfo}}"></image>
+                    <div class="topic-content big-card">
+
+                        <image onclick="onClickImage(t.originalInfo)" class="content-image" src="{{t.originalInfo}}"></image>
+                    </div>
                 </list-item>
-
             </block>
-
-            <list-item type="topic-footer" show="{{topic.content.length != 0}}">
-              <text class="topic-footer"></text>
-            </list-item>
 
 
 
@@ -44,55 +46,69 @@
 
 
               <list-item type="reply-header">
-                <image class="avatar" @click="onClickUser(re.reply_id)" src="{{re.icon}}"/>
+                  <div class="reply-header card">
 
-                <div class="header-text">
+                      <image class="avatar" @click="onClickUser(re.reply_id)" src="{{re.icon}}"/>
 
-                  <text class="name"  @click="onClickUser(re.reply_id)">{{re.reply_name}}</text>
-                  <text class="date">{{re.posts_date}}</text>
-                </div>
+                      <div class="header-text">
+
+                          <text class="name"  @click="onClickUser(re.reply_id)">{{re.reply_name}}</text>
+                          <text class="date">{{re.posts_date}}</text>
+                      </div>
+                  </div>
               </list-item>
 
               <block if="{{re.quote_content != ''}}">
                 <list-item type="reply-quote">
-                  <div class="reply-quote content">
-                    <text>{{re.quote_content}}</text>
-                  </div>
+                    <div class="card">
+
+                        <div class="reply-quote">
+                            <text>{{re.quote_content}}</text>
+                        </div>
+                    </div>
                 </list-item>
               </block>
 
               <block for="{{re.reply_content}}">
 
                 <list-item type="reply-text" if="{{$item.type  == 0 }}">
-                  <text class="content">{{$item.infor}}</text>
+                    <div class=" card">
+
+                        <text class="content">{{$item.infor}}</text>
+                    </div>
                 </list-item>
                 <list-item type="reply-image" if="{{$item.type  == 1 }}">
-                  <image onclick="onClickImage($item.originalInfo)" class="content"  src="{{$item.originalInfo}}"/>
+                    <div class="card">
+                        <image onclick="onClickImage($item.originalInfo)" class="content"  src="{{$item.originalInfo}}"/>
+
+                    </div>
                 </list-item>
                 <list-item type="image-type4" if="{{$item.type  == 4 }}">
-                  <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
+                    <div class="card">
+
+                        <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
+                    </div>
                 </list-item>
               </block>
 
 
 
               <list-item type="reply-footer">
-                <div class="reply-footer content">
+                <div class="reply-footer content card ">
                   <div class="reply-action">
 
-                        <div  class="btn-action {{list[index].showAct != null && list[index].showAct ? 'active' : '' }}" @click="onClickReplyAction(index)">
-                            <text  @click="replyComment(index)">reply</text>
-                            <div  class="close-action-bar" show="{{re.showAct}}"></div>
+                        <div  class="btn-action active">
+                            <text   @click="replyComment(index)">回复</text>
+                            <!-- <div  class="close-action-bar" show="{{re.showAct}}"></div> -->
                         </div>
 
                   </div>
                   <div class="reply-exinfo">
 
-                    <text class="reply-support" >sup: {{re.extraPanel[0].extParams.recommendAdd}}</text>
-                    <text class="reply-position">#{{re.position}}</text>
+                    <text show="{{re.extraPanel[0].extParams.recommendAdd!=0}}" class="reply-support" >{{re.extraPanel[0].extParams.recommendAdd}}点赞</text>
+                    <text class="reply-position">{{re.position}}楼</text>
                   </div>
 
-                  <text class="line"></text>
                 </div>
               </list-item>
 

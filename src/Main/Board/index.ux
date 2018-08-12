@@ -40,31 +40,45 @@
                           <block  for="{{l.postlist}}">
 
 
-                            <list-item type="post-item-board">
-                                <text class="board-name">{{$item.board_name}}</text>
-                            </list-item>
+                                      <list-item type="post-item-header" >
+                                          <div class="header card">
 
-                            <list-item type="post-item-header" class="header">
-                              <img class="avatar" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
-                              <div class="header-text">
-                                <text class="user-nike-name">{{$item.user_nick_name}}</text>
-                                <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
-                                <text class="date" >{{$item.last_reply_date}}</text>
-                              </div>
+                                              <img class="avatar"  @click="onClickUser($item.user_id)" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
+                                              <div class="header-text">
+                                                  <div class="line-one">
+                                                      <text class="user-nike-name" @click="onClickUser($item.user_id)">{{$item.user_nick_name}}</text>
+                                                      <text class="board-name">{{$item.board_name}}</text>
 
-                            </list-item>
-                            <list-item type="post-item-subject"  >
-                              <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
-                            </list-item>
-                            <list-item type="post-item-hnr">
-                              <div class="hnr">
-                                <text class="hit">hits: {{$item.hits}}</text>
-                                <text class="replycount">re : {{$item.replies}}</text>
-                              </div>
-                            </list-item>
-                            <list-item type="post-item-footer" >
-                              <text class="item-footer"></text>
-                            </list-item>
+                                                  </div>
+                                                  <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
+                                                  <text class="date" >{{$item.last_reply_date}}</text>
+                                              </div>
+
+                                          </div>
+
+                                      </list-item>
+
+
+
+                                      <list-item type="post-item-subject"  >
+                                          <div class="section card">
+                                              <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
+
+                                          </div>
+                                      </list-item>
+                                      <list-item type="post-item-hnr">
+
+                                          <div class="footer card">
+
+                                            <div class="hnr">
+                                              <text show="{{$item.hits != 0}}" class="hit">{{$item.hits}}点击</text>
+                                              <text show="{{$item.replies != 0}}"class="replycount">{{$item.replies}}回复</text>
+
+                                            </div>
+                                          </div>
+                                      </list-item>
+
+                               
                           </block>
 
 

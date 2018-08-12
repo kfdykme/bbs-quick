@@ -3,11 +3,12 @@ import media from "@system.media"
 import MessageApi from "../../../Common/MessageApi"
 import prompt from "@system.prompt"
 import ImageUtil from "../../../Common/ImageUtil"
+import router from "@system.router"
 
 export default{
     protected:{
       re : {},
-      imageToSend : "",
+      imageToSend : "../../../Res/ic_pick_image.png",
       textToSend :""
     },
     private :{
@@ -28,7 +29,7 @@ export default{
        // console.info(this.TAG,"on Init"+JSON.stringify(this.re))
 
     }
-    ,onClickImage2(uri){ 
+    ,onClickImage2(uri){
         ImageUtil.ViewImage(uri)
     }
     ,onClickImage(){
@@ -38,6 +39,10 @@ export default{
             MessageApi.uploadPmFile(uri,
               function(re){
                   that.imageToSend = re.body.attachment[0].urlName
+
+                  prompt.showToast({
+                    message : "点击发送以发出选中的图片"
+                  })
               })
         }
         media.pickImage({
@@ -95,6 +100,15 @@ export default{
           this.refresh()
         }.bind(this),1000)
 
+    }
+    ,onClickUser(id){
+
+                router.push({
+                    uri : "Main/User",
+                    params :{
+                        uid :id
+                    }
+                })
     }
     ,refresh(){
 

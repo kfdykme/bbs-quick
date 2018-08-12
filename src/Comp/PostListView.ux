@@ -10,40 +10,44 @@
       <block  for="{{list}}">
 
 
+        <list-item type="post-item-header" >
+            <div class="header card">
 
-        <list-item type="post-item-board">
-            <text class="board-name">{{$item.board_name}}</text>
+                <img class="avatar"  @click="onClickUser($item.user_id)" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
+                <div class="header-text">
+                    <div class="line-one">
+                        <text class="user-nike-name" @click="onClickUser($item.user_id)">{{$item.user_nick_name}}</text>
+                        <text class="board-name">{{$item.board_name}}</text>
+
+                    </div>
+                    <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
+                    <text class="date" >{{$item.last_reply_date}}</text>
+                </div>
+
+            </div>
+
         </list-item>
 
-        <list-item type="post-item-header" class="header">
-          <img class="avatar"  @click="onClickUser($item.user_id)" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
-          <div class="header-text">
-            <text class="user-nike-name" @click="onClickUser($item.user_id)">{{$item.user_nick_name}}</text>
-            <text class="title" onclick="onClickPost" topicid="{{$item.topic_id == null ? $item.source_id : $item.topic_id}}">{{$item.title}}</text>
-            <text class="date" >{{$item.last_reply_date}}</text>
-          </div>
-
-        </list-item>
-
-
-
-        <list-item type="post-item-username" >
-        </list-item>
 
 
         <list-item type="post-item-subject"  >
-          <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
+            <div class="section card">
+                <text class="subject" @click="onClickPost" topicid="{{$item.topic_id}}">{{$item.subject}}</text>
+
+            </div>
         </list-item>
         <list-item type="post-item-hnr">
-          <div class="hnr">
-            <text class="hit">hits: {{$item.hits}}</text>
-            <text class="replycount">re : {{$item.replies}}</text>
 
-          </div>
+            <div class="footer card">
+
+              <div class="hnr">
+                <text show="{{$item.hits != 0}}" class="hit">{{$item.hits}}点击</text>
+                <text show="{{$item.replies != 0}}"class="replycount">{{$item.replies}}回复</text>
+
+              </div>
+            </div>
         </list-item>
-        <list-item type="post-item-footer" >
-          <text class="item-footer"></text>
-        </list-item>
+
 
 
       </block>
@@ -65,7 +69,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fdfdfd;
+  background-color: #eeeeee;
   refresh{
 
       height: 100%;
@@ -74,17 +78,19 @@
   list{
     height: 100%;
 
-    .board-name{
-      width: 100%;
-      text-align: right;
-      font-size: 20px;
-      text-align: right;
-      color: #333333;
+
+    .card{
+        width: 100%;
+        background-color: #ffffff;
+        margin-left: 16px;
+        margin-right:16px;
     }
 
     .header{
       flex-direction: row;
-      margin-bottom: 16px;
+      padding: 8px;
+      padding-bottom: 16px;
+      margin-top: 16px;
 
       .avatar{
           width: 64px;
@@ -94,34 +100,55 @@
       }
 
 
-      div{
-        flex-direction: column;
+      .header-text{
+            flex-direction: column;
+
+            .line-one{
+                flex-direction: row;
+
+
+                .user-nike-name{
+                    width: 70%;
+                    color: #aabcd4;
+                    font-size: 30px;
+                }
+
+                .board-name{
+                    width: 30%;
+                    height: 100%;
+                    text-align: right;
+                    font-size: 20px;
+                    text-align: right;
+                    color: #aaaaaa;
+                }
+            }
+
+            .title{
+                  lines : 1;
+                  font-weight :bold;
+                  padding-right: 16px;
+            }
+
+            .date{
+              font-size: 30px;
+              color: #ffbc4d;
+            }
+
       }
 
-      .title{
 
-      }
-
-      .user-nike-name{
-        width: 70%;
-        color: #aabcd4;
-        font-size: 30px;
-      }
-
-      .date{
-        font-size: 30px;
-        color: #ffbc4d;
-      }
     }
 
+    .section{
 
-
-    .subject{
-      padding: 8px;
-      margin-left: 64px;
+        .subject{
+            padding: 8px;
+            margin-left: 64px;
+        }
     }
 
-    .hnr{
+    .footer{
+        .hnr{
       width: 100%;
       flex-direction: row;
       align-items: flex-end;
@@ -139,11 +166,6 @@
       }
     }
 
-    .item-footer{
-      height: 1px;
-      width: 90%;
-      background-color: #ffbc4d;
-      margin: 16px;
     }
 
 
@@ -217,7 +239,7 @@ export default{
       this.isRefreshing = false
 
       prompt.showToast({
-          message: 'refresh complete'
+          message: '刷新成功'
       })
 
       this.$broadcast("render_normal",{ tag : this.tag})

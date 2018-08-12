@@ -45,7 +45,8 @@
                   if(this.$element("board-select-option-"+x)) {
 
                       if(this.$element("board-select-option-"+x).attr.selected)
-                      {this.onChangeBoard(this.board[x])
+                      {
+                          this.onChangeBoard(this.board[x])
                           console.info(this.$element("board-select-option-"+x).attr.selected,this.board[x].board_name)
 
 
@@ -53,7 +54,6 @@
                   }
 
               }
-              console.info("onChangeGate",this.board[0].board_name)
           }.bind(this),200)
       }
       ,onChangeContent(e){
@@ -68,6 +68,8 @@
       }
       ,onChangeBoard(board){
 
+            console.info(JSON.stringify(board))
+
 
 
             this.classificationType_list = [{
@@ -81,6 +83,14 @@
 
 
             var success = function (data){
+
+                this.classificationType_list = [{
+                    "classificationType_id": 0,
+                    "classificationType_name": "无"
+                }]
+
+
+                this.targetClass = this.classificationType_list[0]
 
 
                 const re = JSON.parse(data.data)
@@ -134,7 +144,6 @@
                         prompt.showToast({
                           message : re.errcode
                         })
-
                         this.onPublishCompelete()
                       }.bind(this))
 
@@ -148,5 +157,6 @@
 
             this.publishContent = ""
             this.publishTitle = ""
+
       }
     }

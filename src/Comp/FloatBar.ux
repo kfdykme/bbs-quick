@@ -1,10 +1,12 @@
 <template>
 
                 <div class="float-bar">
-                  <div  class="btn-action {{deFloatBar ? 'active' : '' }}" @click="onClickFloatBar">
-                      <text  @click="onClickNew" show="{{deFloatBar}}">发表</text>
+
+                  <div  class="btn-action " @click="onClickFloatBar">
+                      <image src="../Res/ic_comp_action_edit.png"></image>
+                      <!-- <text  @click="onClickNew" show="{{deFloatBar}}">发表</text>
                       <text  id="icon" show="{{!deFloatBar}}">+</text>
-                      <div  class="close-action-bar" show="{{deFloatBar}}"></div>
+                      <div  class="close-action-bar" show="{{deFloatBar}}"></div> -->
                   </div>
                 </div>
 </template>
@@ -13,19 +15,24 @@
 <style lang="less">
 
       .float-bar{
-            margin-bottom:148px;
-            margin-right: 16px;
+            margin-bottom:160px;
+            margin-right: 32px;
+
+            image{
+                resize-mode : contain;
+            }
+
 
             .btn-action{
                   flex-direction: row;
                   margin-right :16px;
 
                   background-color: #00cde5;
-                  height: 80px;
-                  width: 80px;
+                  height: 100px;
+                  width: 100px;
                   border-width: 8px;
                   border-color: #ffffff;
-                  border-radius: 40px;
+                  border-radius: 50px;
 
                   text{
                     color: #ffffff;
@@ -34,7 +41,7 @@
                   }
 
                   #icon{
-                      font-size: 40px;
+                      font-size: 50px;
                   }
 
                   .close-action-bar{
@@ -69,7 +76,12 @@
           deFloatBar : false,
         }
         ,onClickFloatBar(){
-          this.deFloatBar = this.deFloatBar ? false : true
+
+            //TODO : floatbar有多个功能之后,再进行更改,暂时直接进入发表界面
+            router.push({
+            uri : "Main/Post/Write"
+            })
+            // this.deFloatBar = this.deFloatBar ? false : true
         }
         ,onClickNew(){
           router.push({

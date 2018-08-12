@@ -10,6 +10,7 @@
         justify-content: flex-end;
         align-items: flex-end;
 
+
       }
 
       .page{
@@ -20,11 +21,8 @@
 
             .paper{
                 height: 100%;
-                flex-direction: row;
 
 
-
-            
             }
 
 
@@ -33,7 +31,6 @@
 
                   flex-direction: row;
                   width: 100%;
-
 
                   text{
                     text-align: center;
@@ -60,5 +57,5 @@
 
 
   .hide{
-    display: none;
+      height: 0px;
   }

@@ -27,136 +27,140 @@
           refresh{
 
             height :80%;
+            list{
 
-            .avatar{
-                width: 64px;
-                height :64px;
-                margin: 8px;
-                border-radius: 32px;
-            }
+                background-color: #eeeeee;
 
+                .avatar{
+                    width: 64px;
+                    height :64px;
+                    margin: 8px;
+                    border-radius: 32px;
+                }
 
-            .header-text{
-              flex-direction: column;
-
-
-              .name {
-                width: 70%;
-                color: #aabcd4;
-                font-size: 30px;
-              }
-
-              .date{
-                font-size: 30px;
-                color: #ffbc4d;
-              }
-            }
+                .header-text{
+                  flex-direction: column;
 
 
-            .content{
-                margin-left: 72px;
-            }
+                  .name {
+                    width: 70%;
+                    color: #aabcd4;
+                    font-size: 30px;
+                  }
 
-            .content-image{
-                width:60%;
-                margin: 8px;
-                margin-left: 72px;
-
-                resize-mode : contain;
-            }
-
-            .reply-quote{
-              background-color: #eeeeee;
-              padding: 16px;
-              border-radius: 5px;
-              border-color: #eeeeee;
-              border-width: 5px;
-              text{
-                color:#333333;
-              }
-            }
-
-            .reply-footer{
-              width: 100%;
-              flex-direction: column;
-
-              .reply-action{
-                  width: 100%;
-                  flex-direction: row;
-                  justify-content: flex-end;
-                  align-items: flex-end;
+                  .date{
+                    font-size: 30px;
+                    color: #ffbc4d;
+                  }
+                }
 
 
-                  .btn-action{
-                    flex-direction: row;
-                    margin-right :16px;
+                .big-card{
 
-                    background-color: #00bcd4;
-                    height: 40px;
-                    width: 40px;
-                    border-width: 20px;
+                    width: 100%;
+                    background-color: #ffffff;
+                    padding: 8px;
+                }
 
-                    border-color: #00bcd4;
-                    border-radius: 20px;
+                .card{
+                    width: 100%;
+                    background-color: #ffffff;
+                    margin-left: 16px;
+                    margin-right:16px;
+                    padding: 16px;
+                }
 
+                .topic-header{
+
+                }
+
+                .topic-content{
+                    padding: 16px;
+                }
+
+                .reply-header{
+                    margin-top: 16px;
+                    padding: 16px;
+                }
+                .reply-quote{
+                    background-color: #eeeeee;
+                    padding: 16px;
+                    border-radius: 5px;
+                    border-color: #eeeeee;
+                    border-width: 5px;
                     text{
-                      color: #ffffff;
-                      flex-grow: 1;
-                      text-align: center;
+                    color:#333333;
                     }
-
-                    .close-action-bar{
-                      background-color: #ffffff;
-                      height: 30px;
-                      width: 30px;
-                      border-width: 20px;
-
-                      border-color: #ffffff;
-                      border-radius: 15px;
-                    }
-                  }
-
-                  .active{
-                    width: 200px;
-                    height:80px;
-                    border-width: 10px;
-                  }
-
-              }
+                }
 
 
-              .reply-exinfo{
-                flex-direction: row;
+                .reply-footer{
+                  width: 100%;
+                  flex-direction: column;
 
-                      .reply-support{
+                  .reply-action{
+                      width: 100%;
+                      flex-direction: row;
+                      justify-content: flex-end;
+                      align-items: flex-end;
+
+                      .btn-action{
+                        flex-direction: row;
+                        margin-right :16px;
+                        padding: 16px;
+                        opacity: 0.7;
+
+                        background-color: #00bcd4;
+                        border-radius: 20px;
+
+                        text{
+                          color: #ffffff;
                           flex-grow: 1;
-                          color: #ffcde7;
+                          font-weight: bold;
+                          text-align: center;
+                        }
+
                       }
 
 
-                      .reply-position{
-                          flex-grow: 1;
-                          text-align: right;
-                          margin: 8px;
-                      }
-              }
+                  }
 
 
-              .line{
-                height: 1px;
-                width: 90%;
-                background-color: #ffbc4d;
-                margin: 20px;
-              }
+                  .reply-exinfo{
+                    flex-direction: row;
+
+                          .reply-support{
+                              flex-grow: 1;
+                              color: #ffcde7;
+                          }
+
+
+                          .reply-position{
+                              flex-grow: 1;
+                              text-align: right;
+                              margin: 8px;
+                              color:#aaaaaa;
+                          }
+                  }
+
+                }
+
+
+                .content-image{
+                    width:60%;
+                    margin: 8px;
+                    margin-left: 72px;
+
+                    resize-mode : contain;
+                }
+
+
+
+
             }
 
 
-            .topic-footer{
-              height: 1px;
-              width: 90%;
-              background-color: #ffbc4d;
-              margin: 20px;
-            }
+
 
             a{
               color:#00bcd4;
@@ -220,23 +224,19 @@
 
 
       .btn-show{
-        height: 100px;
-        margin-top: 400px;
+        margin: 100px;
 
+        background-color:#00bcd4;
 
-
+        border-radius: 32px;
+        opacity: 0.7;
+        padding: 16px;
         text{
 
-          padding: 10px;
           color: #ffffff;
-          background-color:#00bcd4;
-
-          border-top-width : 16px;
-          border-right-width: 16px;
-          border-radius: 16px;
+          text-align: center;
+          font-weight: bold;
           background-color: #00bcd4;
-          margin-right: -16px;
-          padding-right: 32px;
 
         }
 

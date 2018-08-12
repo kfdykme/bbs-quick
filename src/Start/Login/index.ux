@@ -6,9 +6,9 @@
     <text class="text-welcome">{{welcome}}</text>
 
 
-    <input class="input" type="text" id="username-input" placeholder="username" onchange="onUserNameChange" value="{{username}}"/>
+    <input class="input" type="text" id="username-input" placeholder="请输入用户名" onchange="onUserNameChange" value="{{username}}"/>
 
-    <input class="input" type="password" id="password-input" placeholder="password" onchange="onPasswordChange" value="{{password}}"/>
+    <input class="input" type="password" id="password-input" placeholder="请输入密码" onchange="onPasswordChange" value="{{password}}"/>
 
 
     <input class="btn-color btn" type="button" value="{{login}}" onclick="doLogin" />

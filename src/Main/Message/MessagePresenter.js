@@ -87,10 +87,10 @@ function loadMore(tag){
         var success = function(re){
 
 
-            if(tag == 0 && that.cache[tag].page == 2)
-                console.info("re  ",JSON.stringify(re))
-            else
-                console.info("none")
+            // if(tag == 0 && that.cache[tag].page == 2)
+            //     console.info("re  ",JSON.stringify(re))
+            // else
+            //     console.info("none")
 
             var list = that.convertData(re,tag)
 
@@ -171,6 +171,16 @@ function refresh(tag){
 
 
 function onClickEvent(type,arg){
+
+    if(type == "user"){
+
+        router.push({
+            uri : "Main/User",
+            params :{
+                uid :arg
+            }
+        })
+    }
     if(type == "topic"){
         var topicId = arg
 

@@ -1,10 +1,10 @@
 {
   "package": "org.starstudio.quick.bbs",
   "name": "清水河畔",
-  "versionName": "1.0.3",
-  "versionCode": "4",
+  "versionName": "1.0.5",
+  "versionCode": "6",
   "minPlatformVersion": "1010",
-  "icon": "/Common/logo.png",
+  "icon": "/Res/logo.png",
   "features": [
     { "name": "system.prompt" },
     { "name": "system.router" },

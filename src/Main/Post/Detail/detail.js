@@ -4,6 +4,8 @@
   import DateUtil from '../../../Common/DateUtil'
   import ImageUtil from '../../../Common/ImageUtil'
   import router from '@system.router'
+
+
   export default{
     protected :{
       topicid : "id",
@@ -17,7 +19,7 @@
       page : 0,
       pro_show : true,
       pro_msg : "",
-      commentSend : "send",
+      commentSend : "发送",
       commentContent : "",
       showCommentBar : false,
       commentBtnText : "评论",
@@ -37,6 +39,8 @@
     ,onBackPress(){
         if(this.showCommentBar){
             this.showCommentBar = false
+            this.commentBtnText = "评论"
+
             return true
         }
 
@@ -71,28 +75,31 @@
         })
     }
     ,onSendComment(){
-
       if(this.commentBtnText == "评论"){
 
-          PostApi.comment(this.commentContent,this.topic.topic_id,
-            function (data){
+          if(!this.isReplying){
+                this.isReplying = true
+                  PostApi.comment(this.commentContent,this.topic.topic_id,
+                    function (data){
 
-              const re = JSON.parse(data.data)
+                      const re = JSON.parse(data.data)
 
-              prompt.showToast({
-                message:re.errcode
-              })
+                      prompt.showToast({
+                        message:re.errcode
+                      })
 
-              this.commentContent = ""
+                      this.commentContent = ""
 
-              this.onChangeCommentBar()
+                      this.isReplying = false
+                      this.onChangeCommentBar()
 
-            }.bind(this))
+                    }.bind(this))
+        }
       } else {
 
 
 
-        if(this.isReplying){
+        if(!this.isReplying){
               this.isReplying = true
               PostApi.replyComment(this.commentContent,this.topic.topic_id,this.commentReplyId,
                 function(data){
@@ -140,11 +147,21 @@
 
 
         for (let  x in json.list){
+
+
           json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
+
           json.list[x].showAct = false
         }
         this.list = json.list
         this.renderReplyComplete()
+
+
+        //TODO : 暂时在此做个判断,10 == defaultPageSize
+        if(json.list.length < 10){
+
+             this.renderError("没有更多了")
+        }
       }  else {
        this.renderError("没有更多了")
        this.loadMoreComplete()
@@ -179,9 +196,7 @@
     },
     renderError(msg){
         this.$broadcast("render_no_more", { tag : this.TAG })
-        prompt.showToast({
-          message : msg
-        })
+
     },
     refresh(){
       this.fetchTopic()
@@ -252,7 +267,7 @@
         this.isRefreshing = false
 
         prompt.showToast({
-            message: 'refresh complete'
+            message: '刷新完成'
         })
       }
 
