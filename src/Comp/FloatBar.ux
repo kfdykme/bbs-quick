@@ -3,7 +3,7 @@
                 <div class="float-bar">
 
                   <div  class="btn-action " @click="onClickFloatBar">
-                      <image src="../Res/ic_comp_action_edit.png"></image>
+                      <image src="/Res/ic_comp_action_edit.png"></image>
                       <!-- <text  @click="onClickNew" show="{{deFloatBar}}">发表</text>
                       <text  id="icon" show="{{!deFloatBar}}">+</text>
                       <div  class="close-action-bar" show="{{deFloatBar}}"></div> -->
