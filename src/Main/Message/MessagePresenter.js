@@ -64,6 +64,8 @@ function attach(){
     this.refresh(this.TAG.atme)
     this.refresh(this.TAG.pm)
     this.refresh(this.TAG.system)
+
+
 }
 
 function loadMore(tag){
@@ -172,6 +174,45 @@ function refresh(tag){
 
 function onClickEvent(type,arg){
 
+    if(type == "system"){
+        prompt.showToast({
+            message :"暂不支持"
+        })
+    }
+
+    if(type == "action"){
+
+        var item  = arg
+        var actions = item.actions
+
+        if(actions == null || actions.length <1){
+
+                    prompt.showToast({
+                        message :"点我是没有反应的,朋友"
+                    })
+        } else{
+
+
+            for(var x in actions){
+                if(actions[x].type == "firend")
+                {
+
+                    MessageApi.userAdd2(
+                        item.user_id,
+                        function (re){
+                            prompt.showToast({
+                                message:re.errcode
+                            })
+                        }
+                    )
+
+                    return
+                }
+            }
+        }
+
+    }
+
     if(type == "user"){
 
         router.push({
@@ -258,7 +299,10 @@ function convertData(re,tag){
         list = re.body.data
         for (let x in list){
             var l = list[x]
-            if(l.topic_contetn == null) l.topic_content = l.content
+            if(l.topic_content == null) {
+                // console.info(JSON.stringify(list[x]))
+                l.reply_content = l.content
+            }
             l.replied_date = DateUtil.convertTime(l.replied_date)
         }
         break;

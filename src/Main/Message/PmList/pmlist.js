@@ -9,6 +9,7 @@ export default{
     protected:{
       re : {},
       imageToSend : "../../../Res/ic_pick_image.png",
+      baseImageToSend :"../../../Res/ic_pick_image.png",
       textToSend :""
     },
     private :{
@@ -57,8 +58,8 @@ export default{
     }
     ,onClickSend(){
 
-
-        if(this.imageToSend != ""){
+        //TODO:测试一下图片url是否合法
+        if(this.imageToSend != this.baseImageToSend){
 
             MessageApi.send(
               this.re.body.pmList[0].fromUid, //touid

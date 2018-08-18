@@ -12,8 +12,6 @@
         postlist :[],
         canLoadMore :true,
         isRefreshing :false,
-        pro_show : true,
-        pro_msg : ""
       }],
       forumInfo :{
         title : ""
@@ -29,18 +27,17 @@
     onShow(){
       this.refresh()
     },
-    onClickBoard(e){
-      const index = e.target.attr.idx
+    onClickBoard(index){
 
       this.onChangeBoard(index)
     },
-    onClickPost(a){
+    onClickPost(topicid){
       // console.log("click : " + a.target.attr.topicid);
 
       router.push({
         uri : 'Main/Post/Detail',
         params : {
-          topicid : a.target.attr.topicid
+          topicid : topicid
         }
       })
 

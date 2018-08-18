@@ -2,71 +2,393 @@
 
     <div class="user-page"  >
         <block for="userInfo in re">
-            <image class="user-image" src="{{userInfo.icon}}"></image>
-            <div class="">
+            <stack class="user-header">
 
-                <text>{{userInfo.name}}</text>
-                <text>{{userInfo.userTitle}}</text>
+                <image class="user-image" src="{{avatarBig}}"></image>
+                <div class="user-info">
+                        <div class="">
 
+                            <text class="name">{{userInfo.name}}</text>
+                            <text class="title">{{userInfo.userTitle}}</text>
+                        </div>
+                        <text class="sign">{{userInfo.sign}}</text>
+
+
+                        <div class="">
+
+                            <block for=" c in userInfo.body.creditShowList">
+                                <text>{{c.title}} : {{c.data}}</text>
+                            </block>
+                        </div>
+
+                </div>
+            </stack>
+
+            <div class="others-content" if="{{uid != myId}}">
+                <list>
+                    <block for="p in postlist">
+
+                        <list-item type="post-item-header" >
+                            <div class="header card">
+
+                                <img class="avatar"    src="{{p.userAvatar}}" alt="../Common/logo.png"/>
+                                <div class="header-text">
+                                    <div class="line-one">
+                                        <text class="user-nike-name"  >{{p.user_nick_name}}</text>
+                                        <text class="board-name">{{p.board_name}}</text>
+                                    </div>
+                                    <text class="title" onclick="onClickPost(p.topic_id)"  >{{p.title}}</text>
+                                    <text class="date" >{{p.last_reply_date}}</text>
+                                </div>
+
+                            </div>
+
+                        </list-item>
+
+                        <list-item type="post-item-hnr">
+
+                            <div class="footer card">
+
+                              <div class="hnr">
+                                <text show="{{p.hits != 0}}" class="hit">{{p.hits}}点击</text>
+                                <text show="{{p.replies != 0}}"class="replycount">{{p.replies}}回复</text>
+
+                              </div>
+                            </div>
+                        </list-item>
+
+
+                    </block>
+                </list>
             </div>
-            <div class="">
 
-                <block for=" c in userInfo.body.creditShowList">
-                    <text>{{c.title}} : {{c.data}}</text>
-                </block>
+            <div class="self-content" if="{{uid == myId }}" >
+                <tabs @change="onChangeTab" index="{{tabIndex}}">
+                     <tab-bar class="tab-bar">
+                       <text class="{{ tabIndex === 0 ?'tab-title' : ''}}">我的发帖</text>
+                       <text class="{{ tabIndex === 1 ?'tab-title' : ''}}">我的好友</text>
+                       <text class="{{ tabIndex === 2 ?'tab-title' : ''}}">其他设置</text>
+                     </tab-bar>
+                     <tab-content class="tab-content">
 
+                       <div class="post">
+                           <list>
+                               <block for="p in postlist">
+
+                                   <list-item type="post-item-header" >
+                                       <div class="header card">
+
+                                           <img class="avatar"    src="{{p.userAvatar}}" alt="../Common/logo.png"/>
+                                           <div class="header-text">
+                                               <div class="line-one">
+                                                   <text class="user-nike-name"  >{{p.user_nick_name}}</text>
+                                                   <text class="board-name">{{p.board_name}}</text>
+                                               </div>
+                                               <text class="title" onclick="onClickPost(p.topic_id)"  >{{p.title}}</text>
+                                               <text class="date" >{{p.last_reply_date}}</text>
+                                           </div>
+
+                                       </div>
+
+                                   </list-item>
+
+                                   <list-item type="post-item-hnr">
+
+                                       <div class="footer card">
+
+                                         <div class="hnr">
+                                           <text show="{{p.hits != 0}}" class="hit">{{p.hits}}点击</text>
+                                           <text show="{{p.replies != 0}}"class="replycount">{{p.replies}}回复</text>
+
+                                         </div>
+                                       </div>
+                                   </list-item>
+
+
+                               </block>
+                           </list>
+                       </div>
+                       <div class="">
+                           <list class="friends">
+                               <block for="f in friendList">
+                                   <list-item type="friend">
+                                       <div class="friend-header card">
+                                           <img class="avatar"  @click="onClickUser(f.uid)" src="{{f.icon}}" alt="../Common/logo.png"/>
+
+
+                                           <text @click="onClickUser(f.uid)" class="friend-name">{{f.name}}</text>
+                                       </div>
+                                   </list-item>
+                                   <block>
+
+                                   </list>
+
+                       </div>
+                       <div class="other-settings">
+
+                           <input class="btn-logout card " type="button" @click="clickLogout" value="注销"></input>
+                       </div>
+                     </tab-content>
+                   </tabs>
             </div>
-            <input class="btn-logout" if="{{uid == myId }}" type="button" @click="clickUser" value="注销"></input>
         </block>
     </div>
 
 </template>
 
 <style lang="less"  >
-.user-page{
 
-    width: 100%;
-    height: 80%;
+    .user-page{
 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .user-image{
-        height: 256px;
-        width: 256px;
-        border-radius: 128px;
-        margin: 32px;
+        background-color: #eeeeee;
+        width: 100%;
+        flex-direction: column;
+
+        .user-header{
+            height: 38%;
+            width: 100%;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+
+            .user-image{
+                height: 100%;
+                width: 100%;
+                resize-mode :cover;
+                opacity: 0.9;
+            }
+
+            .user-info{
+                flex-direction: column;
+                padding-top: 32px;
+                width: 100%;
+                padding-bottom: 32px;
+                background: linear-gradient(to top,rgba(0,0,0,0.3),rgba(0,0,0,0.0));
+
+
+                text{
+                    color:#ffffff;
+
+                    font-weight: bold;
+                    padding: 16px;
+                }
+
+
+                .name {
+                    font-size: 64px;
+                }
+
+
+                .title{
+                    font-size: 32px;
+
+                }
+            }
+
+        }
+
+        list{
+                  height: 100%;
+                  justify-content: flex-start;
+                  align-items: flex-start;
+                  background-color: #eeeeee;
+
+
+                  .card{
+                      width: 100%;
+                      background-color: #ffffff;
+                      margin-left: 16px;
+                      margin-right:16px;
+
+
+                  }
+
+                  .header{
+                    flex-direction: row;
+                    padding: 8px;
+                    padding-bottom: 16px;
+                    margin-top: 16px;
+
+                    .avatar{
+                        width: 64px;
+                        height :64px;
+                        margin: 8px;
+                        border-radius: 32px;
+                    }
+
+
+                    .header-text{
+                          flex-direction: column;
+
+                          .line-one{
+                              flex-direction: row;
+
+
+                              .user-nike-name{
+                                  width: 70%;
+                                  color: #aabcd4;
+                                  font-size: 30px;
+                              }
+
+                              .board-name{
+                                  width: 30%;
+                                  height: 100%;
+                                  text-align: right;
+                                  font-size: 20px;
+                                  text-align: right;
+                                  color: #aaaaaa;
+                              }
+                          }
+
+                          .title{
+                                lines : 1;
+                                font-weight :bold;
+                                padding-right: 16px;
+                                text-overflow: ellipsis;
+                          }
+
+                          .date{
+                            font-size: 30px;
+                            color: #ffbc4d;
+                          }
+
+                    }
+
+
+                  }
+
+
+                  .footer{
+                      .hnr{
+                            width: 100%;
+                                flex-direction: row;
+                                align-items: flex-end;
+                                justify-content: flex-end;
+
+                            text{
+                                padding: 16px;
+                            }
+                            .hit{
+                                  color :#00bcd4;
+                            }
+
+                            .replycount{
+                                color : #ffbcd4;
+                            }
+                      }
+
+                  }
+        }
+
+        .others-content{
+
+        }
+
+        .self-content{
+            flex-direction: column;
+            justify-content: flex-end;
+
+            tab-bar{
+                background-color:#ffffff;
+                text{
+
+                    text-align: center;
+                }
+            }
+
+            .tab-title{
+                font-size: 48px;
+                padding: 8px;
+                margin: 16px;
+            }
+
+
+            .post{
+
+            }
+
+
+            .friends {
+                height: 100%;
+                margin-top : 16px;
+                .card{
+                    width: 100%;
+                    background-color: #ffffff;
+                    margin-left: 16px;
+                    margin-right:16px;
+
+                }
+
+
+                .friend-header{
+
+                  flex-direction: row;
+                  padding: 8px;
+                  padding-bottom: 16px;
+                  height: 100px;
+
+                        .friend-name{
+                            height: 100%;
+                            width: 70%;
+                            color: #aabcd4;
+                            font-size: 30px;
+
+                        }
+
+                        .avatar{
+                            width: 64px;
+                            height :64px;
+                            margin: 8px;
+                            border-radius: 32px;
+                        }
+
+                }
+
+
+
+
+
+            }
+
+            .other-settings{
+                flex-direction: column;
+                justify-content: flex-end;
+
+
+                  .card{
+                      width: 100%;
+                      background-color: #ffffff;
+                      margin-left: 16px;
+                      margin-right:16px;
+
+
+                  }
+                .btn-logout{
+
+                    height: 100px;
+                    text-align: center;
+                    color: #ff645e;
+                    padding: 16px;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    margin-bottom: 16px;
+                }
+            }
+
+        }
+
     }
-
-    text{
-        margin: 16px;
-        background-color: #ffffff;
-        border-radius: 30px;
-        border-width: 3px;
-        border-color: #00bcd4;
-        color: #00bcd4;
-        padding: 24px;
-
-    }
-
-
-    .btn-logout{
-
-        margin: 16px;
-        background-color: #ff534d;
-        border-radius: 30px;
-        color: #ffffff;
-        padding: 8px;
-    }
-}
 
 
 </style>
+
 <script >
+
 import UserApi from "../../Common/UserApi"
 import prompt from '@system.prompt'
 import UserCache from '../../Common/UserCache'
 import router from '@system.router'
+import DateUtil from '../../Common/DateUtil'
 
 export default{
     props:[
@@ -75,7 +397,59 @@ export default{
     ,data :{
 
         re :[],
-        myId : 0
+        myId : 0,
+        avatarBig :"",
+        friendList :[],
+        tabIndex :0,
+        page :0,
+        postlist :[],
+        canLoadMore :true,
+        isRefreshing :false,
+    }
+    ,initPosts(){
+        UserApi.getMePosts(this.uid,1,100,
+            function(re){
+
+                let x
+                for(x in re.list){
+                  let time = re.list[x].last_reply_date
+                  re.list[x].last_reply_date = DateUtil.convertTime(time)
+                }
+
+                this.postlist =  re.list
+            }.bind(this))
+
+    }
+    ,initSelf(){
+        UserApi.getFirends(this.uid,
+            function(re){
+                this.friendList = re.list
+            }.bind(this))
+
+        this.initPosts()
+    }
+    ,onChangeTab(e){
+        var index = e.index;
+        this.tabIndex = index;
+        console.info(this.tabIndex);
+    }
+    ,onClickUser(uid){
+        if(uid != this.myId)
+            router.push({
+                uri : "Main/User",
+                params :{
+                    uid :uid
+                }
+            })
+    }
+    ,onClickPost(pid){
+
+            router.push({
+              uri : 'Main/Post/Detail',
+              params : {
+                topicid : pid
+              }
+            })
     }
     ,onInit(){
         UserApi.init(this.$app)
@@ -87,8 +461,19 @@ export default{
             }.bind(this)
         )
 
+        this.avatarBig = UserApi.getUserAvatarBig(this.uid)
+
+
+        //自己
+        if(this.myId == this.uid){
+            this.initSelf()
+        }else{//不是自己
+
+            this.initPosts()
+        }
+
     }
-    ,clickUser(){
+    ,clickLogout(){
       prompt.showDialog({
         title: "要退出了吗..",
         message : '吗吗吗???',

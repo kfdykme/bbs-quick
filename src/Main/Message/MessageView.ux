@@ -29,17 +29,27 @@
                                                 <div class="header card">
 
 
-                                                    <img class="avatar" src="{{$item.icon}}" />
+                                                    <img class="avatar" @click="onClickEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
                                                     <div class="header-text">
 
                                                         <text class="user-nike-name" @click="onClickEvent('user',$item.toUserId)">{{$item.toUserName}}</text>
                                                         <text class="user-nike-name" @click="onClickEvent('user',$item.user_id)">{{$item.user_name}}</text>
                                                         <text class="date" >{{$item.replied_date}}</text>
 
-                                                        <text class="content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag ==0}}">{{$item.topic_subject}}</text>
-                                                        <text class="atme-content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag ==1}}">{{$item.topic_content}}</text>
-                                                        <text class="pm-content" @click="onClickEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 2}}">{{$item.topic_content}}</text>
-                                                        <text class="pm-content" if="{{$item.topic_content != null && m.tag == 3}}">{{$item.topic_content}}</text>
+
+                                                        <div class="">
+
+
+                                                            <!-- 帖子回复 -->
+                                                            <text class="content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag ==0}}">{{$item.topic_subject}}</text>
+                                                            <!-- atme -->
+                                                            <text class="atme-content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag ==1}}">{{$item.topic_content}}</text>
+                                                            <!-- 私信 -->
+                                                            <text class="pm-content" @click="onClickEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 2}}">{{$item.topic_content}}</text>
+                                                            <!-- 系统消息 -->
+                                                            <text class="system-content"  @click="onClickEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 3}}">{{$item.topic_content}}</text>
+                                                            <text class="action-btn" @click="onClickEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 3 && $item.actions != null}}">同意</text>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -49,7 +59,7 @@
                                             <list-item type="messaage-item-reply"  >
                                                 <div class="section card">
 
-                                                    <text class="reply-content" @click="onClickEvent('topic',$item.topic_id)" >{{$item.reply_content}}</text>
+                                                    <text class="reply-content" @click="onClickEvent('topic',$item.topic_id)" >{{$item.reply_content ? $item.reply_content : $item.content }}</text>
                                                 </div>
                                             </list-item>
 
@@ -149,10 +159,14 @@
                                   border-radius: 32px;
                                 }
 
+                                .header-text{
+                                    flex-direction: column;
 
-                                div{
-                                  flex-direction: column;
+                                    div{
+                                        flex-direction: row;
+                                    }
                                 }
+
 
 
                                 .user-nike-name{
@@ -190,6 +204,20 @@
 
                                 .pm-content{
 
+                                }
+
+                                .system-content{
+
+                                }
+
+                                .action-btn  {
+
+
+                                    margin: 16px;
+                                    background-color: #ff534d;
+                                    border-radius: 30px;
+                                    color: #ffffff;
+                                    padding: 16px;
                                 }
                           }
 
@@ -321,7 +349,7 @@
                   this.msgList[t].isRefreshing = false
 
                   prompt.showToast({
-                      message: 'refresh complete'
+                      message: '刷新完成'
                   })
                 }
                 this.$broadcast("render_normal",{ tag :t})

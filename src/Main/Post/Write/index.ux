@@ -27,15 +27,17 @@
     <div class="write-content">
 
         <div class="input input-header">
-                <input id="publish-title" @change="onChangeTitle"class="input-title" placeholder="请输入标题" type="text"  value="{{publishTitle}}"></input>
+                <input id="publish-title" @change="onChangeTitle" class="input-title" placeholder="请输入标题" type="text"  value="{{publishTitle}}"></input>
 
-                <input class="btn" type="button" value="发布" @click="onPublish" ></input>
+                <div @click="onPublish"  class="btn">
+                    <text>发布</text>
+                </div>
 
 
         </div>
-        <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容" value="{{publishContent}}"></textarea>
+        <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容"  >{{publishContent}}</textarea>
 
-        <list class="input input-classifi" columns="2">
+        <list class="input input-classifi" >
                 <list-item type="classi-text"  for="cl in classificationType_list">
 
                       <text class="classi-text {{cl.classificationType_id == targetClass.classificationType_id ? 'active' : ''}}" @click="onClickClassification(cl)">{{cl.classificationType_name}}</text>

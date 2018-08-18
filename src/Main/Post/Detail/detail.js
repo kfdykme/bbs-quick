@@ -93,6 +93,12 @@
                       this.isReplying = false
                       this.onChangeCommentBar()
 
+
+                      setTimeout(function(){
+
+                            this.loadMore()
+                      }.bind(this) ,1000)
+
                     }.bind(this))
         }
       } else {
@@ -133,6 +139,8 @@
       this.renderTopic()
     },
     renderTopic(json){
+
+      // console.info(JSON.stringify(json))
       json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
 
       this.topic = json.topic

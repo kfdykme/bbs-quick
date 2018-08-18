@@ -16,7 +16,7 @@
                 <list-item type="board-name">
 
 
-                       <text class="board-name" onclick="onClickBoard(b.board_id)" boardId="{{b.board_id}}">{{b.board_name}} </text>
+                       <text class="board-name" onclick="onClickBoard(b.board_id)">{{b.board_name}} </text>
                        <text class="board-post-date" onclick="onClickBoard(b.board_id)" >{{b.last_posts_date}} </text>
 
                 </list-item>
@@ -64,11 +64,11 @@
               width: 100%;
               margin-top: 20px;
               margin-bottom: 20px;
-              color: #ffbc4d;
+              color: #00bcd4;
               font-size: 50px;
-              border-right-width: 2px;
+              /* border-right-width: 2px;
               border-bottom-width: 2px;
-              border-color: #ffbc4d;
+              border-color: #ffbc4d; */
 
               margin-right: 16px;
             }
@@ -77,15 +77,17 @@
 
       .board-name{
 
+          width: 60%;
           margin: 14px;
-          margin-left: 40px;
+          margin-left: 20px;
           font-size: 40px;
 
           padding: 10px;
-          color: #00bcd4;
-
-          border-left-width: 8px;
-          border-color: #00bcd4;
+          /* color: #00bcd4; */
+          lines :1;
+          text-align: left;
+          border-left-width: 3px;
+          border-color: #11cde5;
 
 
       }
@@ -94,6 +96,10 @@
       .board-post-date{
         color: #ff645e;
         opacity: 0.6;
+        width: 40%;
+        lines:1;
+
+        text-align: right;
 
       }
 
@@ -134,7 +140,7 @@ export default{
                 const t = re.list[x].board_list[y]
 
 
-                t.last_posts_date = DateUtil.convertTime(t.last_posts_date)
+                t.last_posts_date = DateUtil.convertTimeShort(t.last_posts_date)
             }
         }
 

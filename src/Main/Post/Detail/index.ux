@@ -38,6 +38,18 @@
                         <image onclick="onClickImage(t.originalInfo)" class="content-image" src="{{t.originalInfo}}"></image>
                     </div>
                 </list-item>
+                <list-item type="topic-url" if="{{t.type  == 4 }}" >
+                    <div class="topic-content big-card">
+                        <a href="{{t.infor}}">{{t.infor}}</a>
+
+                    </div>
+                </list-item>
+                <list-item type="topic-other" if="{{t.type  >1 && t.type != 4 }}" >
+                    <div class="topic-content big-card">
+                        <a href="{{t.infor}}">{{t.infor}}</a>
+
+                    </div>
+                </list-item>
             </block>
 
 
@@ -136,7 +148,7 @@
       <div class="post-input">
 
         <div show="{{showCommentBar}}" class="post-comment-input">
-          <textarea id="comment-textarea"   class="comment-content" @change="onChangeCommentContent"  placeholder="说点什么吧." value="{{commentContent}}"> </textarea>
+          <textarea id="comment-textarea"   class="comment-content" @change="onChangeCommentContent"  placeholder="说点什么吧."  > {{commentContent}}</textarea>
           <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment">
 
         </div>

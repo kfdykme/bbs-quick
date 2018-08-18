@@ -1,5 +1,6 @@
 import Api from "./Api"
 import UserCache from './UserCache'
+import fetch from "@system.fetch"
 
 
 var app = null
@@ -225,6 +226,47 @@ function send(touid,pid,type,content,success){
     )
 }
 
+/*
+ *userAdd2
+ * 返回的不是json结构的返回对象,而是js代码
+            <script>
+                alert("您已和 Fore 成为好友");
+                location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=a7bafa8e";
+            </script>
+
+ * @params <String> uid
+ * @params <function> success
+ */
+function userAdd2(uid,success){
+
+    const ACT = "add2";
+
+    fetch.fetch({
+      url : Api.BASE_URL + "/app/web/index.php?r=user/useradminview",
+      method : "POST",
+      data :{
+          act :ACT,
+          uid:uid,
+          accessToken :UserCache.token(),
+          accessSecret :UserCache.secret(),
+          sdkVersion : Api.sdkVersion,
+          appHash :UserCache.appHash()
+      },
+      success :function(data){
+          var re = {
+              rs : 1,
+              errcode :"添加成功"
+          }
+
+          success(re)
+      },
+      fail : function(data,code){
+        Api.onFetchFail(data,code)
+      }
+    })
+
+}
+
 
 export default{
   fetchMessagePost,
@@ -234,5 +276,6 @@ export default{
   fetchPmseMissionList,
   uploadPmFile,
   send,
+  userAdd2,
   init
 }

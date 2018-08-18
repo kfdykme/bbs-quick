@@ -44,7 +44,7 @@
                                       <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
                                       <image onclick="onClickImage2(pm.content)" class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
                                       <div class="pop-big"></div>
-                                      <image  class="avatar" @click="onClickUser(re.body.userInfo.uid)"" src="{{re.body.userInfo.avatar}}"></image>
+                                      <image  class="avatar" @click="onClickUser(re.body.userInfo.uid)" src="{{re.body.userInfo.avatar}}"></image>
 
                                   </div>
                             </list-item>
@@ -56,12 +56,14 @@
       </div>
       <div class="reply-view">
 
-            <div class="addImg"  @click="onClickImage">
-                <!-- <text if="{{imageToSend == ''}}"  @click="onClickImage">+</text> -->
-                <image   src="{{imageToSend}}" alt="../../../Res/ic_pick_image.png"  @click="onClickImage"></image>
+            <div class="reply-add-bar"  @click="onClickImage">
+              <image   src="{{imageToSend}}" alt="../../../Res/ic_pick_image.png"  @click="onClickImage"></image>
             </div>
-            <textarea @change="onChangeText" value="{{textToSend}}"></textarea>
-            <input class="send" @click="onClickSend" type="button" value="发送" ></input>
+            <div class="reply-input-bar">
+                <textarea class="reply-input-textarea" @change="onChangeText"  >{{textToSend}}</textarea>
+                <input class="reply-input-send" @click="onClickSend" type="button" value="发送" ></input>
+
+            </div>
 
       </div>
   </div>

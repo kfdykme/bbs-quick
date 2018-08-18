@@ -113,10 +113,10 @@ export default {
     })
   },
   onUserNameChange(e){
-    this.username = e.target.attr.value
+    this.username = e.value
   },
   onPasswordChange(e){
 
-    this.password = e.target.attr.value
+    this.password = e.value
   }
 }
