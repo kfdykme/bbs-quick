@@ -1,93 +1,103 @@
 {
-  "package": "org.starstudio.quick.bbs",
-  "name": "清水河畔",
-  "versionName": "1.0.6",
-  "versionCode": "8",
-  "minPlatformVersion": "1010",
-  "icon": "/Res/logo.png",
-  "features": [
-    { "name": "system.prompt" },
-    { "name": "system.router" },
-    { "name": "system.shortcut" },
-    { "name": "system.fetch"},
-    {"name": "system.storage"},
-    {"name": "system.webview"},
-    {"name": "system.request"},
-    {"name": "system.media"},
-    {"name": "system.file"},
-    {"name": "system.image"}
-
-  ],
-  "permissions": [
-    { "origin": "*" }
-  ],
-  "config": {
-    "logLevel": "debug"
-  },
-  "router": {
-    "entry": "Start/Slash",
-    "pages": {
-      "Start/Slash":{
-        "component" : "index"
-      },
-      "Start/Login": {
-        "component": "index"
-      },
-      "Main": {
-        "component": "index"
-      },
-      "Main/Post/Detail":{
-        "component": "index"
-      },
-      "Main/Board":{
-        "component": "index"
-      },
-      "Main/Post/Write":{
-        "component" :"index"
-      },
-      "Main/Message/PmList":{
-        "component" :"index"
-      }
-      ,"Main/User":{
-        "component":"index"
-      }
-      ,"Other/ImageView" :{
-        "component" :"index"
-      }
+    "package": "org.starstudio.quick.bbs",
+    "name": "BBS",
+    "versionName": "1.0.7",
+    "versionCode": 9,
+    "minPlatformVersion": 1010,
+    "icon": "/Res/logo.png",
+    "features": [
+        {
+            "name": "system.prompt"
+        },
+        {
+            "name": "system.router"
+        },
+        {
+            "name": "system.shortcut"
+        },
+        {
+            "name": "system.fetch"
+        },
+        {
+            "name": "system.storage"
+        },
+        {
+            "name": "system.webview"
+        },
+        {
+            "name": "system.request"
+        },
+        {
+            "name": "system.media"
+        },
+        {
+            "name": "system.file"
+        },
+        {
+            "name": "system.app"
+        }
+    ],
+    "permissions": [
+        {
+            "origin": "*"
+        }
+    ],
+    "config": {
+        "logLevel": "debug"
+    },
+    "router": {
+        "entry": "Start/Slash",
+        "pages": {
+            "Start/Slash": {
+                "component": "index"
+            },
+            "Start/Login": {
+                "component": "index"
+            },
+            "Start/Register":{
+                "component" : "index"
+            },
+            "Main": {
+                "component": "index"
+            },
+            "Main/Post/Detail": {
+                "component": "index"
+            },
+            "Main/Board": {
+                "component": "index"
+            },
+            "Main/Post/Write": {
+                "component": "index"
+            },
+            "Main/Message/PmList": {
+                "component": "index"
+            },
+            "Main/User": {
+                "component": "index"
+            },
+            "Main/User/Reply":{
+                "component": "index"
+            },
+            "Other/ImageView": {
+                "component": "index"
+            }
+        }
+    },
+    "display": {
+        "titleBarBackgroundColor": "#f2f2f2",
+        "titleBarTextColor": "#414141",
+        "menu": true,
+        "titleBar": false,
+        "pages": {
+            "Start/Login": {},
+            "Start/Slash": {},
+            "Main": {},
+            "Main/Post/Detail": {},
+            "Main/Post/Write": {},
+            "Main/Board": {},
+            "Main/Message/PmList": {},
+            "Main/User": {},
+            "Other/Image": {}
+        }
     }
-  },
-  "display": {
-    "titleBarBackgroundColor": "#f2f2f2",
-    "titleBarTextColor": "#414141",
-    "menu": true,
-    "titleBar" :false,
-    "pages": {
-      "Start/Login": {
-      },
-      "Start/Slash":{
-
-      },
-      "Main": {
-      },
-      "Main/Post/Detail":{
-
-      },
-      "Main/Post/Write":{
-
-      },
-      "Main/Board":{
-
-      },
-      "Main/Message/PmList":{
-
-      }
-      ,"Main/User":{
-
-      }
-      ,"Other/Image":{
-
-      }
-
-    }
-  }
 }

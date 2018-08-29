@@ -108,9 +108,12 @@ export default {
   ,
   doRegister (e){
 
-    webview.loadUrl({
-      url : Api.REGISTER_URL
-    })
+      router.push({
+          uri: "Start/Register"
+      })
+    // webview.loadUrl({
+    //   url : Api.REGISTER_URL
+    // })
   },
   onUserNameChange(e){
     this.username = e.value

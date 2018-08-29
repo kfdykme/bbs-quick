@@ -1,0 +1,36 @@
+<template>
+  <div class="page">
+
+
+    <text class="text-welcome">{{welcome}}</text>
+
+
+    <input class="input" type="text" id="username-input" placeholder="请输入用户名" onchange="onTextChange('username')" value="{{username}}"/>
+
+    <input class="input" type="password" id="password-input" placeholder="请输入密码" onchange="onTextChange('password')" value="{{password}}"/>
+
+    <input class="input" type="password" id="password-input" placeholder="确认密码" onchange="onTextChange('password2')" value="{{password2}}"/>
+
+    <input class="input" type="email" id="password-input" placeholder="邮箱" onchange="onTextChange('email')" value="{{email}}"/>
+
+    <input class="input" type="text" id="password-input" placeholder="学号" onchange="onTextChange('stuNumber')" value="{{stuNumber}}"/>
+
+    <input class="input" type="password" id="password-input" placeholder="信息门户(统一身份认证)密码" onchange="onTextChange('stuPassword')" value="{{stuPassword}}"/>
+
+
+
+    <input class="btn" type="button" value="{{tvSure}}" onclick="doRegister" />
+
+
+
+
+  </div>
+</template>
+
+<style lang="less" src="./register.css">
+
+</style>
+
+<script src="./register.js">
+
+</script>

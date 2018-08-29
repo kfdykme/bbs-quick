@@ -42,7 +42,7 @@
                   <div  show="{{homeIndex == 1}}">
                         <board-list-view>
                         </board-list-view>
-                  </div>
+                  </div> -->
                   <div show="{{homeIndex == 2}}">
                       <message-view tag="message"></message-view>
                   </div>

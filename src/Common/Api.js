@@ -2,6 +2,17 @@ import prompt from "@system.prompt"
 import fetchModule from "@system.fetch"
 import request from '@system.request'
 
+
+var app = null
+function init(app){
+  this.app = app
+  UserCache.init(app)
+}
+
+function saveCookie(name,value){
+    this.app.$def.cache.cookie[name] = value
+}
+
  /**
   *upload() 获取与某个用户之间的消息记录
   *
@@ -65,7 +76,7 @@ function fetch(url,data,suc){
       url : url,
       method : "POST",
       data : data,
-      success :function(data){ 
+      success :function(data){
         const re = JSON.parse(data.data)
 
         if(re.rs == 0)
@@ -94,5 +105,7 @@ export default {
   fetch,
   onFetchFail,
   onSuccessError,
-  upload
+  upload,
+  init,
+  saveCookie
 }

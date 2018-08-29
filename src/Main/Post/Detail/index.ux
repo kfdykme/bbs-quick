@@ -149,7 +149,8 @@
 
         <div show="{{showCommentBar}}" class="post-comment-input">
           <textarea id="comment-textarea"   class="comment-content" @change="onChangeCommentContent"  placeholder="说点什么吧."  > {{commentContent}}</textarea>
-          <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment">
+          <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment"></input>
+          
 
         </div>
       </div>

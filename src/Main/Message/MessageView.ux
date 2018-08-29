@@ -262,15 +262,15 @@
         import presenter from "./MessagePresenter"
         import prompt from "@system.prompt"
 
-        function view(){
-            var mView = new Object
-            mView.renderData = this.renderData.bind(this)
-            mView.renderMoreData = this.renderMoreData.bind(this)
-            mView.renderNoMore = this.renderNoMore.bind(this)
-            mView.renderLoading = this.renderLoading.bind(this)
-            mView.context = this
-            return mView
-        }
+        // function view(){
+        //     var mView = new Object
+        //     mView.renderData = this.renderData.bind(this)
+        //     mView.renderMoreData = this.renderMoreData.bind(this)
+        //     mView.renderNoMore = this.renderNoMore.bind(this)
+        //     mView.renderLoading = this.renderLoading.bind(this)
+        //     mView.context = this
+        //     return mView
+        // }
 
 
 
@@ -363,7 +363,15 @@
           ,renderNoMore(msg,t){
                 this.$broadcast("render_no_more", { tag :t})
           }
-          ,view
+          , view(){
+            var mView = new Object
+            mView.renderData = this.renderData.bind(this)
+            mView.renderMoreData = this.renderMoreData.bind(this)
+            mView.renderNoMore = this.renderNoMore.bind(this)
+            mView.renderLoading = this.renderLoading.bind(this)
+            mView.context = this
+            return mView
+        }
           ,onClickEvent(type,arg){
               switch (type) {
                 case 'index':

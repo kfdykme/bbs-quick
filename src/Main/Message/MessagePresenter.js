@@ -68,6 +68,75 @@ function attach(){
 
 }
 
+/**
+ * convertData 处理请求消息后返回的数据
+ * @param re 返回内容实体
+ * @param tag 标签
+ */
+
+function convertData(re,tag){
+
+  var list = null
+  switch (tag) {
+    case this.TAG.pm:
+        re.has_next = re.body.hasNext
+        re.totalNum = re.body.count
+        list = re.body.list
+        for (let x in list){
+          var l = list[x]
+          l.replied_date = DateUtil.convertTime(l.lastDateline)
+          l.topic_content = l.lastSummary == "" ? "[image]" : l.lastSummary
+          l.icon = l.toUserAvatar
+        }
+
+        break;
+
+    case this.TAG.system:
+        list = re.body.data
+
+        for (let x in list){
+          var l = list[x]
+              // console.info(JSON.stringify(list[x]))
+          l.replied_date = DateUtil.convertTime(l.replied_date)
+          l.topic_content = l.note
+        }
+
+        break;
+
+    case this.TAG.post:
+        list = re.body.data
+        for (let x in list){
+            var l = list[x]
+            if(l.topic_content == null) {
+                // console.info(JSON.stringify(list[x]))
+                l.reply_content = l.content
+
+                l.reply_content = l.reply_content.replace(/(^\s*)|(\s*$)/g, "")
+            }
+            l.replied_date = DateUtil.convertTime(l.replied_date)
+        }
+        break;
+    case this.TAG.atme:
+    default:
+
+        list = re.body.data
+
+        for (let x in list){
+          var l = list[x]
+          l.replied_date = DateUtil.convertTime(l.replied_date)
+          //清空
+          l.topic_content = l.topic_content.replace(/(^\s*)|(\s*$)/g, "")
+          console.info(JSON.stringify(l));
+          l.reply_content = l.reply_content.replace(/(^\s*)|(\s*$)/g, "")
+        }
+        break;
+  }
+
+
+  return list
+}
+
+
 function loadMore(tag){
 
     if(this.cache[tag].canLoadMore){
@@ -175,6 +244,8 @@ function refresh(tag){
 function onClickEvent(type,arg){
 
     if(type == "system"){
+
+        //TODO:得改,但是怎么改,
         prompt.showToast({
             message :"暂不支持"
         })
@@ -192,23 +263,16 @@ function onClickEvent(type,arg){
                     })
         } else{
 
+            var onDealMessageSuccess  = function (re){
 
-            for(var x in actions){
-                if(actions[x].type == "firend")
-                {
-
-                    MessageApi.userAdd2(
-                        item.user_id,
-                        function (re){
-                            prompt.showToast({
-                                message:re.errcode
-                            })
-                        }
-                    )
-
-                    return
-                }
+                prompt.showToast({
+                    message : re.errcode
+                })
             }
+
+            MessageApi.dealMessageActions(actions,onDealMessageSuccess)
+
+
         }
 
     }
@@ -265,61 +329,6 @@ function onRefreshComplete(tag){
           this.view.renderNoMore("没有更多了",tag)
 
       }
-}
-
-function convertData(re,tag){
-
-  var list = null
-  switch (tag) {
-    case this.TAG.pm:
-        re.has_next = re.body.hasNext
-        re.totalNum = re.body.count
-        list = re.body.list
-        for (let x in list){
-          var l = list[x]
-          l.replied_date = DateUtil.convertTime(l.lastDateline)
-          l.topic_content = l.lastSummary == "" ? "[image]" : l.lastSummary
-          l.icon = l.toUserAvatar
-        }
-
-        break;
-
-    case this.TAG.system:
-        list = re.body.data
-
-        for (let x in list){
-          var l = list[x]
-          l.replied_date = DateUtil.convertTime(l.replied_date)
-          l.topic_content = l.note
-        }
-
-        break;
-
-    case this.TAG.post:
-        list = re.body.data
-        for (let x in list){
-            var l = list[x]
-            if(l.topic_content == null) {
-                // console.info(JSON.stringify(list[x]))
-                l.reply_content = l.content
-            }
-            l.replied_date = DateUtil.convertTime(l.replied_date)
-        }
-        break;
-    case this.TAG.atme:
-    default:
-
-        list = re.body.data
-
-        for (let x in list){
-          var l = list[x]
-          l.replied_date = DateUtil.convertTime(l.replied_date)
-        }
-        break;
-  }
-
-
-  return list
 }
 
 export default{

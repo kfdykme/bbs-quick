@@ -226,16 +226,18 @@ function send(touid,pid,type,content,success){
     )
 }
 
-/*
- *userAdd2
- * 返回的不是json结构的返回对象,而是js代码
-            <script>
-                alert("您已和 Fore 成为好友");
-                location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=a7bafa8e";
-            </script>
 
- * @params <String> uid
- * @params <function> success
+//弃用?
+/**
+ * userAdd2()
+ * 返回的不是json结构的返回对象,而是js代码
+ *        <script>
+ *            alert("您已和 Fore 成为好友");
+ *                location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=a7bafa8e";
+ *            </script>
+ *
+ * @param <string> uid
+ * @param <function> success
  */
 function userAdd2(uid,success){
 
@@ -268,7 +270,39 @@ function userAdd2(uid,success){
 }
 
 
+/**
+ * dealMessageActions 处理消息(系统消息)里附带的action
+ * @param actions actions实例,是一个数组
+ * @param success 成功回调
+ */
+
+function dealMessageActions(actions,suc){
+    //NOTE:暂时看到的actions都是只有一个,所以先取[0]
+    var action = actions[0]
+
+    fetch.fetch({
+        url : action.redirect,
+        success : function(data){
+
+                //NOTE:处理script返回,原先只是返回了js的alert加上重定位,现在得暂时自己来
+                const regExp =  /alert\(\".*\"\);/g
+                var errcode =  data.data.match(regExp);
+                errcode = errcode[0].substring(7)
+                errcode = errcode.substring(0,errcode.length-3)
+
+                var re = {}
+                re.rs = 1
+                re.errcode = errcode
+                suc(re)
+        },
+        fail : function(data,code){
+          Api.onFetchFail(data,code)
+        }
+    })
+}
+
 export default{
+  dealMessageActions,
   fetchMessagePost,
   fetchMessageAtMe,
   fetchMessageSystem,
