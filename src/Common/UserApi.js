@@ -182,6 +182,34 @@ function addFriend(uid,success){
     )
 }
 
+
+
+/**
+ * getFollows 或取关注的人
+ * @param uid
+ * @param page
+ * @param success
+ */
+function getFollows(uid,page,onGetSuccess){
+    const pageSize = 200
+
+    Api.fetch(
+        Api.BASE_URL+"/app/web/index.php?r=user/userlist",
+        {
+            accessToken :UserCache.token(),
+            accessSecret :UserCache.secret(),
+            sdkVersion : Api.sdkVersion,
+            appHash :UserCache.appHash(),
+            uid:uid,
+            orderBy:'dateline',
+            page:page,
+            pageSize:pageSize,
+            type:'follow'
+        },
+        onGetSuccess
+    )
+}
+
 /**
  * follow 关注
  * @param uid
@@ -231,6 +259,7 @@ export default {
     ,getUserAvatarBig
     ,getUserReplyPost
     ,getFirends
+    ,getFollows
     ,getMePosts
     ,user
     ,init

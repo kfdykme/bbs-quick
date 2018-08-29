@@ -26,13 +26,13 @@
 
                       <tab-content   >
                         <div class="tab-content-section">
-                          <post-list-view tag="{{tags[0]}}"  ></post-list-view>
+                          <post-list-view type="forum" tag="{{tags[0]}}"  ></post-list-view>
                         </div>
                         <div class="tab-content-section">
-                          <post-list-view tag="{{tags[1]}}" ></post-list-view>
+                          <post-list-view type="forum" tag="{{tags[1]}}" ></post-list-view>
                         </div>
                         <div class="tab-content-section">
-                          <post-list-view tag="{{tags[2]}}"  ></post-list-view>
+                          <post-list-view type="forum" tag="{{tags[2]}}"  ></post-list-view>
                         </div>
 
                       </tab-content>

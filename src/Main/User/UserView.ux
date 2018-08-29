@@ -1,3 +1,9 @@
+
+<import name="user-list-view" src="../../Comp/UserListView"></import>
+
+<import name="post-list-view" src="../../Comp/PostListView"></import>
+
+
 <template>
 
 
@@ -38,42 +44,7 @@
                     <tab-content >
                         <div >
 
-                            <list class="post">
-                                <block for="p in postlist">
-
-                                    <list-item type="post-item-header" >
-                                        <div class="header card">
-
-                                            <image class="avatar"    src="{{p.userAvatar}}" alt="../Common/logo.png"/>
-                                            <div class="header-text">
-                                                <div class="line-one">
-                                                    <text class="user-nike-name"  >{{p.user_nick_name}}</text>
-                                                    <text class="board-name">{{p.board_name}}</text>
-                                                </div>
-                                                <text class="title" onclick="onClickPost(p.topic_id)"  >{{p.title}}</text>
-                                                <text class="date" >{{p.last_reply_date}}</text>
-                                            </div>
-
-                                        </div>
-
-                                    </list-item>
-
-                                    <list-item type="post-item-hnr">
-
-                                        <div class="footer card">
-
-                                          <div class="hnr">
-                                            <text show="{{p.hits != 0}}" class="hit">{{p.hits}}点击</text>
-
-                                            <text show="{{p.replies != 0}}" class="replycount">{{p.replies}}回复 </text>
-
-                                          </div>
-                                        </div>
-                                    </list-item>
-
-
-                                </block>
-                            </list>
+    <post-list-view type="me-publish" tag="{{uid}}"  ></post-list-view>
                         </div>
                         <div class="">
                             <!-- NOTE: 回复,关注,粉丝 -->
@@ -85,7 +56,9 @@
                                         <text class="info-title"> 参与 </text>
                                     </div>
                                     <text>|</text>
-                                    <div  class="info-active-item"  >
+                                    <div  class="info-active-item"
+
+                                     @click="onClickEvent('lookfollow',uid)"  >
                                         <text class="info-value">{{followNumber}}</text>
                                         <text class="info-title"> 关注 </text>
                                     </div>
@@ -125,54 +98,11 @@
                      <tab-content class="tab-content">
 
                        <div class="post">
-                           <list>
-                               <block for="p in postlist">
-
-                                   <list-item type="post-item-header" >
-                                       <div class="header card">
-
-                                           <image class="avatar"    src="{{p.userAvatar}}" alt="../Common/logo.png"/>
-                                           <div class="header-text">
-                                               <div class="line-one">
-                                                   <text class="user-nike-name"  >{{p.user_nick_name}}</text>
-                                                   <text class="board-name">{{p.board_name}}</text>
-                                               </div>
-                                               <text class="title" onclick="onClickEvent('post',p.topic_id)"  >{{p.title}}</text>
-                                               <text class="date" >{{p.last_reply_date}}</text>
-                                           </div>
-
-                                       </div>
-
-                                   </list-item>
-
-                                   <list-item type="post-item-hnr">
-
-                                       <div class="footer card">
-
-                                         <div class="hnr">
-                                           <text show="{{p.hits != 0}}" class="hit">{{p.hits}}点击</text>
-                                           <text show="{{p.replies != 0}}" class="replycount">{{p.replies}}回复</text>
-
-                                         </div>
-                                       </div>
-                                   </list-item>
-
-
-                               </block>
-                           </list>
+                                <post-list-view type="me-publish" tag="{{uid}}"  ></post-list-view>
                        </div>
                        <div  >
-                           <list class="friends">
-                               <block for="f in friendList">
-                                   <list-item type="friend">
-                                       <div class="friend-header card">
-                                           <image class="avatar"  @click="onClickEvent('user',f.uid)" src="{{f.icon}}" alt="../Common/logo.png"/>
-                                           <text @click="onClickEvent('user',f.uid)" class="friend-name">{{f.name}}</text>
-                                       </div>
-                                   </list-item>
-                                </block>
 
-                            </list>
+                               <user-list-view uid="{{uid}}" tag="friend"></user-list-view>
 
                        </div>
                        <div class="other-settings">
@@ -186,7 +116,8 @@
                                        <text class="info-title"> 参与 </text>
                                    </div>
                                    <text>|</text>
-                                   <div  class="info-active-item"  >
+                                   <div  class="info-active-item"
+                                    @click="onClickEvent('lookfollow',uid)"  >
                                        <text class="info-value">{{followNumber}}</text>
                                        <text class="info-title"> 关注 </text>
                                    </div>
@@ -267,98 +198,7 @@
 
                 }
 
-                list{
-                          height: 100%;
-                          justify-content: flex-start;
-                          align-items: flex-start;
-                          background-color: #eeeeee;
 
-
-                          .card{
-                              width: 100%;
-                              background-color: #ffffff;
-                              margin-left: 16px;
-                              margin-right:16px;
-
-
-                          }
-
-                          .header{
-                            flex-direction: row;
-                            padding: 8px;
-                            padding-bottom: 16px;
-                            margin-top: 16px;
-
-                            .avatar{
-                                width: 64px;
-                                height :64px;
-                                margin: 8px;
-                                border-radius: 32px;
-                            }
-
-
-                            .header-text{
-                                  flex-direction: column;
-
-                                  .line-one{
-                                      flex-direction: row;
-
-
-                                      .user-nike-name{
-                                          width: 70%;
-                                          color: #aabcd4;
-                                          font-size: 30px;
-                                      }
-
-                                      .board-name{
-                                          width: 30%;
-                                          height: 100%;
-                                          text-align: right;
-                                          font-size: 20px;
-                                          text-align: right;
-                                          color: #aaaaaa;
-                                      }
-                                  }
-
-                                  .title{
-                                        lines : 1;
-                                        font-weight :bold;
-                                        padding-right: 16px;
-                                        text-overflow: ellipsis;
-                                  }
-
-                                  .date{
-                                    font-size: 30px;
-                                    color: #ffbc4d;
-                                  }
-
-                            }
-
-
-                          }
-
-
-                          .footer{
-                              .hnr{
-                                    width: 100%;
-                                        flex-direction: row;
-                                        align-items: flex-end;
-                                        justify-content: flex-end;
-
-                                    text{
-                                        padding: 16px;
-                                    }
-                                    .hit{
-                                          color :#00bcd4;
-                                    }
-
-                                    .replycount{
-                                        color : #ffbcd4;
-                                    }
-                              }
-
-                          }
-                }
 
                 .card{
                     width: 100%;
@@ -464,52 +304,6 @@
                     justify-content: flex-end;
 
 
-                    .post{
-
-                    }
-
-
-                    .friends {
-                        height: 100%;
-                        margin-top : 16px;
-                        .card{
-                            width: 100%;
-                            background-color: #ffffff;
-                            margin-left: 16px;
-                            margin-right:16px;
-
-                        }
-
-
-                        .friend-header{
-
-                          flex-direction: row;
-                          padding: 8px;
-                          padding-bottom: 16px;
-                          height: 100px;
-
-                                .friend-name{
-                                    height: 100%;
-                                    width: 70%;
-                                    color: #aabcd4;
-                                    font-size: 30px;
-
-                                }
-
-                                .avatar{
-                                    width: 64px;
-                                    height :64px;
-                                    margin: 8px;
-                                    border-radius: 32px;
-                                }
-
-                        }
-
-
-
-
-
-                    }
 
                     .other-settings{
                         flex-direction: column;
@@ -594,33 +388,22 @@
         ,initPosts(){
 
 
-            //NOTE: 或取发过的帖子
-            UserApi.getMePosts(this.uid,1,100,
-                function(re){
-
-                    let x
-                    for(x in re.list){
-                      let time = re.list[x].last_reply_date
-                      re.list[x].last_reply_date = DateUtil.convertTime(time)
-                    }
-
-                    this.postlist =  re.list
-                }.bind(this))
 
             //NOTE: 或取回复过的帖子
             UserApi.getUserReplyPost(this.uid,1,10,
                 function(re){
-                    for(var x in re.list){
-
-                          let time = re.list[x].last_reply_date
-                          re.list[x].last_reply_date = DateUtil.convertTime(time)
-                    }
-
-                    this.replyPostList = re.list
                     this.replyTotalNumber = re.total_num
                 }.bind(this)
             )
 
+
+            // NOTE : 或取关注了的人
+            UserApi.getFollows(this.uid,1,
+                function(re){
+                    console.info(JSON.stringify(re))
+                    this.followNumber = re.total_num
+                }.bind(this)
+            )
         }
         ,initSelf(){
             UserApi.getFirends(this.uid,
@@ -742,26 +525,6 @@
                     })
             }
 
-            // NOTE : 点击用户
-            if(type == 'user'){
-                if(arg != this.myId)
-                router.push({
-                    uri : "Main/User",
-                    params :{
-                        uid :arg
-                    }
-                })
-            }
-
-            // NOTE : 进入帖子
-            if(type == 'post'){
-                router.push({
-                  uri : 'Main/Post/Detail',
-                  params : {
-                    topicid : arg
-                  }
-                })
-            }
 
             // NOTE : 查看参与
             if(type == 'replycount'){
@@ -773,7 +536,16 @@
                 })
             }
 
-
+            // NOTE : 查看关注的人
+            if(type == 'lookfollow'){
+                router.push({
+                  uri : 'Main/User/Follow',
+                  params : {
+                      uid :arg,
+                      tag : "follow"
+                  }
+                })
+            }
         }
         ,onInit(){
             UserApi.init(this.$app)

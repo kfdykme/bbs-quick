@@ -1,0 +1,26 @@
+
+<import name="user-list-view" src="../../../Comp/UserListView"></import>
+
+
+<template >
+    <user-list-view uid="{{uid}}" tag="{{tag}}"></user-list-view>
+</template>
+
+
+<style lang="less">
+</style>
+
+<script>
+
+
+export default{
+  protected:{
+    uid:0,
+    tag :"", 
+  },
+  onInit(){
+
+  }
+}
+
+</script>

@@ -78,6 +78,9 @@
             "Main/User/Reply":{
                 "component": "index"
             },
+            "Main/User/Follow":{
+                "component": "index"
+            },
             "Other/ImageView": {
                 "component": "index"
             }

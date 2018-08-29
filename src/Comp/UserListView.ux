@@ -1,0 +1,242 @@
+
+<import name="loading-progress-view" src="./LoadingProgressView"></import>
+
+
+<template >
+  <div class="user-list-view" >
+
+    <refresh onrefresh="dore" refreshing={{isRefreshing}}>
+        <list class="friends" onscrollbottom="loadMore">
+            <block for="f in list">
+                <list-item type="friend">
+                    <div class="friend-header card">
+                        <image class="avatar"  @click="onClickEvent('user',f.uid)" src="{{f.icon}}" alt="../Common/logo.png"/>
+                        <text @click="onClickEvent('user',f.uid)" class="friend-name">{{f.name}}</text>
+                    </div>
+                </list-item>
+             </block>
+
+
+             <list-item type="loadMore" >
+
+                 <loading-progress-view tag="{{tag}}"></loading-progress-view>
+             </list-item>
+         </list>
+
+  </refresh>
+  </div>
+
+</template>
+
+
+<style lang="less">
+
+.user-list-view {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #eeeeee;
+  refresh{
+
+      height: 100%;
+  }
+  .friends {
+      height: 100%;
+      margin-top : 16px;
+      .card{
+          width: 100%;
+          background-color: #ffffff;
+          margin-left: 16px;
+          margin-right:16px;
+
+      }
+
+
+      .friend-header{
+
+        flex-direction: row;
+        padding: 8px;
+        padding-bottom: 16px;
+        height: 100px;
+
+              .friend-name{
+                  height: 100%;
+                  width: 70%;
+                  color: #aabcd4;
+                  font-size: 30px;
+
+              }
+
+              .avatar{
+                  width: 64px;
+                  height :64px;
+                  margin: 8px;
+                  border-radius: 32px;
+              }
+
+      }
+
+
+
+
+
+  }
+}
+</style>
+
+<script>
+import UserApi from '../Common/UserApi'
+import prompt from '@system.prompt'
+import router from '@system.router'
+import DateUtil from  '../Common/DateUtil'
+
+export default{
+  props:[
+    'tag',
+    'uid'
+  ],
+  data:{
+    list:[],
+    page:1,
+    canLoadMore :true,
+    isRefreshing :false,
+    pro_show : true,
+    pro_msg : ""
+  },
+  onInit(){
+
+    UserApi.init(this.$app)
+    this.refresh()
+
+  },
+  dore(e){
+    this.isRefreshing =e.refreshing
+    this.refresh()
+  },
+  refresh(){
+    this.page = 1
+    this.$broadcast("render_loading",{ tag : this.tag})
+    this.fetchDatas(this.tag,this.page)
+  },
+  renderMore(list){
+    if(list != null && list.length != 0){
+
+      this.list = this.list.concat(list);
+    } else {
+        this.renderError("没有更多了~~")
+    }
+    this.loadMoreComplete()
+  },
+  render(list){
+    if(list != null && list.length!=0){
+      this.list = list
+
+      this.refreshComplete()
+    } else {
+      this.renderError("没有更多了~~")
+    }
+
+  },
+  renderError(msg){
+    this.$broadcast("render_no_more", { tag : this.tag})
+  },
+  loadMoreComplete(){
+    this.canLoadMore = true
+    this.$broadcast("render_no_more",{ tag : this.tag})
+  },
+  refreshComplete(){
+    if(this.isRefreshing){
+      this.isRefreshing = false
+
+      prompt.showToast({
+          message: '刷新成功'
+      })
+
+      this.$broadcast("render_normal",{ tag : this.tag})
+    }
+
+  },
+  fetchDatas(tag,page){
+
+        // NOTE : 关注的人
+        if(tag == 'follow'){
+            UserApi.getFollows(this.uid,page,
+                function(re){
+
+                    let x
+                    for(x in re.list){
+                      let time = re.list[x].lastLogin
+                      re.list[x].lastLogin = DateUtil.convertTime(time)
+                    }
+
+
+
+                    if(page == 1){
+                      this.render(re.list)
+                    } else {
+
+                      // console.log(JSON.stringify(re.list));
+                      this.renderMore(re.list)
+                    }
+
+                    if(re.has_next == 0){
+                      this.renderError("没有更多了")
+                      return
+                    }
+
+                }.bind(this)
+            )
+        }
+
+        // NOTE : 好友
+        if(tag == 'friend'){
+            UserApi.getFirends(this.uid,
+                function(re){ 
+
+
+                if(page == 1){
+                  this.render(re.list)
+                } else {
+
+                  // console.log(JSON.stringify(re.list));
+                  this.renderMore(re.list)
+                }
+
+                if(re.has_next == 0){
+                  this.renderError("没有更多了")
+                  return
+                }
+                }.bind(this))
+
+        }
+  },
+  loadMore(){
+    if(this.canLoadMore){
+
+      this.$broadcast("render_loading",{ tag : this.tag})
+      this.canLoadMore = false
+      this.page = this.page+ 1
+      this.fetchDatas(this.tag,this.page)
+
+    }
+  }
+  ,onClickEvent(type,arg){
+
+      // NOTE : 点击用户
+      if(type == 'user'){
+          if(arg != this.myId)
+          router.push({
+              uri : "Main/User",
+              params :{
+                  uid :arg
+              }
+          })
+      }
+  }
+  ,renderProgress(tag){
+      this.$broadcast("render_no_more",{ tag : this.tag})
+  }
+
+}
+
+</script>

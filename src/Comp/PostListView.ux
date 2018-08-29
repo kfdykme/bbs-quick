@@ -190,13 +190,14 @@
 
 <script>
 import ForumApi from '../Common/ForumApi'
+import UserApi from '../Common/UserApi'
 import prompt from '@system.prompt'
 import router from '@system.router'
 import DateUtil from  '../Common/DateUtil'
 
 export default{
   props:[
-    'datalist',
+    'type',
     'tag'
   ],
   data:{
@@ -209,7 +210,8 @@ export default{
   },
   onInit(){
 
-    this.refresh()
+        UserApi.init(this.$app)
+        this.refresh()
 
   },
   dore(e){
@@ -261,33 +263,110 @@ export default{
   },
   fetchPosts(tag,page){
     // console.log("fetpost page : "+page);
-    ForumApi.getPostByTag(tag,page,
-      function (re){
+
+    // NOTE : froum
+    if(this.type == 'forum'){
+
+        ForumApi.getPostByTag(tag,page,
+            function (re){
 
 
-        let x
-        for(x in re.list){
-          let time = re.list[x].last_reply_date
-          re.list[x].last_reply_date = DateUtil.convertTime(time)
-        }
+                let x
+                for(x in re.list){
+                    let time = re.list[x].last_reply_date
+                    re.list[x].last_reply_date = DateUtil.convertTime(time)
+                }
 
 
 
-        if(page == 1){
-          this.render(re.list)
-        } else {
+                if(page == 1){
+                    this.render(re.list)
+                } else {
 
-          // console.log(JSON.stringify(re.list));
-          this.renderMore(re.list)
-        }
+                    // console.log(JSON.stringify(re.list));
+                    this.renderMore(re.list)
+                }
 
-        if(re.has_next == 0){
-          this.renderError("没有更多了")
-          return
-        }
+                if(re.has_next == 0){
+                    this.renderError("没有更多了")
+                    return
+                }
 
-      }.bind(this)
-    )
+            }.bind(this)
+        )
+    }
+
+    // NOTE : my publish
+    if(this.type == 'me-publish'){
+        //NOTE: 或取发过的帖子
+        UserApi.getMePosts(this.tag,page,20,
+            function(re){
+
+                    let x
+                    for(x in re.list){
+                        let time = re.list[x].last_reply_date
+                        re.list[x].last_reply_date = DateUtil.convertTime(time)
+                    }
+
+
+
+                    if(page == 1){
+                        this.render(re.list)
+                    } else {
+
+                        // console.log(JSON.stringify(re.list));
+                        this.renderMore(re.list)
+                    }
+
+                    if(re.has_next == 0){
+                        this.renderError("没有更多了")
+                        return
+                    }
+            }.bind(this))
+
+    }
+
+
+    // NOTE : my reply
+    if(this.type == 'me-reply'){
+
+        UserApi.getUserReplyPost(this.tag,page,10,
+          function (re){
+
+
+            let x
+            for(x in re.list){
+              let time = re.list[x].last_reply_date
+              re.list[x].last_reply_date = DateUtil.convertTime(time)
+            }
+
+
+
+            if(page == 1){
+              this.render(re.list)
+            } else {
+
+              // console.log(JSON.stringify(re.list));
+              this.renderMore(re.list)
+            }
+
+            if(re.has_next == 0){
+              this.renderError("没有更多了")
+              return
+            }
+
+          }.bind(this)
+        )
+    }
+
+    // NOTE : board
+    if(this.type == 'board'){
+        //进行请求数据
+        BoardApi.fetchBoardPostList(
+          page,
+          this.tag,
+          success)
+    }
   },
   loadMore(){
     if(this.canLoadMore){
