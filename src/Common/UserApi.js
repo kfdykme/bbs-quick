@@ -210,6 +210,33 @@ function getFollows(uid,page,onGetSuccess){
     )
 }
 
+
+/**
+ * getFolloweds 获取粉丝
+ * @param uid
+ * @param page
+ * @param success
+ */
+function getFolloweds(uid,page,onGetSuccess){
+    const pageSize = 200
+
+    Api.fetch(
+        Api.BASE_URL+"/app/web/index.php?r=user/userlist",
+        {
+            accessToken :UserCache.token(),
+            accessSecret :UserCache.secret(),
+            sdkVersion : Api.sdkVersion,
+            appHash :UserCache.appHash(),
+            uid:uid,
+            orderBy:'dateline',
+            page:page,
+            pageSize:pageSize,
+            type:'followed'
+        },
+        onGetSuccess
+    )
+}
+
 /**
  * follow 关注
  * @param uid
@@ -260,6 +287,7 @@ export default {
     ,getUserReplyPost
     ,getFirends
     ,getFollows
+    ,getFolloweds
     ,getMePosts
     ,user
     ,init

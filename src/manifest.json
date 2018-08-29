@@ -1,8 +1,8 @@
 {
     "package": "org.starstudio.quick.bbs",
     "name": "BBS",
-    "versionName": "1.0.7",
-    "versionCode": 9,
+    "versionName": "1.0.8",
+    "versionCode": 10,
     "minPlatformVersion": 1010,
     "icon": "/Res/logo.png",
     "features": [

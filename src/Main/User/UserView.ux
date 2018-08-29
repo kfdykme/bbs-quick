@@ -44,9 +44,9 @@
                     <tab-content >
                         <div >
 
-    <post-list-view type="me-publish" tag="{{uid}}"  ></post-list-view>
+                                <post-list-view type="me-publish" tag="{{uid}}"  ></post-list-view>
                         </div>
-                        <div class="">
+                        <div class="other-info">
                             <!-- NOTE: 回复,关注,粉丝 -->
                             <div class="user-second-info card">
 
@@ -64,13 +64,27 @@
                                     </div>
                                     <text>|</text>
 
-                                    <div  class="info-active-item" >
+                                   <div  class="info-active-item" @click="onClickEvent('lookfollowed',uid)" >
                                         <text class="info-value">{{followerNumber}}</text>
                                         <text class="info-title"> 粉丝 </text>
                                     </div>
 
                             </div>
 
+                            <!-- NOTE: 其他资料 -->
+
+                            <div if="{{userInfo.email != '' && userInfo.email}}"   class="info-item card ">
+                                <text>email : {{userInfo.email}}</text>
+
+                            </div>
+
+                            <block for=" p in userInfo.body.profileList">
+
+                                <div if="{{p.data != ''}}"   class="info-item card ">
+                                    <text>{{p.title}} : {{p.data}}</text>
+
+                                </div>
+                            </block>
 
                            <div class="blank-item">
 
@@ -93,7 +107,7 @@
                      <tab-bar class="tab-bar">
                        <text class="{{ tabIndex === 0 ?'tab-title' : ''}}">我的发帖</text>
                        <text class="{{ tabIndex === 1 ?'tab-title' : ''}}">我的好友</text>
-                       <text class="{{ tabIndex === 2 ?'tab-title' : ''}}">其他设置</text>
+                       <text class="{{ tabIndex === 2 ?'tab-title' : ''}}">其他</text>
                      </tab-bar>
                      <tab-content class="tab-content">
 
@@ -101,11 +115,9 @@
                                 <post-list-view type="me-publish" tag="{{uid}}"  ></post-list-view>
                        </div>
                        <div  >
-
                                <user-list-view uid="{{uid}}" tag="friend"></user-list-view>
-
                        </div>
-                       <div class="other-settings">
+                       <div class="other-info">
 
                            <!-- NOTE: 回复,关注,粉丝 -->
                            <div class="user-second-info card">
@@ -123,13 +135,24 @@
                                    </div>
                                    <text>|</text>
 
-                                   <div  class="info-active-item" >
+                                   <div  class="info-active-item" @click="onClickEvent('lookfollowed',uid)" >
                                        <text class="info-value">{{followerNumber}}</text>
                                        <text class="info-title"> 粉丝 </text>
                                    </div>
 
                            </div>
 
+                           <!-- NOTE: 其他资料 -->
+                           <div if="{{userInfo.email != '' && userInfo.email }}"   class="info-item card ">
+                               <text>email : {{userInfo.email}}</text>
+
+                           </div>
+                           <block for=" p in userInfo.body.profileList">
+                               <div if="{{p.data != ''}}"  class="info-item card">
+                                   <text>{{p.title}} : {{p.data}}</text>
+
+                               </div>
+                           </block>
                            <div class="blank-item">
 
                            </div>
@@ -220,14 +243,22 @@
                     }
                 }
 
-
-
                 .tab-title{
                     font-size: 48px;
                     padding: 8px;
                     margin: 16px;
                 }
 
+                .other-info{
+                    flex-direction: column;
+
+                    .info-item{
+                        margin-left: 0px;
+                        margin-right: 0px;
+                        margin-top: 2px;
+                        padding: 8px;
+                    }
+                }
 
 
                 .user-second-info{
@@ -236,7 +267,7 @@
                     padding: 8px;
                     align-items: center;
                     justify-content: center;
-                    margin-top : 8px;
+                    margin-top : 16px;
 
                     margin-left: 0px;
                     margin-right: 0px;
@@ -305,7 +336,7 @@
 
 
 
-                    .other-settings{
+                    .other-info{
                         flex-direction: column;
                         justify-content: flex-end;
 
@@ -402,6 +433,14 @@
                 function(re){
                     console.info(JSON.stringify(re))
                     this.followNumber = re.total_num
+                }.bind(this)
+            )
+
+            // NOTE : 获取粉丝
+            UserApi.getFolloweds(this.uid,1,
+                function(re){
+                    console.info(JSON.stringify(re))
+                    this.followerNumber = re.total_num
                 }.bind(this)
             )
         }
@@ -543,6 +582,16 @@
                   params : {
                       uid :arg,
                       tag : "follow"
+                  }
+                })
+            }
+            // NOTE : 查看关注的人
+            if(type == 'lookfollowed'){
+                router.push({
+                  uri : 'Main/User/Follow',
+                  params : {
+                      uid :arg,
+                      tag : "followed"
                   }
                 })
             }

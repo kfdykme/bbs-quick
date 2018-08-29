@@ -1,5 +1,5 @@
 
-<import name="loading-progress-view" src="../../Comp/LoadingProgressView"></import>
+<import name="post-list-view" src="../../Comp/PostListView"></import>
 <import name="float-bar" src="../../Comp/FloatBar"></import>
 
 
@@ -29,69 +29,12 @@
 
           <tabs onchange="changeTabBoard"  index="{{boardIndex}}" class="board-content">
               <tab-content >
-                <block for="(i,l) in list">
 
-                    <div class="tab-content">
+                    <post-list-view type="board" tag="{{boardId}}"  ></post-list-view>
+                    <block for="b in boardList">
+                          <post-list-view type="board" tag="{{b.board_id}}"  ></post-list-view>
+                    </block>
 
-                      <refresh @refresh="reqRefresh(i)" refreshing="{{l.isRefreshing}}">
-                        <list onscrollbottom="loadMore(i)">
-
-
-                          <block  for="{{l.postlist}}">
-
-
-                                      <list-item type="post-item-header" >
-                                          <div class="header card">
-
-                                              <img class="avatar"  @click="onClickUser($item.user_id)" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
-                                              <div class="header-text">
-                                                  <div class="line-one">
-                                                      <text class="user-nike-name" @click="onClickUser($item.user_id)">{{$item.user_nick_name}}</text>
-                                                      <text class="board-name">{{$item.board_name}}</text>
-
-                                                  </div>
-                                                  <text class="title" onclick="onClickPost($item.topic_id == null ? $item.source_id : $item.topic_id)" >{{$item.title}}</text>
-                                                  <text class="date" >{{$item.last_reply_date}}</text>
-                                              </div>
-
-                                          </div>
-
-                                      </list-item>
-
-
-
-                                      <list-item type="post-item-subject"  >
-                                          <div class="section card">
-                                              <text class="subject" @click="onClickPost($item.topic_id)"  >{{$item.subject}}</text>
-
-                                          </div>
-                                      </list-item>
-                                      <list-item type="post-item-hnr">
-
-                                          <div class="footer card">
-
-                                            <div class="hnr">
-                                              <text show="{{$item.hits != 0}}" class="hit">{{$item.hits}}点击</text>
-                                              <text show="{{$item.replies != 0}}"class="replycount">{{$item.replies}}回复</text>
-
-                                            </div>
-                                          </div>
-                                      </list-item>
-
-
-                          </block>
-
-
-                          <list-item type="loadMore" >
-
-                              <loading-progress-view ></loading-progress-view>
-                          </list-item>
-                        </list>
-
-                      </refresh>
-
-                    </div>
-                </block>
               </tab-content>
 
           </tabs>

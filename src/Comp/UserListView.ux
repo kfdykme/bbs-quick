@@ -158,56 +158,46 @@ export default{
   },
   fetchDatas(tag,page){
 
+      var success = function(re){
+
+          let x
+          for(x in re.list){
+            let time = re.list[x].lastLogin
+            re.list[x].lastLogin = DateUtil.convertTime(time)
+          }
+
+
+
+          if(page == 1){
+            this.render(re.list)
+          } else {
+
+            // console.log(JSON.stringify(re.list));
+            this.renderMore(re.list)
+          }
+
+          if(re.has_next == 0){
+            this.renderError("没有更多了")
+            return
+          }
+
+      }.bind(this)
+
+
         // NOTE : 关注的人
         if(tag == 'follow'){
             UserApi.getFollows(this.uid,page,
-                function(re){
-
-                    let x
-                    for(x in re.list){
-                      let time = re.list[x].lastLogin
-                      re.list[x].lastLogin = DateUtil.convertTime(time)
-                    }
-
-
-
-                    if(page == 1){
-                      this.render(re.list)
-                    } else {
-
-                      // console.log(JSON.stringify(re.list));
-                      this.renderMore(re.list)
-                    }
-
-                    if(re.has_next == 0){
-                      this.renderError("没有更多了")
-                      return
-                    }
-
-                }.bind(this)
-            )
+                success)
         }
-
+        // NOTE : 关注的人
+        if(tag == 'followed'){
+            UserApi.getFolloweds(this.uid,page,
+                success)
+        }
         // NOTE : 好友
         if(tag == 'friend'){
             UserApi.getFirends(this.uid,
-                function(re){ 
-
-
-                if(page == 1){
-                  this.render(re.list)
-                } else {
-
-                  // console.log(JSON.stringify(re.list));
-                  this.renderMore(re.list)
-                }
-
-                if(re.has_next == 0){
-                  this.renderError("没有更多了")
-                  return
-                }
-                }.bind(this))
-
+                success)
         }
   },
   loadMore(){

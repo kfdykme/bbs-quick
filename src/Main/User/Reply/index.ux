@@ -4,7 +4,6 @@
 
 <template >
        <post-list-view type="me-reply" tag="{{uid}}"  ></post-list-view>
-
 </template>
 
 
