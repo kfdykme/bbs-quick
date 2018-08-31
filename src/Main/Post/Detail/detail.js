@@ -144,6 +144,26 @@
       json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
 
       this.topic = json.topic
+
+      // var a = []
+      //
+      // //TODO:有点繁琐,先缓一缓
+      // //NOTE:处理一下文本,加一下表情包
+      // for(var x in json.topic.content){
+      //     var c = json.topic.content[x]
+      //     if(c.type == 0){
+      //         const reg = /\[mobcent_phiz=.*\]/g
+      //         var s = c.infor.match(reg)
+      //         if(s != null || s.length !=0){
+      //
+      //
+      //
+      //         }
+      //     } else{
+      //
+      //     }
+      // }
+      // console.info(JSON.stringify(this.topic))
       this.renderTopicComplete()
     },
     renderTopicComplete(){

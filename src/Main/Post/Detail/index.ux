@@ -26,30 +26,40 @@
 
             <block for="t in topic.content">
 
+
+                <!-- NOTE:文本 -->
                 <list-item type="topic-text" if="{{t.type  == 0 }}" >
                     <div class="topic-content big-card">
                         <richtext type="html">{{t.infor}}</richtext>
 
                     </div>
                 </list-item>
+
+                <!-- NOTE: 图片  -->
                 <list-item type="topic-image" if="{{showImage && t.type  == 1 }}" >
                     <div class="topic-content big-card">
 
                         <image onclick="onClickImage(t.originalInfo)" class="content-image" src="{{t.originalInfo}}"></image>
                     </div>
                 </list-item>
+
                 <list-item type="topic-url" if="{{t.type  == 4 }}" >
                     <div class="topic-content big-card">
                         <a href="{{t.infor}}">{{t.infor}}</a>
 
                     </div>
                 </list-item>
-                <list-item type="topic-other" if="{{t.type  >1 && t.type != 4 }}" >
+
+                <!-- TODO: 要改成下载的 -->
+                <!-- NOTE: 下载  -->
+                <list-item type="topic-dl" if="{{t.type  ==5}}" >
                     <div class="topic-content big-card">
-                        <a href="{{t.infor}}">{{t.infor}}</a>
+                        <a href="{{t.url}}">{{t.infor}}</a>
+                        <text>{{t.desc}}</text>
 
                     </div>
                 </list-item>
+
             </block>
 
 
@@ -150,7 +160,7 @@
         <div show="{{showCommentBar}}" class="post-comment-input">
           <textarea id="comment-textarea"   class="comment-content" @change="onChangeCommentContent"  placeholder="说点什么吧."  > {{commentContent}}</textarea>
           <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment"></input>
-          
+
 
         </div>
       </div>
