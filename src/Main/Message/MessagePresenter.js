@@ -1,6 +1,7 @@
 import MessageApi from "../../Common/MessageApi"
 import DateUtil from "../../Common/DateUtil"
 import router from '@system.router'
+import MessageModel from "./MessageModel"
 
 //TODO:有时候为了测试方便直接在presenter内部使用prompt
 import prompt from '@system.prompt'
@@ -201,6 +202,8 @@ function loadMore(tag){
 }
 
 function refresh(tag){
+
+    var mm = MessageModel.getInstance()
     this.cache[tag].page = 1
 
     var that = this
