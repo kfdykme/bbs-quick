@@ -41,14 +41,14 @@
 
 
                                                             <!-- 帖子回复 -->
-                                                            <text class="content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag ==0}}">{{$item.topic_subject}}</text>
+                                                            <text class="content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag == 'post'}}">{{$item.topic_subject}}</text>
                                                             <!-- atme -->
-                                                            <text class="atme-content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag ==1}}">{{$item.topic_content}}</text>
+                                                            <text class="atme-content" @click="onClickEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag =='atme'}}">{{$item.topic_content}}</text>
                                                             <!-- 私信 -->
-                                                            <text class="pm-content" @click="onClickEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 2}}">{{$item.topic_content}}</text>
+                                                            <text class="pm-content" @click="onClickEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 'pm'}}">{{$item.topic_content}}</text>
                                                             <!-- 系统消息 -->
-                                                            <text class="system-content"  @click="onClickEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 3}}">{{$item.topic_content}}</text>
-                                                            <text class="action-btn" @click="onClickEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 3 && $item.actions != null}}">同意</text>
+                                                            <text class="system-content"  @click="onClickEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 'system'}}">{{$item.topic_content}}</text>
+                                                            <text class="action-btn" @click="onClickEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}">同意</text>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -259,18 +259,8 @@
 
 <script>
 
-        import presenter from "./MessagePresenter"
+        import MessagePresenter from "./MessagePresenter"
         import prompt from "@system.prompt"
-
-        // function view(){
-        //     var mView = new Object
-        //     mView.renderData = this.renderData.bind(this)
-        //     mView.renderMoreData = this.renderMoreData.bind(this)
-        //     mView.renderNoMore = this.renderNoMore.bind(this)
-        //     mView.renderLoading = this.renderLoading.bind(this)
-        //     mView.context = this
-        //     return mView
-        // }
 
 
 
@@ -281,22 +271,22 @@
           data:{
             msgList :[
               {
-                tag:presenter.TAG.post,
+                tag:'post',
                 list:[],
                 isRefreshing:false
               },
               {
-                tag:presenter.TAG.atme,
+                tag:'atme',
                 list:[],
                 isRefreshing:false
               },
               {
-                tag:presenter.TAG.pm,
+                tag:'pm',
                 list:[],
                 isRefreshing:false
               },
               {
-                tag:presenter.TAG.system,
+                tag:'system',
                 list:[],
                 isRefreshing:false
               }
@@ -305,21 +295,20 @@
           },
           onInit(){
 
-              presenter.init(this.view())
+              this.presenter = new MessagePresenter(this.view())
 
           }
           ,onRefrsh(m,e){
 
               m.isRefreshing =e.refreshing
 
-
-              presenter.refresh(m.tag)
+              this.presenter.refresh(m.tag)
 
 
           }
           ,onScrollBottom(m){
 
-              presenter.loadMore(m.tag)
+              this.presenter.loadMore(m.tag)
 
           }
           ,onRenderComplete(tag){
@@ -337,27 +326,41 @@
 
 
 
-                this.msgList[tag].list = list
+                for(var x in this.msgList){
+                    var m = this.msgList[x]
+                    if(m.tag == tag){
+                        m.list = list
+                    }
+                }
 
                 this.onRenderComplete(tag)
 
           }
           ,onRefreshComplete(t){
 
+              for(var x in this.msgList){
+                  var m = this.msgList[x]
+                  if(m.tag == t){
+                      m.isRefreshing = false
 
-                if(this.msgList[t].isRefreshing){
-                  this.msgList[t].isRefreshing = false
+                      prompt.showToast({
+                          message: '刷新完成'
+                      })
+                  }
+              }
 
-                  prompt.showToast({
-                      message: '刷新完成'
-                  })
-                }
                 this.$broadcast("render_normal",{ tag :t})
-                presenter.onRefreshComplete(t)
+                this.presenter.onRefreshComplete(t)
           }
           ,renderMoreData(list,tag){
 
-                this.msgList[tag].list = this.msgList[tag].list.concat(list);
+                console.info("render more data "+tag)
+                for(var x in this.msgList){
+                    var m = this.msgList[x]
+                    if(m.tag == tag){
+                        m.list =     m.list.concat(list)
+                    }
+                } 
                 this.onRenderMoreComplete(tag)
           }
           ,renderNoMore(msg,t){
@@ -378,7 +381,7 @@
                     this.messageIndex = arg
                   break;
                 default:
-                  presenter.onClickEvent(type,arg)
+                  this.presenter.onClickEvent(type,arg)
 
               }
               console.log(this.messageIndex);

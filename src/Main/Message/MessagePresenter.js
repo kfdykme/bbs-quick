@@ -1,348 +1,284 @@
 import MessageApi from "../../Common/MessageApi"
-import DateUtil from "../../Common/DateUtil"
 import router from '@system.router'
 import MessageModel from "./MessageModel"
 
-//TODO:有时候为了测试方便直接在presenter内部使用prompt
-import prompt from '@system.prompt'
-
-var app = null
-var view = null
 
 
-
-/*
-* 0 -> Post
-* 1 -> AtMe
-* 2 -> 私信
-* 3 -> system
-*/
-var cache =[
-  {
-    'page' : 1,
-    'canLoadMore' :true,
-    'dataLength' : 0,
-    'totalNum' : 0
-  },
-  {
-    'page' : 1,
-    'canLoadMore' :true,
-    'dataLength' : 0,
-    'totalNum' : 0
-  },
-  {
-    'page' : 1,
-    'canLoadMore' :true,
-    'dataLength' : 0,
-    'totalNum' : 0
-  },
-  {
-    'page' : 1,
-    'canLoadMore' :true,
-    'dataLength' : 0,
-    'totalNum' : 0
-  }
-]
-
-
-var TAG = {
-  'post': 0,
-  'atme' : 1,
-  'pm' : 2,
-  'system' : 3
-}
-
-function init(view){
-    this.view = view
-    this.app = view.context.$app
-    MessageApi.init(this.app)
-    this.attach()
-}
-
-
-function attach(){
-    this.refresh(this.TAG.post)
-    this.refresh(this.TAG.atme)
-    this.refresh(this.TAG.pm)
-    this.refresh(this.TAG.system)
-
-
-}
 
 /**
- * convertData 处理请求消息后返回的数据
- * @param re 返回内容实体
- * @param tag 标签
+ * @class MessagePresenter
+ * @constructor constructor
  */
+ export default class MessagePresenter{
 
-function convertData(re,tag){
+    /**
+     * 构造方法
+     * @method constructor
+     * @param {MessageView} view
+     */
+    constructor(view){
 
-  var list = null
-  switch (tag) {
-    case this.TAG.pm:
-        re.has_next = re.body.hasNext
-        re.totalNum = re.body.count
-        list = re.body.list
-        for (let x in list){
-          var l = list[x]
-          l.replied_date = DateUtil.convertTime(l.lastDateline)
-          l.topic_content = l.lastSummary == "" ? "[image]" : l.lastSummary
-          l.icon = l.toUserAvatar
-        }
 
-        break;
+        this.TYPE_POST = "post"
+        this.TYPE_ATME = "atme"
+        this.TYPE_PM = "pm"
+        this.TYPE_SYSTEM = "system"
 
-    case this.TAG.system:
-        list = re.body.data
 
-        for (let x in list){
-          var l = list[x]
-              // console.info(JSON.stringify(list[x]))
-          l.replied_date = DateUtil.convertTime(l.replied_date)
-          l.topic_content = l.note
-        }
+        this.view = view
+        this.app = view.context.$app
+        this.model = MessageModel.getInstance(this)
 
-        break;
-
-    case this.TAG.post:
-        list = re.body.data
-        for (let x in list){
-            var l = list[x]
-            if(l.topic_content == null) {
-                // console.info(JSON.stringify(list[x]))
-                l.reply_content = l.content
-
-                l.reply_content = l.reply_content.replace(/(^\s*)|(\s*$)/g, "")
+        this.cache = {
+            'post':{
+              'page' : 1,
+              'canLoadMore' :true,
+              'dataLength' : 0,
+              'totalNum' : 0
+            },
+            'atme':{
+              'page' : 1,
+              'canLoadMore' :true,
+              'dataLength' : 0,
+              'totalNum' : 0
+            },
+            'pm':{
+              'page' : 1,
+              'canLoadMore' :true,
+              'dataLength' : 0,
+              'totalNum' : 0
+            },
+            'system':{
+              'page' : 1,
+              'canLoadMore' :true,
+              'dataLength' : 0,
+              'totalNum' : 0
             }
-            l.replied_date = DateUtil.convertTime(l.replied_date)
         }
-        break;
-    case this.TAG.atme:
-    default:
+    }
 
-        list = re.body.data
 
-        for (let x in list){
-          var l = list[x]
-          l.replied_date = DateUtil.convertTime(l.replied_date)
-          //清空
-          l.topic_content = l.topic_content.replace(/(^\s*)|(\s*$)/g, "")
-          console.info(JSON.stringify(l));
-          l.reply_content = l.reply_content.replace(/(^\s*)|(\s*$)/g, "")
+
+    /**
+     * attach
+     * @method attach
+     */
+    attach(){
+        this.loadLocal(this.TYPE_POST)
+        this.loadLocal(this.TYPE_ATME)
+        this.loadLocal(this.TYPE_PM)
+        this.loadLocal(this.TYPE_SYSTEM)
+    }
+
+    /**
+     * @method laodLocal
+     * @param {string} type
+     */
+    loadLocal(type){
+        const re = this.model.loadLocal(type)
+        if(!re) {
+            this.view.renderNoMore("没有更多了",type)
+            return
         }
-        break;
-  }
-
-
-  return list
-}
-
-
-function loadMore(tag){
-
-    if(this.cache[tag].canLoadMore){
-
-        this.view.renderLoading(tag)
-
-        if(this.cache[tag].totalNum <= this.cache[tag].dataLength){
-            this.view.renderNoMore("没有更多了",tag)
-            this.cache[tag].canLoadMore = false
+        var list = re.list
+        if(!list) {
+            this.view.renderNoMore("没有更多了",type)
             return
         }
 
+        this.cache[type].hax_next = re.has_next
+        this.cache[type].totalNum = re.total_num
+        this.cache[type].dataLength = list.length
+        this.cache[type].canLoadMore = true
+        if(list != null && list.length != 0)
+            this.view.renderData(list,type)
+        else
+            this.view.renderNoMore("没有更多了",type)
+    }
 
+    /**
+     * 加载
+     * @method loadMore
+     * @param type
+     */
+    async loadMore(type){
 
-        this.cache[tag].page = this.cache[tag].page +1
+        if(this.cache[type].canLoadMore){
 
-        var that = this
+            this.view.renderLoading(type)
 
-        var success = function(re){
+            if(this.cache[type].totalNum <= this.cache[type].dataLength){
+                this.view.renderNoMore("没有更多了",type)
+                this.cache[type].canLoadMore = false
+                return
+            }
 
+            this.cache[type].page = this.cache[type].page +1
 
-            // if(tag == 0 && that.cache[tag].page == 2)
-            //     console.info("re  ",JSON.stringify(re))
-            // else
-            //     console.info("none")
+            var re = await this.model.load(this.cache[type].page,type)
 
-            var list = that.convertData(re,tag)
+            if(!re) {
 
-            that.cache[tag].hax_next = re.has_next
-            that.cache[tag].totalNum = re.total_num
-            that.cache[tag].dataLength += list.length
+                this.view.renderNoMore("没有更多了",type)
+
+                return
+            }
+            var list = re.list
+
+            if(!list) {
+
+                this.view.renderNoMore("没有更多了",type)
+
+                return
+            }
+
+            this.cache[type].hax_next = re.has_next
+
+            this.cache[type].totalNum = re.total_num
+
+            this.cache[type].dataLength += list.length
 
             if(list != null && list.length != 0)
-                that.view.renderMoreData(list,tag)
+
+                this.view.renderMoreData(list,type)
+
             else
-                that.view.renderNoMore("没有更多了",tag)
 
+                this.view.renderNoMore("没有更多了",type)
 
-            that.cache[tag].canLoadMore  = true
+            this.cache[type].canLoadMore  = true
         }
-
-
-        switch(tag){
-          case this.TAG.post :
-              MessageApi.fetchMessagePost(success,10,this.cache[tag].page)
-              break;
-          case this.TAG.atme :
-              MessageApi.fetchMessageAtMe(success,10,this.cache[tag].page)
-              break;
-          case this.TAG.pm :
-              MessageApi.fetchMessagePmseMission(success,10,this.cache[tag].page)
-              break;
-
-          case this.TAG.system :
-              MessageApi.fetchMessageSystem(success,10,this.cache[tag].page)
-              break;
-        }
-
     }
 
 
-}
+    /**
+     * 刷新
+     * @method refresh
+     * @param type
+     */
+    async refresh(type){
+        this.cache[type].page = 1
+        const re =await this.model.load(1, type)
 
-function refresh(tag){
+        if(!re) {
+            this.view.renderNoMore("没有更多了",type)
+            return
+        }
+        var list = re.list
+        if(!list) {
+            this.view.renderNoMore("没有更多了",type)
+            return
+        }
 
-    var mm = MessageModel.getInstance()
-    this.cache[tag].page = 1
+        this.cache[type].hax_next = re.has_next
 
-    var that = this
+        this.cache[type].totalNum = re.total_num
 
-    var success = function(re){
+        this.cache[type].dataLength = list.length
 
-        //
-
-        var list = that.convertData(re,tag)
-
-        that.cache[tag].hax_next = re.has_next
-        that.cache[tag].totalNum = re.total_num
-        that.cache[tag].dataLength = list.length
-        that.cache[tag].canLoadMore = true
+        this.cache[type].canLoadMore = true
 
         if(list != null && list.length != 0)
-            that.view.renderData(list,tag)
+
+            this.view.renderData(list,type)
+
         else
-            that.view.renderNoMore("没有更多了",tag)
 
+            this.view.renderNoMore("没有更多了",type)
     }
 
-    switch(tag){
-      case this.TAG.post :
-          MessageApi.fetchMessagePost(success,10,this.cache[tag].page)
-          break;
-      case this.TAG.atme :
-          MessageApi.fetchMessageAtMe(success,10,this.cache[tag].page)
-          break;
-      case this.TAG.pm :
-          MessageApi.fetchMessagePmseMission(success,10,this.cache[tag].page)
-          break;
 
-      case this.TAG.system :
-          MessageApi.fetchMessageSystem(success,10,this.cache[tag].page)
-          break;
-    }
-}
+    onRefreshComplete(tag){
 
+          if(this.cache[tag].hax_next == 0){
 
-function onClickEvent(type,arg){
+              this.cache[tag].canLoadMore = false
 
-    if(type == "system"){
+              this.view.renderNoMore("没有更多了",tag)
 
-        //TODO:得改,但是怎么改,
-        prompt.showToast({
-            message :"暂不支持"
-        })
+          }
     }
 
-    if(type == "action"){
 
-        var item  = arg
-        var actions = item.actions
+    /**
+     * 点击事件
+     * @method onClickEvent
+     * @param {string} type
+     * @param {any} arg
+     * @event
+     */
+    async onClickEvent(type,arg){
 
-        if(actions == null || actions.length <1){
+        if(type == "system"){
+
+            //TODO:得改,但是怎么改,
+            prompt.showToast({
+                message :"暂不支持"
+            })
+        }
+
+        if(type == "action"){
+
+            var item  = arg
+            var actions = item.actions
+
+            if(actions == null || actions.length <1){
+
+                        prompt.showToast({
+                            message :"点我是没有反应的,朋友"
+                        })
+            } else{
+
+                var onDealMessageSuccess  = function (re){
 
                     prompt.showToast({
-                        message :"点我是没有反应的,朋友"
+                        message : re.errcode
                     })
-        } else{
+                }
 
-            var onDealMessageSuccess  = function (re){
+                MessageApi.dealMessageActions(actions,onDealMessageSuccess)
 
-                prompt.showToast({
-                    message : re.errcode
-                })
+
             }
-
-            MessageApi.dealMessageActions(actions,onDealMessageSuccess)
-
 
         }
 
-    }
+        if(type == "user"){
 
-    if(type == "user"){
-
-        router.push({
-            uri : "Main/User",
-            params :{
-                uid :arg
-            }
-        })
-    }
-    if(type == "topic"){
-        var topicId = arg
+            router.push({
+                uri : "Main/User",
+                params :{
+                    uid :arg
+                }
+            })
+        }
+        if(type == "topic"){
+            var topicId = arg
 
 
-        console.log("id : "+topicId);
-        router.push({
-          uri : 'Main/Post/Detail',
-          params : {
-            topicid : topicId
-          }
-        })
+            console.log("id : "+topicId);
+            router.push({
+              uri : 'Main/Post/Detail',
+              params : {
+                topicid : topicId
+              }
+            })
 
-    }
-
-    if(type == 'pm'){
-        var item = arg
-
-        var success = function(re){
-
-          router.push({
-            uri :"Main/Message/PmList",
-            params :{
-              re :re
-            }
-          })
         }
 
-        MessageApi.fetchPmseMissionList(
-           item.toUserId,
-           item.plid,
-           item.pmid,
-           success)
+        if(type == 'pm'){
+            var item = arg
+            const re = await this.model.pmseMissionList(item.toUserId, item.plid)
+
+              router.push({
+                uri :"Main/Message/PmList",
+                params :{
+                  re :re
+                }
+              })
+
+
+
+        }
     }
-}
-
-
-function onRefreshComplete(tag){
-
-      if(this.cache[tag].hax_next == 0){
-          this.cache[tag].canLoadMore = false
-          this.view.renderNoMore("没有更多了",tag)
-
-      }
-}
-
-export default{
-  init,
-  attach,
-  refresh,
-  loadMore,
-  onClickEvent,
-  view,
-  cache,
-  convertData,
-  onRefreshComplete,
-  TAG
 }
