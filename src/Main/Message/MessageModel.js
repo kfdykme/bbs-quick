@@ -212,6 +212,7 @@ export default class MessageModel{
                 }
 
 
+                //// FIXME:  很迷
                 console.info(type+"?"+module.data.length)
                 module.page++
                 resolve({data:re,type:type})

@@ -1,7 +1,7 @@
 import MessageApi from "../../Common/MessageApi"
 import router from '@system.router'
 import MessageModel from "./MessageModel"
-
+import prompt from '@system.prompt'
 
 
 

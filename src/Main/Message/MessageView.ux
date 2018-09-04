@@ -360,7 +360,7 @@
                     if(m.tag == tag){
                         m.list =     m.list.concat(list)
                     }
-                } 
+                }
                 this.onRenderMoreComplete(tag)
           }
           ,renderNoMore(msg,t){
@@ -383,8 +383,7 @@
                 default:
                   this.presenter.onClickEvent(type,arg)
 
-              }
-              console.log(this.messageIndex);
+              } 
           }
           ,onChangeMessage(evt){
               this.messageIndex = evt.index
