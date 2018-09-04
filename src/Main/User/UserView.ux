@@ -406,12 +406,11 @@
             var view = new Object
             view.context = this
             view.uid = this.uid
-            
+
 
             // NOTE 渲染用户信息
             view.renderUserInfo = function(re){
-                this.myId = view.myId
-                console.info(JSON.stringify(re))
+                this.myId = view.myId 
                 this.re = [re]
             }.bind(this)
 
