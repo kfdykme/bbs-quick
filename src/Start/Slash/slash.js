@@ -29,6 +29,6 @@ export default {
               uri : "Start/Login",
           })
 
-      },2000)
+      },1000)
   }
 }

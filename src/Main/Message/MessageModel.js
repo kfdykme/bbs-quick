@@ -332,6 +332,21 @@ export default class MessageModel{
     }
 
 
+    async loadLocalPmlist(toUserId,pid){
+        const key = this.KEY+toUserId+pid
+        const local =  await storage.get({key : key})
+        return JSON.parse(local.data)
+    }
+
+    async savePmlist(toUserId,pid,re){
+        const key = this.KEY+toUserId+pid
+        return await storage.set({
+                    key :key,
+                    value :JSON.stringify(re)
+                })
+
+    }
+
     /**
      * @method pmseMissionList
      * @for MessageModel

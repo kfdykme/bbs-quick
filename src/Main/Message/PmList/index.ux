@@ -2,11 +2,11 @@
   <div class="pm-list-page">
       <div class="pm-list">
 
-          <div class="name-bar">
+          <div class="name-bar" if="{{re}}">
               <text class="to-user-name" >{{re.body.pmList[0].name}}</text>
 
           </div>
-          <list>
+          <list id="pmList" if="{{re}}">
                 <block for="(i,pm) in re.body.pmList[0].msgList" if="{{re}}">
 
 
@@ -69,7 +69,7 @@
               <image   src="{{imageToSend}}" alt="../../../Res/ic_pick_image.png"  @click="onClickImage"></image>
             </div>
             <div class="reply-input-bar ">
-                <textarea @focus="onEvent('textarea',true)" @click="onEvent('textarea',true)" @blur="onEvent('textarea',false)" class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea" @change="onChangeText"  >{{textToSend}}</textarea>
+                <textarea  class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea" @change="onChangeText"  >{{textToSend}}</textarea>
                 <input class="reply-input-send" @click="onClickSend" type="button" value="发送" ></input>
 
             </div>

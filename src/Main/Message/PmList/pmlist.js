@@ -4,29 +4,40 @@ import MessageApi from "../../../Common/MessageApi"
 import prompt from "@system.prompt"
 import ImageUtil from "../../../Common/ImageUtil"
 import router from "@system.router"
+import MessageModel from '../MessageModel'
 
 export default{
     protected:{
-      re : {},
+      re : null,
       imageToSend : "../../../Res/ic_pick_image.png",
       baseImageToSend :"../../../Res/ic_pick_image.png",
       textToSend :"",
-      isEx:false
+      isEx:false,
+      toUserId : '',
+      plid : ''
     },
     private :{
       TAG :"PmList"
     }
-    ,onBackPress(){
-        if(this.isEx){
-            this.isEx = false
-            return true
-        }
-    }
-    ,onInit(){
-      //TODO:test
-      this.re = JSON.parse(this.re)
-      var msl = this.re.body.pmList[0].msgList
+    , async onInit(){
+
+
+
       MessageApi.init(this.$app)
+      this.model =  MessageModel.getInstance(null)
+
+      try{
+
+          const localRe = await this.model.loadLocalPmlist(this.toUserId,this.plid)
+         
+          this.re = localRe
+      } catch(err){
+          console.error(err)
+      }
+      const re = await this.model.pmseMissionList(this.toUserId, this.plid)
+
+      this.re = re
+      var msl = this.re.body.pmList[0].msgList
 
       for(let x in msl){
 
@@ -34,8 +45,6 @@ export default{
           msl[x].showTime = x == 0 || this.re.body.pmList[0].msgList[x].time - this.re.body.pmList[0].msgList[x-1].time >120000
 
       }
-       // console.info(this.TAG,"on Init"+JSON.stringify(this.re))
-
     }
     ,onClickImage2(uri){
         ImageUtil.ViewImage(uri)
@@ -46,11 +55,19 @@ export default{
         var onPickImageSuccess = function (uri){
             MessageApi.uploadPmFile(uri,
               function(re){
-                  that.imageToSend = re.body.attachment[0].urlName
 
-                  prompt.showToast({
-                    message : "点击发送以发出选中的图片"
-                  })
+                  MessageApi.send(
+                    that.re.body.pmList[0].fromUid, //touid
+                    that.re.body.pmList[0].plid, //plid
+                    "image",
+                    re.body.attachment[0].urlName,
+                    function(re){
+
+                        that.onSendComplete()
+
+                    }.bind(this)
+
+                  )
               })
         }
         media.pickImage({
@@ -73,37 +90,17 @@ export default{
     }
     ,onClickSend(){
 
-        //TODO:测试一下图片url是否合法
-        if(this.imageToSend != this.baseImageToSend){
+      MessageApi.send(
+        this.re.body.pmList[0].fromUid, //touid
+        this.re.body.pmList[0].plid, //plid
+        "text",
+        this.textToSend,
+        function(re){
+            this.textToSend  = ""
+            this.onSendComplete()
+        }.bind(this)
 
-            MessageApi.send(
-              this.re.body.pmList[0].fromUid, //touid
-              this.re.body.pmList[0].plid, //plid
-              "image",
-              this.imageToSend,
-              function(re){
-
-                  this.imageToSend = ""
-                  this.onSendComplete()
-
-              }.bind(this)
-
-            )
-
-        } else {
-
-              MessageApi.send(
-                this.re.body.pmList[0].fromUid, //touid
-                this.re.body.pmList[0].plid, //plid
-                "text",
-                this.textToSend,
-                function(re){
-                    this.textToSend  = ""
-                    this.onSendComplete()
-                }.bind(this)
-
-              )
-        }
+      )
     }
     ,onSendComplete(){
 
@@ -114,6 +111,7 @@ export default{
 
         setTimeout(function(){
           this.refresh()
+
         }.bind(this),1000)
 
     }
@@ -126,20 +124,14 @@ export default{
                     }
                 })
     }
-    ,onEvent(type,args,e){
-        // if(type == 'textarea'){
-        //     this.isEx = args
-        //     console.info(e)
-        // }
-    }
-    ,refresh(){
+    ,async refresh(){
 
 
         MessageApi.fetchPmseMissionList(
             this.re.body.pmList[0].fromUid,//fromUid
             this.re.body.pmList[0].plid,//plid
             this.re.body.pmList[0].plid,//pmid
-            function(re){
+            async function(re){
                   this.re = re
                   var msl = this.re.body.pmList[0].msgList
 
@@ -150,6 +142,13 @@ export default{
 
                   }
 
+                  const saveRes = await this.model.savePmlist(this.toUserId,this.plid,re)
+                  console.info(saveRes)
+                  //TODO:滚到
+                  const pmList = this.$element('pmList')
+                  pmList.scrollTo({
+                      index: this.re.body.pmList[0].msgList.length * 2 -1
+                  })
             }.bind(this)
         )
     }

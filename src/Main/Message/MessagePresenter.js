@@ -277,12 +277,13 @@ import prompt from '@system.prompt'
                 return
 
             this.tryToLoadPmList = true
-            const re = await this.model.pmseMissionList(item.toUserId, item.plid)
+            
 
               router.push({
                 uri :"Main/Message/PmList",
                 params :{
-                  re :re
+                  toUserId:item.toUserId,
+                  plid : item.plid
                 }
               })
 
