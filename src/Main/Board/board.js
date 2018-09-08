@@ -116,18 +116,18 @@
       })
     },
     fetchClassificationTypeList(){
+ 
+          BoardApi.fetchClassificationTypeList(this.boardId,
+            function (data){
+              const re = JSON.parse(data.data)
 
-      BoardApi.fetchClassificationTypeList(this.boardId,
-        function (data){
-          const re = JSON.parse(data.data)
+              console.info(JSON.stringify(re))
+              this.forumInfo = re.forumInfo
+              this.renderPost(0,re.list)
 
+              this.loadChild()
 
-          this.forumInfo = re.forumInfo
-          this.renderPost(0,re.list)
-
-          this.loadChild()
-
-        }.bind(this))
+            }.bind(this))
     },
     fetchBoardPostList(boardIndex){
 

@@ -34,8 +34,7 @@ export default class UserPresenter{
         try{
 
             var userRe = await this.model.loadLocal(this.uid)
-            // console.info(JSON.stringify(userRe))
-            userRe = JSON.parse(userRe.data)
+             
             this.view.renderUserInfo(userRe)
             this.view.renderAvatar(UserApi.getUserAvatarBig(this.uid))
             console.info("load userinfo from local success")

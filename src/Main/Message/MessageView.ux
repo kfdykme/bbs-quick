@@ -105,8 +105,12 @@
                 }
 
                 .active{
-                  background-color: #ffbc4d;
-                  color: #ffffff;
+                  /* background-color: #ffbc4d;
+                  color: #ffffff; */
+
+                  margin-bottom: 8px;
+                  border-bottom-width: 4px;
+                  border-color: #00bcd4;
                 }
 
                 .username {
@@ -260,8 +264,6 @@
 <script>
 
         import MessagePresenter from "./MessagePresenter"
-        import prompt from "@system.prompt"
-
 
 
         export default{
@@ -296,6 +298,7 @@
           onInit(){
 
               this.presenter = new MessagePresenter(this.view())
+              this.presenter.attach()
 
           }
           ,onRefrsh(m,e){
@@ -343,9 +346,6 @@
                   if(m.tag == t){
                       m.isRefreshing = false
 
-                      prompt.showToast({
-                          message: '刷新完成'
-                      })
                   }
               }
 
@@ -383,7 +383,7 @@
                 default:
                   this.presenter.onClickEvent(type,arg)
 
-              } 
+              }
           }
           ,onChangeMessage(evt){
               this.messageIndex = evt.index

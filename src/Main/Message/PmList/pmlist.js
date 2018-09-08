@@ -10,10 +10,17 @@ export default{
       re : {},
       imageToSend : "../../../Res/ic_pick_image.png",
       baseImageToSend :"../../../Res/ic_pick_image.png",
-      textToSend :""
+      textToSend :"",
+      isEx:false
     },
     private :{
       TAG :"PmList"
+    }
+    ,onBackPress(){
+        if(this.isEx){
+            this.isEx = false
+            return true
+        }
     }
     ,onInit(){
       //TODO:test
@@ -54,6 +61,14 @@ export default{
     }
     ,onChangeText(e){
 
+        /**
+         * NOTE: 通过修改 @param isEx 使得 textarea的class改变,高度改变为对应class中的值
+         * 然后又 再次修改 @param isEx 使得 textarea的class改回来,高度自适应为当前控件中内容的高度
+         * 达到 最大高度的效果
+         */
+
+        this.isEx = true
+        this.isEx = false
         this.textToSend = e.value
     }
     ,onClickSend(){
@@ -110,6 +125,12 @@ export default{
                         uid :id
                     }
                 })
+    }
+    ,onEvent(type,args,e){
+        // if(type == 'textarea'){
+        //     this.isEx = args
+        //     console.info(e)
+        // }
     }
     ,refresh(){
 

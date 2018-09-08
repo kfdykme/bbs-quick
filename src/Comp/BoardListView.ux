@@ -16,8 +16,8 @@
                 <list-item type="board-name">
 
 
-                       <text class="board-name" onclick="onClickBoard(b.board_id)">{{b.board_name}} </text>
-                       <text class="board-post-date" onclick="onClickBoard(b.board_id)" >{{b.last_posts_date}} </text>
+                       <text class="board-name" onclick="onClickEvent({type:'board',data :b.board_id})">{{b.board_name}} </text>
+                       <text class="board-post-date" onclick="onClickEvent({type:'board',data :b.board_id})" >{{b.last_posts_date}} </text>
 
                 </list-item>
             </block>
@@ -114,6 +114,75 @@
 import BoardApi from '../Common/BoardApi'
 import router from '@system.router'
 import DateUtil from '../Common/DateUtil'
+import storage from '@system.storage'
+
+
+
+class BoardListPresenter{
+
+    constructor(view){
+        this.view = view
+        this.app = view.context.$app
+
+        BoardApi.init(this.app)
+    }
+
+
+    async loadLocal(){
+        const res = await storage.get({key:"BoardList"})
+        const re = JSON.parse(res.data)
+        this.view.renderBoard(re)
+    }
+
+    load(){
+
+        BoardApi.getForumList(
+          function (data){
+
+            const re = JSON.parse(data.data)
+
+            for(let x in re.list){
+
+                for(let y in re.list[x].board_list){
+                    const t = re.list[x].board_list[y]
+
+
+                    t.last_posts_date = DateUtil.convertTimeShort(t.last_posts_date)
+                }
+            }
+
+            this.save(re)
+            this.view.renderBoard(re)
+
+          }.bind(this),
+          function (data,code){
+            console.log(code);
+          }
+        )
+    }
+
+
+    onClickEvent(event){
+        switch (event.type) {
+            case 'board':
+                router.push({
+                  uri : "Main/Board",
+                  params : {
+                    boardId : event.data
+                  }
+                })
+                break;
+            default:
+                break;
+        }
+    }
+
+    async save(re){
+        const data = JSON.stringify(re)
+        const res = await storage.set({key :"BoardList",value:data})
+        console.info("on save boardlist : "+JSON.stringify(res))
+    }
+}
 
 export default{
   props:[
@@ -123,50 +192,26 @@ export default{
     board : [],
 
   },
-  onInit(){
+  view(){
+      var View = new Object
+      View.context = this
+      View.renderBoard  = function(re){
 
+          this.board = re.list
+      }.bind(this)
+      return View
+  }
+  ,onInit(){
 
-    BoardApi.init(this.$app)
-
-
-    BoardApi.getForumList(
-      function (data){
-
-        const re = JSON.parse(data.data)
-
-        for(let x in re.list){
-
-            for(let y in re.list[x].board_list){
-                const t = re.list[x].board_list[y]
-
-
-                t.last_posts_date = DateUtil.convertTimeShort(t.last_posts_date)
-            }
-        }
-
-        this.board = re.list
-
-      }.bind(this),
-      function (data,code){
-        console.log(code);
-      }
-    )
-
-
-  },
-  onShow(){
-
-  },
-  onClickBoard(id){
-    const boardId = id//e.target.attr.boardid
-    router.push({
-      uri : "Main/Board",
-      params : {
-        boardId : boardId
-      }
-    })
+      this.presenter = new BoardListPresenter(this.view())
+      this.presenter.loadLocal()
+      this.presenter.load()
 
   }
+  ,onClickEvent(event){
+      this.presenter.onClickEvent(event)
+  }
+
 }
 
 </script>

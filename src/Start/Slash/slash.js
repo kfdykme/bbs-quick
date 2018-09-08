@@ -9,7 +9,7 @@ export default {
   onInit(){
 
 
-      /// WARNING: 弃用
+      /// NOTE: 弃用
       //获取图片并保存
       /*
       fetch.fetch({

@@ -30,7 +30,7 @@
                 <!-- NOTE:文本 -->
                 <list-item type="topic-text" if="{{t.type  == 0 }}" >
                     <div class="topic-content big-card">
-                        <richtext type="html">{{t.infor}}</richtext>
+                        <text >{{t.infor}}</text>
 
                     </div>
                 </list-item>
@@ -119,8 +119,10 @@
                 <div class="reply-footer content card ">
                   <div class="reply-action">
 
-                        <div  class="btn-action active">
-                            <text   @click="replyComment(index)">回复</text>
+                        <div  class="btn-action">
+
+                            <text show="{{re.extraPanel[0].extParams.isHasRecommendAdd != 1  }}" class="btn-support"  @click="replySupport(index)">点赞</text>
+                            <text class="btn-reply"  @click="replyComment(index)">回复</text>
                             <!-- <div  class="close-action-bar" show="{{re.showAct}}"></div> -->
                         </div>
 

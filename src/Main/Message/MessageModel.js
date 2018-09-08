@@ -26,7 +26,7 @@ class Message{
 
     init(){
 
-        console.info("init - "+this.tag)
+        // console.info("init - "+this.tag)
         this.data = []
         this.page = 1
         // this.renderPage = 1
@@ -157,7 +157,7 @@ export default class MessageModel{
                break;
          }
 
-         console.info("convertData "+type+"/"+list.length)
+         // console.info("convertData "+type+"/"+list.length)
          return list
     }
 
@@ -213,7 +213,7 @@ export default class MessageModel{
 
 
                 //// FIXME:  很迷
-                console.info(type+"?"+module.data.length)
+                // console.info(type+"?"+module.data.length)
                 module.page++
                 resolve({data:re,type:type})
 
@@ -275,7 +275,7 @@ export default class MessageModel{
                     this.presenter.attach()
                 }
             }
-            console.info("MessageModel init success")
+            // console.info("MessageModel init success")
         } catch(err){
             console.info("error"+err.code)
         }

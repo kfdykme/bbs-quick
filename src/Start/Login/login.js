@@ -2,13 +2,12 @@ import router from '@system.router'
 import fetch from  '@system.fetch'
 import storage from '@system.storage'
 import UserCache from '../../Common/UserCache'
-import Api from '../../Common/Api'
-import webview from "@system.webview"
+import Api from '../../Common/Api' 
 import prompt from "@system.prompt"
 
 
 export default {
-  // 页面级组件的数据模型，影响传入数据的覆盖机制：private内定义的属性不允许被覆盖
+
   protected: {
     welcome : "清水河畔",
     username :"",
@@ -26,40 +25,34 @@ export default {
     storage.get({
       key : "user",
       success: function (data) {
-        if(data){
-          const user = JSON.parse(data)
-          console.log('get userinfo oninit : ' + user.token)
+            if(data){
+                  const user = JSON.parse(data)
 
+                  if(user != null && user.rs != 0){
 
-          if(user != null && user.rs != 0){
+                       app.initUser(user)
 
-           app.initUser(user)
+                       UserCache.init(app)
 
-           UserCache.init(app)
-
-           router.replace({
-              uri: "Main"
-          })
-        }
-      }
+                       router.replace({
+                          uri: "Main"
+                      })
+                 }
+            }
 
       },
       fail: function (data, code) {
-        console.log(`handling fail, code = ${code}`)
+          console.log(`handling fail, code = ${code}`)
       }
     })
-  },
-  onShow(){
 
-    if(UserCache.user() != null ){
-
-      this.username = UserCache.user().userName
-    }
-  },
-  doLogin () {
+  }
+  ,doLogin () {
 
     if(this.tryingLogin)
       return
+
+
     var app = this.$app
     //检查表单信息
 
@@ -67,43 +60,44 @@ export default {
     this.tryingLogin = true
     this.login = "稍我等在加中载"
 
+
+
     //发送登陆请求
     fetch.fetch({
-      url : Api.BASE_URL+Api.login,
-      method : "POST",
-      data : {
-        type :"login",
-        username : this.username,
-        password : this.password
-      },
-      success: function (data) {
+          url : Api.BASE_URL+Api.login,
+          method : "POST",
+          data : {
+                type :"login",
+                username : this.username,
+                password : this.password
+          },
+          success: function (data) {
 
-        const user = JSON.parse(data.data)
-        if(user != null && user.rs != 0){
+                const user = JSON.parse(data.data)
+                if(user != null && user.rs != 0){
 
-           app.initUser(user)
+                   app.initUser(user)
 
-           UserCache.init(app)
+                   UserCache.init(app)
 
-           router.replace({
-              uri: "Main"
-           })
-        } else{
-          prompt.showToast({
-            message : user.errcode
-          })
-        }
+                   router.replace({
+                      uri: "Main"
+                   })
+                } else{
+                  prompt.showToast({
+                    message : user.errcode
+                  })
+                }
 
-      }.bind(this),
-      fail: function (data, code) {
+          }.bind(this),
+          fail: function (data, code) {
 
-        console.log(`handling fail,`)
-      },
-      complete : function (){
-        this.login = "Login"
-        this.tryingLogin = false
-      }.bind(this)
-    })
+          },
+          complete : function (){
+            this.login = "Login"
+            this.tryingLogin = false
+          }.bind(this)
+        })
   }
   ,
   doRegister (e){
@@ -111,9 +105,7 @@ export default {
       router.push({
           uri: "Start/Register"
       })
-    // webview.loadUrl({
-    //   url : Api.REGISTER_URL
-    // })
+
   },
   onUserNameChange(e){
     this.username = e.value

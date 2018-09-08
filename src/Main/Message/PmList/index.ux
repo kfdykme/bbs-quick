@@ -25,6 +25,10 @@
                                       <div class="pop"></div>
                                       <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
                                       <image onclick="onClickImage2(pm.content)"  class="content" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
+
+                                      <div class="blank">
+
+                                      </div>
                                 </div>
                           </list-item>
                     </block>
@@ -40,8 +44,13 @@
                             </list-item>
                             <list-item class="item-right"type="msg-right">
                                   <div class="msg msg-right" >
+                                      <div class="blank">
 
-                                      <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                      </div>
+                                      <div class="">
+
+                                          <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                      </div>
                                       <image onclick="onClickImage2(pm.content)" class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
                                       <div class="pop-big"></div>
                                       <image  class="avatar" @click="onClickUser(re.body.userInfo.uid)" src="{{re.body.userInfo.avatar}}"></image>
@@ -59,8 +68,8 @@
             <div class="reply-add-bar"  @click="onClickImage">
               <image   src="{{imageToSend}}" alt="../../../Res/ic_pick_image.png"  @click="onClickImage"></image>
             </div>
-            <div class="reply-input-bar">
-                <textarea class="reply-input-textarea" @change="onChangeText"  >{{textToSend}}</textarea>
+            <div class="reply-input-bar ">
+                <textarea @focus="onEvent('textarea',true)" @click="onEvent('textarea',true)" @blur="onEvent('textarea',false)" class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea" @change="onChangeText"  >{{textToSend}}</textarea>
                 <input class="reply-input-send" @click="onClickSend" type="button" value="发送" ></input>
 
             </div>

@@ -94,8 +94,8 @@
                       this.onChangeCommentBar()
 
 
+                    this.canLoadMore = true
                       setTimeout(function(){
-
                             this.loadMore()
                       }.bind(this) ,1000)
 
@@ -135,35 +135,37 @@
       this.onClickReplyAction(index)
 
     },
+    async replySupport(index){
+
+         const pid = this.list[index].reply_posts_id
+         const type = 'post'
+         const tid = 0
+         try{
+
+             const res = await PostApi.supportPost(tid,pid,type)
+             const re = JSON.parse(res.data.data)
+             prompt.showToast({
+                 message : re.errcode
+             })
+             this.list[index].extraPanel[0].extParams.isHasRecommendAdd  = 1
+             this.list[index].extraPanel[0].extParams.recommendAdd++
+             
+         } catch(e){
+             prompt.showToast({
+                 message :JSON.stringify(e)
+             })
+             console.err(JSON.stringify(e))
+         }
+    },
     render(){
       this.renderTopic()
     },
     renderTopic(json){
 
-      // console.info(JSON.stringify(json))
       json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
 
       this.topic = json.topic
 
-      // var a = []
-      //
-      // //TODO:有点繁琐,先缓一缓
-      // //NOTE:处理一下文本,加一下表情包
-      // for(var x in json.topic.content){
-      //     var c = json.topic.content[x]
-      //     if(c.type == 0){
-      //         const reg = /\[mobcent_phiz=.*\]/g
-      //         var s = c.infor.match(reg)
-      //         if(s != null || s.length !=0){
-      //
-      //
-      //
-      //         }
-      //     } else{
-      //
-      //     }
-      // }
-      // console.info(JSON.stringify(this.topic))
       this.renderTopicComplete()
     },
     renderTopicComplete(){
@@ -176,10 +178,10 @@
 
         for (let  x in json.list){
 
-
           json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
 
           json.list[x].showAct = false
+
         }
         this.list = json.list
         this.renderReplyComplete()

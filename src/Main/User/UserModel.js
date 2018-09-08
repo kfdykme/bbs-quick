@@ -52,12 +52,9 @@ export default class UserModel{
             UserApi.getUserInfo(
                 uid,
                 function(re){
-                    resolve(re)
                     that.save(uid,re)
-                    //NOTE: 现在用不上,等下改造UserApi之后再改
-                    if(1 == 2){
-                        reject(re)
-                    }
+
+                    resolve(re)
                 }
             )
         });
@@ -65,21 +62,12 @@ export default class UserModel{
 
 
     async loadLocal(uid){
-        const that = this
-        return new Promise(function(resolve, reject) {
-            storage.get({
-                key :that.KEY+uid,
-                success : function(data){
-                    if(data == '')
-                        reject({data:data,code:that.CODE_EMPTY})
-                    else
-                        resolve({data:data,code:that.CODE_SUCCESS})
-                },
-                fail : function(code,data){
-                    reject({data:data,code:code})
-                }
-            })
-        });
+
+            const key = this.KEY+uid
+            const local =  await storage.get({key : key}) 
+
+            return JSON.parse(local.data)
+
     }
 
 
@@ -87,17 +75,10 @@ export default class UserModel{
      * @method save 异步保存数据
      *
      */
-    save(uid,re){
+    async save(uid,re){
         const data = JSON.stringify(re)
 
-        storage.set({
-            key :this.KEY+uid,
-            value :data,
-            success :function(data){
-            },
-            fail :function(data,code){
-            }
-        })
-
+        const key = this.KEY+uid
+        const res = await storage.set({key :key ,value: data})
     }
 }

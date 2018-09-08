@@ -1,8 +1,8 @@
 {
     "package": "org.starstudio.quick.bbs",
     "name": "清水河畔",
-    "versionName": "1.0.8",
-    "versionCode": 10,
+    "versionName": "1.1.1",
+    "versionCode": 13,
     "minPlatformVersion": 1010,
     "icon": "/Res/logo.png",
     "features": [
@@ -43,7 +43,10 @@
         }
     ],
     "config": {
-        "logLevel": "debug"
+        "logLevel": "debug",
+        "data":{
+            "name":"jingzhang10"
+        }
     },
     "router": {
         "entry": "Start/Slash",

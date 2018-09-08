@@ -1,14 +1,11 @@
 import router from '@system.router'
 import fetch from  '@system.fetch'
-import storage from '@system.storage'
-import UserCache from '../../Common/UserCache'
 import Api from '../../Common/Api'
-import webview from "@system.webview"
 import prompt from "@system.prompt"
 
 
 export default {
-  // 页面级组件的数据模型，影响传入数据的覆盖机制：private内定义的属性不允许被覆盖
+
   protected: {
     welcome : "清水河畔-注册",
     username :"",
@@ -21,8 +18,14 @@ export default {
     tryingRegister : false,
     formhash:"",
     cookie:""
-  },
-  convsertCookie(cookie){
+  }
+  /**
+   * @method convsertCookie
+   * @param {} cookie
+   * @return {object}
+   * @desc 将cookie字符串转化成一个cookie对象
+   */
+  ,convsertCookie(cookie){
       cookie = ""+cookie
       var arr = cookie.split(",")
       var mC = {}
@@ -32,9 +35,14 @@ export default {
           if(name != null && value != null)
               mC[name] = value
       }
-      console.info(JSON.stringify(mC))
+
       return mC
   }
+  /**
+   * @method readCookie
+   * @return {string}
+   * @desc
+   */
   ,readCookie(){
       var s = ""
       for(var x in this.cookie){
@@ -44,8 +52,8 @@ export default {
   }
   ,onInit(){
 
-        console.info(JSON.stringify(this.$app))
 
+            //NOTE : 用正则表达式获取注册表格的哈希值,以及设置cookie,
             fetch.fetch({
                 url:"http://bbs.uestc.edu.cn/member.php?mod=register",
                 method : "POST",
@@ -71,6 +79,8 @@ export default {
 
       this.tryingRegister = true
       const url = "http://bbs.uestc.edu.cn/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1"
+
+      //NOTE:POST数据
       var data = {
             regsubmit : 'yes',
             formhash : 	this.formhash,
@@ -83,8 +93,10 @@ export default {
             mCdCdC:this.email
       }
       data["stunumber" + this.formhash] = this.stuNumber
-      data[" stupswd"+this.formhash] = this.stuPassword
+      data["stupswd"+this.formhash] = this.stuPassword
 
+
+      //NOTE:注册请求,加上了cookie
       fetch.fetch({
         url : url,
         method : "POST",
@@ -93,8 +105,10 @@ export default {
             "Cookie" : this.readCookie()
         },
         success :function(data){
+
             //NOTE:处理script返回,原先只是返回了js的alert加上重定位,现在得暂时自己来
 
+            //NOTE:用正则抓取是否注册成功
             const sucRegExp = /succeedmessage/
             var suc = data.data.match(sucRegExp)
             if(suc!=null && suc.length != 0){
@@ -105,6 +119,8 @@ export default {
                 return
             }
 
+
+            //NOTE:用正则抓取是否注册失败
             const regExp =  /errorhandle_registerform\(\'.*\'/g
             var errcode =  data.data.match(regExp);
             if(errcode == null || errcode.length ==  0){
@@ -118,6 +134,7 @@ export default {
                 message:errcode
             })
 
+            //NOTE:尝试注册结束
             this.tryingRegister = false
 
         }.bind(this),
@@ -127,7 +144,8 @@ export default {
       })
   }
   ,onTextChange(type,e){
-      console.info("\n"+type+" \t"+e.value)
+
+
       if(type == 'username'){
 
             this.username = e.value
@@ -154,11 +172,5 @@ export default {
       }
 
   }
-  ,onUserNameChange(e){
-    this.username = e.value
-  },
-  onPasswordChange(e){
 
-    this.password = e.value
-  }
 }

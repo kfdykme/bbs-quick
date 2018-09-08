@@ -18,13 +18,13 @@ export default class PostListModel{
 
     }
 
-    static getInstance(p){
+    static getInstance(app,presenter){
 
         if(!this.instance)
-            this.instance = new PostListModel()
+            this.instance = new PostListModel(app)
 
-        if(!p)
-            this.presenter = p
+        if(!presenter)
+            this.presenter = presenter
 
         return this.instance
 
@@ -34,12 +34,14 @@ export default class PostListModel{
         const that = this
         try{
 
-            const local =  await storage.get({key : this.KEY+key}) 
+            const local =  await storage.get({key : this.KEY+key})
             return JSON.parse(local.data)
         } catch(err){
             return null
         }
     }
+
+
 
     load(page,tag,suc,type){
 

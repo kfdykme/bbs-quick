@@ -26,6 +26,29 @@
             }
 
 
+            .top-tab-bar{
+
+                  flex-direction: row;
+                  width: 100%;
+
+                  text{
+                    text-align: center;
+                    flex-grow: 1;
+                    height: 100px;
+                  }
+
+                  .active{
+
+
+                      margin-bottom: 16px;
+                      border-bottom-width: 4px;
+                      border-color: #00bcd4;
+                  }
+
+
+            }
+
+
 
             .tab-bar{
 
@@ -39,14 +62,10 @@
                   }
 
                   .active{
-                    background-color: #ffbc4d;
-                    color: #ffffff;
-                  }
-
-                  .username {
                     background-color: #00bcd4;
                     color: #ffffff;
                   }
+ 
 
             }
 

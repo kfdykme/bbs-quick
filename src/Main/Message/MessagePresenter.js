@@ -28,6 +28,7 @@ import prompt from '@system.prompt'
         this.view = view
         this.app = view.context.$app
         this.model = MessageModel.getInstance(this)
+        this.tryToLoadPmList = false
 
         this.cache = {
             'post':{
@@ -68,6 +69,10 @@ import prompt from '@system.prompt'
         this.loadLocal(this.TYPE_ATME)
         this.loadLocal(this.TYPE_PM)
         this.loadLocal(this.TYPE_SYSTEM)
+        this.refresh(this.TYPE_POST)
+        this.refresh(this.TYPE_ATME)
+        this.refresh(this.TYPE_PM)
+        this.refresh(this.TYPE_SYSTEM)
     }
 
     /**
@@ -268,6 +273,10 @@ import prompt from '@system.prompt'
 
         if(type == 'pm'){
             var item = arg
+            if(this.tryToLoadPmList)
+                return
+
+            this.tryToLoadPmList = true
             const re = await this.model.pmseMissionList(item.toUserId, item.plid)
 
               router.push({
@@ -278,7 +287,7 @@ import prompt from '@system.prompt'
               })
 
 
-
+             this.tryToLoadPmList = false
         }
     }
 }
