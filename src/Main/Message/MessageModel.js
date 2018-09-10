@@ -334,7 +334,9 @@ export default class MessageModel{
 
     async loadLocalPmlist(toUserId,pid){
         const key = this.KEY+toUserId+pid
-        const local =  await storage.get({key : key})
+        var local =  await storage.get({key : key})
+
+        if(local == '') local = '{}'
         return JSON.parse(local.data)
     }
 

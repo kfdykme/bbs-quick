@@ -29,10 +29,10 @@ export default{
       try{
 
           const localRe = await this.model.loadLocalPmlist(this.toUserId,this.plid)
-         
+
           this.re = localRe
       } catch(err){
-          console.error(err)
+          console.info(err)
       }
       const re = await this.model.pmseMissionList(this.toUserId, this.plid)
 
@@ -45,6 +45,12 @@ export default{
           msl[x].showTime = x == 0 || this.re.body.pmList[0].msgList[x].time - this.re.body.pmList[0].msgList[x-1].time >120000
 
       }
+
+
+      setTimeout(function(){
+        this.refresh()
+
+      }.bind(this),1000)
     }
     ,onClickImage2(uri){
         ImageUtil.ViewImage(uri)
@@ -109,10 +115,6 @@ export default{
         })
 
 
-        setTimeout(function(){
-          this.refresh()
-
-        }.bind(this),1000)
 
     }
     ,onClickUser(id){
@@ -142,13 +144,21 @@ export default{
 
                   }
 
+                  // console.info("before save res")
                   const saveRes = await this.model.savePmlist(this.toUserId,this.plid,re)
-                  console.info(saveRes)
+                  // console.info(saveRes)
                   //TODO:滚到
-                  const pmList = this.$element('pmList')
-                  pmList.scrollTo({
-                      index: this.re.body.pmList[0].msgList.length * 2 -1
-                  })
+                  // const pmList = this.$element('pmList')
+                  // pmList.scrollTo({
+                  //     index: this.re.body.pmList[0].msgList.length * 2 -1
+                  // })
+
+                  // console.info("after scroll to ")
+                  setTimeout(function(){
+
+                    this.refresh()
+
+                  }.bind(this),1000)
             }.bind(this)
         )
     }
