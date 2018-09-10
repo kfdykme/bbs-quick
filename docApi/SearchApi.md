@@ -1,0 +1,419 @@
+# 搜索api
+
+## 搜索用户
+
+### url
+http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/searchuser
+### form  
+searchid	0
+pageSize	10
+accessToken	3a92218375094ad61d1afb42d3627  
+accessSecret	2870f155b160fa40addd801dd71ab
+sdkVersion	2.5.0.0
+apphash	eb70ed32
+keyword	将
+page	1
+### response
+``` json
+{
+	"rs": 1,
+	"errcode": "",
+	"head": {
+		"errCode": "00000000",
+		"errInfo": "\u8c03\u7528\u6210\u529f,\u6ca1\u6709\u4efb\u4f55\u9519\u8bef",
+		"version": "2.6.1.7",
+		"alert": 0
+	},
+	"body": {
+		"externInfo": {
+			"padding": ""
+		},
+		"list": [{
+			"uid": 217649,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=217649&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u5373\u5c06\u6bd5\u4e1a\u7684\u670b\u53cb",
+			"status": 0,
+			"level": 0,
+			"credits": 0,
+			"isFollow": 0,
+			"dateline": "1535339910000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 216625,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=216625&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "-\u4e0d\u5c06\u5c31-",
+			"status": 0,
+			"level": 0,
+			"credits": 3,
+			"isFollow": 0,
+			"dateline": "1535972795000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 214412,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=214412&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u5c06\u5219\u660e",
+			"status": 0,
+			"level": 1,
+			"credits": 155,
+			"isFollow": 0,
+			"dateline": "1536465888000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u6cb3\u87f9 (Lv.3)"
+		}, {
+			"uid": 212749,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=212749&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u5c06\u79bb\u3002",
+			"status": 0,
+			"level": 0,
+			"credits": 1,
+			"isFollow": 0,
+			"dateline": "1534072733000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 211977,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=211977&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u6d77\u519b\u4e0a\u5c06\u9646\u4f2f\u8a00",
+			"status": 0,
+			"level": 0,
+			"credits": 3,
+			"isFollow": 0,
+			"dateline": "1515767196000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 211756,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=211756&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u6c99\u6cb3\u5c0f\u5c06",
+			"status": 0,
+			"level": 0,
+			"credits": 10,
+			"isFollow": 0,
+			"dateline": "1536136204000",
+			"signture": "",
+			"location": "\u56db\u5ddd\u7701\u6210\u90fd\u5e02\u6210\u534e\u533a\u4e8c\u73af\u8def\u4e1c2\u6bb5-522\u53f7",
+			"distance": "729.2588996810017",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 210934,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=210934&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 1,
+			"name": "\u5c06\u5fc3\u810f",
+			"status": 0,
+			"level": 0,
+			"credits": 3,
+			"isFollow": 0,
+			"dateline": "1536393531000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 203983,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=203983&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u591c\u5c06\u6653",
+			"status": 0,
+			"level": 0,
+			"credits": 2,
+			"isFollow": 0,
+			"dateline": "1509960938000",
+			"signture": "",
+			"location": "\u56db\u5ddd\u7701\u6210\u90fd\u5e02\u90eb\u53bf",
+			"distance": "16675.33589313092",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 203839,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=203839&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u6e05\u6c34\u6cb3\u76d6\u4f26\u5c06\u519b",
+			"status": 0,
+			"level": 0,
+			"credits": 0,
+			"isFollow": 0,
+			"dateline": "1496133585000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}, {
+			"uid": 202295,
+			"icon": "http:\/\/bbs.uestc.edu.cn\/uc_server\/avatar.php?uid=202295&size=middle",
+			"isFriend": 0,
+			"is_black": 0,
+			"gender": 0,
+			"name": "\u5929\u6708\u5c06\u767d",
+			"status": 0,
+			"level": 0,
+			"credits": 0,
+			"isFollow": 0,
+			"dateline": "1494641774000",
+			"signture": "",
+			"location": "",
+			"distance": "",
+			"userTitle": "\u874c\u86aa (Lv.1)"
+		}]
+	},
+	"searchid": 873,
+	"page": 1,
+	"has_next": 1,
+	"total_num": 53
+}
+```
+## 搜索帖子
+
+### url
+http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/search&pageSize=25
+
+### form  
+searchid	0
+pageSize	10
+accessToken	3a92218375094ad61d1afb42d3627  
+accessSecret	2870f155b160fa40addd801dd71ab
+sdkVersion	2.5.0.0
+apphash	eb70ed32
+keyword	%E5%B0%86
+page	1  
+### response
+
+``` json
+{
+	"rs": 1,
+	"errcode": "",
+	"head": {
+		"errCode": "00000000",
+		"errInfo": "\u8c03\u7528\u6210\u529f,\u6ca1\u6709\u4efb\u4f55\u9519\u8bef",
+		"version": "2.6.1.7",
+		"alert": 0
+	},
+	"body": {
+		"externInfo": {
+			"padding": ""
+		}
+	},
+	"page": 1,
+	"has_next": 1,
+	"total_num": 500,
+	"searchid": 872,
+	"list": [{
+		"board_id": 316,
+		"topic_id": 1701444,
+		"type_id": 945,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u4eba\u5de5\u667a\u80fd\u5c06\u4f1a\u628a\u6211\u4eec\u8d76\u5c3d\u6740\u7edd",
+		"subject": "\u5bf9\u4e8e\u5f88\u591a\u884c\u4e1a\u6765\u8bf4\uff0c\u5de5\u4f5c\u5185\u5bb9\u4e2d\u7684\u7edd\u5927\u90e8\u5206\u90fd\u662f\u6bd4\u8f83\u673a\u68b0\u5316\u7684\uff0c",
+		"user_id": 65470,
+		"last_reply_date": "1536550493000",
+		"user_nick_name": "icaruswing",
+		"hits": 1432,
+		"replies": 37,
+		"top": 0,
+		"status": 0,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 25,
+		"topic_id": 1732185,
+		"type_id": 321,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u4e60\u8fd1\u5e73\uff1a\u4e2d\u56fd\u5c06\u5411\u975e\u6d32\u63d0\u4f9b600\u4ebf\u7f8e\u5143\u652f\u6301",
+		"subject": "\u3000\u65b0\u534e\u7f51\u5317\u4eac9\u67083\u65e5\u7535 2018\u5e74\u4e2d\u975e\u5408\u4f5c\u8bba\u575b\u5317\u4eac\u5cf0\u4f1a\u5f00",
+		"user_id": 135530,
+		"last_reply_date": "1536248927000",
+		"user_nick_name": "\u6211\u8981\u5e7a\u9e21\u6760\u4e0a\u82b1",
+		"hits": 957,
+		"replies": 48,
+		"top": 0,
+		"status": 0,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 25,
+		"topic_id": 1732422,
+		"type_id": 315,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u53f7\u5916\uff01\u5b66\u6821\u5373\u5c06\u6709\u5927\u4e8b\u53d1\u751f\uff01\uff01",
+		"subject": "\u9038\u592b\u697c\u665a\u4e0a\u4e5d\u70b9\u4fdd\u6d01\u8fd8\u5728\u52a0\u73ed\uff0c\u7535\u68af\u94fa\u4e86\u7ea2\u6bef\uff0c\u6240\u6709\u574f\u7684\u706f\u6ce1\u5168",
+		"user_id": 200955,
+		"last_reply_date": "1536196066000",
+		"user_nick_name": "\u4e1c\u6cb3\u6d41\u6c34",
+		"hits": 2067,
+		"replies": 49,
+		"top": 0,
+		"status": 0,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 214,
+		"topic_id": 1731391,
+		"type_id": 239,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u7f51\u66132019\u6821\u62db\u7f51\u7533\u5373\u5c06\u622a\u6b62\uff01\uff01",
+		"subject": "\u7f51\u66132019\u6821\u62db\u7f51\u7533\u5373\u5c06\u622a\u6b62\uff01\uff01    \u5927\u5bb6\u597d\uff0c\u8fd9\u91cc\u662f\u4e00",
+		"user_id": 28297,
+		"last_reply_date": "1536126342000",
+		"user_nick_name": "chuanqi",
+		"hits": 125,
+		"replies": 1,
+		"top": 0,
+		"status": 32,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 20,
+		"topic_id": 1728764,
+		"type_id": 182,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u9ebb\u5c06\u5b66\u672f\u4ea4\u6d41\u7fa4\uff0c\u708e\u708e\u590f\u65e5\uff0c\u7ea6\u9ebb\u5c06\u5427",
+		"subject": "2\u57575\u5757\u90fd\u6709\uff0cQQ\u7fa4\uff1a325507629",
+		"user_id": 126953,
+		"last_reply_date": "1535963154000",
+		"user_nick_name": "\u94c1\u8840\u84dd\u519b",
+		"hits": 199,
+		"replies": 8,
+		"top": 0,
+		"status": 32,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 305,
+		"topic_id": 1731227,
+		"type_id": 861,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u5c06\u987a\u4e30\u5feb\u9012\u5305\u88f9\u5fd8\u5728\u54c8\u7f57\u5355\u8f66\u4e86\uff08\u5df2\u627e\u5230\uff09",
+		"subject": "\u4eca\u5929\u4e2d\u5348\u5c06\u987a\u4e30\u5feb\u9012\u5305\u88f9\u5fd8\u5728\u4e86\u54c8\u7f57\u5355\u8f66\u8f66\u515c\u91cc\uff0c\u6700\u6211\u6700\u540e\u8fd8\u8f66",
+		"user_id": 207003,
+		"last_reply_date": "1535448724000",
+		"user_nick_name": "\u9cb6\u9c7c\u541b",
+		"hits": 146,
+		"replies": 4,
+		"top": 0,
+		"status": 0,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 236,
+		"topic_id": 1731036,
+		"type_id": 0,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u7535\u5b50\u5b66\u9662\u62df\u5c06\u65e9\u81ea\u4e60\u6539\u4e3a\u65e9\u64cd\u8dd1\u6b65",
+		"subject": "",
+		"user_id": 186758,
+		"last_reply_date": "1535345038000",
+		"user_nick_name": "regwoo",
+		"hits": 579,
+		"replies": 13,
+		"top": 0,
+		"status": 32800,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 25,
+		"topic_id": 1730498,
+		"type_id": 0,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u4e0d\u6709\u884c\u8005\uff0c\u65e0\u4ee5\u56fe\u5c06\u6765",
+		"subject": "\u4e0d\u6709\u884c\u8005\uff0c\u65e0\u4ee5\u56fe\u5c06\u6765\uff1b\u4e0d\u6709\u6b7b\u8005\uff0c\u65e0\u4ee5\u542f\u540e\u4eba\u3002\ufffc\ufffc\ufffc\u9b54\u5e7b(",
+		"user_id": 200115,
+		"last_reply_date": "1534848968000",
+		"user_nick_name": "\u7554\u7554\u96ea\u997c",
+		"hits": 267,
+		"replies": 7,
+		"top": 0,
+		"status": 32800,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 61,
+		"topic_id": 1729842,
+		"type_id": 287,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u51fa\u8fd8\u6709\u4e00\u5e74\u4fdd\u7684\u5f71\u9a70970\u9ed1\u5c06\u548c\u5168\u65b0\u534e\u64ceA320m-hdv",
+		"subject": "970\u6210\u8272\u5982\u56fe\uff0c\u5e73\u65f6\u7528\u5f97\u5c11\uff0c\u5403\u9e21\u53ef\u4ee5\u4e09\u6781\u81f4\u7a3360\u5e27\u4ee5\u4e0a\uff0c",
+		"user_id": 214871,
+		"last_reply_date": "1534309543000",
+		"user_nick_name": "\u6211\u8ddf\u4f60\u8bf4\u4e2a\u9524\u5b50",
+		"hits": 198,
+		"replies": 9,
+		"top": 0,
+		"status": 0,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}, {
+		"board_id": 309,
+		"topic_id": 1729339,
+		"type_id": 75,
+		"sort_id": 0,
+		"vote": 0,
+		"title": "\u60c5\u51b5\u8bf4\u660e\uff1a\u7f8e\u56fd\u5c06\u8f93\u6389\u8d38\u6613\u6218\uff0c\u4e2d\u56fd\u6050\u6210\u6700\u5927\u8d62\u5bb6",
+		"subject": "\u7f8e\u56fd\u603b\u7edf\u7279\u6717\u666e\u66fe\u5728\u63a8\u7279\u4e0a\u5199\u9053\uff0c\u201c\u8d38\u6613\u6218\u662f\u597d\u7684\uff0c\u4e14\u5f88\u5bb9\u6613\u5c31",
+		"user_id": 205496,
+		"last_reply_date": "1533834242000",
+		"user_nick_name": "\u6ce5\u5df4",
+		"hits": 657,
+		"replies": 11,
+		"top": 0,
+		"status": 32800,
+		"essence": 0,
+		"hot": 0,
+		"pic_path": ""
+	}]
+}
+```
+
+## 搜索文章
+(??? 好像没有这个东西)

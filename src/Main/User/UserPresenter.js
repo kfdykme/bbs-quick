@@ -34,7 +34,7 @@ export default class UserPresenter{
         try{
 
             var userRe = await this.model.loadLocal(this.uid)
-             
+
             this.view.renderUserInfo(userRe)
             this.view.renderAvatar(UserApi.getUserAvatarBig(this.uid))
             console.info("load userinfo from local success")
@@ -147,22 +147,17 @@ export default class UserPresenter{
         }
 
         // NOTE : 站内私信
-        if(type == 'chat'){
-            var success = function(re){
+        if(type == 'chat'){ 
+
 
               router.push({
                 uri :"Main/Message/PmList",
                 params :{
-                  re :re
+                  toUserId:this.uid,
+                  plid : 0
                 }
               })
-            }
 
-            MessageApi.fetchPmseMissionList(
-               this.uid,
-               0,
-               0,
-               success)
         }
 
         // NOTE : 登出

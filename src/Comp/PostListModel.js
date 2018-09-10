@@ -2,6 +2,7 @@ import storage from '@system.storage'
 import BoardApi from '../Common/BoardApi'
 import ForumApi from '../Common/ForumApi'
 import UserApi from '../Common/UserApi'
+import PostApi from '../Common/PostApi'
 /**
  * @class PostListModel
  * @constructor constructor
@@ -86,6 +87,12 @@ export default class PostListModel{
               page,
               tag,
               success)
+        }
+
+        // NOTE : search
+        if(type == 'search'){
+            const key = tag
+            PostApi.search(key,page,success)
         }
     }
 

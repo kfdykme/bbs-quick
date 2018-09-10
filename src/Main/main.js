@@ -1,6 +1,7 @@
 
   import ForumApi from '../Common/ForumApi'
   import UserCache from '../Common/UserCache'
+  import router from '@system.router'
 
   export default {
     private: {
@@ -37,6 +38,13 @@
     }
     ,clickTabBar(index){
       this.onChangeForm(index)
+    }
+    ,onClickEvent(event){
+        if(event.type == 'search'){
+            router.push({
+                uri:'Other/Search'
+            })
+        }
     }
 
   }

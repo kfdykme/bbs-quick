@@ -51,7 +51,7 @@ export default class PostListPresenter{
 
         var success = function (re){
 
-
+            console.info(re)
             let x
             for(x in re.list){
                 let time = re.list[x].last_reply_date
@@ -84,7 +84,6 @@ export default class PostListPresenter{
      */
     loadMore(){
 
-        console.info("loading more "+this.tag)
         this.view.renderLoading()
         this.canLoadMore = false
         this.page = this.page+ 1

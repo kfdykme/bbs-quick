@@ -19,6 +19,7 @@
           flex-direction: column;
 
 
+
             .paper{
                 height: 100%;
 
@@ -38,13 +39,25 @@
                   }
 
                   .active{
-
-
                       margin-bottom: 16px;
                       border-bottom-width: 4px;
                       border-color: #00bcd4;
                   }
+                  .search{
 
+
+
+                      justify-content: flex-end;
+                      align-items: flex-end;
+                      height: 84px;
+                      margin-right:8px;
+                      image{
+
+                              width: 64px;
+                              height:64px;
+                              resize-mode:contain;
+                      }
+                  }
 
             }
 
@@ -65,7 +78,7 @@
                     background-color: #00bcd4;
                     color: #ffffff;
                   }
- 
+
 
             }
 

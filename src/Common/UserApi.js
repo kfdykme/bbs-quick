@@ -43,9 +43,9 @@ function getUserInfo(uid,success){
       ,success)
 }
 
-/*
- * getUserAvatarBig 获取头像大的url
- * @params <String> uid
+/**
+ * @method getUserAvatarBig 获取头像大的url
+ * @param <String> uid
  * return url
  */
 function getUserAvatarBig(uid){
@@ -125,7 +125,7 @@ function getUserReplyPost(uid, page,pageSize,success){
 
 
 /**
- * deleteFriend() 删除好友,忽略好友关系
+ * @method deleteFriend() 删除好友,忽略好友关系
  *
  * @param uid
  * @param success 成功回调,参数为data
@@ -277,6 +277,27 @@ function unFollow(uid,onUnFollowSuccess) {
     )
 }
 
+
+/**
+ * @method search
+ * @param keyword
+ */
+function search(keyword,page,onSearchSuccess){
+    Api.fetch(
+        Api.BASE_URL +"/app/web/index.php?r=user/searchuser",
+        {
+            accessToken :UserCache.token(),
+            accessSecret :UserCache.secret(),
+            sdkVersion : Api.sdkVersion,
+            appHash :UserCache.appHash(),
+            searchid:0,
+            pageSize :20,
+            keyword:keyword,
+            page : page
+        },
+        onSearchSuccess
+    )
+}
 export default {
      addFriend
     ,deleteFriend
@@ -290,5 +311,6 @@ export default {
     ,getFolloweds
     ,getMePosts
     ,user
+    ,search
     ,init
 }

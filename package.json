@@ -1,26 +1,26 @@
 {
-  "name": "BBS",
-  "version": "1.0.0",
+  "name": "BBS-uestc",
+  "version": "1.1.2",
   "subversion": {
-    "toolkit": "0.0.31",
+    "toolkit": "0.0.36",
     "packager": "0.0.5"
   },
   "description": "电子科技大学官方学生论坛 快应用版",
   "scripts": {
     "lint": "./node_modules/.bin/eslint src/",
     "clear": "rm -rf build/* && rm -rf dist/*",
-    "build": "cross-env NODE_PLATFORM=na NODE_PHASE=dv webpack --config ./node_modules/hap-tools/webpack.config.js",
-    "release": "cross-env NODE_PLATFORM=na NODE_PHASE=ol webpack --config ./node_modules/hap-tools/webpack.config.js",
-    "server": "cross-env node ./node_modules/hap-tools/server/index.js",
+    "build": "hap build",
+    "release": "hap release",
+    "server": "hap server",
     "notify": "node ./node_modules/hap-tools/server/command/notify.js",
-    "watch": "npm run na:dv -- --watch",
+    "watch": "hap watch",
     "na:dv": "cross-env NODE_PLATFORM=na NODE_PHASE=dv webpack --config ./node_modules/hap-tools/webpack.config.js",
     "na:qa": "cross-env NODE_PLATFORM=na NODE_PHASE=qa webpack --config ./node_modules/hap-tools/webpack.config.js",
     "na:ol": "cross-env NODE_PLATFORM=na NODE_PHASE=ol webpack --config ./node_modules/hap-tools/webpack.config.js",
-    "postinstall": "npm run postinstall:koaStatic && npm run postinstall:koaSend",
+    "postinstall": "hap postinstall",
     "postinstall:koaStatic": "babel -d ./node_modules/koa-static ./node_modules/koa-static",
     "postinstall:koaSend": "babel -d ./node_modules/koa-send ./node_modules/koa-send",
-    "debug": "npm run server -- --loadModules='debugger' --port=8081"
+    "debug": "hap debug"
   },
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
@@ -61,12 +61,12 @@
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
+    "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
-    "babel-loader": "^6.2.4",
+    "babel-loader": "^7.1.4",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "hybrid-chai": "~0.0.1",
-    "cross-env": "^3.2.4",
+    "cross-env": "^5.1.4",
     "eslint": "^2.13.1",
     "eslint-plugin-hybrid": "~0.0.1",
     "html-loader": "^0.4.5",
@@ -78,7 +78,7 @@
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "url-loader": "^0.5.7",
-    "webpack": "~1.13.0",
+    "webpack": "^3.11.0",
     "webpack-dev-server": "^1.16.5",
     "webdriverio": "^4.8.0",
     "css-what": "^2.1.0",
@@ -87,6 +87,8 @@
     "koa-static": "^4.0.1",
     "koa-body": "^2.5.0",
     "koa-router": "^7.2.1",
-    "uglify-js": "^2.7.5"
+    "uglify-js": "^2.7.5",
+    "hap-toolkit": "0.0.36",
+    "socket.io": "^2.1.0"
   }
 }

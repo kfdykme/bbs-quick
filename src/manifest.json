@@ -1,8 +1,8 @@
 {
     "package": "org.starstudio.quick.bbs",
     "name": "清水河畔",
-    "versionName": "1.1.1",
-    "versionCode": 13,
+    "versionName": "1.1.2",
+    "versionCode": 14,
     "minPlatformVersion": 1010,
     "icon": "/Res/logo.png",
     "features": [
@@ -86,6 +86,9 @@
             },
             "Other/ImageView": {
                 "component": "index"
+            },
+            "Other/Search":{
+                "component" :"index"
             }
         }
     },

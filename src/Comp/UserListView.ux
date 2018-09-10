@@ -93,7 +93,8 @@ import DateUtil from  '../Common/DateUtil'
 export default{
   props:[
     'tag',
-    'uid'
+    'uid',
+    'keyword'
   ],
   data:{
     list:[],
@@ -198,6 +199,31 @@ export default{
         if(tag == 'friend'){
             UserApi.getFirends(this.uid,
                 success)
+        }
+
+        // NOTE : search
+        if(tag == 'search'){
+            UserApi.search(this.keyword,page,
+            function(re){
+                let x
+                for(x in re.body.list){
+                  let time = re.body.list[x].lastLogin
+                  re.body.list[x].lastLogin = DateUtil.convertTime(time)
+                }
+ 
+                if(page == 1){
+                  this.render(re.body.list)
+                } else {
+
+                  // console.log(JSON.stringify(re.list));
+                  this.renderMore(re.body.list)
+                }
+
+                if(re.has_next == 0){
+                  this.renderError("没有更多了")
+                  return
+                }
+            }.bind(this))
         }
   },
   loadMore(){

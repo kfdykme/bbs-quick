@@ -1,0 +1,185 @@
+
+<import name="user-list-view" src="../../Comp/UserListView"></import>
+
+<import name="post-list-view" src="../../Comp/PostListView"></import>
+
+<template>
+    <div class="search-page">
+        <div class="header">
+
+
+            <div class="search-input-bar">
+                <input class="input-search" type="text" @change="onChange({type:'change-key'})"  ></input>
+                <input class="btn-search" @click="onEvent({type:'do-search'})" type="button" value="搜索"></input>
+            </div>
+
+            <div class="search-select">
+
+                <block for="t in searchTypes">
+                        <div class="search-type">
+                            <text @click="onEvent({type:'change-type',data:t})" class="{{type == t ? 'active' : ''}}">{{t}}</text>
+                        </div>
+                </block>
+            </div>
+
+        </div>
+        <div class="container">
+         <user-list-view if="{{searchType == 'user'}}" keyword="{{searchKeyword}}" tag="search"></user-list-view>
+         <post-list-view if="{{searchType == 'post' }}" type="search" tag="{{searchKeyword}}"  ></post-list-view>
+        </div>
+    </div>
+</template>
+
+<style lang="less">
+    .search-page{
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .header{
+
+            flex-direction: column;
+            width: 100%;
+
+
+            .search-input-bar{
+                width: 100%;
+
+                .input-search{
+
+                    width: 75%;
+                    margin-left: 16px;
+                    margin-right: 16px;
+                    border-bottom-color: #aaaaaa;
+                    border-bottom-width: 1.6px;
+                }
+
+                .btn-search{
+                    width: 25%;
+                    background-color: #ffffff;
+                    border-left-color :#00bcd4;
+                    border-color: #00bcd4;
+                    border-left-width: 4px;
+                    color:#00bcd4;
+                    margin-top: 4px;
+                    margin-bottom: 4px;
+
+                }
+            }
+
+            .search-select{
+                width: 100%;
+
+
+                .search-type{
+                    flex-grow: 1;
+
+                    text{
+
+                        width: 100%;
+                        text-align: center;
+                        background-color: #00bcd4;
+                        padding: 16px;
+                        color: #ffffff;
+                    }
+
+                    .active{
+
+                        font-size: 44px;
+                    }
+                }
+            }
+
+        }
+
+        .container{
+            flex-grow: 1;
+        }
+    }
+</style>
+
+
+<script>
+
+
+    /**
+     * @class SearchPresenter
+     */
+    class SearchPresenter {
+
+        constructor(view){
+            this.view = view
+        }
+
+        onEvent(e){
+            if(e.type == 'change-type'){
+                this.type = e.data
+                this.view.renderChangeType(e.data)
+            }
+
+            if(e.type == 'change-key'){
+                this.key = e.data
+            }
+
+            if(e.type == 'do-search'){
+                this.search()
+            }
+        }
+
+        search(){
+            const key = this.key
+            var type = this.type
+
+            // NOTE : 初始化type为post
+            if(type == '' || type == null) type = 'post'
+
+            this.view.renderSearch(key,type)
+        }
+    }
+
+    class SearchView{
+
+        constructor(page){
+            this.app = page.$app
+            this.page = page
+        }
+
+        renderChangeType(type){
+            this.page.type = type
+        }
+
+        renderSearch(key,type){
+            this.page.searchType = ''
+            setTimeout(function(){
+
+                this.page.searchType = type
+                this.page.searchKeyword = key
+
+            }.bind(this),100)
+        }
+    }
+
+    export default {
+        protected :{
+            type : 'post',
+            searchTypes:[
+                'post',
+                'user'
+            ],
+            searchType :'',
+            searchKeyword :''
+
+        }
+        ,onInit(){
+            this.view = new SearchView(this)
+            this.presenter = new SearchPresenter(this.view)
+        }
+        ,onEvent(event){
+            this.presenter.onEvent(event)
+        }
+        ,onChange(event,e){
+            event.data = e.value
+            this.presenter.onEvent(event)
+        }
+    }
+</script>

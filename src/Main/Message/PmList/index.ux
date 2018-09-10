@@ -2,11 +2,11 @@
   <div class="pm-list-page">
       <div class="pm-list">
 
-          <div class="name-bar" if="{{re}}">
+          <div class="name-bar" if="{{re && re.body}}">
               <text class="to-user-name" >{{re.body.pmList[0].name}}</text>
 
           </div>
-          <list id="pmList" if="{{re}}">
+          <list id="pmList" if="{{re && re.body}}">
                 <block for="(i,pm) in re.body.pmList[0].msgList" if="{{re}}">
 
 

@@ -15,11 +15,13 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      background-color: #eeeeee;
+      margin: 16px;
 
       height: 400px;
 
       progress{
-        color : #dddddd;
+        color : #00bcd4;
         width: 120px;
         height: 120px;
       }
@@ -29,7 +31,7 @@
         width: 100%;
         font-size: 60px;
         text-align: center;
-        color: #dddddd;
+        color : #00bcd4;
         border-radius: 18px;
       }
 

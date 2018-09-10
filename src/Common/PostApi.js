@@ -165,11 +165,37 @@ function comment(commentContent,topicId,suc){
   })
 }
 
+
+/**
+ * @method search
+ * @param {string} key
+ * @param {number} page
+ * @param {function} onSearchSuccess
+ */
+function search(key,page,onSearchSuccess){
+    Api.fetch(
+        Api.BASE_URL+"/app/web/index.php?r=forum/search",
+        {
+            searchid:0,
+            pageSize:10,
+            accessToken :UserCache.token(),
+            accessSecret :UserCache.secret(),
+            sdkVersion : Api.sdkVersion,
+            appHash :UserCache.appHash(),
+            keyword:key,
+            page:page
+        },
+        onSearchSuccess
+    )
+}
+
+
 export default{
   fetchPostDetail,
   supportPost,
   init,
   comment,
   replyComment,
-  publish
+  publish,
+  search
 }
