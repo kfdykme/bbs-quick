@@ -189,8 +189,7 @@
                                       margin: 16px;
                                       margin-left: 0px;
                                       padding: 8px;
-                                      color: #333333;
-
+                                      color:#aaaaaa;
                                       border-color: #00bcd4;
                                       border-left-width: 4px;
                                 }
@@ -200,8 +199,8 @@
                                       margin: 16px;
                                       margin-left: 0px;
                                       padding: 8px;
-                                      color: #333333;
 
+                                      color:#aaaaaa;
                                       border-color: #00bcd4;
                                       border-left-width: 4px;
                                 }
@@ -231,6 +230,7 @@
 
                               .reply-content{
                                   padding: 8px;
+                                  color:#333333;
                                   margin-left: 64px;
                               }
 

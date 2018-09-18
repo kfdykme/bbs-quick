@@ -26,7 +26,9 @@
       commentReplyId : 0,
       isReplying :false,
       showImage : true,
-      TAG :"Main/Post/Detail"
+      TAG :"Main/Post/Detail",
+      images:[] // 本页的图片url数组,查看图片时作为参数传入
+
 
     },
     onInit(){
@@ -149,7 +151,7 @@
              })
              this.list[index].extraPanel[0].extParams.isHasRecommendAdd  = 1
              this.list[index].extraPanel[0].extParams.recommendAdd++
-             
+
          } catch(e){
              prompt.showToast({
                  message :JSON.stringify(e)
@@ -165,6 +167,16 @@
       json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
 
       this.topic = json.topic
+
+
+      // TODO:写一半呢
+      // for(x in topic.content){
+      //     var c = topic.content[x]
+      //     if(c.type == 1){
+      //
+      //     }
+      // }
+      // this.images.add()
 
       this.renderTopicComplete()
     },
@@ -192,6 +204,8 @@
 
              this.renderError("没有更多了")
         }
+
+
       }  else {
        this.renderError("没有更多了")
        this.loadMoreComplete()

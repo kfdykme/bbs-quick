@@ -43,9 +43,10 @@
                     </div>
                 </list-item>
 
+                <!-- NOTE:超链接 -->
                 <list-item type="topic-url" if="{{t.type  == 4 }}" >
                     <div class="topic-content big-card">
-                        <a href="{{t.infor}}">{{t.infor}}</a>
+                        <a href="{{t.url}}">{{t.infor}}</a>
 
                     </div>
                 </list-item>

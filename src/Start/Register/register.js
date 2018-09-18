@@ -17,6 +17,7 @@ export default {
     tvSure : "确认",
     tryingRegister : false,
     formhash:"",
+    emailhash:"",
     cookie:""
   }
   /**
@@ -63,7 +64,17 @@ export default {
                     formhash = formhash[0].substring(17)
                     formhash = formhash.substring(0,formhash.length-6)
 
+                    const emailExp = /name=\".*\" placeholder=\"邮箱\"/g
+
+                    var emailHash = data.data.match(emailExp)
+
+                    emailHash = emailHash[0].substring(6)
+                    emailHash = emailHash.substring(0,emailHash.length-18)
+
+
+
                     this.formhash  = formhash
+                    this.emailhash = emailHash
                     this.cookie = this.convsertCookie(data.headers['Set-Cookie'])
                 }.bind(this),
                 fail: function(data,code){
@@ -80,6 +91,8 @@ export default {
       this.tryingRegister = true
       const url = "http://bbs.uestc.edu.cn/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1"
 
+
+      //<label for="XrgAcN">Email:</label></th>
       //NOTE:POST数据
       var data = {
             regsubmit : 'yes',
@@ -89,11 +102,13 @@ export default {
             agreebbrule : "",
             usr	:this.username,
             pwd	:this.password,
-            pwd2	:this.password2,
-            mCdCdC:this.email
+            pwd2	:this.password2
       }
       data["stunumber" + this.formhash] = this.stuNumber
       data["stupswd"+this.formhash] = this.stuPassword
+      data[this.emailhash] = this.email
+
+
 
 
       //NOTE:注册请求,加上了cookie
@@ -106,6 +121,8 @@ export default {
         },
         success :function(data){
 
+            //NOTE:尝试注册结束
+            this.tryingRegister = false
             //NOTE:处理script返回,原先只是返回了js的alert加上重定位,现在得暂时自己来
 
             //NOTE:用正则抓取是否注册成功
@@ -134,8 +151,6 @@ export default {
                 message:errcode
             })
 
-            //NOTE:尝试注册结束
-            this.tryingRegister = false
 
         }.bind(this),
         fail : function(data,code){
