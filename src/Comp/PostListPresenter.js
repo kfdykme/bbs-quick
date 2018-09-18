@@ -51,7 +51,7 @@ export default class PostListPresenter{
 
         var success = function (re){
 
-            console.info(re)
+            //console.info(re)
             let x
             for(x in re.list){
                 let time = re.list[x].last_reply_date

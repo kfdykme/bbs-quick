@@ -61,6 +61,15 @@
                     </div>
                 </list-item>
 
+                <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.infor.length}}">
+                    <block for="(e,eindex) in t.infor">
+                        <div class="topic-content big-card">
+                            <text if="{{eindex /2 == 0}}">{{e}}</text>
+                            <image if="{{eindex /2 == 1}}" src="{{e}}"></image>
+                        </div>
+
+                    </block>
+                </list-item>
             </block>
 
 
@@ -110,6 +119,16 @@
                     <div class="card">
 
                         <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
+                    </div>
+                </list-item>
+
+                <list-item  if="{{$item.type == 11}}" type="topic-emoji-{{$item.infor.length}}">
+                    <div class="card reply-emoji">
+                        <block for="(eindex,e) in $item.infor">
+                            <text if="{{eindex /2 == 0}}">{{e}}</text>
+                            <image if="{{eindex /2 != 0}}" src="{{e}}"></image>
+
+                        </block>
                     </div>
                 </list-item>
               </block>

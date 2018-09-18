@@ -70,9 +70,7 @@ export default {
 
                     emailHash = emailHash[0].substring(6)
                     emailHash = emailHash.substring(0,emailHash.length-18)
-
-
-
+ 
                     this.formhash  = formhash
                     this.emailhash = emailHash
                     this.cookie = this.convsertCookie(data.headers['Set-Cookie'])

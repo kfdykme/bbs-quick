@@ -275,7 +275,7 @@ export default{
     return View
   }
   ,onClickEvent(event){
-      console.info(JSON.stringify(event))
+
       this.presenter.onClickEvent(event)
   }
   ,onScrollBottom(){

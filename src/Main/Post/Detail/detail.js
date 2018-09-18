@@ -30,8 +30,59 @@
       images:[] // 本页的图片url数组,查看图片时作为参数传入
 
 
-    },
-    onInit(){
+    }
+    /**
+     * @method convertList
+     * @param  {array} list
+     * @return {array}
+     * @desc 处理转化网络请求中返回的list
+     */
+    ,convertList(list){
+
+        // console.info(JSON.stringify(list))
+
+        for (let  x in list){
+
+          list[x].posts_date = DateUtil.convertTime(list[x].posts_date)
+
+          list[x].showAct = false
+
+          //处理表情
+          var rc = list[x].reply_content
+          for(var y in rc){
+              var content = rc[y]
+              //如果是文本的话,就提取表情包
+              if(content.type == 0)
+              {
+                  const emojiRex = /\[mobcent_phiz=.*?\]/g
+                  var emojis = content.infor.match(emojiRex)
+                  if(emojis == null){
+                      continue //没有表情包
+                  } else{
+                      // 有表情包
+                      // console.info(emojis)
+                      var nt = []
+                      var t = content.infor
+                      for(var z in emojis){
+                          var e = emojis[z]
+                          var tempt = t.split(e)
+                          nt.push(tempt[0])
+                          t = tempt[1] == null ? "" :tempt[1]
+                          e = e.substring(14,e.length-1)
+                          nt.push(e)
+                      }
+
+                      // console.info(nt)
+                      //NOTE:先用11作为带有表情包的文本
+                      content.type = 11
+                      content.infor = nt
+                  }
+              }
+          }
+        }
+        return list
+    }
+    ,onInit(){
 
       var app = this.$app
 
@@ -115,7 +166,7 @@
                   const re = JSON.parse(data.data)
 
                   prompt.showToast({
-                    message:re.errcode
+                      message:re.errcode
                   })
 
                   this.commentContent = ""
@@ -124,6 +175,13 @@
                   this.commentBtnText = "评论"
                   this.isReplying = false
 
+
+                  this.canLoadMore = true
+                    setTimeout(function(){
+
+                          this.loadMore()
+
+                    }.bind(this) ,1000)
                 }.bind(this))
               }
 
@@ -188,14 +246,9 @@
       if(json.list != null && json.list.length != 0){
 
 
-        for (let  x in json.list){
 
-          json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
-
-          json.list[x].showAct = false
-
-        }
-        this.list = json.list
+        this.list = this.convertList(json.list)
+        console.info(this.list)
         this.renderReplyComplete()
 
 
@@ -219,10 +272,8 @@
 
       if(json.list != null && json.list.length != 0){
 
-        for (let x in json.list){
-          json.list[x].posts_date = DateUtil.convertTime(json.list[x].posts_date)
-          json.list[x].showAct = false
-        }
+
+        json.list = this.convertList(json.list)
         this.list = this.list.concat(json.list)
 
         this.renderReplyComplete()

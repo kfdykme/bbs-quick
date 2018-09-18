@@ -93,6 +93,16 @@
                     }
                 }
 
+                .reply-emoji{
+                    flex-direction: column;
+
+
+                    image{
+                        width: 50px;
+                        resize-mode :center;
+                    }
+                }
+
 
                 .reply-footer{
                   width: 100%;
