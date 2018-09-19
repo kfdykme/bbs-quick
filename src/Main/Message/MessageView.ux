@@ -231,7 +231,7 @@
                               .reply-content{
                                   padding: 8px;
                                   color:#333333;
-                                  margin-left: 64px;
+                                  margin-left: 80px;/* 16padding + 64width*/
                               }
 
                           }

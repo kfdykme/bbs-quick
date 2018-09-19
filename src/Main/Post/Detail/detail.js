@@ -16,7 +16,7 @@
       list :[],
       canLoadMore :true,
       isRefreshing :false,
-      page : 0,
+      page : 1,
       pro_show : true,
       pro_msg : "",
       commentSend : "发送",
@@ -24,12 +24,11 @@
       showCommentBar : false,
       commentBtnText : "评论",
       commentReplyId : 0,
-      isReplying :false,
-      showImage : true,
+      isReplying :false, //是不是正在发送网络请求进行回复
+      showImage : true, // 是否可以加载图片了
       TAG :"Main/Post/Detail",
-      images:[] // 本页的图片url数组,查看图片时作为参数传入
-
-
+      images:[], // 本页的图片url数组,查看图片时作为参数传入
+      lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
     }
     /**
      * @method convertList
@@ -48,39 +47,71 @@
           list[x].showAct = false
 
           //处理表情
-          var rc = list[x].reply_content
-          for(var y in rc){
-              var content = rc[y]
-              //如果是文本的话,就提取表情包
-              if(content.type == 0)
-              {
-                  const emojiRex = /\[mobcent_phiz=.*?\]/g
-                  var emojis = content.infor.match(emojiRex)
-                  if(emojis == null){
-                      continue //没有表情包
-                  } else{
-                      // 有表情包
-                      // console.info(emojis)
-                      var nt = []
-                      var t = content.infor
-                      for(var z in emojis){
-                          var e = emojis[z]
-                          var tempt = t.split(e)
-                          nt.push(tempt[0])
-                          t = tempt[1] == null ? "" :tempt[1]
-                          e = e.substring(14,e.length-1)
-                          nt.push(e)
-                      }
+          var rc = this.convertEmoji(list[x].reply_content)
 
-                      // console.info(nt)
-                      //NOTE:先用11作为带有表情包的文本
-                      content.type = 11
-                      content.infor = nt
-                  }
-              }
-          }
         }
         return list
+    }
+    /**
+     * @method convertEmoji
+     * @param {array} rc
+     * @return {array}
+     * @desc 重构数组,提取表情包
+     */
+    ,convertEmoji(rc){
+        for(var y in rc){
+            var content = rc[y]
+            //如果是文本的话,就提取表情包
+            if(content.type == 0)
+            {
+                const emojiRex = /\[mobcent_phiz=.*?\]/g
+                var emojis = content.infor.match(emojiRex)
+                if(emojis == null){
+                    continue //没有表情包
+                } else{
+                    // 有表情包
+                    // console.info(emojis)
+                    var nt = []
+                    var t = content.infor
+                    console.info(t)
+                    for(var z in emojis){
+                        var e = emojis[z]
+                        var tempt = t.split(e)
+                        nt.push(tempt[0])
+                        t = tempt[1] == null ? "" :tempt[1]
+                        e = e.substring(14,e.length-1)
+                        nt.push(e)
+                    }
+
+                    if(t != null)
+                        nt.push(t)
+                    // console.info(nt)
+                    //NOTE:先用11作为带有表情包的文本
+                    content.type = 11
+                    content.infor = nt
+                    console.info(nt)
+                }
+            }
+        }
+        return rc
+    }
+    /**
+     * @method loadSend
+     * @desc 加载评论/回复之后的内容
+     */
+    ,loadSend(){
+
+
+        //刷新...
+        if(this.list.length <25) {
+
+              this.page = 1
+              this.fetchReplys()
+            return
+        }
+
+        this.loadMore()
+
     }
     ,onInit(){
 
@@ -146,11 +177,7 @@
                       this.isReplying = false
                       this.onChangeCommentBar()
 
-
-                    this.canLoadMore = true
-                      setTimeout(function(){
-                            this.loadMore()
-                      }.bind(this) ,1000)
+                      this.loadSend()
 
                     }.bind(this))
         }
@@ -175,13 +202,8 @@
                   this.commentBtnText = "评论"
                   this.isReplying = false
 
+                  this.loadSend()
 
-                  this.canLoadMore = true
-                    setTimeout(function(){
-
-                          this.loadMore()
-
-                    }.bind(this) ,1000)
                 }.bind(this))
               }
 
@@ -217,14 +239,12 @@
              console.err(JSON.stringify(e))
          }
     },
-    render(){
-      this.renderTopic()
-    },
     renderTopic(json){
 
       json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
-
+      json.topic.content = this.convertEmoji(json.topic.content)
       this.topic = json.topic
+
 
 
       // TODO:写一半呢
@@ -247,16 +267,31 @@
 
 
 
-        this.list = this.convertList(json.list)
-        console.info(this.list)
+        //根据筛选json.list里面的东西
+        var tempList = []
+        for(var x in json.list){
+        if(json.list[x].posts_date > this.lastReplyTime)
+            tempList.push(json.list[x])
+        }
+        json.list = tempList
+
+        //更新最后的回复的时间
+
+        if(json.list.length != 0)
+            this.lastReplyTime = json.list[json.list.length -1].posts_date
+
+        json.list = this.convertList(json.list)
+        this.list = this.list.concat(json.list)
+        // console.info(this.list)
         this.renderReplyComplete()
 
 
-        //TODO : 暂时在此做个判断,10 == defaultPageSize
-        if(json.list.length < 10){
+        if(json.list.length < 25 || json.has_next == 0){
 
              this.renderError("没有更多了")
         }
+        if(json.list.length == 25)
+            this.page = this.page +1
 
 
       }  else {
@@ -268,19 +303,49 @@
 
 
     },
+    /**
+     * @method renderMoreReply
+     * @param {object} json 
+     * @desc 同 @method loadMore
+     */
     renderMoreReply(json){
+
 
       if(json.list != null && json.list.length != 0){
 
 
+        //根据筛选json.list里面的东西
+        var tempList = []
+        for(var x in json.list){
+            if(json.list[x].posts_date > this.lastReplyTime)
+                tempList.push(json.list[x])
+        }
+        json.list = tempList
+
+
+        //更新最后的回复的时间
+        if(json.list.length != 0)
+            this.lastReplyTime = json.list[json.list.length -1].posts_date
+
         json.list = this.convertList(json.list)
+
         this.list = this.list.concat(json.list)
+
+       if(json.list.length < 25 || json.has_next == 0){
+
+            this.renderError("没有更多了")
+       }
+
+       if(json.list.length == 25)
+           this.page = this.page +1
 
         this.renderReplyComplete()
       } else {
         this.renderError("没有更多了")
         this.loadMoreComplete()
       }
+
+      // console.info(this.list)
     },
     renderReplyComplete(){
       // prompt.showToast({
@@ -295,18 +360,21 @@
     },
     refresh(){
       this.fetchTopic()
-    },
-    loadMore(){
-      if(this.canLoadMore){
-        this.canLoadMore = false
+    }
+    /**
+     * @method loadMore
+     */
+    ,loadMore(){
+        if(this.canLoadMore){
+            this.canLoadMore = false
 
-        this.page = this.page+ 1
-        this.fetchReplys()
+            this.fetchReplys()
 
-      }
+        }
     },
     loadMoreComplete(){
       this.canLoadMore = true
+
     },
     fetchTopic(){
 
@@ -316,7 +384,6 @@
             let json = JSON.parse(data.data)
             if(json.rs == 1){
               this.renderTopic(json)
-
 
 
             } else {
@@ -329,26 +396,37 @@
           })
 
     },
+    /**
+     * @method fetchReplys
+     */
     fetchReplys(){
+        PostApi.fetchPostDetail(this.page,this.topicid,
+          function(data){
 
-            PostApi.fetchPostDetail(this.page,this.topicid,
-              function(data){
+            let json = JSON.parse(data.data)
 
-                let json = JSON.parse(data.data)
-                if(json.rs == 1){
-                  if(this.page == 1){
-                    this.renderReply(json)
-                  }else{
-                    this.renderMoreReply(json)
-                  }
-                } else {
-                  this.renderError(json.errcode)
-                }
 
-              }.bind(this),
-              function(data,code){
-                console.log(data);
-              })
+
+            if(json.rs == 1){
+              if(this.page == 1){
+                this.renderReply(json)
+              }else{
+                this.renderMoreReply(json)
+              }
+
+
+              // //如果 json.list.lengt 等于25 就是说这一页已经加载完成了,下一次就可以加载下一页了
+              // if(json.list.length == 25)
+              //   this.page = this.page +1
+            } else {
+              this.renderError(json.errcode)
+            }
+
+
+          }.bind(this),
+          function(data,code){
+            console.log(data);
+          })
 
     },
     reqRefresh(e){
@@ -358,6 +436,7 @@
       this.fetchReplys()
     },
     refreshComplete(){
+
       if(this.isRefreshing){
         this.isRefreshing = false
 

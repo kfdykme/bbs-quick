@@ -62,6 +62,17 @@
                     padding: 8px;
                 }
 
+
+                .emoji{
+                    flex-direction: column;
+
+
+                    image{
+                        width: 50px;
+                        resize-mode :center;
+                    }
+                }
+
                 .card{
                     width: 100%;
                     background-color: #ffffff;
@@ -93,15 +104,6 @@
                     }
                 }
 
-                .reply-emoji{
-                    flex-direction: column;
-
-
-                    image{
-                        width: 50px;
-                        resize-mode :center;
-                    }
-                }
 
 
                 .reply-footer{
