@@ -1,9 +1,10 @@
 
 <template>
     <div class="slash-page">
+
         <div class="pic-container">
 
-         <image src="{{imageUrl}}" style="resize-mode : cover"></image> 
+         <image src="{{imageUrl}}" style="resize-mode : cover"></image>
         </div>
 
         <div class="bottom-bar">

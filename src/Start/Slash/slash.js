@@ -2,12 +2,12 @@ import router from '@system.router'
 import fetch from '@system.fetch'
 import file from '@system.file'
 import request from '@system.request'
+import prompt from '@system.prompt'
 export default {
   protected: {
       imageUrl :"internal://files/home.jpg"
   },
   onInit(){
-
 
       /// NOTE: 弃用
       //获取图片并保存

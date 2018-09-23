@@ -32,7 +32,7 @@
                 <!-- NOTE:文本 -->
                 <list-item type="topic-text" if="{{t.type  == 0 }}" >
                     <div class="topic-content big-card">
-                        <text >{{t.infor}}</text>
+                        <text  >{{t.infor}}</text>
 
                     </div>
                 </list-item>
@@ -47,8 +47,9 @@
 
                 <!-- NOTE:超链接 -->
                 <list-item type="topic-url" if="{{t.type  == 4 }}" >
-                    <div class="topic-content big-card">
-                        <a href="{{t.url}}">{{t.infor}}</a>
+                    <div @longpress="onEvent({type:'longpress_text',data:t.url})" class="topic-content big-card">
+
+                        <a  @click="onEvent({type:'web',data:t.url})"  >{{t.infor}}</a>
 
                     </div>
                 </list-item>

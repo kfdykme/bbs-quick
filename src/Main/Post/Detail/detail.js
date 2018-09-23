@@ -4,7 +4,7 @@
   import DateUtil from '../../../Common/DateUtil'
   import ImageUtil from '../../../Common/ImageUtil'
   import router from '@system.router'
-
+  import clipboard from '@system.clipboard'
 
   export default{
     protected :{
@@ -169,7 +169,16 @@
             }
         })
     }
-    ,onEvent(e){
+    ,onMenuPress(){
+        prompt.showToast({
+            message:"rewrite"
+        })
+    }
+    ,async onEvent(e){
+
+
+        console.info(e)
+
         if(e.type == 'emoji'){
             this.showEmojiBar = !this.showEmojiBar
         }
@@ -180,6 +189,16 @@
             this.showEmojiBar = !this.showEmojiBar
             //把该emoji的url格式化之后添加到文本内容里
             this.commentContent += e.detail.event.data
+        }
+
+ 
+        if(e.type == 'web'){
+            router.push({
+                uri:"Other/Web",
+                params:{
+                    baseUrl:e.data
+                }
+            })
         }
     }
     ,onSendComment(){

@@ -35,6 +35,9 @@
         },
         {
             "name": "system.app"
+        },
+        {
+            "name": "system.clipboard"
         }
     ],
     "permissions": [
@@ -86,6 +89,9 @@
             },
             "Other/Search":{
                 "component" :"index"
+            },
+            "Other/Web":{
+                "component":"index"
             }
         }
     },
@@ -103,7 +109,11 @@
             "Main/Board": {},
             "Main/Message/PmList": {},
             "Main/User": {},
-            "Other/Image": {}
+            "Other/Image": {},
+            "Other/Web":{
+
+                "titleBar":true
+            }
         }
     }
 }

@@ -1,0 +1,55 @@
+<template>
+    <div class="web-page">
+
+        <web src="{{baseUrl}}"></web>
+    </div>
+
+</template>
+
+<style lang="less">
+    .web-page{
+
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+    }
+</style>
+
+<script>
+    import prompt from "@system.prompt"
+    import clipboard from "@system.clipboard"
+
+    export default {
+        protected:{
+            baseUrl:""
+        }
+        ,onMenuPress(){
+            prompt.showContextMenu({
+                itemList:["复制链接到剪切板"],
+                success :function (rex){
+                    switch (rex.index) {
+                        case 0:
+
+                            this.copyUrl()
+
+                            break;
+                        default:
+                            prompt.showToast({
+                                message:"error"
+                            })
+                    }
+                }.bind(this)
+            })
+        }
+        ,async copyUrl(){
+
+            var copyResult = await clipboard.set({text:this.baseUrl})
+            prompt.showToast({
+                message : copyResult.data
+            })
+        }
+        ,onInit(){
+
+        }
+    }
+</script>
