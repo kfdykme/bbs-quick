@@ -49,7 +49,7 @@
                 <list-item type="topic-url" if="{{t.type  == 4 }}" >
                     <div  class="topic-content big-card">
 
-                        <exa  url="{{t.url}}"  >{{t.infor}}</exa>
+                        <exa  url="{{t.url}}"  ></exa>
 
                     </div>
                 </list-item>
@@ -58,7 +58,7 @@
                 <!-- NOTE: 下载  -->
                 <list-item type="topic-dl" if="{{t.type  == 5}}" >
                     <div class="topic-content big-card">
-                        <a href="{{t.url}}">{{t.infor}}</a>
+                        <exa url="{{t.url}}" infor="{{t.infor}}"></exa>
                         <text>{{t.desc}}</text>
 
                     </div>
@@ -127,11 +127,11 @@
                     </div>
                 </list-item>
 
-                <!-- NOTE:评论-图片/附件 没怎么用过 -->
+                <!-- NOTE:评论-超链接2333 -->
                 <list-item type="image-type4" if="{{$item.type  == 4 }}">
                     <div class="card">
-
-                        <a class="content" href="{{$item.url}}">{{$item.infor}}</a>
+                        <exa url="{{$item.url}}"></exa>
+                        <!-- <a class="content" href="{{$item.url}}">{{$item.infor}}</a> -->
                     </div>
                 </list-item>
 

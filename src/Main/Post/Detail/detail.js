@@ -75,7 +75,6 @@
                     // console.info(emojis)
                     var nt = []
                     var t = content.infor
-                    console.info(t)
                     for(var z in emojis){
                         var e = emojis[z]
                         var tempt = t.split(e)
@@ -91,7 +90,6 @@
                     //NOTE:先用11作为带有表情包的文本
                     content.type = 11
                     content.infor = nt
-                    console.info(nt)
                 }
             }
         }
@@ -176,8 +174,7 @@
     }
     ,async onEvent(e){
 
-
-        console.info(e)
+ 
 
         if(e.type == 'emoji'){
             this.showEmojiBar = !this.showEmojiBar
@@ -191,7 +188,7 @@
             this.commentContent += e.detail.event.data
         }
 
-  
+
     }
     ,onSendComment(){
       if(this.commentBtnText == "评论"){

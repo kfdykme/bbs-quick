@@ -1,5 +1,5 @@
 <template>
-    <a @click="onEvent({type:'web',data:this.url})">{{url}}</a>
+    <a @click="onEvent({type:'web',data:this.url})">{{infor}}</a>
 </template>
 
 <style lang="less">
@@ -13,7 +13,8 @@ a{
 
     export default{
         props:[
-            'url'
+            'url',
+            'infor'
         ]
         ,data:{
 
@@ -29,7 +30,8 @@ a{
             }
         }
         ,onInit(){
-
+            if(this.infor == null)
+                this.infor = this.url
         }
     }
 </script>
