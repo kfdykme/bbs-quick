@@ -191,15 +191,7 @@
             this.commentContent += e.detail.event.data
         }
 
- 
-        if(e.type == 'web'){
-            router.push({
-                uri:"Other/Web",
-                params:{
-                    baseUrl:e.data
-                }
-            })
-        }
+  
     }
     ,onSendComment(){
       if(this.commentBtnText == "评论"){

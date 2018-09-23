@@ -1,0 +1,35 @@
+<template>
+    <a @click="onEvent({type:'web',data:this.url})">{{url}}</a>
+</template>
+
+<style lang="less">
+a{
+  color:#00bcd4;
+}
+</style>
+
+<script>
+    import router from "@system.router"
+
+    export default{
+        props:[
+            'url'
+        ]
+        ,data:{
+
+        }
+        ,onEvent(e){
+            if(e.type == "web"){
+                router.push({
+                    uri:"Other/Web",
+                    params:{
+                        baseUrl:e.data
+                    }
+                })
+            }
+        }
+        ,onInit(){
+
+        }
+    }
+</script>
