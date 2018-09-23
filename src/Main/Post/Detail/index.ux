@@ -1,4 +1,6 @@
 <import name="loading-progress-view" src="../../../Comp/LoadingProgressView"></import>
+<import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
+
 
 <template>
 
@@ -190,13 +192,32 @@
 
       <div class="post-input">
 
-        <div show="{{showCommentBar}}" class="post-comment-input">
-          <textarea id="comment-textarea"   class="comment-content" @change="onChangeCommentContent"  placeholder="说点什么吧."  > {{commentContent}}</textarea>
-          <input type="button" class="comment-btn-send" value="{{commentSend}}" @click="onSendComment"></input>
+        <div show="{{showCommentBar}}" class="post-comment-input ">
+            <div class="input-others-bar">
+                <image
+                    @click="onEvent({type:'emoji'})"
+                    src="/Res/ic_emoji.png">
+                </image>
+            </div>
+            <textarea
+                id="comment-textarea"
+                class="comment-content {{exCommentBar ? 'big-comment-bar':''}}"
+                @change="onChangeCommentContent"
+                placeholder="说点什么吧.">
+                 {{commentContent}}
+            </textarea>
+            <input
+                type="button"
+                class="comment-btn-send"
+                value="{{commentSend}}"
+                @click="onSendComment">
+            </input>
 
 
         </div>
       </div>
+
+      <emoji-bar if="{{showEmojiBar}}" ></emoji-bar>
 
     </stack>
 

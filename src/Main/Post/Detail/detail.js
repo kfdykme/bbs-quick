@@ -21,7 +21,9 @@
       pro_msg : "",
       commentSend : "发送",
       commentContent : "",
-      showCommentBar : false,
+      showCommentBar : false,//是否显示评论输入框
+      showEmojiBar:false,//是否显示表情包选择框
+      exCommentBar:false,//用来暂时扩展输入框
       commentBtnText : "评论",
       commentReplyId : 0,
       isReplying :false, //是不是正在发送网络请求进行回复
@@ -119,8 +121,15 @@
 
       PostApi.init(app)
 
+      this.$on('choose_emoji', this.onEvent)
     }
     ,onBackPress(){
+
+        if(this.showEmojiBar){
+            this.showEmojiBar = false
+            return true
+        }
+
         if(this.showCommentBar){
             this.showCommentBar = false
             this.commentBtnText = "评论"
@@ -138,6 +147,8 @@
     },
     onChangeCommentContent(e){
       this.commentContent = e.value
+      this.exCommentBar = true
+      this.exCommentBar = false
     },
     onClickReplyAction(index){
       var re = this.list[index]
@@ -157,6 +168,19 @@
                 uid :id
             }
         })
+    }
+    ,onEvent(e){
+        if(e.type == 'emoji'){
+            this.showEmojiBar = !this.showEmojiBar
+        }
+
+
+        if(e.type == 'choose_emoji'){
+
+            this.showEmojiBar = !this.showEmojiBar
+            //把该emoji的url格式化之后添加到文本内容里
+            this.commentContent += e.detail.event.data
+        }
     }
     ,onSendComment(){
       if(this.commentBtnText == "评论"){
@@ -305,7 +329,7 @@
     },
     /**
      * @method renderMoreReply
-     * @param {object} json 
+     * @param {object} json
      * @desc 同 @method loadMore
      */
     renderMoreReply(json){

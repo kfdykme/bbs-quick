@@ -168,16 +168,11 @@
 
         .reply-add-bar{
 
-            height: 75px;
+            height: 80px;
             width: 95%;
 
-            margin-left: 16px;
-            margin-right: 16px;
-            border-top-width:2px;
-            border-color: #eeeeee;
             image{
-                resize-mode : stretch;
-                background-color: #ffbc4d;
+                resize-mode : contain;
 
             }
         }

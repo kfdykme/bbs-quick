@@ -14,11 +14,14 @@ export default{
       textToSend :"",
       isEx:false,
       toUserId : '',
-      plid : ''
+      plid : '',
+      showEmojiBar:false//是否显示表情包选择框
     },
     private :{
       TAG :"PmList"
     }
+
+
     , async onInit(){
 
 
@@ -51,6 +54,19 @@ export default{
         this.refresh()
 
       }.bind(this),1000)
+
+
+
+      //注册表情包选择框的反馈
+      this.$on('choose_emoji', this.onEvent)
+    }
+    ,onBackPress(){
+        if(this.showEmojiBar){
+            this.showEmojiBar = false
+            return true
+        }
+
+        return false
     }
     ,onClickImage2(uri){
         ImageUtil.ViewImage(uri)
@@ -126,6 +142,20 @@ export default{
                     }
                 })
     }
+    ,onEvent(e){
+        if(e.type == 'emoji'){
+            this.showEmojiBar = !this.showEmojiBar
+        }
+
+
+        if(e.type == 'choose_emoji'){
+
+            this.showEmojiBar = !this.showEmojiBar
+            //把该emoji的url格式化之后添加到文本内容里
+            // let imageUrl = "["+e.detail.event.data+"]"
+            this.textToSend += e.detail.event.data
+        }
+    }
     ,async refresh(){
 
 
@@ -158,7 +188,7 @@ export default{
 
                     this.refresh()
 
-                  }.bind(this),1000)
+                }.bind(this),3000)
             }.bind(this)
         )
     }

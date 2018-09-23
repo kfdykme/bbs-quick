@@ -1,4 +1,7 @@
+<import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
+
 <template>
+    <stack>
   <div class="pm-list-page">
       <div class="pm-list">
 
@@ -65,8 +68,16 @@
       </div>
       <div class="reply-view">
 
-            <div class="reply-add-bar"  @click="onClickImage">
-              <image   src="{{imageToSend}}" alt="../../../Res/ic_pick_image.png"  @click="onClickImage"></image>
+            <div class="reply-add-bar " >
+              <image
+                  src="{{imageToSend}}"
+                  alt="/Res/ic_pick_image.png"
+                  @click="onClickImage">
+              </image>
+              <image
+                src="/Res/ic_emoji.png"
+                @click="onEvent({type:'emoji'})">
+              </image>
             </div>
             <div class="reply-input-bar ">
                 <textarea  class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea" @change="onChangeText"  >{{textToSend}}</textarea>
@@ -76,6 +87,8 @@
 
       </div>
   </div>
+  <emoji-bar if="{{showEmojiBar}}"></emojibar>
+</stack>
 </template>
 
 

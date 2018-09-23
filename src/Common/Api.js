@@ -77,6 +77,9 @@ function fetch(url,data,suc){
       method : "POST",
       data : data,
       success :function(data){
+
+          if(data.code != 200) return 
+
         const re = JSON.parse(data.data)
 
         if(re.rs == 0)

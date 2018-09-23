@@ -68,8 +68,8 @@
 
 
                     image{
-                        width: 50px;
-                        resize-mode :center;
+                        width: 100px;
+                        resize-mode :contain;
                     }
                 }
 
@@ -197,10 +197,22 @@
         width: 100%;
 
 
+            .input-others-bar{
+                height: 40px;
+                background-color: #ffffff;
+                image{
+                    height: 100%;
+                    resize-mode:cover;
+                }
+            }
+
+            .big-comment-bar{
+                height: 500px;
+            }
+
               .post-comment-input{
 
                   width: 60%;
-                  height: 30%;
                   flex-direction: column;
                   background-color: #eeeeee;
                   border-radius: 16px;

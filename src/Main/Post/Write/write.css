@@ -1,3 +1,4 @@
+
 .write-page{
     flex-direction: column;
     justify-content: flex-start;
@@ -130,7 +131,16 @@
           }
 
           .input-content{
-            height: 70%;
+              height: 65%;
+          }
+
+          .input-others-bar{
+              height: 5%;
+              image{
+                  height: 100%;
+                  
+                  resize-mode:cover;
+              }
           }
 
           .input-classifi{

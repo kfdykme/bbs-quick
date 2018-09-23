@@ -1,53 +1,65 @@
+<import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
+
 <template>
-  <div class="write-page">
 
-    <div class="board-select-bar">
-        <div class="category">
+    <stack>
+        <div class="write-page">
 
-            <select class="category-select"   @change="onChangeGategory" if="{{category.length != 0}}" >
+            <div class="board-select-bar">
+                <div class="category">
 
-                    <option value="{{$item}}" for="category">{{$item.board_category_name}}</option>
+                    <select class="category-select"   @change="onChangeGategory" if="{{category.length != 0}}" >
 
-            </select>
+                        <option value="{{$item}}" for="category">{{$item.board_category_name}}</option>
 
-        </div>
-        <div class="board"  if="{{board.length != 0}}">
-              <!-- <text>请选择板块</text> -->
+                    </select>
 
-              <select class="board-select" @change="onSelectBoard"  >
+                </div>
+                <div class="board"  if="{{board.length != 0}}">
+                    <!-- <text>请选择板块</text> -->
 
-                      <option id="board-select-option-{{i}}"   selected="{{i == 0}}" value="{{b}}" for="(i,b) in board">{{b.board_name}}</option>
+                    <select class="board-select" @change="onSelectBoard"  >
 
-              </select>
+                        <option id="board-select-option-{{i}}"   selected="{{i == 0}}" value="{{b}}" for="(i,b) in board">{{b.board_name}}</option>
 
-        </div>
+                    </select>
 
-    </div>
-
-    <div class="write-content">
-
-        <div class="input input-header">
-                <input id="publish-title" @change="onChangeTitle" class="input-title" placeholder="请输入标题" type="text"  value="{{publishTitle}}"></input>
-
-                <div @click="onPublish"  class="btn">
-                    <text>发布</text>
                 </div>
 
+            </div>
+
+            <div class="write-content">
+
+                <div class="input input-header">
+                    <input id="publish-title" @change="onChangeTitle" class="input-title" placeholder="请输入标题" type="text"  value="{{publishTitle}}"></input>
+
+                    <div @click="onPublish"  class="btn">
+                        <text>发布</text>
+                    </div>
+
+
+                </div>
+                <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容"  >{{publishContent}}</textarea>
+
+
+                <div class="input input-others-bar">
+                    <image   @click="onEvent({type:'emoji'})" src="/Res/ic_emoji.png"></image>
+                    <image   @click="onEvent({type:'image'})" src="/Res/ic_pick_image.png"></image>
+                </div>
+                <list class="input input-classifi" >
+                    <list-item type="classi-text"  for="cl in classificationType_list">
+
+                        <text class="classi-text {{cl.classificationType_id == targetClass.classificationType_id ? 'active' : ''}}" @click="onClickClassification(cl)">{{cl.classificationType_name}}</text>
+
+                    </list-item>
+                </list>
+
+            </div>
 
         </div>
-        <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容"  >{{publishContent}}</textarea>
+        <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
 
-        <list class="input input-classifi" >
-                <list-item type="classi-text"  for="cl in classificationType_list">
-
-                      <text class="classi-text {{cl.classificationType_id == targetClass.classificationType_id ? 'active' : ''}}" @click="onClickClassification(cl)">{{cl.classificationType_name}}</text>
-
-                </list-item>
-        </list>
-
-    </div>
-
-  </div>
+    </stack>
 
 </template>
 

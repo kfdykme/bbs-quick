@@ -1,0 +1,357 @@
+<template>
+    <div class="emoji-bar" >
+
+        <tabs  >
+            <tab-content class="emoji-content">
+                <block for="emoji in emojis">
+                        <list class="emoji-list">
+                            <block for="emo in emoji.list">
+                                <list-item type="emoji-item">
+                                    <div class="emoji-item" @click="onClick({type:'choose_emoji',data:emo.alt})">
+                                        <image src="http://bbs.uestc.edu.cn/static/image/smiley/{{emo.src}}" alt="/Res/ic_loading_image.png"></image>
+
+                                    </div>
+                                </list-item>
+                            </block>
+                        </list>
+                </block>
+            </tab-content>
+            <tab-bar mode="fixed" class="emoji-bottom-bar">
+                <block for="tag in tags">
+                    <div class="emoji-tag">
+                        <!-- <text>{{tag}}</text> -->
+                        <div class="tag">
+
+                        </div>
+                    </div>
+                </block>
+            </tab-bar>
+        </tabs>
+
+    </div>
+</template>
+
+<style lang="less">
+
+
+    .emoji-bar{
+        height: 50%;
+
+        background-color: #ffffff;
+        margin: 40px;
+        margin-top: 200px;
+    }
+
+
+    .emoji-bottom-bar{
+
+        /* background-color: #efefef; */
+        height: 10%;
+
+        align-items: center;
+        justify-content: center;
+        div{
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            background-color:#00bcd4;
+        }
+        text{
+            width: 100%;
+            text-align: center;
+        }
+
+
+
+    }
+
+    .emoji-list{
+
+        columns:2;
+        flex-direction: row;
+        height: 90%;
+
+        list-item{
+            column-span:1;
+        }
+        .emoji-item{
+
+            margin: 40px;
+
+            width: 150px;
+            height: 150px;
+            /* border-radius:40px; */
+
+            image{
+                resize-mode:cover;
+            }
+        }
+    }
+</style>
+
+<script>
+
+    class EmojiModel{
+
+        constructor(){
+            this.data  = {
+                "emojis":[
+                    {
+                        "tag": "mushroom",
+                        "list":
+                            [{"src":"mushroom/076.gif" ,"alt":"[s:285]"},
+                            {"src":"mushroom/056.gif" ,"alt":"[s:265]"},
+                            {"src":"mushroom/055.gif" ,"alt":"[s:264]"},
+                            {"src":"mushroom/054.gif" ,"alt":"[s:263]"},
+                            {"src":"mushroom/053.gif" ,"alt":"[s:262]"},
+                            {"src":"mushroom/052.gif" ,"alt":"[s:261]"},
+                            {"src":"mushroom/051.gif" ,"alt":"[s:260]"},
+                            {"src":"mushroom/050.gif" ,"alt":"[s:259]"},
+                            {"src":"mushroom/049.gif" ,"alt":"[s:258]"},
+                            {"src":"mushroom/048.gif" ,"alt":"[s:257]"},
+                            {"src":"mushroom/047.gif" ,"alt":"[s:256]"},
+                            {"src":"mushroom/046.gif" ,"alt":"[s:255]"},
+                            {"src":"mushroom/045.gif" ,"alt":"[s:254]"},
+                            {"src":"mushroom/044.gif" ,"alt":"[s:253]"},
+                            {"src":"mushroom/043.gif" ,"alt":"[s:252]"},
+                            {"src":"mushroom/042.gif" ,"alt":"[s:251]"},
+                            {"src":"mushroom/041.gif" ,"alt":"[s:250]"},
+                            {"src":"mushroom/040.gif" ,"alt":"[s:249]"},
+                            {"src":"mushroom/057.gif" ,"alt":"[s:266]"},
+                            {"src":"mushroom/058.gif" ,"alt":"[s:267]"},
+                            {"src":"mushroom/075.gif" ,"alt":"[s:284]"},
+                            {"src":"mushroom/074.gif" ,"alt":"[s:283]"},
+                            {"src":"mushroom/073.gif" ,"alt":"[s:282]"},
+                            {"src":"mushroom/072.gif" ,"alt":"[s:281]"},
+                            {"src":"mushroom/071.gif" ,"alt":"[s:280]"},
+                            {"src":"mushroom/070.gif" ,"alt":"[s:279]"},
+                            {"src":"mushroom/069.gif" ,"alt":"[s:278]"},
+                            {"src":"mushroom/068.gif" ,"alt":"[s:277]"},
+                            {"src":"mushroom/067.gif" ,"alt":"[s:276]"},
+                            {"src":"mushroom/066.gif" ,"alt":"[s:275]"},
+                            {"src":"mushroom/065.gif" ,"alt":"[s:274]"},
+                            {"src":"mushroom/064.gif" ,"alt":"[s:273]"},
+                            {"src":"mushroom/063.gif" ,"alt":"[s:272]"},
+                            {"src":"mushroom/062.gif" ,"alt":"[s:271]"},
+                            {"src":"mushroom/061.gif" ,"alt":"[s:270]"},
+                            {"src":"mushroom/060.gif" ,"alt":"[s:269]"},
+                            {"src":"mushroom/059.gif" ,"alt":"[s:268]"},
+                            {"src":"mushroom/039.gif" ,"alt":"[s:248]"},
+                            {"src":"mushroom/038.gif" ,"alt":"[s:247]"},
+                            {"src":"mushroom/018.gif" ,"alt":"[s:227]"},
+                            {"src":"mushroom/017.gif" ,"alt":"[s:226]"},
+                            {"src":"mushroom/016.gif" ,"alt":"[s:225]"},
+                            {"src":"mushroom/015.gif" ,"alt":"[s:224]"},
+                            {"src":"mushroom/014.gif" ,"alt":"[s:223]"},
+                            {"src":"mushroom/013.gif" ,"alt":"[s:222]"},
+                            {"src":"mushroom/012.gif" ,"alt":"[s:221]"},
+                            {"src":"mushroom/011.gif" ,"alt":"[s:220]"},
+                            {"src":"mushroom/010.gif" ,"alt":"[s:219]"},
+                            {"src":"mushroom/009.gif" ,"alt":"[s:218]"},
+                            {"src":"mushroom/008.gif" ,"alt":"[s:217]"},
+                            {"src":"mushroom/007.gif" ,"alt":"[s:216]"},
+                            {"src":"mushroom/006.gif" ,"alt":"[s:215]"},
+                            {"src":"mushroom/005.gif" ,"alt":"[s:214]"},
+                            {"src":"mushroom/004.gif" ,"alt":"[s:213]"},
+                            {"src":"mushroom/003.gif" ,"alt":"[s:212]"},
+                            {"src":"mushroom/002.gif" ,"alt":"[s:211]"},
+                            {"src":"mushroom/019.gif" ,"alt":"[s:228]"},
+                            {"src":"mushroom/020.gif" ,"alt":"[s:229]"},
+                            {"src":"mushroom/037.gif" ,"alt":"[s:246]"},
+                            {"src":"mushroom/036.gif" ,"alt":"[s:245]"},
+                            {"src":"mushroom/035.gif" ,"alt":"[s:244]"},
+                            {"src":"mushroom/034.gif" ,"alt":"[s:243]"},
+                            {"src":"mushroom/033.gif" ,"alt":"[s:242]"},
+                            {"src":"mushroom/032.gif" ,"alt":"[s:241]"},
+                            {"src":"mushroom/031.gif" ,"alt":"[s:240]"},
+                            {"src":"mushroom/030.gif" ,"alt":"[s:239]"},
+                            {"src":"mushroom/029.gif" ,"alt":"[s:238]"},
+                            {"src":"mushroom/028.gif" ,"alt":"[s:237]"},
+                            {"src":"mushroom/027.gif" ,"alt":"[s:236]"},
+                            {"src":"mushroom/026.gif" ,"alt":"[s:235]"},
+                            {"src":"mushroom/025.gif" ,"alt":"[s:234]"},
+                            {"src":"mushroom/024.gif" ,"alt":"[s:233]"},
+                            {"src":"mushroom/023.gif" ,"alt":"[s:232]"},
+                            {"src":"mushroom/022.gif" ,"alt":"[s:231]"},
+                            {"src":"mushroom/021.gif" ,"alt":"[s:230]"},
+                            {"src":"mushroom/001.gif" ,"alt":"[s:210]"}]
+
+
+                    },
+                    {
+                        "tag": "yang",
+                        "list": [
+                            {"src":"static/image/smiley/yang/203.gif" ,"alt":"[s:633]"},
+                            {"src":"static/image/smiley/yang/40.gif" ,"alt":"[s:103]"},
+                            {"src":"static/image/smiley/yang/39.gif" ,"alt":"[s:102]"},
+                            {"src":"static/image/smiley/yang/38.gif" ,"alt":"[s:101]"},
+                            {"src":"static/image/smiley/yang/34.gif" ,"alt":"[s:100]"},
+                            {"src":"static/image/smiley/yang/28.gif" ,"alt":"[s:99]"},
+                            {"src":"static/image/smiley/yang/27.gif" ,"alt":"[s:98]"},
+                            {"src":"static/image/smiley/yang/26.gif" ,"alt":"[s:97]"},
+                            {"src":"static/image/smiley/yang/25.gif" ,"alt":"[s:96]"},
+                            {"src":"static/image/smiley/yang/22.gif" ,"alt":"[s:95]"},
+                            {"src":"static/image/smiley/yang/20.gif" ,"alt":"[s:94]"},
+                            {"src":"static/image/smiley/yang/10.gif" ,"alt":"[s:93]"},
+                            {"src":"static/image/smiley/yang/8.gif"  ,"alt":"[s:92]"},
+                            {"src":"static/image/smiley/yang/69.gif" ,"alt":"[s:86]"},
+                            {"src":"static/image/smiley/yang/68.gif" ,"alt":"[s:85]"},
+                            {"src":"static/image/smiley/yang/66.gif" ,"alt":"[s:84]"},
+                            {"src":"static/image/smiley/yang/65.gif" ,"alt":"[s:83]"},
+                            {"src":"static/image/smiley/yang/41.gif" ,"alt":"[s:104]"},
+                            {"src":"static/image/smiley/yang/42.gif" ,"alt":"[s:105]"},
+                            {"src":"static/image/smiley/yang/202.gif" ,"alt":"[s:287]"},
+                            {"src":"static/image/smiley/yang/201.gif" ,"alt":"[s:286]"},
+                            {"src":"static/image/smiley/yang/70.gif" ,"alt":"[s:119]"},
+                            {"src":"static/image/smiley/yang/67.gif" ,"alt":"[s:118]"},
+                            {"src":"static/image/smiley/yang/64.gif" ,"alt":"[s:117]"},
+                            {"src":"static/image/smiley/yang/63.gif" ,"alt":"[s:116]"},
+                            {"src":"static/image/smiley/yang/62.gif" ,"alt":"[s:115]"},
+                            {"src":"static/image/smiley/yang/61.gif" ,"alt":"[s:114]"},
+                            {"src":"static/image/smiley/yang/60.gif" ,"alt":"[s:113]"},
+                            {"src":"static/image/smiley/yang/58.gif" ,"alt":"[s:112]"},
+                            {"src":"static/image/smiley/yang/57.gif" ,"alt":"[s:111]"},
+                            {"src":"static/image/smiley/yang/56.gif" ,"alt":"[s:110]"},
+                            {"src":"static/image/smiley/yang/50.gif" ,"alt":"[s:109]"},
+                            {"src":"static/image/smiley/yang/49.gif" ,"alt":"[s:108]"},
+                            {"src":"static/image/smiley/yang/44.gif" ,"alt":"[s:107]"},
+                            {"src":"static/image/smiley/yang/43.gif" ,"alt":"[s:106]"},
+                            {"src":"static/image/smiley/yang/59.gif" ,"alt":"[s:82]"},
+                            {"src":"static/image/smiley/yang/55.gif" ,"alt":"[s:80]"},
+                            {"src":"static/image/smiley/yang/18.gif" ,"alt":"[s:57]"},
+                            {"src":"static/image/smiley/yang/19.gif" ,"alt":"[s:58]"},
+                            {"src":"static/image/smiley/yang/21.gif" ,"alt":"[s:59]"},
+                            {"src":"static/image/smiley/yang/23.gif","alt":"[s:60]"},
+                            {"src":"static/image/smiley/yang/24.gif","alt":"[s:61]"},
+                            {"src":"static/image/smiley/yang/4.gif","alt":"[s:91]"},
+                            {"src":"static/image/smiley/yang/29.gif","alt":"[s:63]"},
+                            {"src":"static/image/smiley/yang/30.gif","alt":"[s:64]"},
+                            {"src":"static/image/smiley/yang/31.gif","alt":"[s:65]"},
+                            {"src":"static/image/smiley/yang/32.gif","alt":"[s:66]"},
+                            {"src":"static/image/smiley/yang/33.gif","alt":"[s:67]"},
+                            {"src":"static/image/smiley/yang/35.gif","alt":"[s:68]"},
+                            {"src":"static/image/smiley/yang/36.gif","alt":"[s:69]"},
+                            {"src":"static/image/smiley/yang/37.gif","alt":"[s:70]"},
+                            {"src":"static/image/smiley/yang/45.gif","alt":"[s:72]"},
+                            {"src":"static/image/smiley/yang/46.gif","alt":"[s:73]"},
+                            {"src":"static/image/smiley/yang/17.gif","alt":"[s:56]"},
+                            {"src":"static/image/smiley/yang/16.gif","alt":"[s:55]"},
+                            {"src":"static/image/smiley/yang/53.gif","alt":"[s:79]"},
+                            {"src":"static/image/smiley/yang/52.gif","alt":"[s:78]"},
+                            {"src":"static/image/smiley/yang/51.gif","alt":"[s:77]"},
+                            {"src":"static/image/smiley/yang/48.gif","alt":"[s:75]"},
+                            {"src":"static/image/smiley/yang/2.gif","alt":"[s:43]"},
+                            {"src":"static/image/smiley/yang/3.gif","alt":"[s:44]"},
+                            {"src":"static/image/smiley/yang/5.gif","alt":"[s:45]"},
+                            {"src":"static/image/smiley/yang/6.gif","alt":"[s:46]"},
+                            {"src":"static/image/smiley/yang/7.gif","alt":"[s:47]"},
+                            {"src":"static/image/smiley/yang/9.gif","alt":"[s:49]"},
+                            {"src":"static/image/smiley/yang/11.gif","alt":"[s:50]"},
+                            {"src":"static/image/smiley/yang/12.gif","alt":"[s:51]"},
+                            {"src":"static/image/smiley/yang/13.gif","alt":"[s:52]"},
+                            {"src":"static/image/smiley/yang/14.gif","alt":"[s:53]"},
+                            {"src":"static/image/smiley/yang/15.gif","alt":"[s:54]"},
+                            {"src":"static/image/smiley/yang/47.gif","alt":"[s:74]"}
+                        ]
+                    },
+                    {
+                        "tag": "too",
+                        "list": [
+                            {"src":"static/image/smiley/too/33.gif" ,"alt":"[s:90]"},
+                            {"src":"static/image/smiley/too/13.gif" ,"alt":"[s:23]"},
+                            {"src":"static/image/smiley/too/12.gif" ,"alt":"[s:22]"},
+                            {"src":"static/image/smiley/too/11.gif" ,"alt":"[s:21]"},
+                            {"src":"static/image/smiley/too/10.gif" ,"alt":"[s:20]"},
+                            {"src":"static/image/smiley/too/9.gif" ,"alt":"[s:19]"},
+                            {"src":"static/image/smiley/too/8.gif" ,"alt":"[s:18]"},
+                            {"src":"static/image/smiley/too/7.gif" ,"alt":"[s:17]"},
+                            {"src":"static/image/smiley/too/6.gif" ,"alt":"[s:16]"},
+                            {"src":"static/image/smiley/too/5.gif" ,"alt":"[s:15]"},
+                            {"src":"static/image/smiley/too/4.gif" ,"alt":"[s:14]"},
+                            {"src":"static/image/smiley/too/3.gif" ,"alt":"[s:13]"},
+                            {"src":"static/image/smiley/too/2.gif" ,"alt":"[s:12]"},
+                            {"src":"static/image/smiley/too/1.gif" ,"alt":"[s:11]"},
+                            {"src":"static/image/smiley/too/31.gif" ,"alt":"[s:88]"},
+                            {"src":"static/image/smiley/too/14.gif" ,"alt":"[s:24]"},
+                            {"src":"static/image/smiley/too/15.gif" ,"alt":"[s:25]"},
+                            {"src":"static/image/smiley/too/16.gif" ,"alt":"[s:26]"},
+                            {"src":"static/image/smiley/too/32.gif" ,"alt":"[s:89]"},
+                            {"src":"static/image/smiley/too/30.gif" ,"alt":"[s:40]"},
+                            {"src":"static/image/smiley/too/28.gif" ,"alt":"[s:38]"},
+                            {"src":"static/image/smiley/too/27.gif" ,"alt":"[s:37]"},
+                            {"src":"static/image/smiley/too/26.gif" ,"alt":"[s:36]"},
+                            {"src":"static/image/smiley/too/25.gif" ,"alt":"[s:35]"},
+                            {"src":"static/image/smiley/too/24.gif" ,"alt":"[s:34]"},
+                            {"src":"static/image/smiley/too/23.gif" ,"alt":"[s:33]"},
+                            {"src":"static/image/smiley/too/22.gif" ,"alt":"[s:32]"},
+                            {"src":"static/image/smiley/too/21.gif" ,"alt":"[s:31]"},
+                            {"src":"static/image/smiley/too/20.gif" ,"alt":"[s:30]"},
+                            {"src":"static/image/smiley/too/19.gif" ,"alt":"[s:29]"},
+                            {"src":"static/image/smiley/too/18.gif" ,"alt":"[s:28]"},
+                            {"src":"static/image/smiley/too/17.gif" ,"alt":"[s:27]"},
+                            {"src":"static/image/smiley/too/29.gif" ,"alt":"[s:87]"}
+                        ]
+                    }
+                ]
+            }
+            this.tags = []
+            this.baseUrl = "http://bbs.uestc.edu.cn/"
+            for(var x in this.data.emojis){
+                this.tags.push(this.data.emojis[x].tag)
+            }
+            this.emojis =[]
+            for(var x in this.data.emojis){
+                this.emojis.push(this.data.emojis[x])
+            }
+        }
+
+
+        /**
+         * @method emoji
+         * @param {string} tag
+         * @return {array}
+         * @desc 返回一个由相对地址组成的数组
+         */
+        emoji(tag){
+            for(var x in this.data.emojis){
+                if(tag == this.data.emojis[x].tag)
+                    return this.data.emojis[x].list
+            }
+        }
+
+
+    }
+
+
+
+
+    export default{
+        props:[
+            'showEmojiBar'
+        ],
+        data :{
+            tags:[],
+            emojis:[]
+        }
+        ,view(){
+
+        }
+        ,onInit(){
+            var model = new EmojiModel()
+            this.tags = model.tags
+            this.emojis = model.emojis
+
+
+
+        }
+
+        ,onClick(e){
+
+            if(e.type == 'choose_emoji'){
+                console.info(e)
+                this.$dispatch('choose_emoji',{event:e})
+            }
+
+        }
+    }
+</script>

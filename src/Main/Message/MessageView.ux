@@ -385,8 +385,21 @@
 
               }
           }
+
+          /**
+           * @method onChangeMessage
+           * @param {object} evt
+           * @desc 切换查看的消息类型时发生
+           */
           ,onChangeMessage(evt){
               this.messageIndex = evt.index
+
+
+              //切换查看消息类型的时候顺便刷新一下
+              //TODO:会不会引起别的问题? 暂不知
+              this.presenter.refresh(
+                  this.msgList[this.messageIndex].tag
+              )
           }
 
         }
