@@ -1,6 +1,7 @@
 
     import BoardApi from '../../../Common/BoardApi'
     import PostApi from '../../../Common/PostApi'
+    import MessageApi from '../../../Common/MessageApi'
     import prompt from '@system.prompt'
     import file from '@system.file'
     import storage from '@system.storage'
@@ -22,7 +23,9 @@
         publishTitle :"",
         publishContent : "",
         isPublishing : false,
-        showEmojiBar:false //是否显示选择emoji的框框的boolean
+        showEmojiBar:false, //是否显示选择emoji的框框的boolean
+        uploadImages:[],//保存已经上传的图片的数组
+        showUploadImageButton:true // 是否显示上传图片的按钮
 
 
       }
@@ -30,21 +33,26 @@
         BoardApi.init(this.$app)
         PostApi.init(this.$app)
 
+        //TODO:因为上传文件的api写进了这里,所有暂时调用先,之后重构
+        MessageApi.init(this.$app)
 
         //从缓存中读取
         const  forumlist = await storage.get({key : 'forumlist'})
-        this.category = JSON.parse(forumlist.data).list
+        if(forumlist.data != "")
+            this.category = JSON.parse(forumlist.data).list
 
-        BoardApi.getForumList(
-          function(data){
-              const re = JSON.parse(data.data)
-              this.save(data.data,"forumlist")
+        if(this.category.length == 0)
+            BoardApi.getForumList(
+              function(data){
+                  const re = JSON.parse(data.data)
+                  this.save(data.data,"forumlist")
+                  this.category = re.list
 
-          }.bind(this),
-          function(data,code){
-            console.log(code);
-          }
-        )
+              }.bind(this),
+              function(data,code){
+                console.log(code);
+              }
+            )
 
 
 
@@ -84,8 +92,14 @@
 
           if(e.type == 'image'){
               var res = await media.pickImage()
+              MessageApi.uploadPmFile(res.data.uri,
+                function(re){
 
-              console.info(res)
+
+                  this.uploadImages.push(re.body.attachment[0].urlName)
+                  this.showUploadImageButton = this.uploadImages.length != 9
+
+              }.bind(this))
           }
       }
       ,onChangeGategory(e){
@@ -183,6 +197,15 @@
                     publishContent.type = 0
                     contentList.push(publishContent)
 
+                    //把上传的图片插到末尾
+                    for(var x in this.uploadImages){
+                        var content = {
+                            type:1,
+                            infor:this.uploadImages[x]
+                        }
+                        contentList.push(content)
+                    }
+
                     var info = {}
                     info.content = JSON.stringify(contentList)
                     info.title = this.publishTitle
@@ -220,22 +243,10 @@
 
             this.publishContent = ""
             this.publishTitle = ""
+            this.uploadImages =[]
+            this.showUploadImageButton = true
 
       }
-      // ,convertPublish(){
-      //
-      //     var content = this.publishContent
-      //     const rex = /\[.*?\/[0-9]{1,3}\.gif\]/g
-      //     var res = content.match(rex)
-      //     for(var x  in res){
-      //         var re = res[x]
-      //         re = re.substring(1,re.length-1)
-      //         let imageUrl = "mobcent_phiz=http://bbs.uestc.edu.cn/static/image/smiley/"+re
-      //         content = content.replace(re,imageUrl)
-      //     }
-      //
-      //     return content
-      // }
       /**
        * @method save
        * @param {string} value
@@ -248,6 +259,5 @@
               value : value
           })
 
-          console.info("set:"+key,res)
       }
     }

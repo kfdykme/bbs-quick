@@ -17,7 +17,7 @@ a{
             'infor'
         ]
         ,data:{
-
+            infoUsed :""// 不知道命名为啥子好,因为props:[]里面的info不能更改,但是需要判断infor是否为空,所以就另外设了一个Infor
         }
         ,onEvent(e){
             if(e.type == "web"){
@@ -30,8 +30,10 @@ a{
             }
         }
         ,onInit(){
-            if(this.infor == null)
-                this.infor = this.url
+            if(this.infor != null)
+                this.infoUsed = this.infor
+            else
+                this.infoUsed = this.url
         }
     }
 </script>

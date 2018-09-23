@@ -131,14 +131,30 @@
           }
 
           .input-content{
-              height: 65%;
+              height: 35%;
+          }
+
+          .input-image{
+              height: 30%;
+              flex-wrap:wrap;
+
+              div{
+                  margin: 3%;
+                  height: 30%;
+                  width: 30%;
+
+              }
+
+              image{
+                  resize-mode:contain;
+              }
           }
 
           .input-others-bar{
               height: 5%;
               image{
                   height: 100%;
-                  
+
                   resize-mode:cover;
               }
           }

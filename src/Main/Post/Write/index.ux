@@ -44,7 +44,18 @@
 
                 <div class="input input-others-bar">
                     <image   @click="onEvent({type:'emoji'})" src="/Res/ic_emoji.png"></image>
-                    <image   @click="onEvent({type:'image'})" src="/Res/ic_pick_image.png"></image>
+                </div>
+
+                <div class="input input-image">
+                    <block for="image in uploadImages">
+
+                        <div class="input-image-item">
+                            <image @click="onEvent({type:'image'})" src="{{image}}"></image>
+                        </div>
+                    </block>
+                    <div class="input-image-item" if="{{showUploadImageButton}}">
+                        <image @click="onEvent({type:'image'})" src="/Res/ic_upload_image.png"></image>
+                    </div>
                 </div>
                 <list class="input input-classifi" >
                     <list-item type="classi-text"  for="cl in classificationType_list">
