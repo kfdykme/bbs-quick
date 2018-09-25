@@ -234,14 +234,22 @@ import prompt from '@system.prompt'
                         })
             } else{
 
-                var onDealMessageSuccess  = function (re){
 
-                    prompt.showToast({
-                        message : re.errcode
-                    })
-                }
-
-                MessageApi.dealMessageActions(actions,onDealMessageSuccess)
+                //NOTE:还是用跳转吧 太累了 太多东西
+                router.push({
+                    uri:"Other/Web",
+                    params:{
+                        baseUrl:actions[0].redirect
+                    }
+                })
+                // var onDealMessageSuccess  = function (re){
+                //
+                //     prompt.showToast({
+                //         message : re.errcode
+                //     })
+                // }
+                //
+                // MessageApi.dealMessageActions(actions,onDealMessageSuccess)
 
 
             }
@@ -277,7 +285,7 @@ import prompt from '@system.prompt'
                 return
 
             this.tryToLoadPmList = true
-            
+
 
               router.push({
                 uri :"Main/Message/PmList",
