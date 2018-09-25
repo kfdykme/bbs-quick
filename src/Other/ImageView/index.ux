@@ -1,24 +1,80 @@
 <template>
-    <image src="{{src}}" style="resize-mode : contain"></image>
+
+    <stack>
+        <image src="{{src}}" style="resize-mode : contain"></image>
+        <div class="imageview-tool-bar">
+            <image @click="onEvent({type:type})" src="{{toolSrc}}" ></image>
+        </div>
+    </stack>
 
 </template>
 
 <style lang="less">
 
-    image{
-        background-color: #222222;
-        width: 100%;
-        height: 100%;
+    stack{
+
+        image{
+            background-color: #222222;
+            width: 100%;
+            height: 100%;
+        }
+
+        .imageview-tool-bar{
+            height: 108px;
+            width: 100%;
+            padding: 8px;
+            flex-direction: row;
+            justify-content: flex-end;
+
+
+            image{
+                width: 96px;
+                height: 96px;
+                border-radius: 16px;
+            }
+        }
     }
+
 </style>
 <script>
 
+    import prompt from '@system.prompt'
 
     export default {
         protected :{
-            src : ""
+            src : "",
+            type:"view",
+            toolSrc:"/Res/ic_download.png"
         },
         onInit(){
+            if(this.type == 'view-upload'){
+                this.toolSrc = "/Res/ic_delete.png"
+            }
+        }
+        ,onEvent(e){
+            if(e.type == "view-upload"){
+                prompt.showDialog({
+                  message: '确定删除该图片吗',
+                  buttons: [
+                      {
+                        text: '确定',
+                        color: '#00bcd4'
+                    },{
+                        text: '不了',
+                        color: '#efefef'
+                      }
+                  ],
+                  success: function (data) {
+                      this.$app.$data.dataImageView = {
+                         gotoPage: 'image-pick-bar',
+                         params: {
+                           uri: this.src
+                         }
+                       }
+                      this.$page.finish()
+                  }.bind(this)
+                })
+            }
         }
     }
 

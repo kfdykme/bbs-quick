@@ -151,7 +151,7 @@
           }
 
           .input-others-bar{
-              height: 5%;
+              height:80px;
               image{
                   height: 100%;
 
@@ -160,7 +160,7 @@
           }
 
           .input-classifi{
-                height: 20%;
+                height: 200px;
                 flex-direction: row;
                 margin: 0px;
                 padding: 0px;

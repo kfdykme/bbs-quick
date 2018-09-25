@@ -6,7 +6,6 @@
     import file from '@system.file'
     import storage from '@system.storage'
 
-    import ImageUtil from "../../../Common/ImageUtil"
     import media from "@system.media"
 
     export default{
@@ -28,6 +27,20 @@
         showUploadImageButton:true // 是否显示上传图片的按钮
 
 
+      }
+      ,onShow(){
+          if (this.$app.$data.dataImageView && this.$app.$data.dataImageView.gotoPage === 'image-pick-bar') {
+              // 从数据中获取回传给本页面的数据
+             const data = this.$app.$data.dataImageView.params
+             const newImages = []
+             for(var x in  this.uploadImages ){
+                 if(data.uri !=  this.uploadImages [x])
+                  newImages.push( this.uploadImages [x])
+             }
+             this.uploadImages = newImages
+             console.info(this.uploadImages)
+             this.$broadcast('view-upload-update',this.uploadImages)
+           }
       }
       ,async onInit(){
         BoardApi.init(this.$app)
@@ -57,7 +70,7 @@
 
 
         this.$on('choose_emoji', this.onEvent)
-
+        this.$on('on-pick-image',this.onEvent)
       }
 
 
@@ -90,16 +103,10 @@
               this.publishContent += e.detail.event.data
           }
 
-          if(e.type == 'image'){
-              var res = await media.pickImage()
-              MessageApi.uploadPmFile(res.data.uri,
-                function(re){
 
-
-                  this.uploadImages.push(re.body.attachment[0].urlName)
-                  this.showUploadImageButton = this.uploadImages.length != 9
-
-              }.bind(this))
+          if(e.type == 'on-pick-image'){
+              // console.info(e)
+              this.uploadImages = e.detail
           }
       }
       ,onChangeGategory(e){

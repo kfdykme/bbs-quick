@@ -1,12 +1,15 @@
 import router from "@system.router"
 
-function ViewImage(uri){
+function ViewImage(uri,type){
 
-    console.info(uri);
+    if(type == null) type == 'view'
+
+    // console.info(uri);
     router.push({
         uri : "Other/ImageView",
         params : {
-            src : uri
+            src : uri,
+            type :type
         }
     })
 }

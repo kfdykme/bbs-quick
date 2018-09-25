@@ -1,5 +1,5 @@
 <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
-
+<import name="image-pick-bar" src="../../../Comp/ImagePickBar.ux"></import>
 <template>
 
     <stack>
@@ -15,8 +15,7 @@
                     </select>
 
                 </div>
-                <div class="board"  if="{{board.length != 0}}">
-                    <!-- <text>请选择板块</text> -->
+                <div class="board"  if="{{board.length != 0}}"> 
 
                     <select class="board-select" @change="onSelectBoard"  >
 
@@ -46,17 +45,8 @@
                     <image   @click="onEvent({type:'emoji'})" src="/Res/ic_emoji.png"></image>
                 </div>
 
-                <div class="input input-image">
-                    <block for="image in uploadImages">
 
-                        <div class="input-image-item">
-                            <image @click="onEvent({type:'image'})" src="{{image}}"></image>
-                        </div>
-                    </block>
-                    <div class="input-image-item" if="{{showUploadImageButton}}">
-                        <image @click="onEvent({type:'image'})" src="/Res/ic_upload_image.png"></image>
-                    </div>
-                </div>
+                <image-pick-bar></image-pick-bar> 
                 <list class="input input-classifi" >
                     <list-item type="classi-text"  for="cl in classificationType_list">
 

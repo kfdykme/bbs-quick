@@ -17,16 +17,12 @@
       canLoadMore :true,
       isRefreshing :false,
       page : 1,
-      pro_show : true,
-      pro_msg : "",
       commentSend : "发送",
       commentContent : "",
-      showCommentBar : false,//是否显示评论输入框
-      showEmojiBar:false,//是否显示表情包选择框
-      exCommentBar:false,//用来暂时扩展输入框
+      showCommentBtn : false,//是否显示评论按钮
+
       commentBtnText : "评论",
       commentReplyId : 0,
-      isReplying :false, //是不是正在发送网络请求进行回复
       showImage : true, // 是否可以加载图片了
       TAG :"Main/Post/Detail",
       images:[], // 本页的图片url数组,查看图片时作为参数传入
@@ -46,7 +42,7 @@
 
           list[x].posts_date = DateUtil.convertTime(list[x].posts_date)
 
-          list[x].showAct = false
+          // list[x].showAct = false
 
           //处理表情
           var rc = this.convertEmoji(list[x].reply_content)
@@ -123,58 +119,32 @@
     }
     ,onBackPress(){
 
-        if(this.showEmojiBar){
-            this.showEmojiBar = false
-            return true
-        }
-
-        if(this.showCommentBar){
-            this.showCommentBar = false
-            this.commentBtnText = "评论"
-
-            return true
-        }
 
         return false
     }
     ,onShow(){
         this.refresh()
-    },
-    onScrollBottom(){
+    }
+    ,onScrollBottom(){
       this.loadMore()
-    },
-    onChangeCommentContent(e){
-      this.commentContent = e.value
-      this.exCommentBar = true
-      this.exCommentBar = false
-    },
-    onClickReplyAction(index){
-      var re = this.list[index]
-      this.list[index].showAct = this.list[index].showAct  ? false : true
-
-    }
-    ,onClickImage(uri){
-        ImageUtil.ViewImage(uri)
-    }
-    ,onChangeCommentBar(){
-      this.showCommentBar = this.showCommentBar == true ? false : true
-    }
-    ,onClickUser(id){
-        router.push({
-            uri : "Main/User",
-            params :{
-                uid :id
-            }
-        })
-    }
-    ,onMenuPress(){
-        prompt.showToast({
-            message:"rewrite"
-        })
     }
     ,async onEvent(e){
 
- 
+        if(e.type == 'user'){
+            router.push({
+                uri : "Main/User",
+                params :{
+                    uid :e.data
+                }
+            })
+        }
+
+
+        if(e.type == 'view-image'){
+            ImageUtil.ViewImage(uri)
+
+        }
+
 
         if(e.type == 'emoji'){
             this.showEmojiBar = !this.showEmojiBar
@@ -188,68 +158,37 @@
             this.commentContent += e.detail.event.data
         }
 
+        if(e.type == 'comment'){
+            router.push({
+                uri:"Main/Post/Reply",
+                params:{
+                    option:{
+                        type:e.type,
+                        topicId:this.topic.topic_id
+                    }
+
+                }
+            })
+        }
+
+        if(e.type == 'reply'){
+            this.commentReplyId = this.list[e.data].reply_posts_id
+            router.push({
+                uri:"Main/Post/Reply",
+                params:{
+
+                    option:{
+                        type:"reply",
+                        topicId:this.topic.topic_id,
+                        replyId:this.commentReplyId
+                    }
+                }
+            })
+        }
+
 
     }
-    ,onSendComment(){
-      if(this.commentBtnText == "评论"){
-
-          if(!this.isReplying){
-                this.isReplying = true
-                  PostApi.comment(this.commentContent,this.topic.topic_id,
-                    function (data){
-
-                      const re = JSON.parse(data.data)
-
-                      prompt.showToast({
-                        message:re.errcode
-                      })
-
-                      this.commentContent = ""
-
-                      this.isReplying = false
-                      this.onChangeCommentBar()
-
-                      this.loadSend()
-
-                    }.bind(this))
-        }
-      } else {
-
-
-
-        if(!this.isReplying){
-              this.isReplying = true
-              PostApi.replyComment(this.commentContent,this.topic.topic_id,this.commentReplyId,
-                function(data){
-
-                  const re = JSON.parse(data.data)
-
-                  prompt.showToast({
-                      message:re.errcode
-                  })
-
-                  this.commentContent = ""
-                  this.onChangeCommentBar()
-
-                  this.commentBtnText = "评论"
-                  this.isReplying = false
-
-                  this.loadSend()
-
-                }.bind(this))
-              }
-
-        }
-
-    },
-    replyComment(index){
-      this.commentReplyId = this.list[index].reply_posts_id
-      this.commentBtnText = "回复"
-      this.onChangeCommentBar()
-      this.onClickReplyAction(index)
-
-    },
-    async replySupport(index){
+    ,async replySupport(index){
 
          const pid = this.list[index].reply_posts_id
          const type = 'post'
@@ -279,19 +218,11 @@
 
 
 
-      // TODO:写一半呢
-      // for(x in topic.content){
-      //     var c = topic.content[x]
-      //     if(c.type == 1){
-      //
-      //     }
-      // }
-      // this.images.add()
-
       this.renderTopicComplete()
     },
     renderTopicComplete(){
-      this.loadMore()
+        this.showCommentBtn =  true
+        this.loadMore()
     },
     renderReply(json){
 

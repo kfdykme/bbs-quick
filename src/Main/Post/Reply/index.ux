@@ -1,0 +1,246 @@
+<!-- <import name="ex-textarea" src="../../../Comp/ExTextarea.ux"></import> -->
+<import name="image-pick-bar" src="../../../Comp/ImagePickBar.ux"></import>
+<import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
+<template>
+
+    <stack>
+        <div class="reply-page">
+            <div class="reply-header">
+                <image class="reply-header-image" src="{{user.avatar}}">
+                </image>
+                <div class="reply-header-others">
+                    <text class="reply-header-name">
+                        {{user.userName}}
+                    </text>
+                    <text class="reply-header-date">
+                        刚刚
+                    </text>
+                </div>
+                <div class="reply-send-bar">
+
+                    <text @click="onEvent({type:'send-reply'})">
+                        {{textSend}}
+                    </text>
+                </div>
+            </div>
+            <div class="reply-content">
+
+                <div class="reply-content-image">
+                    <image
+                        class="reply-emoji"
+                        @click="onEvent({type:'emoji'})"
+                        src="/Res/ic_emoji.png">
+                    </image>
+
+                </div>
+                <textarea @change="onChange" placeholder="说点什么吧">{{replyContent}}</textarea>
+                <image-pick-bar></image-pick-bar>
+            </div>
+        </div>
+        <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
+    </stack>
+</template>
+
+
+<style lang="less">
+    .reply-page {
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .reply-header {
+            flex-direction: row;
+            width: 100%;
+            height: 150px;
+
+            .reply-header-date{
+                color:#ffbc4d;
+            }
+
+            .reply-header-image {
+
+                width: 64px;
+                height: 64px;
+                margin: 8px;
+                border-radius: 32px;
+            }
+
+            .reply-header-others {
+                flex-direction: column;
+                flex-grow: 1;
+
+                .reply-header-name {
+                    font-size: 30px;
+                }
+
+            }
+
+            .reply-send-bar {
+                width: 64px;
+                margin: 16px;
+
+                text {
+                    color: #00bcd4;
+                }
+
+            }
+        }
+
+        .reply-content {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+
+            .reply-content-image{
+                width: 100%;
+                justify-content: flex-end;
+                height: 120px;
+
+            }
+            .reply-emoji{
+                height:80px;
+                margin: 8px;
+                margin-left:80px;
+            }
+
+            textarea {
+                border-top-width: 2px;
+                border-color: #00bcd4;
+                padding-top: 8px;
+                margin: 8px;
+                margin-left: 80px;
+                width: 700px;
+                height: 100%;
+            }
+        }
+    }
+</style>
+
+
+<script>
+
+    import UserApi from "../../../Common/UserApi"
+    import PostApi from '../../../Common/PostApi'
+    import prompt from "@system.prompt"
+
+    export default {
+        protected: {
+            user: {},
+            replyContent: "",
+            ex: false,
+            showEmojiBar:false,
+            textSend: "发送",//
+            uploadImages:[],
+            option:{},
+            isReplying :false //是不是正在发送网络请求进行回复
+        }
+        ,onShow(){
+            if (this.$app.$data.dataImageView && this.$app.$data.dataImageView.gotoPage === 'image-pick-bar') {
+                // 从数据中获取回传给本页面的数据
+               const data = this.$app.$data.dataImageView.params
+               const newImages = []
+               for(var x in  this.uploadImages ){
+                   if(data.uri !=  this.uploadImages [x])
+                    newImages.push( this.uploadImages [x])
+               }
+               this.uploadImages = newImages
+               this.$broadcast('view-upload-update',this.uploadImages)
+             }
+        }
+        , onInit() {
+            PostApi.init(this.$app)
+            UserApi.init(this.$app)
+            this.user = UserApi.user()
+
+
+            this.option = JSON.parse(this.option)
+            this.$on('choose_emoji', this.onEvent)
+            this.$on('on-pick-image',this.onEvent)
+
+
+        }
+        , onChange(e) {
+            this.onEvent({ type: 'change-text', data: e.value })
+        }
+        , onEvent(e) {
+
+
+            if (e.type == "change-text") {
+                this.replyContent = e.data
+            }
+
+            if (e.type == 'send-reply') {
+                if(this.option.type == "comment"){
+                    console.info("comment",this.option)
+                    if(!this.isReplying){
+                          this.isReplying = true
+                            PostApi.comment(this.replyContent,this.uploadImages,this.option.topicId,
+                              function (data){
+
+                                const re = JSON.parse(data.data)
+
+                                prompt.showToast({
+                                  message:re.errcode
+                                })
+
+                                this.replyContent = ""
+                                this.uploadImages = []
+
+                                this.$broadcast('view-upload-update',this.uploadImages)
+
+                              }.bind(this))
+                  }
+                } else {
+
+
+
+                  if(!this.isReplying){
+                        this.isReplying = true
+                        PostApi.replyComment(this.replyContent,this.uploadImages,this.option.topicId,this.option.replyId,
+                          function(data){
+
+                            const re = JSON.parse(data.data)
+
+                            prompt.showToast({
+                                message:re.errcode
+                            })
+
+                            this.replyContent = ""
+                            this.uploadImages = []
+
+                            this.$broadcast('view-upload-update',this.uploadImages)
+
+                          }.bind(this))
+                        }
+
+                  }
+            }
+
+
+            if(e.type == 'on-pick-image'){
+              // console.info(e)
+              this.uploadImages = e.detail
+            }
+
+            if (e.type == 'emoji'){
+                this.showEmojiBar = !this.showEmojiBar
+
+            }
+
+            if(e.type == 'choose_emoji'){
+
+                this.showEmojiBar = !this.showEmojiBar
+                //把该emoji的url格式化之后添加到文本内容里
+                // let imageUrl = "["+e.detail.event.data+"]"
+                this.replyContent += e.detail.event.data
+            }
+
+
+        }
+    }
+
+</script>

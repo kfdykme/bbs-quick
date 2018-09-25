@@ -63,10 +63,13 @@
             "Main": {
                 "component": "index"
             },
+            "Main/Board": {
+                "component": "index"
+            },
             "Main/Post/Detail": {
                 "component": "index"
             },
-            "Main/Board": {
+            "Main/Post/Reply": {
                 "component": "index"
             },
             "Main/Post/Write": {

@@ -52,14 +52,21 @@ function fetchPostDetail(page,topic_id,suc,fai){
   })
 }
 
-function replyComment(commentContent,topicId,replyId,suc){
+function replyComment(commentContent,images,topicId,replyId,suc){
 
     var contentList = []
     var publishContent = {}
     publishContent.infor = commentContent
     publishContent.type = 0
     contentList.push(publishContent)
-
+    //把上传的图片插到末尾
+    for(var x in images){
+        var content = {
+            type:1,
+            infor:images[x]
+        }
+        contentList.push(content)
+    }
     var body = {}
     var info = {}
 
@@ -122,7 +129,7 @@ function publish(publishJson,suc){
 }
 
 
-function comment(commentContent,topicId,suc){
+function comment(commentContent,images,topicId,suc){
   // build json Object
 
   var contentList = []
@@ -130,7 +137,14 @@ function comment(commentContent,topicId,suc){
   publishContent.infor = commentContent
   publishContent.type = 0
   contentList.push(publishContent)
-
+  //把上传的图片插到末尾
+  for(var x in images){
+      var content = {
+          type:1,
+          infor:images[x]
+      }
+      contentList.push(content)
+  }
   var body = {}
   var info = {}
 

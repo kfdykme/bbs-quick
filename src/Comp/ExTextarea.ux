@@ -1,0 +1,55 @@
+<template>
+    <div class="ex-textarea">
+        <textarea
+            @change="onChangeText"
+            placeholder="{{placeholder}}"
+            class="ex-textarea-main {{ex ? 'ex-text' : ''}}">
+            {{value}}
+        </textarea>
+    </div>
+</template>
+
+<style lang="less">
+    .ex-text{
+        height: 1000px;
+    }
+
+    .ex-textarea{
+        width: 100%;
+
+        .ex-textarea-main{
+            width: 100%;
+            /* padding: 16px; */
+        }
+    }
+</style>
+
+<script>
+
+    export default {
+        props:[
+            'value'
+        ]
+        ,data:{
+            ex:false,
+            placeholder:"说点什么吧"
+        }
+        ,onChangeText(e){
+
+            this.onEvent({type:'change-text',data:e.value})
+        }
+        ,onEvent(e){
+            if(e.type == 'change-text')
+            {
+                this.ex = true
+                this.ex = false
+                this.value = e.data
+                this.$dispatch('change-text',e)
+            }
+        }
+        ,onInit(){
+
+        }
+    }
+
+</script>

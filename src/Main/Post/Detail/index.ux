@@ -1,6 +1,7 @@
 <import name="loading-progress-view" src="../../../Comp/LoadingProgressView"></import>
-<import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
+<!-- <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import> -->
 <import name="exa" src="../../../Comp/Exa.ux"></import>
+
 
 <template>
 
@@ -41,7 +42,7 @@
                 <list-item type="topic-image" if="{{showImage && t.type  == 1 }}" >
                     <div class="topic-content big-card">
 
-                        <image onclick="onClickImage(t.originalInfo)" class="content-image" src="{{t.originalInfo}}"></image>
+                        <image onclick="onEvent({type:'view-image',data:t.originalInfo})" class="content-image" src="{{t.originalInfo}}"></image>
                     </div>
                 </list-item>
 
@@ -85,11 +86,11 @@
               <list-item type="reply-header">
                   <div class="reply-header card">
 
-                      <image class="avatar" @click="onClickUser(re.reply_id)" src="{{re.icon}}"/>
+                      <image class="avatar" @click="onEvent({type:'user',data:re.reply_id})" src="{{re.icon}}"/>
 
                       <div class="header-text">
 
-                          <text class="name"  @click="onClickUser(re.reply_id)">{{re.reply_name}}</text>
+                          <text class="name"  @click="onEvent({type:'user',data:re.reply_id})">{{re.reply_name}}</text>
                           <text class="date">{{re.posts_date}}</text>
                       </div>
                   </div>
@@ -122,7 +123,7 @@
                 <!-- NOTE: 评论-图片 -->
                 <list-item type="reply-image" if="{{$item.type  == 1 }}">
                     <div class="card">
-                        <image onclick="onClickImage($item.originalInfo)" class="content"  src="{{$item.originalInfo}}"/>
+                        <image onclick="onEvent({type:'view-image',data:$item.originalInfo})" class="content"  src="{{$item.originalInfo}}"/>
 
                     </div>
                 </list-item>
@@ -156,8 +157,7 @@
                         <div  class="btn-action">
 
                             <text show="{{re.extraPanel[0].extParams.isHasRecommendAdd != 1  }}" class="btn-support"  @click="replySupport(index)">点赞</text>
-                            <text class="btn-reply"  @click="replyComment(index)">回复</text>
-                            <!-- <div  class="close-action-bar" show="{{re.showAct}}"></div> -->
+                            <text class="btn-reply"  @click="onEvent({type:'reply',data:index})">回复</text>
                         </div>
 
                   </div>
@@ -183,14 +183,14 @@
 
       <div class="post-comment">
 
-        <div  show="{{!showCommentBar}}"  class="btn-show" >
-          <text @click="onChangeCommentBar">{{commentBtnText}}</text>
+        <div  show="{{showCommentBtn}}"  class="btn-show" >
+          <text @click="onEvent({type:'comment'})">{{commentBtnText}}</text>
         </div>
 
 
       </div>
 
-
+<!--
       <div class="post-input">
 
         <div show="{{showCommentBar}}" class="post-comment-input ">
@@ -215,10 +215,13 @@
             </input>
 
 
-        </div>
+        </div> -->
       </div>
 
-      <emoji-bar if="{{showEmojiBar}}" ></emoji-bar>
+
+
+
+
 
     </stack>
 

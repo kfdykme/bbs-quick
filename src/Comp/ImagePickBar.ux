@@ -1,0 +1,103 @@
+<template>
+    <div class="input input-image  ">
+        <list class="input-image-list">
+            <block for="image in uploadImages">
+                <list-item type="pick-image">
+                    <div class="input-image-item">
+                        <image @click="onEvent({type:'view-image',data:image})" src="{{image}}"></image>
+                    </div>
+                </list-item type="pick-image">
+            </block>
+        </list>
+        <div class="input-image-upload" if="{{showUploadImageButton}}">
+            <image @click="onEvent({type:'pick-image'})" src="/Res/ic_upload_image.png"></image>
+        </div>
+    </div>
+</template>
+
+<style lang="less">
+    .input-image{
+        width: 100%;
+        /* height: 300px;
+        flex-wrap: wrap; */
+        flex-direction: row;
+        margin: 16px;
+
+
+
+        .input-image-upload{
+            width: 150px;
+            height: 150px;
+        }
+
+
+        image{
+            width: 80%;
+            height:80%;
+            resize-mode:cover;
+        }
+        .input-image-list{
+            width: 600px;
+            flex-direction: row;
+            height: 150px;
+
+            .input-image-item{
+                width: 150px;
+                height: 150px;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+    }
+</style>
+
+<script>
+
+    import media from "@system.media"
+
+    import ImageUtil from "../Common/ImageUtil"
+    import MessageApi from "../Common/MessageApi"
+    export default {
+        props:[
+
+        ]
+        ,data:{
+            showUploadImageButton:true,
+            uploadImages:[]
+        }
+        ,onInit(){
+            this.$on('view-upload-update',this.onEvent)
+
+          MessageApi.init(this.$app)
+        }
+
+        ,async onEvent(e){
+
+            if(e.type == 'view-upload-update'){
+                this.uploadImages = e.detail
+            }
+
+
+            if(e.type == "pick-image"){
+                var res = await media.pickImage()
+
+                MessageApi.uploadPmFile(res.data.uri,
+                  function(re){
+                      this.uploadImages.push(re.body.attachment[0].urlName)
+                      this.showUploadImageButton = this.uploadImages.length != 9
+                      this.$dispatch('on-pick-image',this.uploadImages)
+
+                  }.bind(this))
+
+            }
+
+            if(e.type == 'view-image'){
+
+
+
+                ImageUtil.ViewImage(e.data,'view-upload')
+            }
+        }
+    }
+</script>
