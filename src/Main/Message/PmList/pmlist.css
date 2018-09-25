@@ -173,6 +173,8 @@
 
             image{
                 resize-mode : contain;
+                height: 80%;
+                width: 80%;
 
             }
         }
