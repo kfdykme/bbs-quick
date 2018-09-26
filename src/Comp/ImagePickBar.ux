@@ -55,6 +55,7 @@
 <script>
 
     import media from "@system.media"
+    import prompt from "@system.prompt"
 
     import ImageUtil from "../Common/ImageUtil"
     import MessageApi from "../Common/MessageApi"
@@ -87,14 +88,16 @@
                       this.uploadImages.push(re.body.attachment[0].urlName)
                       this.showUploadImageButton = this.uploadImages.length != 9
                       this.$dispatch('on-pick-image',this.uploadImages)
-
+                      prompt.showToast({
+                          message:"图片上传结束"
+                      })
                   }.bind(this))
-
+                prompt.showToast({
+                    message:"开始上传图片"
+                })
             }
 
             if(e.type == 'view-image'){
-
-
 
                 ImageUtil.ViewImage(e.data,'view-upload')
             }

@@ -1,6 +1,4 @@
-
 <import name="user-list-view" src="../../Comp/UserListView"></import>
-
 <import name="post-list-view" src="../../Comp/PostListView"></import>
 
 

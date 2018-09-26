@@ -44,7 +44,7 @@
         protected :{
             src : "",
             type:"view",
-            toolSrc:"/Res/ic_download.png"
+            toolSrc:""
         },
         onInit(){
             if(this.type == 'view-upload'){

@@ -141,7 +141,7 @@
 
 
         if(e.type == 'view-image'){
-            ImageUtil.ViewImage(uri)
+            ImageUtil.ViewImage(e.data)
 
         }
 

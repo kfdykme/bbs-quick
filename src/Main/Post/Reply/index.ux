@@ -101,6 +101,7 @@
                 height: 120px;
 
             }
+            
             .reply-emoji{
                 height:80px;
                 margin: 8px;

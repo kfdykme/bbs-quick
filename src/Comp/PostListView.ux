@@ -12,14 +12,23 @@
         <list-item type="post-item-header" >
             <div class="header card">
 
-                <img class="avatar"  @click="onClickEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}" alt="../Common/logo.png"/>
+                <img class="avatar"  @click="onClickEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}"/>
                 <div class="header-text">
                     <div class="line-one">
-                        <text
+
+                        <div class="">
+                            <text
                             class="user-nike-name"
                             @click="onClickEvent({type :'user',data : $item.user_id})">
                             {{$item.user_nick_name}}
                         </text>
+
+                        <image
+                        show="{{$item.gender != null && $item.gender != 0}}"
+                        src="{{$item.gender == 1 ? '/Res/ic_male.png' : '/Res/ic_female.png'}}">
+                    </image>
+
+                        </div>
                         <text
                             class="board-name">
                             {{$item.board_name}}
@@ -125,18 +134,25 @@
       .header-text{
             flex-direction: column;
 
+            width: 100%;
+
             .line-one{
                 flex-direction: row;
+                width: 100%;
+                justify-content: space-between;
 
+                image{
+                    height: 30px;
+                }
 
                 .user-nike-name{
-                    width: 70%;
+                    /* width: 70%; */
                     color: #aabcd4;
                     font-size: 30px;
                 }
 
                 .board-name{
-                    width: 30%;
+                    /* width: 30%; */
                     height: 100%;
                     text-align: right;
                     font-size: 20px;
