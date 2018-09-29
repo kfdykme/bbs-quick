@@ -40,7 +40,7 @@
             "name": "system.clipboard"
         },
 
-    { "name": "system.device"}
+        { "name": "system.device"}
     ],
     "permissions": [
         {
@@ -50,8 +50,8 @@
     "config": {
         "logLevel": "info",
         "data":{
-      "umeng_appkey" : "5baf5afcb465f514d100026b", 
-    }
+            "umeng_appkey" : "5baf5afcb465f514d100026b"
+        }
     },
     "router": {
         "entry": "Start/Slash",
