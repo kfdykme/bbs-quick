@@ -29,6 +29,12 @@
 
       }
       ,onShow(){
+          $umeng_stat.resume(this)
+      }
+      ,onHide() {
+          $umeng_stat.pause(this)
+      }
+      ,onShow(){
           if (this.$app.$data.dataImageView && this.$app.$data.dataImageView.gotoPage === 'image-pick-bar') {
               // 从数据中获取回传给本页面的数据
              const data = this.$app.$data.dataImageView.params

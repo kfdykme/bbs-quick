@@ -1,8 +1,8 @@
 {
     "package": "org.starstudio.quickapp.bbs",
     "name": "清水河畔",
-    "versionName": "1.2",
-    "versionCode": 17,
+    "versionName": "1.2.1",
+    "versionCode": 18,
     "minPlatformVersion": 1010,
     "icon": "/Res/logo.png",
     "features": [
@@ -38,7 +38,9 @@
         },
         {
             "name": "system.clipboard"
-        }
+        },
+
+    { "name": "system.device"}
     ],
     "permissions": [
         {
@@ -46,7 +48,10 @@
         }
     ],
     "config": {
-        "logLevel": "info"
+        "logLevel": "info",
+        "data":{
+      "umeng_appkey" : "5baf5afcb465f514d100026b", 
+    }
     },
     "router": {
         "entry": "Start/Slash",

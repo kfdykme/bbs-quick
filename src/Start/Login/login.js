@@ -2,7 +2,7 @@ import router from '@system.router'
 import fetch from  '@system.fetch'
 import storage from '@system.storage'
 import UserCache from '../../Common/UserCache'
-import Api from '../../Common/Api' 
+import Api from '../../Common/Api'
 import prompt from "@system.prompt"
 
 
@@ -15,8 +15,14 @@ export default {
     register : "注册",
     login : "登陆",
     tryingLogin : false
-  },
-  onInit(){
+  }
+  ,onShow(){
+      $umeng_stat.resume(this)
+  }
+  ,onHide() {
+      $umeng_stat.pause(this)
+  }
+  ,onInit(){
 
 
     var app = this.$app

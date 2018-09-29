@@ -294,8 +294,14 @@
               }
             ],
             messageIndex :0
-          },
-          onInit(){
+          }
+          ,onShow(){
+              $umeng_stat.resume(this)
+          }
+          ,onHide() {
+              $umeng_stat.pause(this)
+          }
+          ,onInit(){
 
               this.presenter = new MessagePresenter(this.view())
               this.presenter.attach()

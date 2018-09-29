@@ -20,8 +20,14 @@
       boardIndex :0,
       deFloatBar :false
 
-    },
-    onInit(){
+    }
+    ,onShow(){
+        $umeng_stat.resume(this)
+    }
+    ,onHide() {
+        $umeng_stat.pause(this)
+    }
+    ,onInit(){
       BoardApi.init(this.$app)
     },
     onShow(){
@@ -116,7 +122,7 @@
       })
     },
     fetchClassificationTypeList(){
- 
+
           BoardApi.fetchClassificationTypeList(this.boardId,
             function (data){
               const re = JSON.parse(data.data)

@@ -6,8 +6,14 @@ import prompt from '@system.prompt'
 export default {
   protected: {
       imageUrl :"internal://files/home.jpg"
-  },
-  onInit(){
+  }
+  ,onShow(){
+      $umeng_stat.resume(this)
+  }
+  ,onHide() {
+      $umeng_stat.pause(this)
+  }
+  ,onInit(){
 
       /// NOTE: 弃用
       //获取图片并保存

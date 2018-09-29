@@ -20,6 +20,13 @@ export default {
     emailhash:"",
     cookie:""
   }
+
+  ,onShow(){
+      $umeng_stat.resume(this)
+  }
+  ,onHide() {
+      $umeng_stat.pause(this)
+  }
   /**
    * @method convsertCookie
    * @param {} cookie
@@ -70,7 +77,7 @@ export default {
 
                     emailHash = emailHash[0].substring(6)
                     emailHash = emailHash.substring(0,emailHash.length-18)
- 
+
                     this.formhash  = formhash
                     this.emailhash = emailHash
                     this.cookie = this.convsertCookie(data.headers['Set-Cookie'])

@@ -101,7 +101,7 @@
                 height: 120px;
 
             }
-            
+
             .reply-emoji{
                 height:80px;
                 margin: 8px;
@@ -138,6 +138,12 @@
             uploadImages:[],
             option:{},
             isReplying :false //是不是正在发送网络请求进行回复
+        }
+        ,onShow(){
+            $umeng_stat.resume(this)
+        }
+        ,onHide() {
+            $umeng_stat.pause(this)
         }
         ,onShow(){
             if (this.$app.$data.dataImageView && this.$app.$data.dataImageView.gotoPage === 'image-pick-bar') {

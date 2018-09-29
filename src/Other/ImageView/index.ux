@@ -45,8 +45,14 @@
             src : "",
             type:"view",
             toolSrc:""
-        },
-        onInit(){
+        }
+        ,onShow(){
+            $umeng_stat.resume(this)
+        }
+        ,onHide() {
+            $umeng_stat.pause(this)
+        }
+        ,onInit(){
             if(this.type == 'view-upload'){
                 this.toolSrc = "/Res/ic_delete.png"
             }

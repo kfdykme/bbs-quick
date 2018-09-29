@@ -20,7 +20,12 @@ export default{
     private :{
       TAG :"PmList"
     }
-
+    ,onShow(){
+        $umeng_stat.resume(this)
+    }
+    ,onHide() {
+        $umeng_stat.pause(this)
+    }
 
     , async onInit(){
 

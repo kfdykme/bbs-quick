@@ -19,7 +19,13 @@ export default {
       ForumApi.Tag.newReply,
       ForumApi.Tag.newPublish,
       ForumApi.Tag.todayHot
-    ],
+    ]
+  }
+  ,onShow(){
+      $umeng_stat.resume(this)
+  }
+  ,onHide() {
+      $umeng_stat.pause(this)
   }
   , onInit() {
 
@@ -33,7 +39,7 @@ export default {
 
   /**
    * @method onChangeForm
-   * @param {number} index 
+   * @param {number} index
    * @desc 当改变首页中的某个页面时发生
    */
   , onChangeForm(index) {

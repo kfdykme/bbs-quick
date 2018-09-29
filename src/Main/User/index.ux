@@ -13,6 +13,12 @@
         protected :{
             uid : 0
         }
+        ,onShow(){
+            $umeng_stat.resume(this)
+        }
+        ,onHide() {
+            $umeng_stat.pause(this)
+        }
         ,onInit(){
 
         }

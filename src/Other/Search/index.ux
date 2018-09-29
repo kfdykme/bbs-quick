@@ -170,6 +170,12 @@
             searchKeyword :''
 
         }
+        ,onShow(){
+            $umeng_stat.resume(this)
+        }
+        ,onHide() {
+            $umeng_stat.pause(this)
+        }
         ,onInit(){
             this.view = new SearchView(this)
             this.presenter = new SearchPresenter(this.view)

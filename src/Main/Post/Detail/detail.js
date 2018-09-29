@@ -28,6 +28,12 @@
       images:[], // 本页的图片url数组,查看图片时作为参数传入
       lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
     }
+    ,onShow(){
+        $umeng_stat.resume(this)
+    }
+    ,onHide() {
+        $umeng_stat.pause(this)
+    }
     /**
      * @method convertList
      * @param  {array} list

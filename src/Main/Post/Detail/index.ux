@@ -50,7 +50,7 @@
                 <list-item type="topic-url" if="{{t.type  == 4 }}" >
                     <div  class="topic-content big-card">
 
-                        <exa  url="{{t.url}}"  ></exa>
+                        <exa  url="{{t.url}}"  infor="{{t.infor}}"  ></exa>
 
                     </div>
                 </list-item>
@@ -189,7 +189,7 @@
 
 
       </div>
- 
+
       </div>
 
 

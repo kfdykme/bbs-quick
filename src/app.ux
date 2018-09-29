@@ -3,6 +3,7 @@
    * 应用级别的配置，供所有页面公用
    */
   import util from './util'
+   import './umenganalysis.es.min';   //友盟sdk
   // 脚本：regenerator.js
   // 注意：仅用于注入类库函数，不允许存储页面组件等数据
   const injectRef = Object.getPrototypeOf(global) || global
@@ -21,7 +22,7 @@
       user : null
     },
     onCreate(){
-
+        $umeng_stat.init(this);   //友盟2333
     },
     initUser
   }

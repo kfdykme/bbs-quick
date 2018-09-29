@@ -24,9 +24,16 @@
                           </list-item>
                           <list-item type="msg-left">
                                 <div class="msg">
-                                      <image  class="avatar" @click="onClickUser(pm.sender)"src="{{re.body.pmList[0].avatar}}"></image>
-                                      <div class="pop"></div>
-                                      <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                      <image
+                                            class="avatar"
+                                            @click="onClickUser(pm.sender)"
+                                            src="{{re.body.pmList[0].avatar}}">
+                                      </image>
+                                      <div
+                                        class="pop"></div>
+                                      <text
+                                        class="content"
+                                        show="{{pm.type == 'text'}}">{{pm.content}}</text>
                                       <image onclick="onClickImage2(pm.content)"  class="content" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
 
                                       <div class="blank">
@@ -80,7 +87,9 @@
               </image>
             </div>
             <div class="reply-input-bar ">
-                <textarea  class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea" @change="onChangeText"  >{{textToSend}}</textarea>
+                <textarea
+                    class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea"
+                    @change="onChangeText"  >{{textToSend}}</textarea>
                 <input class="reply-input-send" @click="onClickSend" type="button" value="发送" ></input>
 
             </div>

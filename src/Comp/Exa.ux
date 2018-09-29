@@ -1,9 +1,9 @@
 <template>
-    <a @click="onEvent({type:'web',data:this.url})">{{infor}}</a>
+    <text class="exa" @click="onEvent({type:'web',data:this.url})">{{infoUsed}}</text>
 </template>
 
 <style lang="less">
-a{
+.exa{
   color:#00bcd4;
 }
 </style>
