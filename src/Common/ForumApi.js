@@ -35,7 +35,7 @@ function getPostByTag(tag,page,suc,fai){
 
 }
 
- 
+
 
 /**
  * getNewReply
@@ -43,7 +43,7 @@ function getPostByTag(tag,page,suc,fai){
  * @param <funtciont> success
  */
 function getNewReply(page,suc){
-  let url = Api.BASE_URL + "app/web/index.php?r=forum/topiclist&pageSize=10"
+  let url = Api.BASE_URL + "app/web/index.php?r=forum/topiclist&pageSize=20"
 
 
   Api.fetch(
@@ -60,7 +60,7 @@ function getNewReply(page,suc){
 }
 
 function getTodayHot(page,suc){
-  let url = Api.BASE_URL + "app/web/index.php?r=portal/newslist&moduleId=2"
+  let url = Api.BASE_URL + "app/web/index.php?r=portal/newslist&moduleId=2&pageSize=20"
 
     Api.fetch(
         url,
@@ -77,7 +77,7 @@ function getTodayHot(page,suc){
 
 
 function getNewPublish(page,suc,fai){
-  let url = Api.BASE_URL +"app/web/index.php?r=forum/topiclist&pageSize=10"
+  let url = Api.BASE_URL +"app/web/index.php?r=forum/topiclist&pageSize=20"
 
 
     Api.fetch(

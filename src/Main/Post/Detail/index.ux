@@ -67,7 +67,7 @@
 
 
                 <!-- NOTE: 评论-表情包 -->
-                <list-item  if="{{t.type == 11}}" type="reply-emoji-{{t.infor.length}}">
+                <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.infor.length}}">
                     <div class="topic-content big-card emoji">
                         <block for="(eindex,e) in t.infor">
                             <text if="{{eindex  % 2 == 0}}">{{e}}</text>
@@ -76,8 +76,40 @@
                         </block>
                     </div>
                 </list-item>
+
             </block>
 
+
+
+            <!-- NOTE:内容-投票 -->
+            <block
+             if="{{topic.poll_info != null }}"
+             >
+                <list-item type="topic-vote-header" if="{{topic.poll_info.poll_item_list.length != 0}}">
+                    <div class="vote-header">
+
+                    </div>
+                </list-item>
+                <list-item type="topic-poll-item" for="poll in topic.poll_info.poll_item_list">
+                    <div class="topic-content card vote">
+                        <div class="vote-content">
+
+                            <text>{{poll.name}}</text>
+                            <div class="">
+
+                                <progress percent="{{poll.percentNumber}}"></progress>
+                                <text>{{poll.percent}}</text>
+                            </div>
+                        </div>
+                            <input type="checkbox" @change="onChange({type:'change-vote',data:poll.poll_item_id})"></input>
+                    </div>
+                </list-item>
+                <list-item type="topic-vote-footer" if="{{topic.poll_info.poll_item_list.length != 0}}">
+                    <div class="topic-content card vote-footer ">
+                            <text @click="onEvent({type:'vote'})" class="vote-btn">投票</text>
+                    </div>
+                </list-item>
+            </block>
 
 
             <block for="(index,re) in list">

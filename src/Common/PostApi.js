@@ -9,6 +9,22 @@ function init(app){
   UserCache.init(app)
 }
 
+
+async function vote(tid,options){
+    return await fetch.fetch({
+        url : "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/vote",
+        method:"POST",
+        data :{
+            tid	:tid,
+            options:options,
+            sdkVersion : Api.sdkVersion,
+            apphash :UserCache.appHash(),
+            accessSecret : UserCache.secret(),
+            accessToken : UserCache.token()
+        }
+    })
+}
+
 /**
  * @method supportPost
  * @param tid
@@ -31,7 +47,6 @@ async function supportPost(tid,pid,type){
         }
     })
 }
-
 
 function fetchPostDetail(page,topic_id,suc,fai){
   const url = Api.BASE_URL + "app/web/index.php?r=forum/postlist&pageSize=25"
@@ -211,5 +226,6 @@ export default{
   comment,
   replyComment,
   publish,
-  search
+  search,
+  vote
 }

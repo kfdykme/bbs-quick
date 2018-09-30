@@ -73,6 +73,32 @@
                     }
                 }
 
+                .vote-header{
+                    margin-top: 16px;
+                }
+
+                .vote{
+                    justify-content: space-between;
+
+                    .vote-content{
+                        flex-direction: column;
+
+                    }
+                    input{
+                        width: 10%;
+                        color: #00bcd4;
+                    }
+                }
+
+                .vote-footer{
+                    flex-direction: row;
+                    justify-content: flex-end;
+
+                    text{
+                        color: #00bcd4;
+                    }
+                }
+
                 .card{
                     width: 100%;
                     background-color: #ffffff;

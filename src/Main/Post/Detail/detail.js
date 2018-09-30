@@ -11,7 +11,10 @@
       topicid : "id",
       topic :{
         title :"",
-        content : []
+        content : [],
+        poll_info:{
+            poll_item_list:[]
+        }
       },
       list :[],
       canLoadMore :true,
@@ -27,6 +30,7 @@
       TAG :"Main/Post/Detail",
       images:[], // 本页的图片url数组,查看图片时作为参数传入
       lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
+      votes:[],//投票选项id
     }
     ,onShow(){
         $umeng_stat.resume(this)
@@ -134,7 +138,70 @@
     ,onScrollBottom(){
       this.loadMore()
     }
+
+    /**
+     * @method onChange
+     * @param {object} event 自己构建的event
+     * @param {object} e api自带事件对象
+     * @desc 投票中的input的checkbox改变时触发
+     */
+    ,onChange(event,e){
+
+        var id = event.data
+        var eve = {
+            type:event.type,
+            data:{
+                id:id,
+                check:e.checked
+            }
+        }
+
+        this.onEvent(eve)
+    }
     ,async onEvent(e){
+
+        if(e.type == 'vote'){
+            var voteids = ""
+            for(var x in this.votes){
+                voteids = this.votes[x]+","
+            }
+            PostApi.vote(this.topic.topic_id,voteids)
+            .then(data => {
+                console.info(data.data.data)
+                const rs = JSON.parse(data.data.data)
+                console.info(rs)
+                prompt.showToast({
+                    message : rs.errcode
+                })
+            })
+            .catch(data =>{  
+                    prompt.showToast({
+                        message :data
+                    })
+            })
+        }
+
+
+        if(e.type == 'change-vote'){
+
+
+                if(e.data.check){
+                    this.votes.push(e.data.id)
+                } else {
+
+                    let newVotes = []
+                    for(var x in this.votes){
+                        if(this.votes[x] != e.data.id)
+                            newVotes.push(this.votes[x])
+                    }
+                    this.votes = newVotes
+                }
+
+
+
+        }
+
+
 
         if(e.type == 'user'){
             router.push({
@@ -220,7 +287,27 @@
 
       json.topic.create_date = DateUtil.convertTime(json.topic.create_date)
       json.topic.content = this.convertEmoji(json.topic.content)
+
+      //如果没有投票选项的画,处理成对应的结构保证渲染成功...
+      if(json.topic.poll_info == null){
+
+          json.topic.poll_info = {
+              poll_item_list :[]
+          }
+      }
       this.topic = json.topic
+
+
+      //处理投票数据
+      if(this.topic.poll_info != null){
+
+          var pollInfo = this.topic.poll_info.poll_item_list
+          for(var x in pollInfo){
+              pollInfo[x].percentNumber = pollInfo[x].percent.substring(0,pollInfo[x].percent.length-1)
+          }
+      }
+
+
 
 
 
