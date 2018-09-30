@@ -35,11 +35,17 @@
                         </text>
 
                     </div>
-                    <text
-                        class="title"
-                        onclick="onClickEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})"  >
-                        {{$item.title}}
-                    </text>
+                    <div class="header-title-bar">
+
+                        <text class="high-light" show="{{$item.vote == 1}}">投票</text>
+                        <text class="high-light" show="{{$item.hot == 1}}">热门</text>
+                        <text class="high-light" show="{{$item.top == 1}}">置顶</text>
+                        <text
+                            class="title"
+                            onclick="onClickEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})"  >
+                            {{$item.title}}
+                        </text>
+                    </div>
                     <text
                         class="date" >
                         {{$item.last_reply_date}}
@@ -161,12 +167,23 @@
                 }
             }
 
-            .title{
-                  lines : 1;
-                  font-weight :bold;
-                  padding-right: 16px;
-                  text-overflow: ellipsis;
+
+            .header-title-bar{
+                .high-light{
+                    color: #f17c67;
+                    font-weight: blod;
+                    border-radius: 2px;
+                    border-width: 2px;
+                    border-color: #f17c67;
+                }
+                .title{
+                    lines : 1;
+                    font-weight :bold;
+                    padding-right: 16px;
+                    text-overflow: ellipsis;
+                }
             }
+
 
             .date{
               font-size: 30px;

@@ -86,8 +86,8 @@
              if="{{topic.poll_info != null }}"
              >
                 <list-item type="topic-vote-header" if="{{topic.poll_info.poll_item_list.length != 0}}">
-                    <div class="vote-header">
-
+                    <div class="topic-content card vote-header">
+                        <text>已有{{topic.poll_info.voters}}人投票</text>
                     </div>
                 </list-item>
                 <list-item type="topic-poll-item" for="poll in topic.poll_info.poll_item_list">
@@ -98,14 +98,19 @@
                             <div class="">
 
                                 <progress percent="{{poll.percentNumber}}"></progress>
-                                <text>{{poll.percent}}</text>
+                                <text>{{poll.percent}}({{poll.total_num}}人)</text>
                             </div>
                         </div>
-                            <input type="checkbox" @change="onChange({type:'change-vote',data:poll.poll_item_id})"></input>
+                        <input
+                            type="checkbox" @change="onChange({type:'change-vote',data:poll.poll_item_id})"
+                            show="{{topic.poll_info.poll_status == 2}}">
+                        </input>
                     </div>
                 </list-item>
                 <list-item type="topic-vote-footer" if="{{topic.poll_info.poll_item_list.length != 0}}">
-                    <div class="topic-content card vote-footer ">
+
+                    <!-- NOTE:只知道poll-status等于1是已投票,很迷 -->
+                    <div class="topic-content card vote-footer " show="{{topic.poll_info.poll_status == 2}}">
                             <text @click="onEvent({type:'vote'})" class="vote-btn">投票</text>
                     </div>
                 </list-item>

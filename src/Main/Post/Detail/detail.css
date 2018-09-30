@@ -4,6 +4,10 @@
     justify-content: center;
     align-items: center;
 
+    text{
+        line-height:47px;
+    }
+
     stack{
       flex-direction: column;
       height: 100%;
