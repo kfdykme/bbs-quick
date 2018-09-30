@@ -171,7 +171,7 @@
             .header-title-bar{
                 .high-light{
                     color: #f17c67;
-                    font-weight: blod;
+                    font-weight: bold;
                     border-radius: 2px;
                     border-width: 2px;
                     border-color: #f17c67;
