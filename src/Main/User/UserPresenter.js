@@ -147,7 +147,7 @@ export default class UserPresenter{
         }
 
         // NOTE : 站内私信
-        if(type == 'chat'){ 
+        if(type == 'chat'){
 
 
               router.push({
@@ -158,6 +158,17 @@ export default class UserPresenter{
                 }
               })
 
+        }
+
+        // NOTE : 我的收藏
+        if(type == 'favorite'){
+            router.push({
+              uri : 'Main/User/Reply',
+              params : {
+                  uid :arg,
+                  type:'favorite'
+              }
+            })
         }
 
         // NOTE : 登出
@@ -206,7 +217,8 @@ export default class UserPresenter{
             router.push({
               uri : 'Main/User/Reply',
               params : {
-                  uid :arg
+                  uid :arg,
+                  type:'me-reply'
               }
             })
         }

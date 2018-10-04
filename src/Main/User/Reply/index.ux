@@ -3,7 +3,7 @@
 
 
 <template >
-       <post-list-view type="me-reply" tag="{{uid}}"  ></post-list-view>
+       <post-list-view type="{{type}}" tag="{{uid}}"  ></post-list-view>
 </template>
 
 
@@ -15,6 +15,7 @@
 export default{
   protected:{
     uid:0,
+    type:''
   }
   ,onShow(){
       $umeng_stat.resume(this)

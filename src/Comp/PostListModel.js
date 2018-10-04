@@ -80,6 +80,13 @@ export default class PostListModel{
             )
         }
 
+        // NOTE : my favorite
+        if(type == 'favorite'){
+            UserApi.getUserFavoritePost(tag,page,10,
+              success
+            )
+        }
+
         // NOTE : board
         if(type == 'board'){
             //进行请求数据

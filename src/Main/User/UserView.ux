@@ -154,7 +154,8 @@
                            <div class="blank-item">
 
                            </div>
-                           <input class="btn-logout card " type="button" @click="onClickEvent('logout')" value="注销"></input>
+                           <input class="btn card " type="button" @click="onClickEvent('favorite',uid)" value="我的收藏"></input>
+                           <input class="btn btn-logout card " type="button" @click="onClickEvent('logout')" value="注销"></input>
                        </div>
                      </tab-content>
                </tabs>
@@ -338,17 +339,20 @@
                         flex-direction: column;
                         justify-content: flex-end;
 
-
-
-                        .btn-logout{
+                        .btn{
 
                             height: 100px;
                             text-align: center;
-                            color: #ff645e;
                             padding: 16px;
                             margin-left: 0px;
                             margin-right: 0px;
                             margin-bottom: 16px;
+                        }
+
+
+                        .btn-logout{
+
+                            color: #ff645e;
                         }
                     }
 
@@ -408,7 +412,7 @@
 
             // NOTE 渲染用户信息
             view.renderUserInfo = function(re){
-                this.myId = view.myId 
+                this.myId = view.myId
                 this.re = [re]
             }.bind(this)
 

@@ -125,6 +125,32 @@ function getUserReplyPost(uid, page,pageSize,success){
 
 
 /**
+ * getUserFavoritePost 获取回复过的帖子
+ *
+ * @param uid <string>
+ * @param page <int>
+ * @param pageSize <int>
+ * @param success <function>
+ */
+function getUserFavoritePost(uid, page,pageSize,success){
+    Api.fetch(
+        Api.BASE_URL +"/app/web/index.php?r=user/topiclist",
+        {
+            pageSize:pageSize,
+            accessToken :UserCache.token(),
+            accessSecret :UserCache.secret(),
+            sdkVersion : Api.sdkVersion,
+            appHash :UserCache.appHash(),
+            uid:uid,
+            type:"favorite",
+            page:page
+        },
+        success
+    )
+}
+
+
+/**
  * @method deleteFriend() 删除好友,忽略好友关系
  *
  * @param uid
@@ -306,6 +332,7 @@ export default {
     ,getUserInfo
     ,getUserAvatarBig
     ,getUserReplyPost
+    ,getUserFavoritePost
     ,getFirends
     ,getFollows
     ,getFolloweds
