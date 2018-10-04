@@ -77,6 +77,18 @@
                     }
                 }
 
+                .post-menu{
+                    margin-top: 16px;
+                    flex-direction: row;
+                    justify-content: flex-end;
+
+                    .btn{
+                        color:#00bcd4;
+                        margin-right: 16px;
+                    }
+
+                }
+
                 .vote-header{
                     margin-top: 16px;
                 }

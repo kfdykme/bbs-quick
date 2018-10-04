@@ -6,6 +6,8 @@
   import router from '@system.router'
   import clipboard from '@system.clipboard'
 
+  //
+
   export default{
     protected :{
       topicid : "id",
@@ -31,6 +33,8 @@
       images:[], // 本页的图片url数组,查看图片时作为参数传入
       lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
       votes:[],//投票选项id
+      totalNumber:0,//全部回复的数量
+      sortMode: 1//正序还是倒序
     }
     ,onShow(){
         $umeng_stat.resume(this)
@@ -160,6 +164,27 @@
     }
     ,async onEvent(e){
 
+
+        //修改浏览顺序
+        if(e.type == 'change-sort-mode'){
+
+            console.info(this.sortMode)
+            if(this.sortMode == 1){
+
+                //0 清空回复
+                this.list = []
+                this.fetchReverseReplys()
+            } else {
+                this.list = []
+                this.sortMode = 1
+                this.lastReplyTime = 0
+                this.page = 1
+                this.refresh()
+            }
+
+        }
+
+        //投票
         if(e.type == 'vote'){
             var voteids = ""
             for(var x in this.votes){
@@ -167,14 +192,12 @@
             }
             PostApi.vote(this.topic.topic_id,voteids)
             .then(data => {
-                console.info(data.data.data)
                 const rs = JSON.parse(data.data.data)
-                console.info(rs)
                 prompt.showToast({
                     message : rs.errcode
                 })
             })
-            .catch(data =>{  
+            .catch(data =>{
                     prompt.showToast({
                         message :data
                     })
@@ -182,6 +205,7 @@
         }
 
 
+        //选择投票的选项
         if(e.type == 'change-vote'){
 
 
@@ -202,7 +226,7 @@
         }
 
 
-
+        //点击用户
         if(e.type == 'user'){
             router.push({
                 uri : "Main/User",
@@ -212,18 +236,18 @@
             })
         }
 
-
+        //浏览图片
         if(e.type == 'view-image'){
             ImageUtil.ViewImage(e.data)
 
         }
 
-
+        //查看emoji -- 弃用
         if(e.type == 'emoji'){
             this.showEmojiBar = !this.showEmojiBar
         }
 
-
+        //选择一个emoji -- 弃用
         if(e.type == 'choose_emoji'){
 
             this.showEmojiBar = !this.showEmojiBar
@@ -231,6 +255,8 @@
             this.commentContent += e.detail.event.data
         }
 
+
+        //跳转到评论页面
         if(e.type == 'comment'){
             router.push({
                 uri:"Main/Post/Reply",
@@ -244,6 +270,7 @@
             })
         }
 
+        //回复,跳转到评论页面
         if(e.type == 'reply'){
             this.commentReplyId = this.list[e.data].reply_posts_id
             router.push({
@@ -321,8 +348,6 @@
 
       if(json.list != null && json.list.length != 0){
 
-
-
         //根据筛选json.list里面的东西
         var tempList = []
         for(var x in json.list){
@@ -338,25 +363,50 @@
 
         json.list = this.convertList(json.list)
         this.list = this.list.concat(json.list)
-        // console.info(this.list)
-        this.renderReplyComplete()
 
+        this.renderReplyComplete()
 
         if(json.list.length < 25 || json.has_next == 0){
 
              this.renderError("没有更多了")
         }
+
         if(json.list.length == 25)
             this.page = this.page +1
 
-
       }  else {
-       this.renderError("没有更多了")
-       this.loadMoreComplete()
+           this.renderError("没有更多了")
+           this.loadMoreComplete()
       }
 
       this.refreshComplete()
 
+
+    },
+    /**
+     * @method renderReserveReply
+     * @param {object} re
+     * @desc 渲染一个倒序了的回复数组
+     */
+    renderReserveReply(re){
+
+        //1 判断是否为空
+        if(re.list != null && re.list.length != 0){
+
+            //2处理时间
+
+            this.list = this.convertList(re.list)
+            this.renderReplyComplete()
+
+        } else {
+
+            this.renderError("未知错误")
+            this.loadMoreComplete()
+
+        }
+
+        //3 结束
+        this.refreshComplete()
 
     },
     /**
@@ -424,7 +474,8 @@
         if(this.canLoadMore){
             this.canLoadMore = false
 
-            this.fetchReplys()
+            if(this.sortMode == 1)
+                this.fetchReplys()
 
         }
     },
@@ -464,6 +515,12 @@
 
 
             if(json.rs == 1){
+
+                //update totalNumber
+                if(json.total_num != null)
+                    this.totalNumber = json.total_num
+
+
               if(this.page == 1){
                 this.renderReply(json)
               }else{
@@ -485,11 +542,37 @@
           })
 
     },
+    /**
+     * @method fetchReverseReplys
+     */
+    async fetchReverseReplys(){
+
+        //1 加载所有回复
+        await PostApi.reverse(this.topicid,this.totalNumber)
+        .then(data =>{
+            const re = JSON.parse(data.data.data)
+            this.sortMode = 2
+            re.list = re.list.reverse()
+            this.renderReserveReply(re)
+        }).catch(data =>{
+            prompt.showToast({
+                message:data.data
+            })
+        })
+        //2 倒序
+    },
     reqRefresh(e){
       this.isRefreshing = e.refreshing
 
-      this.page = 1
-      this.fetchReplys()
+      if(this.sortMode == 1){
+
+          this.page = 1
+          this.lastReplyTime = 0
+          this.fetchReplys()
+
+      } else if(this.sortMode == 2){
+          this.fetchReverseReplys()
+      }
     },
     refreshComplete(){
 

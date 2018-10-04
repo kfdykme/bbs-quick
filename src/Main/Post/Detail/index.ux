@@ -15,6 +15,8 @@
           <list @scrollbottom="onScrollBottom">
 
 
+
+            <!-- 内容-topic 开始 -->
             <list-item type="topic-header">
                 <div class="tpic-header big-card">
                     <image class="avatar"  @click="onEvent({type:'user',data:topic.user_id})" src="{{topic.icon}}" />
@@ -25,7 +27,6 @@
 
                 </div>
             </list-item>
-
 
             <block for="t in topic.content">
 
@@ -79,6 +80,22 @@
 
             </block>
 
+            <!-- 内容-topic 结束 -->
+
+            <!-- 菜单开始 -->
+            <list-item
+                type="post-menu" if="{{list.length != 0}}">
+
+                <div class="topic-content  big-card  post-menu">
+                    <text
+                        class="btn"
+                        @click="onEvent({type:'change-sort-mode'})">
+                        {{sortMode == 1 ? '倒序':'正序'}}
+                    </text>
+                </div>
+
+            </list-item>
+            <!-- 菜单结束 -->
 
 
             <!-- NOTE:内容-投票 -->
@@ -117,7 +134,9 @@
             </block>
 
 
-            <block for="(index,re) in list">
+
+            <!-- 内容-回复 -->
+            <block  for="(index,re) in list">
 
 
               <list-item type="reply-header">

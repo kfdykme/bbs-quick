@@ -9,7 +9,28 @@ function init(app){
   UserCache.init(app)
 }
 
+async function reverse(topic_id,number){
 
+
+    return await fetch.fetch({
+      url : Api.BASE_URL + "app/web/index.php?r=forum/postlist&pageSize="+number,
+      method : "POST",
+      data : {
+        page : 1,
+        topicId : topic_id,
+        apphash :UserCache.appHash(),
+        accessSecret : UserCache.secret(),
+        accessToken : UserCache.token()
+      }
+    })
+}
+
+/**
+ * @method vote
+ * @param {number} tid
+ * @param {string} options
+ * @desc 投票
+ */
 async function vote(tid,options){
     return await fetch.fetch({
         url : "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/vote",
@@ -48,7 +69,7 @@ async function supportPost(tid,pid,type){
     })
 }
 
-function fetchPostDetail(page,topic_id,suc,fai){
+function fetchPostDetail(page,topicId,suc,fai){
   const url = Api.BASE_URL + "app/web/index.php?r=forum/postlist&pageSize=25"
 
 
@@ -57,7 +78,7 @@ function fetchPostDetail(page,topic_id,suc,fai){
     method : "POST",
     data : {
       page : page,
-      topicId : topic_id,
+      topicId : topicId,
       apphash :UserCache.appHash(),
       accessSecret : UserCache.secret(),
       accessToken : UserCache.token()
@@ -226,6 +247,7 @@ export default{
   comment,
   replyComment,
   publish,
+  reverse,
   search,
   vote
 }
