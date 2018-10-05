@@ -160,6 +160,17 @@ export default class UserPresenter{
 
         }
 
+        if(type == 'history'){
+            router.push({
+              uri : 'Main/User/Reply',
+              params : {
+                  uid :arg,
+                  type:'history'
+              }
+            })
+        }
+
+
         // NOTE : 我的收藏
         if(type == 'favorite'){
             router.push({

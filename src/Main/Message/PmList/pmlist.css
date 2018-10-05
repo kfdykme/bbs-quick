@@ -92,10 +92,33 @@
                   }
 
                   .content-image{
-                      width: 50%;
+                      width: 100px;
+                      height: 100px;
                       border-radius: 16px;
                       border-width: 3px;
                       border-color: #00bcd4;
+                  }
+
+                  .content-emoji{
+
+                      border-radius: 16px;
+                      background-color: #00bcd4;
+                      flex-direction: row;
+                      flex-wrap: wrap;
+                      padding: 16px;
+                      image{
+                          width: 40px;
+                          height: 40px;
+                          resize-mode :contain;
+                      }
+
+                      text{
+                            width: 40px;
+                            height: 40px;
+                            font-size: 40px;
+                            color: #ffffff;
+                            /* margin: 8px; */
+                      }
                   }
               }
 

@@ -22,7 +22,29 @@
 
                                 </div>
                           </list-item>
-                          <list-item type="msg-left">
+                          <list-item if="{{pm.type == 'emoji'}}" type="msg-left-{{pm.content.length}}">
+                              <div class="msg">
+                                    <image
+                                          class="avatar"
+                                          @click="onClickUser(pm.sender)"
+                                          src="{{re.body.pmList[0].avatar}}">
+                                    </image>
+                                    <div
+                                      class="pop">
+                                    </div>
+
+                                    <div class="content-emoji">
+                                      <block for="e in pm.content">
+                                          <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                                          <image if="{{e.length != 1}}" src="{{e}}"></image>
+                                      </block>
+                                    </div>
+                                    <div class="blank">
+
+                                    </div>
+                              </div>
+                          </list-item>
+                          <list-item type="msg-left" if="{{pm.type != 'emoji'}}">
                                 <div class="msg">
                                       <image
                                             class="avatar"
@@ -34,7 +56,7 @@
                                       <text
                                         class="content"
                                         show="{{pm.type == 'text'}}">{{pm.content}}</text>
-                                      <image onclick="onClickImage2(pm.content)"  class="content" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
+                                      <image onclick="onClickImage2(pm.content)"  class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
 
                                       <div class="blank">
 
@@ -52,7 +74,23 @@
 
                                   </div>
                             </list-item>
-                            <list-item class="item-right"type="msg-right">
+                            <list-item if="{{pm.type == 'emoji'}}" type="msg-right-{{pm.content.length}}">
+                                <div class="msg msg-right" >
+                                    <div class="blank">
+
+                                    </div>
+                                    <div class="content-emoji">
+                                        <block for="e in pm.content">
+                                            <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                                            <image if="{{e.length != 1}}" src="{{e}}"></image>
+                                        </block>
+                                    </div>
+                                    <div class="pop-big"></div>
+                                    <image  class="avatar" @click="onClickUser(re.body.userInfo.uid)" src="{{re.body.userInfo.avatar}}"></image>
+
+                                </div>
+                            </list-item>
+                            <list-item class="item-right"type="msg-right" if="{{pm.type != 'emoji'}}">
                                   <div class="msg msg-right" >
                                       <div class="blank">
 

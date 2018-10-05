@@ -27,6 +27,53 @@ export default{
         $umeng_stat.pause(this)
     }
 
+    /**
+     * @method convertEmoji
+     * @param {array} rc
+     * @return {array}
+     * @desc 重构数组,提取表情包
+     */
+    ,convertEmoji(rc){
+        for(var y in rc){
+            var content = rc[y]
+            //如果是文本的话,就提取表情包
+            if(content.type == 'text')
+            {
+                const emojiRex = /\[mobcent_phiz=.*?\]/g
+                var emojis = content.content.match(emojiRex)
+                if(emojis == null){
+                    continue //没有表情包
+                } else{
+                    // 有表情包
+                    var nt = []
+                    var t = content.content
+                    for(var z in emojis){
+                        var e = emojis[z]
+                        var tempt = t.split(e)
+                        for(var aa in tempt[0]){
+
+                            nt.push(tempt[0][aa])
+                        }
+                        t = tempt[1] == null ? "" :tempt[1]
+                        e = e.substring(14,e.length-1)
+                        nt.push(e)
+                    }
+
+                    if(t != null)
+                        for(var aa in t){
+
+                            nt.push(t[aa])
+                        }
+                    // console.info(nt)
+                    //NOTE:先用11作为带有表情包的文本
+                    content.type = 'emoji'
+                    content.content = nt
+                }
+            }
+        }
+        return rc
+    }
+
     , async onInit(){
 
 
@@ -45,7 +92,9 @@ export default{
       const re = await this.model.pmseMissionList(this.toUserId, this.plid)
 
       this.re = re
+
       var msl = this.re.body.pmList[0].msgList
+      msl = this.convertEmoji(msl)
 
       for(let x in msl){
 
@@ -140,12 +189,13 @@ export default{
     }
     ,onClickUser(id){
 
-                router.push({
-                    uri : "Main/User",
-                    params :{
-                        uid :id
-                    }
-                })
+        router.push({
+            uri : "Main/User",
+            params :{
+                uid :id
+            }
+        })
+
     }
     ,onEvent(e){
         if(e.type == 'emoji'){
@@ -172,6 +222,8 @@ export default{
                   this.re = re
                   var msl = this.re.body.pmList[0].msgList
 
+                  msl = this.convertEmoji(msl)    
+
                   for(let x in msl){
 
                       msl[x].date = DateUtil.convertTime(msl[x].time)
@@ -179,7 +231,6 @@ export default{
 
                   }
 
-                  // console.info("before save res")
                   const saveRes = await this.model.savePmlist(this.toUserId,this.plid,re)
                   // console.info(saveRes)
                   //TODO:滚到

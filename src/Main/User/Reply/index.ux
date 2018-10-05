@@ -3,7 +3,7 @@
 
 
 <template >
-       <post-list-view type="{{type}}" tag="{{uid}}"  ></post-list-view>
+       <post-list-view  type="{{type}}" tag="{{uid}}"  ></post-list-view>
 </template>
 
 
