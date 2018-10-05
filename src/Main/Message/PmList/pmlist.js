@@ -102,6 +102,11 @@ export default{
           msl[x].showTime = x == 0 || this.re.body.pmList[0].msgList[x].time - this.re.body.pmList[0].msgList[x-1].time >120000
 
       }
+      //TODO:滚到
+      const pmList = this.$element('pmList')
+      pmList.scrollTo({
+          index: this.re.body.pmList[0].msgList.length * 2 -1
+      })
 
 
       setTimeout(function(){
@@ -222,7 +227,7 @@ export default{
                   this.re = re
                   var msl = this.re.body.pmList[0].msgList
 
-                  msl = this.convertEmoji(msl)    
+                  msl = this.convertEmoji(msl)
 
                   for(let x in msl){
 
@@ -232,14 +237,7 @@ export default{
                   }
 
                   const saveRes = await this.model.savePmlist(this.toUserId,this.plid,re)
-                  // console.info(saveRes)
-                  //TODO:滚到
-                  // const pmList = this.$element('pmList')
-                  // pmList.scrollTo({
-                  //     index: this.re.body.pmList[0].msgList.length * 2 -1
-                  // })
 
-                  // console.info("after scroll to ")
                   setTimeout(function(){
 
                     this.refresh()
