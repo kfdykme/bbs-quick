@@ -99,6 +99,12 @@ export default class UserPresenter{
 
     onClickEvent(type,arg){
 
+        if(type == 'about'){
+            router.push({
+                uri:"Other/About"
+            })
+        }
+
         //NOTE : 关注 follow
         if(type == 'follow'){
             var onFollowSuccess = function(re){

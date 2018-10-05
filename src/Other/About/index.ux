@@ -1,0 +1,65 @@
+<template>
+    <div class="about-page">
+
+        <text>这个应用叫做 清水河畔</text>
+        <text>现在的版本号是{{about}}</text>
+        <text>最近更新了:</text>
+        <text>{{update}}</text>
+
+        <text class="btn" @click="onEvent({type:'reflact'})">可以在这个帖子反馈(*^_^*)</text>
+
+
+    </div>
+
+
+
+</template>
+
+<style lang="less">
+    .about-page{
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .btn{
+            color:#00bcd4;
+            margin: 32px;
+        }
+    }
+
+</style>
+<script>
+
+    import prompt from '@system.prompt'
+    import router from '@system.router'
+    export default {
+        protected :{
+            about:"",
+            update:""
+        }
+        ,onShow(){
+            $umeng_stat.resume(this)
+        }
+        ,onHide() {
+            $umeng_stat.pause(this)
+        }
+        ,onInit(){
+
+            this.about = this.$app.options.env.appVersionName
+            this.update = "\n表情包看起来更舒服\n和 图片加载很多很多也应该不会出bug\n和 可以看我的收藏\n和 正序倒序浏览\n和 可以看关于"
+        }
+        ,onEvent(e){
+            if(e.type == "reflact"){
+                router.push({
+                  uri : 'Main/Post/Detail',
+                  params : {
+                    topicid :1735919 //特指某个帖子,暂且先写死吧
+                  }
+                })
+            }
+        }
+    }
+
+</script>
