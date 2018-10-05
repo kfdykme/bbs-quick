@@ -68,12 +68,17 @@
 
 
                 .emoji{
-                    flex-direction: column;
-
+                    flex-direction: row;
+                    flex-wrap: wrap;
 
                     image{
-                        width: 100px;
+                        width: 60px;
                         resize-mode :contain;
+                    }
+
+                    text{
+                        width: 30px;
+                        height: 40px;
                     }
                 }
 
@@ -208,11 +213,9 @@
 
 
                 .content-image{
-                    width:60%;
+                    width:200px;
                     margin: 8px;
                     margin-left: 72px;
-
-                    resize-mode : contain;
                 }
 
 

@@ -154,7 +154,7 @@
                            <div class="blank-item">
 
                            </div>
-                         <input class="btn card " type="button" @click="onClickEvent('history',uid)" value="历史记录"></input>
+                         <input show="false" class="btn card " type="button" @click="onClickEvent('history',uid)" value="历史记录"></input>
                            <input class="btn card " type="button" @click="onClickEvent('favorite',uid)" value="我的收藏"></input>
                            <input class="btn btn-logout card " type="button" @click="onClickEvent('logout')" value="注销"></input>
                        </div>

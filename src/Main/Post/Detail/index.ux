@@ -40,10 +40,10 @@
                 </list-item>
 
                 <!-- NOTE: 图片  -->
-                <list-item type="topic-image" if="{{showImage && t.type  == 1 }}" >
+                <list-item type="topic-image-{{t.originalInfo}}" if="{{t.type  == 1  && showImage}}"   >
                     <div class="topic-content big-card">
 
-                        <image onclick="onEvent({type:'view-image',data:t.originalInfo})" class="content-image" src="{{t.originalInfo}}"></image>
+                        <image onclick="onEvent({type:'view-image',data:t.originalInfo})" class="content-image" src="{{t.originalInfo}}" alt="/Res/ic_loading_image.png"></image>
                     </div>
                 </list-item>
 
@@ -70,10 +70,10 @@
                 <!-- NOTE: 评论-表情包 -->
                 <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.infor.length}}">
                     <div class="topic-content big-card emoji">
-                        <block for="(eindex,e) in t.infor">
-                            <text if="{{eindex  % 2 == 0}}">{{e}}</text>
-                            <image if="{{eindex % 2 != 0}}" src="{{e}}"></image>
 
+                        <block for="e in t.infor">
+                            <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                            <image if="{{e.length != 1}}" src="{{e}}"></image>
                         </block>
                     </div>
                 </list-item>
@@ -195,10 +195,10 @@
                 <!-- NOTE: 评论-表情包 -->
                 <list-item  if="{{$item.type == 11}}" type="reply-emoji-{{$item.infor.length}}">
                     <div class="card emoji">
-                        <block for="(eindex,e) in $item.infor">
-                            <text if="{{eindex %2 == 0}}">{{e}}</text>
-                            <image if="{{eindex %2 != 0}}" src="{{e}}"></image>
 
+                        <block for="e in  $item.infor">
+                            <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                            <image if="{{e.length != 1}}" src="{{e}}"></image>
                         </block>
                     </div>
                 </list-item>

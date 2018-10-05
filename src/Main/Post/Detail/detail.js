@@ -25,10 +25,9 @@
       commentSend : "发送",
       commentContent : "",
       showCommentBtn : false,//是否显示评论按钮
-
       commentBtnText : "评论",
       commentReplyId : 0,
-      showImage : true, // 是否可以加载图片了
+      showImage : false, // 是否可以加载图片了
       TAG :"Main/Post/Detail",
       images:[], // 本页的图片url数组,查看图片时作为参数传入
       lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
@@ -88,14 +87,22 @@
                     for(var z in emojis){
                         var e = emojis[z]
                         var tempt = t.split(e)
-                        nt.push(tempt[0])
+
+                        for(var aa in tempt[0]){
+
+                            nt.push(tempt[0][aa])
+                        }
                         t = tempt[1] == null ? "" :tempt[1]
                         e = e.substring(14,e.length-1)
                         nt.push(e)
                     }
 
                     if(t != null)
-                        nt.push(t)
+                        for(var aa in t){
+
+                            nt.push(t[aa])
+
+                        }
                     // console.info(nt)
                     //NOTE:先用11作为带有表情包的文本
                     content.type = 11
@@ -341,6 +348,8 @@
       this.renderTopicComplete()
     },
     renderTopicComplete(){
+
+        this.showImage = true
         this.showCommentBtn =  true
         this.loadMore()
     },
@@ -457,7 +466,7 @@
       // prompt.showToast({
       //   message : "加载新的回复"
       // })
-      this.showImage = true;
+
       this.loadMoreComplete()
     },
     renderError(msg){
