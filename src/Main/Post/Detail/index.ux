@@ -71,9 +71,10 @@
                 <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.infor.length}}">
                     <div class="topic-content big-card emoji">
 
-                        <block for="e in t.infor">
+                        <block for="e in  t.infor">
                             <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
-                            <image if="{{e.length != 1}}" src="{{e}}"></image>
+                            <text if="{{e == '</br>'}}" class="tv-br"></text>
+                            <image if="{{e.length != 1 && e != '</br>'}}" src="{{e}}"></image>
                         </block>
                     </div>
                 </list-item>
@@ -198,7 +199,8 @@
 
                         <block for="e in  $item.infor">
                             <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
-                            <image if="{{e.length != 1}}" src="{{e}}"></image>
+                            <text if="{{e == '</br>'}}" class="tv-br"></text>
+                            <image if="{{e.length != 1 && e != '</br>'}}" src="{{e}}"></image>
                         </block>
                     </div>
                 </list-item>

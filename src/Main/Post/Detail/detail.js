@@ -90,7 +90,11 @@
 
                         for(var aa in tempt[0]){
 
-                            nt.push(tempt[0][aa])
+                            if(tempt[0][aa] == '\n'){
+                                nt.push("</br>")
+                            }
+                            else
+                                nt.push(tempt[0][aa])
                         }
                         t = tempt[1] == null ? "" :tempt[1]
                         e = e.substring(14,e.length-1)
@@ -99,9 +103,11 @@
 
                     if(t != null)
                         for(var aa in t){
-
-                            nt.push(t[aa])
-
+                            if(t[aa] == '\n'){
+                                nt.push("</br>")
+                            }
+                            else
+                                nt.push(t[aa])
                         }
                     // console.info(nt)
                     //NOTE:先用11作为带有表情包的文本

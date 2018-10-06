@@ -76,6 +76,10 @@
                         resize-mode :contain;
                     }
 
+                    .tv-br{
+                        width: 100%;
+                    }
+
                     text{
                         width: 30px;
                         height: 40px;
