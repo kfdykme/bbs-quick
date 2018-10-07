@@ -56,7 +56,7 @@ function getUserAvatarBig(uid){
  * firends获取好友
  *
  */
-function getFirends(uid,success){
+function getFirends(uid,success,page){
     Api.fetch(
         Api.BASE_URL +"/app/web/index.php?r=user/userlist ",
         {
@@ -69,7 +69,7 @@ function getFirends(uid,success){
             uid:uid,
             orderBy:"dateline",
             type:"friend",
-            page:1
+            page:page
         },
         success
     )

@@ -107,13 +107,12 @@
                       flex-wrap: wrap;
                       padding: 16px;
                       image{
-                          width: 40px;
-                          height: 40px;
+                          
+                          height: 80px;
                           resize-mode :contain;
                       }
 
                       text{
-                            width: 40px;
                             height: 40px;
                             font-size: 40px;
                             color: #ffffff;

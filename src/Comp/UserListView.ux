@@ -116,6 +116,7 @@ export default{
   },
   refresh(){
     this.page = 1
+    this.canLoadMore = true
     this.$broadcast("render_loading",{ tag : this.tag})
     this.fetchDatas(this.tag,this.page)
   },
@@ -179,6 +180,7 @@ export default{
 
           if(re.has_next == 0){
             this.renderError("没有更多了")
+            this.canLoadMore = false
             return
           }
 
@@ -210,7 +212,7 @@ export default{
                   let time = re.body.list[x].lastLogin
                   re.body.list[x].lastLogin = DateUtil.convertTime(time)
                 }
- 
+
                 if(page == 1){
                   this.render(re.body.list)
                 } else {

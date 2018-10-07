@@ -54,9 +54,9 @@ export default class MessageModel{
         this.presenter = p
     }
 
-    constructor(){
+    constructor(uid){
         // af 常量标识MessageModel在storage中的值
-        this.KEY = "MessageModel"
+        this.KEY = "MessageModel"+uid
         this.CODE_SUCCESS = 2333
         this.CODE_EMPTY = 2111
         this.TYPE_POST = "post"
@@ -246,9 +246,10 @@ export default class MessageModel{
     * @param {MessagePresenter} p 获取的同时绑定一个presenter
     * @return {MessageModel}
     */
-    static getInstance(p){
+    static getInstance(p,uid){
+
         if(!this.instance){
-            this.instance = new MessageModel()
+            this.instance = new MessageModel(uid)
         }
         if(p)
             this.instance.bindPresenter(p)
@@ -334,10 +335,10 @@ export default class MessageModel{
 
     async loadLocalPmlist(toUserId,pid){
         const key = this.KEY+toUserId+pid
-        var local =  await storage.get({key : key})
-
-        if(local == '') local = '{}'
-        return JSON.parse(local.data)
+        var local =  await storage.get({key : key}) 
+        local = local.data
+        if(local == ''|| local == null) local = '{}'
+        return JSON.parse(local)
     }
 
     async savePmlist(toUserId,pid,re){

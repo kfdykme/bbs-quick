@@ -7,21 +7,28 @@ import router from "@system.router"
 import MessageModel from '../MessageModel'
 
 export default{
-    protected:{
-      re : null,
+    public:{
+      re : {
+          body:{
+              pmList:[
+                  {
+                      msgList:[]
+                  }
+              ]
+          }
+      },
       imageToSend : "../../../Res/ic_pick_image.png",
       baseImageToSend :"../../../Res/ic_pick_image.png",
       textToSend :"",
       isEx:false,
       toUserId : '',
       plid : '',
+      length:0,//长度
       showEmojiBar:false//是否显示表情包选择框
-    },
-    private :{
-      TAG :"PmList"
     }
     ,onShow(){
         $umeng_stat.resume(this)
+
     }
     ,onHide() {
         $umeng_stat.pause(this)
@@ -74,50 +81,55 @@ export default{
         return rc
     }
 
+
+    /**
+     * @method fetchHeart
+     */
+    ,async fetchHeart(){
+        await MessageApi.fetchHeart()
+            .then(data =>{
+                const rs = JSON.parse(data.data.data)
+
+                if(rs.body.pmInfos.length != 0){
+
+                    this.fetchPmList()
+                }
+
+
+            })
+            .catch(data =>{
+                console.error(data)
+            })
+
+        setTimeout(function(){
+            this.fetchHeart()
+        }.bind(this),5000)
+    }
+
     , async onInit(){
 
 
 
       MessageApi.init(this.$app)
-      this.model =  MessageModel.getInstance(null)
+      this.model =  MessageModel.getInstance(null,this.$app.$def.cache.user.uid)
 
       try{
 
-          const localRe = await this.model.loadLocalPmlist(this.toUserId,this.plid)
+          var localRe = await this.model.loadLocalPmlist(this.toUserId,this.plid)
+          this.render(localRe)
 
-          this.re = localRe
       } catch(err){
-          console.info(err)
+          console.error(err)
       }
-      const re = await this.model.pmseMissionList(this.toUserId, this.plid)
 
-      this.re = re
+      this.fetchPmList()
 
-      var msl = this.re.body.pmList[0].msgList
-      msl = this.convertEmoji(msl)
-
-      for(let x in msl){
-
-          msl[x].date = DateUtil.convertTime(msl[x].time)
-          msl[x].showTime = x == 0 || this.re.body.pmList[0].msgList[x].time - this.re.body.pmList[0].msgList[x-1].time >120000
-
-      }
-      //TODO:滚到
-      const pmList = this.$element('pmList')
-      pmList.scrollTo({
-          index: this.re.body.pmList[0].msgList.length * 2 -1
-      })
-
-
-      setTimeout(function(){
-        this.refresh()
-
-      }.bind(this),1000)
-
-
+      this.fetchHeart()
 
       //注册表情包选择框的反馈
       this.$on('choose_emoji', this.onEvent)
+
+
     }
     ,onBackPress(){
         if(this.showEmojiBar){
@@ -125,7 +137,67 @@ export default{
             return true
         }
 
-        return false
+        this.$page.finish()
+
+        return true
+    }
+
+    ,fetchPmList(){
+        this.model.pmseMissionList(this.toUserId, this.plid)
+        .then(re =>{
+            var msl = re.body.pmList[0].msgList
+            msl = this.convertEmoji(msl)
+            re.length = msl.length
+
+            for(let x in msl){
+
+                msl[x].date = DateUtil.convertTime(msl[x].time)
+
+                if( x == 0
+                    || msl[x].time -msl[x-1].time >120000){
+
+                    msl[x].showTime = true
+                    re.length++
+                }else{
+
+                    msl[x].showTime = false
+                }
+
+            }
+
+
+            this.render(re)
+            this.save(re)
+
+
+        })
+        .catch(re =>{
+            console.error(re)
+        })
+
+
+    }
+    /**
+     * @method render
+     * @param {object} re
+     */
+    ,render(re){
+        if(re==null || re.body == null) return;
+        this.re = re
+        this.$element("pmList"+this.plid)
+        .scrollTo({
+            index:re.length-1
+        })
+    }
+    ,async save(re){
+        if(re==null || re.body == null) return;
+        await this.model.savePmlist(this.toUserId,this.plid,re)
+        .then(data =>{
+            console.info(data,re)
+        })
+        .catch(data =>{
+            console.error(data)
+        })
     }
     ,onClickImage2(uri){
         ImageUtil.ViewImage(uri)
@@ -189,7 +261,9 @@ export default{
           message : "发送成功"
         })
 
-
+        setTimeout(function(){
+            this.fetchPmList()
+        }.bind(this),2000)
 
     }
     ,onClickUser(id){
@@ -216,6 +290,10 @@ export default{
             this.textToSend += e.detail.event.data
         }
     }
+
+    /**
+     * @method refresh 弃用
+     */
     ,async refresh(){
 
 
@@ -237,12 +315,11 @@ export default{
                   }
 
                   const saveRes = await this.model.savePmlist(this.toUserId,this.plid,re)
-
-                  setTimeout(function(){
-
-                    this.refresh()
-
-                }.bind(this),3000)
+                  const pmList = this.$element('pmList')
+                  if(pmList)
+                      pmList.scrollTo({
+                          index: 100000
+                      })
             }.bind(this)
         )
     }

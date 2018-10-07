@@ -4,7 +4,7 @@ import UserCache from '../Common/UserCache'
 import router from '@system.router'
 
 export default {
-  private: {
+  public: {
 
     /**当前登陆用户的用户名,显示在下方作为个人资料入口的标识 */
     username: "",
@@ -23,9 +23,11 @@ export default {
   }
   ,onShow(){
       $umeng_stat.resume(this)
+      this.$broadcast("show-home-view")
   }
   ,onHide() {
       $umeng_stat.pause(this)
+      this.$broadcast("hide-home-view")
   }
   , onInit() {
 

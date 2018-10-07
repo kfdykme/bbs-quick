@@ -18,7 +18,7 @@
       background-color: #eeeeee;
       margin: 16px;
 
-      height: 400px;
+      height: 500px;
 
       progress{
         color : #222222;
@@ -36,7 +36,7 @@
       }
 
       .normal{
-        /* height : 400px; */
+        height : 400px;
       }
   }
 

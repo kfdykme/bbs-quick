@@ -6,7 +6,7 @@
 
 
 <template>
-  
+
   <div class="main-page">
 
         <stack>
@@ -62,7 +62,7 @@
                 <div  class="tab-bar">
                   <text  @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'active' : ''}}"  >首页</text>
                   <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'active' : ''}}"  >板块</text>
-                  <text  @click="onClickBottom(2)" class="{{homeIndex === 2 ? 'active' : ''}}"  >消息</text>
+                  <text  @click="onClickBottom(2)" class="{{homeIndex == 2 ? 'active' : ''}}"  >消息</text>
                   <text  @click="onClickBottom(3)" class="{{homeIndex === 3 ? 'active' : ''}}"  >{{username}}</text>
 
                 </div>

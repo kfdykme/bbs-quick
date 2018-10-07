@@ -9,8 +9,10 @@
               <text class="to-user-name" >{{re.body.pmList[0].name}}</text>
 
           </div>
-          <list id="pmList" if="{{re && re.body}}">
-                <block for="(i,pm) in re.body.pmList[0].msgList" if="{{re}}">
+          <list  id="pmList{{plid}}"  >
+
+
+                <block for="(i,pm) in re.body.pmList[0].msgList">
 
 
                     <!-- 如果不是由当前用户发送的消息，就从左开始显示 -->
@@ -108,7 +110,7 @@
                     </block>
 
 
-                </block>
+                </block> 
           </list>
       </div>
       <div class="reply-view">

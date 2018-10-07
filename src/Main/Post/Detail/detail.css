@@ -72,7 +72,7 @@
                     flex-wrap: wrap;
 
                     image{
-                        width: 60px;
+                        width: 80px;
                         resize-mode :contain;
                     }
 
@@ -80,8 +80,7 @@
                         width: 100%;
                     }
 
-                    text{
-                        width: 30px;
+                    text{ 
                         height: 40px;
                     }
                 }

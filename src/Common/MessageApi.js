@@ -10,8 +10,21 @@ function init(app){
 }
 
 
+async function fetchHeart(){
+    return await fetch.fetch({
+                    url : Api.BASE_URL + "/app/web/index.php?r=message/heart",
+                    method : "POST",
+                    data :{
+                      accessToken :UserCache.token(),
+                      accessSecret :UserCache.secret(),
+                      sdkVersion : Api.sdkVersion,
+                      appHash :UserCache.appHash()
+                    }
+                })
+}
+
 /**
- * fetchMessagePost() 请求用户的帖子回复
+ * @method fetchMessagePost() 请求用户的帖子回复
  *
  * @param <function> success(re) re为object 是判断过数据是否合格的json对象的回调
  * @param <int> pageSize 每页的数据条数
@@ -33,7 +46,7 @@ function fetchMessagePost(success,pageSize = 100,page){
 
 
 /**
- * fetchMessageAtMe() 请求@用户的消息
+ * @method fetchMessageAtMe() 请求@用户的消息
  *
  * @param <function> success(re) 同上
  * @param <int> pageSize 每页的数据条数
@@ -55,8 +68,7 @@ function fetchMessageAtMe(success,pageSize = 100,page){
 
 
 /**
- * fetchMessageSystem() 请求系统消息
- *
+ * @method fetchMessageSystem() 请求系统消息
  * @param <function> success(re) 同上
  * @param <int> pageSize 每页的数据条数
  * @param <int> page 页数
@@ -76,7 +88,7 @@ function fetchMessageSystem(success,pageSize = 100,page){
 }
 
 /**
- * fetchMessagePmseMission() 获取私信消息
+ * @method fetchMessagePmseMission() 获取私信消息
  *
  * @param <function> success(re) 同上
  * @param <int> pageSize 每页的数据条数
@@ -100,7 +112,7 @@ function fetchMessagePmseMission(success,pageSize = 100, page){
 }
 
 /**
- *fetchPmseMissionList() 获取与某个用户之间的消息记录
+ * @method fetchPmseMissionList() 获取与某个用户之间的消息记录
  *
  * @param <Integer> fromUid
  * @param <Integer> plid
@@ -140,7 +152,7 @@ function fetchMessagePmseMission(success,pageSize = 100, page){
 
 
  /**
-  *fetchPmseMissionList() 获取与某个用户之间的消息记录
+  * @method fetchPmseMissionList() 获取与某个用户之间的消息记录
   *
   * @param <Integer> fromUid
   * @param <Integer> plid
@@ -199,6 +211,11 @@ function uploadPmFile(fileUri,success){
   * @param <string> content
   * @param <function> success
   */
+
+/**
+ * @method send
+ * @desc 发送私信
+ */
 function send(touid,pid,type,content,success){
     const url = "http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmadmin"
 
@@ -229,8 +246,8 @@ function send(touid,pid,type,content,success){
 
 //弃用?
 /**
- * userAdd2()
- * 返回的不是json结构的返回对象,而是js代码
+ * @method userAdd2()
+ * @desc 返回的不是json结构的返回对象,而是js代码
  *        <script>
  *            alert("您已和 Fore 成为好友");
  *                location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=a7bafa8e";
@@ -271,7 +288,7 @@ function userAdd2(uid,success){
 
 
 /**
- * dealMessageActions 处理消息(系统消息)里附带的action
+ * @method dealMessageActions 处理消息(系统消息)里附带的action
  * @param actions actions实例,是一个数组
  * @param success 成功回调
  */
@@ -302,6 +319,7 @@ function dealMessageActions(actions,suc){
 }
 
 export default{
+    fetchHeart,
   dealMessageActions,
   fetchMessagePost,
   fetchMessageAtMe,

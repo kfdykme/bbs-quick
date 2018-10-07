@@ -41,6 +41,8 @@
         },
 
         { "name": "system.device"}
+        ,{"name": "system.notification"}
+        ,{"name": "system.vibrator"}
     ],
     "permissions": [
         {
