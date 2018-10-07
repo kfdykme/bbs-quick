@@ -186,14 +186,14 @@ export default{
         this.re = re
         this.$element("pmList"+this.plid)
         .scrollTo({
-            index:re.length-1
+            index:re.length
         })
     }
     ,async save(re){
         if(re==null || re.body == null) return;
         await this.model.savePmlist(this.toUserId,this.plid,re)
         .then(data =>{
-            console.info(data,re)
+            console.log(data,re)
         })
         .catch(data =>{
             console.error(data)

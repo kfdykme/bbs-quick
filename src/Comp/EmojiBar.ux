@@ -1,7 +1,7 @@
 <template>
     <div class="emoji-bar" >
 
-        <tabs  >
+        <tabs  @change="onChangeTag">
             <tab-content class="emoji-content">
                 <block for="emoji in emojis">
                         <list class="emoji-list">
@@ -17,12 +17,10 @@
                 </block>
             </tab-content>
             <tab-bar mode="fixed" class="emoji-bottom-bar">
-                <block for="tag in tags">
-                    <div class="emoji-tag">
-                        <!-- <text>{{tag}}</text> -->
-                        <div class="tag">
+                <block for="(i,tag) in emojis">
+                    <div class="emoji-tag {{i == tagIndex ? 'active':''}}">
 
-                        </div>
+                        <image class="tag " src="http://bbs.uestc.edu.cn/static/image/smiley/{{tag.list[0].src}}"></image>
                     </div>
                 </block>
             </tab-bar>
@@ -37,12 +35,12 @@
     .emoji-bar{
         height: 50%;
 
-        background-color: #ffffff;
         margin: 40px;
         margin-top: 200px;
         border-radius: 20px;
         border-width: 2px;
         border-color: #00bcd4;
+        background-color: #eeeeee;
     }
 
 
@@ -53,11 +51,22 @@
 
         align-items: center;
         justify-content: center;
+
         div{
-            border-radius: 20px;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        image{
             width: 40px;
             height: 40px;
-            background-color:#00bcd4;
+            padding: 4px;
+            background-color: #ffffff;
+            resize-mode:contain;
+            border-radius: 16px;
+        }
+
+        .active{
+            background-color: #ffffff;
         }
         text{
             width: 100%;
@@ -86,6 +95,11 @@
             /* border-radius:40px; */
 
             image{
+                background-color: #ffffff;
+                padding: 4px;
+                width: 90%;
+                height: 90%;
+                border-radius: 16px;
                 resize-mode:cover;
             }
         }
@@ -455,7 +469,8 @@
         ],
         data :{
             tags:[],
-            emojis:[]
+            emojis:[],
+            tagIndex :0
         }
         ,view(){
 
@@ -467,6 +482,9 @@
 
 
 
+        }
+        ,onChangeTag(e){
+            this.tagIndex = e.index
         }
 
         ,onClick(e){

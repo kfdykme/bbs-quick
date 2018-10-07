@@ -1,7 +1,7 @@
 <template>
 
     <stack>
-        <image src="{{src}}" style="resize-mode : contain"></image>
+        <image src="{{src}}" @longpress="onEvent({type:'long-press-image',data:src})"style="resize-mode : contain"></image>
         <div class="imageview-tool-bar">
             <image @click="onEvent({type:type})" src="{{toolSrc}}" ></image>
         </div>
@@ -39,6 +39,7 @@
 <script>
 
     import prompt from '@system.prompt'
+    import router from '@system.router'
 
     export default {
         protected :{
@@ -80,6 +81,15 @@
                       this.$page.finish()
                   }.bind(this)
                 })
+            }
+
+            if(e.type == 'long-press-image'){
+                // router.push({
+                //     uri:"Other/Web",
+                //     params:{
+                //         baseUrl:e.data
+                //     }
+                // })
             }
         }
     }
