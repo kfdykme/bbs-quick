@@ -29,6 +29,7 @@
       commentReplyId : 0,
       showImage : false, // 是否可以加载图片了
       TAG :"Main/Post/Detail",
+      topicImages:[],
       images:[], // 本页的图片url数组,查看图片时作为参数传入
       lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
       votes:[],//投票选项id
@@ -61,6 +62,8 @@
           var rc = this.convertEmoji(list[x].reply_content)
 
         }
+
+
         return list
     }
     /**
@@ -251,7 +254,10 @@
 
         //浏览图片
         if(e.type == 'view-image'){
-            ImageUtil.ViewImage(e.data)
+            var images = this.topicImages
+            for(var x in this.images)
+                images.push(this.images[x])
+            ImageUtil.ViewImage(e.data,images)
 
         }
 
@@ -338,6 +344,18 @@
       this.topic = json.topic
 
 
+      // 如果是图片的话,添加到图片总数之中
+      this.topicImages = []
+      for(var x in json.topic.content){
+          var re = json.topic.content[x]
+
+              if(re.type == 1){
+                  this.topicImages.push(re.originalInfo)
+              }
+      }
+
+
+
       //处理投票数据
       if(this.topic.poll_info != null){
 
@@ -377,6 +395,20 @@
             this.lastReplyTime = json.list[json.list.length -1].posts_date
 
         json.list = this.convertList(json.list)
+
+
+        // 如果是图片的话,添加到图片总数之中
+        this.images = []
+        for(var x in json.list){
+            var re = json.list[x]
+            for(var y in re.reply_content){
+                var rc = re.reply_content[y]
+                if(rc.type == 1){
+                    this.images.push(rc.originalInfo)
+                }
+            }
+        }
+
         this.list = this.list.concat(json.list)
 
         this.renderReplyComplete()
@@ -411,6 +443,18 @@
             //2处理时间
 
             this.list = this.convertList(re.list)
+            // 如果是图片的话,添加到图片总数之中
+            this.images = []
+            for(var x in this.list){
+                var re = this.list[x]
+                for(var y in re.reply_content){
+                    var rc = re.reply_content[y]
+                    if(rc.type == 1){
+                        this.images.push(rc.originalInfo)
+                    }
+                }
+            }
+
             this.renderReplyComplete()
 
         } else {
@@ -449,6 +493,17 @@
             this.lastReplyTime = json.list[json.list.length -1].posts_date
 
         json.list = this.convertList(json.list)
+
+        // 如果是图片的话,添加到图片总数之中
+        for(var x in json.list){
+            var re = json.list[x]
+            for(var y in re.reply_content){
+                var rc = re.reply_content[y]
+                if(rc.type == 1){
+                    this.images.push(rc.originalInfo)
+                }
+            }
+        }
 
         this.list = this.list.concat(json.list)
 

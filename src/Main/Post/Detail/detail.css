@@ -80,7 +80,7 @@
                         width: 100%;
                     }
 
-                    text{ 
+                    text{
                         height: 40px;
                     }
                 }
@@ -216,7 +216,7 @@
 
 
                 .content-image{
-                    width:200px;
+                    width:80%;
                     margin: 8px;
                     margin-left: 72px;
                 }

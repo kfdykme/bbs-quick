@@ -14,13 +14,13 @@
               <div class="page">
 
                 <div  class="top-tab-bar {{homeIndex == 0 ? '' : 'hide'}}" >
-
-                  <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
-                  <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
-                  <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">热门话题</text>
-                  <div class="search">
-                      <image @click="onClickEvent({type:'search',data :null})" src="../Res/ic_shortcut_search.png"></image>
-                  </div>
+                    <div class="search">
+                        <image @click="onClickEvent({type:'search',data :null})" src="../Res/ic_shortcut_search.png"></image>
+                    </div>
+                    <text class="{{formIndex === 0 ? 'active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
+                    <text class="{{formIndex === 1 ? 'active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
+                    <text class="{{formIndex === 2 ? 'active' : ''}}" onclick="clickTabBar(2)">热门话题</text>
+                  
                 </div>
                 <div class="paper">
 
