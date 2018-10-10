@@ -48,25 +48,29 @@ import vibrator from '@system.vibrator'
               'page' : 1,
               'canLoadMore' :true,
               'dataLength' : 0,
-              'totalNum' : 0
+              'totalNum' : 0,
+              'has_next':1
             },
             'atme':{
               'page' : 1,
               'canLoadMore' :true,
               'dataLength' : 0,
-              'totalNum' : 0
+              'totalNum' : 0,
+              'has_next':1
             },
             'pm':{
               'page' : 1,
               'canLoadMore' :true,
               'dataLength' : 0,
-              'totalNum' : 0
+              'totalNum' : 0,
+              'has_next':1
             },
             'system':{
               'page' : 1,
               'canLoadMore' :true,
               'dataLength' : 0,
-              'totalNum' : 0
+              'totalNum' : 0,
+              'has_next':1
             }
         }
     }
@@ -162,7 +166,7 @@ import vibrator from '@system.vibrator'
             return
         }
 
-        this.cache[type].hax_next = re.has_next
+        this.cache[type].has_next = re.has_next
         this.cache[type].totalNum = re.total_num
         this.cache[type].dataLength = list.length
         this.cache[type].canLoadMore = true
@@ -208,7 +212,7 @@ import vibrator from '@system.vibrator'
                 return
             }
 
-            this.cache[type].hax_next = re.has_next
+            this.cache[type].has_next = re.has_next
 
             this.cache[type].totalNum = re.total_num
 
@@ -222,7 +226,12 @@ import vibrator from '@system.vibrator'
 
                 this.view.renderNoMore("没有更多了",type)
 
-            this.cache[type].canLoadMore  = true
+            if(    this.cache[type].has_next == 0)
+                    
+                this.view.renderNoMore("没有更多了",type)
+
+            this.cache[type].canLoadMore  = this.cache[type].has_next ==  1
+
         }
     }
 
@@ -246,7 +255,7 @@ import vibrator from '@system.vibrator'
             return
         }
 
-        this.cache[type].hax_next = re.has_next
+        this.cache[type].has_next = re.has_next
 
         this.cache[type].totalNum = re.total_num
 
@@ -266,7 +275,7 @@ import vibrator from '@system.vibrator'
 
     onRefreshComplete(tag){
 
-          if(this.cache[tag].hax_next == 0){
+          if(this.cache[tag].has_next == 0){
 
               this.cache[tag].canLoadMore = false
 

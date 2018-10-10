@@ -183,18 +183,18 @@
 
         //修改浏览顺序
         if(e.type == 'change-sort-mode'){
-
-            console.info(this.sortMode)
+ 
             if(this.sortMode == 1){
 
                 //0 清空回复
                 this.list = []
                 this.fetchReverseReplys()
+
             } else {
                 this.list = []
                 this.sortMode = 1
-                this.lastReplyTime = 0
                 this.page = 1
+                this.lastReplyTime = 0
                 this.refresh()
             }
 
@@ -634,14 +634,15 @@
     reqRefresh(e){
       this.isRefreshing = e.refreshing
 
+
       if(this.sortMode == 1){
 
           this.page = 1
-          this.lastReplyTime = 0
           this.fetchReplys()
 
       } else if(this.sortMode == 2){
           this.fetchReverseReplys()
+          this.lastReplyTime = 0
       }
     },
     refreshComplete(){

@@ -25,32 +25,6 @@ export default {
   ,onInit(){
 
 
-    var app = this.$app
-
-       //读取登陆缓存
-    storage.get({
-      key : "user",
-      success: function (data) {
-            if(data){
-                  const user = JSON.parse(data)
-
-                  if(user != null && user.rs != 0){
-
-                       app.initUser(user)
-
-                       UserCache.init(app)
-
-                       router.replace({
-                          uri: "Main"
-                      })
-                 }
-            }
-
-      },
-      fail: function (data, code) {
-          console.log(`handling fail, code = ${code}`)
-      }
-    })
 
   }
   ,doLogin () {

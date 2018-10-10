@@ -24,11 +24,11 @@ export default{
       toUserId : '',
       plid : '',
       length:0,//长度
+      images:[],
       showEmojiBar:false//是否显示表情包选择框
     }
     ,onShow(){
         $umeng_stat.resume(this)
-
     }
     ,onHide() {
         $umeng_stat.pause(this)
@@ -148,11 +148,11 @@ export default{
             var msl = re.body.pmList[0].msgList
             msl = this.convertEmoji(msl)
             re.length = msl.length
-
+            this.images = []
             for(let x in msl){
 
                 msl[x].date = DateUtil.convertTime(msl[x].time)
-
+                
                 if( x == 0
                     || msl[x].time -msl[x-1].time >120000){
 
@@ -163,6 +163,10 @@ export default{
                     msl[x].showTime = false
                 }
 
+                //
+                if(msl[x].type == 'image'){
+                    this.images.push(msl[x].content)
+                }
             }
 
 
@@ -200,7 +204,7 @@ export default{
         })
     }
     ,onClickImage2(uri){
-        ImageUtil.ViewImage(uri)
+        ImageUtil.ViewImage(uri,this.images)
     }
     ,onClickImage(){
 

@@ -76,6 +76,7 @@
 
                                   </div>
                             </list-item>
+
                             <list-item if="{{pm.type == 'emoji'}}" type="msg-right-{{pm.content.length}}">
                                 <div class="msg msg-right" >
                                     <div class="blank">
@@ -92,6 +93,7 @@
 
                                 </div>
                             </list-item>
+
                             <list-item class="item-right"type="msg-right" if="{{pm.type != 'emoji'}}">
                                   <div class="msg msg-right" >
                                       <div class="blank">
@@ -110,7 +112,7 @@
                     </block>
 
 
-                </block> 
+                </block>
           </list>
       </div>
       <div class="reply-view">
