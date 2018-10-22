@@ -77,6 +77,11 @@
 
         this.$on('choose_emoji', this.onEvent)
         this.$on('on-pick-image',this.onEvent)
+
+        //bind views
+        var loadingPage = this.$vm('loadingPage')
+        var imagePickBar = this.$vm('imagePickBar')
+        imagePickBar.loadingPage = loadingPage
       }
 
 
@@ -115,6 +120,7 @@
               this.uploadImages = e.detail
           }
       }
+
       ,onChangeGategory(e){
 
           this.board = []
@@ -134,16 +140,20 @@
               }
           }.bind(this),200)
       }
+
       ,onChangeContent(e){
           this.publishContent = e.value
       }
+
       ,onChangeTitle(e){
           this.publishTitle = e.value
       }
+
       ,onSelectBoard(e){
 
           this.onChangeBoard(JSON.parse(e.newValue))
       }
+
       ,async onChangeBoard(board){
            var key = 'classification'+board.board_id
 
@@ -193,10 +203,12 @@
             success)
 
       }
+
       ,onClickClassification(e){
           this.targetClass = e
           // console.log(id);
       }
+
       ,onPublish(){
             //console.info("id   ",this.targetBoard.board_id,"name  ",this.targetBoard.board_name);
             if(!this.isPublishing){
@@ -236,6 +248,9 @@
 
                     // console.info(publishContent)
 
+                    //显示加载中
+                    this.$broadcast('render_load')
+
                     PostApi.publish(publishJson,
                       function(data){
                         const re = JSON.parse(data.data)
@@ -250,7 +265,11 @@
             }
             this.onPublishCompelete()
       }
+
       ,onPublishCompelete(){
+
+            //加载结束
+            this.$broadcast('render_hide')
 
             this.isPublishing = false
 
@@ -260,6 +279,7 @@
             this.showUploadImageButton = true
 
       }
+
       /**
        * @method save
        * @param {string} value

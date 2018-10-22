@@ -31,6 +31,7 @@
       TAG :"Main/Post/Detail",
       topicImages:[],
       images:[], // 本页的图片url数组,查看图片时作为参数传入
+      emojiId:0, // 用于作为list-item-type的标识
       lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
       votes:[],//投票选项id
       totalNumber:0,//全部回复的数量
@@ -116,6 +117,7 @@
                     //NOTE:先用11作为带有表情包的文本
                     content.type = 11
                     content.infor = nt
+                    content.item = this.emojiId++
                 }
             }
         }
@@ -183,7 +185,7 @@
 
         //修改浏览顺序
         if(e.type == 'change-sort-mode'){
- 
+
             if(this.sortMode == 1){
 
                 //0 清空回复

@@ -3,6 +3,7 @@ import PostListModel from './PostListModel'
 
 import DateUtil from  '../Common/DateUtil'
 import router from '@system.router'
+
 /**
  * @class PostListPresenter
  * @constructor constructor
@@ -33,6 +34,8 @@ export default class PostListPresenter{
             for(x in re.list){
                 let time = re.list[x].last_reply_date
                 re.list[x].last_reply_date = DateUtil.convertTime(time)
+
+                re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
             }
             this.view.render(re.list)
         }
@@ -50,12 +53,13 @@ export default class PostListPresenter{
         // console.log("fetpost page : "+page);
 
         var success = function (re){
- 
+
             let x
             for(x in re.list){
                 let time = re.list[x].last_reply_date
                 re.list[x].last_reply_date = DateUtil.convertTime(time)
-            }
+                re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
+          }
 
 
 

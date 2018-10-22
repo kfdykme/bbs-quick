@@ -68,7 +68,7 @@
 
 
                 <!-- NOTE: 评论-表情包 -->
-                <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.infor.length}}">
+                <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.item}}">
                     <div class="topic-content big-card emoji">
 
                         <block for="e in t.infor">
@@ -194,7 +194,7 @@
                 </list-item>
 
                 <!-- NOTE: 评论-表情包 -->
-                <list-item  if="{{$item.type == 11}}" type="reply-emoji-{{$item.infor.length}}">
+                <list-item  if="{{$item.type == 11}}" type="reply-emoji-{{$item.item}}">
                     <div class="card emoji">
 
                         <block for="e in  $item.infor">
