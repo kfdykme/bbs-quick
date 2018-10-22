@@ -1,5 +1,6 @@
 <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
 <import name="image-pick-bar" src="../../../Comp/ImagePickBar.ux"></import>
+<import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
 <template>
 
     <stack>
@@ -15,7 +16,7 @@
                     </select>
 
                 </div>
-                <div class="board"  if="{{board.length != 0}}"> 
+                <div class="board"  if="{{board.length != 0}}">
 
                     <select class="board-select" @change="onSelectBoard"  >
 
@@ -46,7 +47,7 @@
                 </div>
 
 
-                <image-pick-bar></image-pick-bar> 
+                <image-pick-bar id="imagePickBar"></image-pick-bar>
                 <list class="input input-classifi" >
                     <list-item type="classi-text"  for="cl in classificationType_list">
 
@@ -59,7 +60,7 @@
 
         </div>
         <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
-
+        <loading-page id="loadingPage"></loading-page>
     </stack>
 
 </template>

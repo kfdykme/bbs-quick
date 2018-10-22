@@ -1,6 +1,7 @@
 <!-- <import name="ex-textarea" src="../../../Comp/ExTextarea.ux"></import> -->
 <import name="image-pick-bar" src="../../../Comp/ImagePickBar.ux"></import>
 <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
+<import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
 <template>
 
     <stack>
@@ -34,10 +35,12 @@
 
                 </div>
                 <textarea @change="onChange" placeholder="说点什么吧">{{replyContent}}</textarea>
-                <image-pick-bar></image-pick-bar>
+                <image-pick-bar id="replyImagePickBar"></image-pick-bar>
             </div>
         </div>
         <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
+
+        <loading-page id="replyLoadingPage"></loading-page>
     </stack>
 </template>
 
@@ -141,11 +144,7 @@
         }
         ,onShow(){
             $umeng_stat.resume(this)
-        }
-        ,onHide() {
-            $umeng_stat.pause(this)
-        }
-        ,onShow(){
+
             if (this.$app.$data.dataImageView && this.$app.$data.dataImageView.gotoPage === 'image-pick-bar') {
                 // 从数据中获取回传给本页面的数据
                const data = this.$app.$data.dataImageView.params
@@ -157,7 +156,12 @@
                this.uploadImages = newImages
                this.$broadcast('view-upload-update',this.uploadImages)
              }
+
         }
+        ,onHide() {
+            $umeng_stat.pause(this)
+        }
+
         , onInit() {
             PostApi.init(this.$app)
             UserApi.init(this.$app)
@@ -168,7 +172,30 @@
             this.$on('choose_emoji', this.onEvent)
             this.$on('on-pick-image',this.onEvent)
 
+            setTimeout(()=>{
+              //bind views
+              var loadingPage = this.$vm('replyLoadingPage')
+              var imagePickBar = this.$vm('replyImagePickBar')
 
+
+              imagePickBar.loadingPage = loadingPage
+
+            },1000)
+        }
+
+        /**
+         * @method onBackPress
+         * @return 是否拦截该事件
+         * @desc 如果正在显示emoji-bar,则关闭,否则不处理
+         */
+        ,onBackPress(){
+            if(this.showEmojiBar == true)
+            {
+                this.showEmojiBar = false
+                return true
+            }
+
+            return false
         }
         , onChange(e) {
             this.onEvent({ type: 'change-text', data: e.value })
@@ -181,10 +208,13 @@
             }
 
             if (e.type == 'send-reply') {
+
+
                 if(this.option.type == "comment"){
                     console.info("comment",this.option)
                     if(!this.isReplying){
                           this.isReplying = true
+                          this.$broadcast('render_load')
                             PostApi.comment(this.replyContent,this.uploadImages,this.option.topicId,
                               function (data){
 
@@ -199,6 +229,8 @@
 
                                 this.$broadcast('view-upload-update',this.uploadImages)
 
+                                this.$broadcast('render_hide')
+                                this.isReplying = false
                               }.bind(this))
                   }
                 } else {
@@ -207,6 +239,7 @@
 
                   if(!this.isReplying){
                         this.isReplying = true
+                        this.$broadcast('render_load')
                         PostApi.replyComment(this.replyContent,this.uploadImages,this.option.topicId,this.option.replyId,
                           function(data){
 
@@ -221,6 +254,8 @@
 
                             this.$broadcast('view-upload-update',this.uploadImages)
 
+                            this.$broadcast('render_hide')
+                            this.isReplying = false
                           }.bind(this))
                         }
 
