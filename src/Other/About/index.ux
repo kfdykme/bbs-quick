@@ -55,7 +55,7 @@
                 router.push({
                   uri : 'Main/Post/Detail',
                   params : {
-                    topicid :1735919 //特指某个帖子,暂且先写死吧
+                    topicid :1735919 //NOTE: 特指某个帖子,暂且先写死吧
                   }
                 })
             }

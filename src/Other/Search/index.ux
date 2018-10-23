@@ -17,7 +17,7 @@
 
                 <block for="t in searchTypes">
                         <div class="search-type">
-                            <text @click="onEvent({type:'change-type',data:t})" class="{{type == t ? 'active' : ''}}">{{t}}</text>
+                            <text @click="onEvent({type:'change-type',data:t})" class="{{type == t ? 'active' : ''}}">{{t == 'post'? '帖子' : '用户'}}</text>
                         </div>
                 </block>
             </div>
@@ -50,8 +50,6 @@
                     width: 75%;
                     margin-left: 16px;
                     margin-right: 16px;
-                    border-bottom-color: #aaaaaa;
-                    border-bottom-width: 1.6px;
                 }
 
                 .btn-search{
@@ -85,7 +83,7 @@
 
                     .active{
 
-                        font-size: 44px;
+                        font-size: 57px;
                     }
                 }
             }
