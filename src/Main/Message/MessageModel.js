@@ -15,7 +15,7 @@ class Message{
         this.TYPE_ATME = "atme"
         this.TYPE_PM = "pm"
         this.TYPE_SYSTEM = "system"
-        this.DEFAULT_PAGESIZE = 10
+        this.DEFAULT_PAGESIZE = 100
 
         this.tag = tag
         this.init()
@@ -60,6 +60,8 @@ export default class MessageModel{
         this.CODE_SUCCESS = 2333
         this.CODE_EMPTY = 2111
         this.TYPE_POST = "post"
+
+
         this.TYPE_ATME = "atme"
         this.TYPE_PM = "pm"
         this.TYPE_SYSTEM = "system"
@@ -178,6 +180,8 @@ export default class MessageModel{
 
             var success = function(re){
 
+
+
                 //console.info("success : "+JSON.stringify(re))
                 var list = that.convertData(re,type)
 
@@ -206,10 +210,17 @@ export default class MessageModel{
                 if(page == 1 && module.data.length != 0){
                     module.data = [re]
                     module.page = 1
+                }
+                //NOTE: 系统消息有可能第一页返回结果的长度是0
+                else if(page == 1 && module.data.length == 0 && type == that.TYPE_SYSTEM) {
+                    module.data = [re]
+                    module.page = 1
+
                 } else{
 
                     module.data.push(re)
                 }
+
 
 
                 //// FIXME:  很迷
@@ -335,7 +346,7 @@ export default class MessageModel{
 
     async loadLocalPmlist(toUserId,pid){
         const key = this.KEY+toUserId+pid
-        var local =  await storage.get({key : key}) 
+        var local =  await storage.get({key : key})
         local = local.data
         if(local == ''|| local == null) local = '{}'
         return JSON.parse(local)

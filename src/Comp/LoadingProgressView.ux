@@ -21,7 +21,7 @@
       height: 500px;
 
       progress{
-        color : #222222;
+        color : #ffffff;
         width: 120px;
         height: 120px;
       }
@@ -31,7 +31,7 @@
         width: 100%;
         font-size: 60px;
         text-align: center;
-        color : #222222;
+        color : #ffffff;
         border-radius: 18px;
       }
 

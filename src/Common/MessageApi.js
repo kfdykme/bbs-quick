@@ -76,7 +76,7 @@ function fetchMessageAtMe(success,pageSize = 100,page){
 function fetchMessageSystem(success,pageSize = 100,page){
 
       Api.fetch(
-        Api.BASE_URL + "app/web/index.php?r=message/notifylistex&type=system&pageSize="+pageSize,
+        Api.BASE_URL + "app/web/index.php?r=message/notifylistex&type=system&pageSize=100",
         {
             page : page,
             accessToken :UserCache.token(),

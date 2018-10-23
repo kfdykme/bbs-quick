@@ -114,6 +114,7 @@ import vibrator from '@system.vibrator'
                 }
                 if(rs.body.systemInfo.count != this.cacheHeart.system ){
                     this.refresh(this.TYPE_SYSTEM)
+
                     this.cacheHeart.system = rs.body.systemInfo.count
                 }
                 if( rs.body.pmInfos[0].time != this.cacheHeart.pm  ){
@@ -227,7 +228,7 @@ import vibrator from '@system.vibrator'
                 this.view.renderNoMore("没有更多了",type)
 
             if(    this.cache[type].has_next == 0)
-                    
+
                 this.view.renderNoMore("没有更多了",type)
 
             this.cache[type].canLoadMore  = this.cache[type].has_next ==  1
@@ -332,14 +333,7 @@ import vibrator from '@system.vibrator'
                         baseUrl:actions[0].redirect
                     }
                 })
-                // var onDealMessageSuccess  = function (re){
-                //
-                //     prompt.showToast({
-                //         message : re.errcode
-                //     })
-                // }
-                //
-                // MessageApi.dealMessageActions(actions,onDealMessageSuccess)
+             
 
 
             }
