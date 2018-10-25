@@ -392,6 +392,10 @@
         }
         json.list = tempList
 
+        //NOTE:更新最后的回复的时间
+        //NOTE: 该操作要在 @method convertList() 之前,否则最后的回复时间会变成字符而不是时间戳 
+        if(json.list.length != 0)
+            this.lastReplyTime = json.list[json.list.length -1].posts_date
 
         json.list = this.convertList(json.list)
 
@@ -413,9 +417,6 @@
           }
         }
 
-        //NOTE:更新最后的回复的时间
-        if(json.list.length != 0)
-            this.lastReplyTime = json.list[json.list.length -1].posts_date
 
 
 
@@ -497,6 +498,10 @@
                 tempList.push(json.list[x])
         }
         json.list = tempList
+        //DEBUG:
+        {
+          console.info(this.lastReplyTime)
+        }
 
 
         //更新最后的回复的时间
