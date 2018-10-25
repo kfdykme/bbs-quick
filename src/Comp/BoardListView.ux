@@ -1,39 +1,48 @@
 <template>
-  <div class="boardlist-page">
 
-    <list>
-      <block for="c in board">
-        <list-item class="category-item"  type="category-title">
+  <stack>
+    <div class="boardlist-page">
 
-          <div class="category">
+      <list>
+        <block for="c in board">
+          <list-item class="category-item"  type="category-title">
 
-                  <text class="board-category-name">{{c.board_category_name}}</text>
-          </div>
-        </list-item>
+            <div class="shadown-header"></div>
+            <div class="category">
 
-
-            <block for="b in c.board_list">
-                <list-item type="board-name">
-
-
-                       <text class="board-name" onclick="onClickEvent({type:'board',data :b.board_id})">{{b.board_name}} </text>
-                       <text class="board-post-date" onclick="onClickEvent({type:'board',data :b.board_id})" >{{b.last_posts_date}} </text>
-
-                </list-item>
-            </block>
+              <text class="board-category-name">{{c.board_category_name}}</text>
+              <!-- <div class="shadown-header"></div> -->
+            </div>
+          </list-item>
 
 
+          <block for="b in c.board_list">
+            <list-item type="board-name">
 
-      </block>
-    </list>
+
+              <text class="board-name" onclick="onClickEvent({type:'board',data :b.board_id})">{{b.board_name}} </text>
+              <text class="board-post-date" onclick="onClickEvent({type:'board',data :b.board_id})" >{{b.last_posts_date}} </text>
+
+            </list-item>
+          </block>
 
 
-  </div>
+
+        </block>
+      </list>
+
+
+    </div>
+    <div class="shadown">
+      <div class="shadown-header"></div>
+      <div class="shadown-footer"></div>
+    </div>
+  </stack>
 </template>
 
 
 <style lang="less">
-
+  @import './shadown.less';
   .boardlist-page{
     flex-direction:column;
     justify-content: center;
@@ -48,16 +57,15 @@
 
         .category-item{
           column-span :2;
+          flex-direction: column;
         }
 
         .category{
 
 
-            flex-direction: row;
             width: 100%;
-            margin-top: 20px;
-            margin-left: 16px;
-            padding-left: 8px;
+            padding-top: 20px;
+            padding-left: 24px;
 
 
             .board-category-name{

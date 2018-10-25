@@ -30,20 +30,25 @@
           <tabs onchange="changeTabBoard"  index="{{boardIndex}}" class="board-content">
               <tab-content >
 
-                    <post-list-view type="board" tag="{{boardId}}"  ></post-list-view>
+                    <div>
+                      <post-list-view type="board" tag="{{boardId}}"  ></post-list-view>
+
+                    </div>
                     <block for="b in boardList">
-                          <post-list-view type="board" tag="{{b.board_id}}"  ></post-list-view>
+                      <div>
+                        <post-list-view type="board" tag="{{b.board_id}}"  ></post-list-view>
+
+                      </div>
                     </block>
 
               </tab-content>
 
           </tabs>
 
-    </div>
+        </div>
 
 
-
-      <float-bar></float-bar>
+        <float-bar></float-bar>
     </stack>
 
 

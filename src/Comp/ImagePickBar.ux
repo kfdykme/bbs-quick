@@ -56,19 +56,20 @@
 
     import media from "@system.media"
     import prompt from "@system.prompt"
-
     import ImageUtil from "../Common/ImageUtil"
     import MessageApi from "../Common/MessageApi"
+
+
     export default {
         props:[
 
         ]
         ,data:{
-            showUploadImageButton:true,
-            uploadImages:[]
+          showUploadImageButton:true,
+          uploadImages:[]
         }
         ,onInit(){
-            this.$on('view-upload-update',this.onEvent)
+          this.$on('view-upload-update',this.onEvent)
 
           MessageApi.init(this.$app)
         }
@@ -94,7 +95,7 @@
                       }
 
                   }.bind(this))
-               
+
 
                 if(this.loadingPage){
                   this.loadingPage.renderLoad()

@@ -1,6 +1,6 @@
 <template>
   <div class="loading-page">
-    <div  if="{{showPage}}" class="dialog">
+    <div  show="{{showPage}}" class="dialog">
         <progress type="circular">
 
         </progress>
@@ -42,6 +42,7 @@
     onInit(){
 
         this.$on('render_load',this.renderLoad)
+
         this.$on('render_hide',this.renderHide)
     }
     ,renderLoad(){

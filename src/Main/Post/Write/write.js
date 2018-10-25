@@ -23,6 +23,9 @@
         publishContent : "",
         isPublishing : false,
         showEmojiBar:false, //是否显示选择emoji的框框的boolean
+
+        showLoadingPage :true,
+
         uploadImages:[],//保存已经上传的图片的数组
         showUploadImageButton:true // 是否显示上传图片的按钮
 
@@ -212,7 +215,7 @@
       ,onPublish(){
             //console.info("id   ",this.targetBoard.board_id,"name  ",this.targetBoard.board_name);
             if(!this.isPublishing){
-
+                    this.isPublishing = true;
                     var contentList = []
                     var publishContent = {}
 
@@ -249,7 +252,8 @@
                     // console.info(publishContent)
 
                     //显示加载中
-                    this.$broadcast('render_load')
+                    //// FIXME: 有bug没办法采用本地变量
+                    this.showLoadingPage  = true;
 
                     PostApi.publish(publishJson,
                       function(data){
@@ -258,6 +262,7 @@
                         prompt.showToast({
                           message : re.errcode
                         })
+                        this.showLoadingPage  = false;
                         this.onPublishCompelete()
                       }.bind(this))
 

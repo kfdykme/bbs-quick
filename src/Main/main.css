@@ -1,4 +1,4 @@
-
+  @import "../Comp/base.less";
 
   .main-page {
 
@@ -39,7 +39,7 @@
                     .active{
                         margin-bottom: 16px;
                         border-bottom-width: 4px;
-                        border-color: #00bcd4;
+                        border-color: @primaryColor;
                     }
 
                     .search{
@@ -49,7 +49,7 @@
                       margin-left: -40px;
                       align-items: center;
                       margin-right: 8px;
-                      background-color: #00bcd4;
+                      background-color: @primaryColor;
                       border-radius: 48px;
 
                         image{
@@ -77,8 +77,8 @@
                   }
 
                   .active{
-                    background-color: #00bcd4;
-                    color: #ffffff;
+                    background-color: @primaryColor;
+                    color: @white;
                   }
 
 

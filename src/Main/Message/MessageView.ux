@@ -17,61 +17,69 @@
           <tab-content >
 
               <block for="m in msgList">
-                  <div class="message-list" >
+                <div class="">
+                  <stack>
+                    <div class="message-list" >
 
-                        <refresh @refresh="onRefrsh(m)" refreshing={{m.isRefreshing}}>
-                              <list @scrollbottom="onScrollBottom(m)">
-                                      <block  for="{{m.list}}">
-
-
-
-                                            <list-item type="message-item-header" >
-                                                <div class="header card">
+                      <refresh @refresh="onRefrsh(m)" refreshing={{m.isRefreshing}}>
+                        <list @scrollbottom="onScrollBottom(m)">
+                          <block  for="{{m.list}}">
 
 
-                                                    <img class="avatar" @click="onEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
-                                                    <div class="header-text">
 
-                                                        <text class="user-nike-name" @click="onEvent('user',$item.toUserId)">{{$item.toUserName}}</text>
-                                                        <text class="user-nike-name" @click="onEvent('user',$item.user_id)">{{$item.user_name}}</text>
-                                                        <text class="date" >{{$item.replied_date}}</text>
+                            <list-item type="message-item-header" >
+                              <div class="header card">
 
 
-                                                        <div class="">
+                                <img class="avatar" @click="onEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
+                                <div class="header-text">
+
+                                  <text class="user-nike-name" @click="onEvent('user',$item.toUserId)">{{$item.toUserName}}</text>
+                                  <text class="user-nike-name" @click="onEvent('user',$item.user_id)">{{$item.user_name}}</text>
+                                  <text class="date" >{{$item.replied_date}}</text>
 
 
-                                                            <!-- 帖子回复 -->
-                                                            <text class="content" @click="onEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag == 'post'}}">{{$item.topic_subject}}</text>
-                                                            <!-- atme -->
-                                                            <text class="atme-content" @click="onEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag =='atme'}}">{{$item.topic_content}}</text>
-                                                            <!-- 私信 -->
-                                                            <text class="pm-content" @click="onEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 'pm'}}">{{$item.topic_content}}</text>
-                                                            <!-- 系统消息 -->
-                                                            <text class="system-content"  @click="onEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 'system'}}">{{$item.topic_content}}</text>
-                                                            <text class="action-btn" @click="onEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}">同意</text>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                  <div class="">
 
 
-                                            </list-item>
+                                    <!-- 帖子回复 -->
+                                    <text class="content" @click="onEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag == 'post'}}">{{$item.topic_subject}}</text>
+                                    <!-- atme -->
+                                    <text class="atme-content" @click="onEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag =='atme'}}">{{$item.topic_content}}</text>
+                                    <!-- 私信 -->
+                                    <text class="pm-content" @click="onEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 'pm'}}">{{$item.topic_content}}</text>
+                                    <!-- 系统消息 -->
+                                    <text class="system-content"  @click="onEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 'system'}}">{{$item.topic_content}}</text>
+                                    <text class="action-btn" @click="onEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}">同意</text>
+                                  </div>
+                                </div>
+                              </div>
 
-                                            <list-item type="messaage-item-reply"  >
-                                                <div class="section card">
 
-                                                    <text class="reply-content" @click="onEvent('topic',$item.topic_id)" >{{$item.reply_content ? $item.reply_content : $item.content }}</text>
-                                                </div>
-                                            </list-item>
+                            </list-item>
+
+                            <list-item type="messaage-item-reply"  >
+                              <div class="section card">
+
+                                <text class="reply-content" @click="onEvent('topic',$item.topic_id)" >{{$item.reply_content ? $item.reply_content : $item.content }}</text>
+                              </div>
+                            </list-item>
 
 
-                                      </block>
+                          </block>
 
-                                      <list-item type="loadingProgress" >
-                                          <loading-progress-view tag="{{m.tag}}" ></loading-progress-view>
-                                      </list-item>
-                              </list>
-                        </refresh>
-                  </div>
+                          <list-item type="loadingProgress" >
+                            <loading-progress-view tag="{{m.tag}}" ></loading-progress-view>
+                          </list-item>
+                        </list>
+                      </refresh>
+                    </div>
+                    <div class="shadown">
+                      <div class="shadown-header"></div>
+                      <div class="shadown-footer"></div>
+                    </div>
+                  </stack>
+                </div>
 
               </block>
 
@@ -84,6 +92,8 @@
 
 
 <style lang="less">
+
+    @import '../../Comp/shadown.less';
 
 
     .message-view{
@@ -358,7 +368,7 @@
                       clickAction:{
                           uri : "/Main?homeIndex=2"
                       }
-                  }) 
+                  })
               prompt.showToast({
                   message:"有新的消息"
               })

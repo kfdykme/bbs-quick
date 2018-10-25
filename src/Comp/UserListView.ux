@@ -3,6 +3,9 @@
 
 
 <template >
+
+  <stack>
+
   <div class="user-list-view" >
 
     <refresh onrefresh="dore" refreshing={{isRefreshing}}>
@@ -25,11 +28,32 @@
 
   </refresh>
   </div>
+  <div class="shadown">
+    <div class="shadown-header">
+
+    </div>
+    <div class="shadown-footer">
+
+    </div>
+  </div>
+</stack>
 
 </template>
 
 
 <style lang="less">
+
+  @import './shadown.less';
+  
+  stack{
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height:100%;
+      width:100%;
+
+
+  }
 
 .user-list-view {
   flex-direction: column;
