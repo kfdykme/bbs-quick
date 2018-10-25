@@ -167,9 +167,9 @@
                                <div class="blank-item">
 
                                </div>
-                              <text class="btn card "   @click="onClickEvent('favorite',uid)" value="我的收藏"></text>
-                               <text class="btn card "  @click="onClickEvent('about')" value="关于"></text>
-                               <text class="btn btn-logout card "   @click="onClickEvent('logout')" value="注销"></text>
+                              <text class="btn card "   @click="onClickEvent('favorite',uid)"  >我的收藏</text>
+                               <text class="btn card "  @click="onClickEvent('about')"  >关于</text>
+                               <text class="btn btn-logout card "   @click="onClickEvent('logout')" >注销  </text>
                            </div>
                            <div class="shadown">
                              <div class="shadown-header">
