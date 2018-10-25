@@ -24,18 +24,20 @@
       page : 1,
       commentSend : "发送",
       commentContent : "",
-      showCommentBtn : false,//是否显示评论按钮
+      showCommentBtn : false,                   //是否显示评论按钮
       commentBtnText : "评论",
       commentReplyId : 0,
-      showImage : false, // 是否可以加载图片了
+      showImage : false,                        // 是否可以加载图片了
       TAG :"Main/Post/Detail",
       topicImages:[],
-      images:[], // 本页的图片url数组,查看图片时作为参数传入
-      emojiId:0, // 用于作为list-item-type的标识
-      lastReplyTime :0,//最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
-      votes:[],//投票选项id
-      totalNumber:0,//全部回复的数量
-      sortMode: 1//正序还是倒序
+      images:[],                                // 本页的图片url数组,查看图片时作为参数传入
+      emojiId:0,                                // 用于作为list-item-type的标识
+      lastReplyTime :0,                         //最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
+      votes:[],                                 //投票选项id
+      totalNumber:0,                            //全部回复的数量
+      sortMode: 1,                              //正序还是倒序
+      topNumber: 0,                             //置顶的回复数,用于显示楼层时去掉置顶项
+      DEFAULT_PAGE_SIZE:25,                     //默认每页加载回复数
     }
     ,onShow(){
         $umeng_stat.resume(this)
@@ -57,7 +59,10 @@
 
           list[x].posts_date = DateUtil.convertTime(list[x].posts_date)
 
-          // list[x].showAct = false
+          // NOTE: 判断是否是置顶的回复,是的话就topNumber++
+          if(list[x].poststick == 1){
+            this.topNumber++
+          }
 
           //处理表情
           var rc = this.convertEmoji(list[x].reply_content)
@@ -131,7 +136,7 @@
 
 
         //刷新...
-        if(this.list.length <25) {
+        if(this.list.length <this.DEFAULT_PAGE_SIZE) {
 
               this.page = 1
               this.fetchReplys()
@@ -149,11 +154,7 @@
 
       this.$on('choose_emoji', this.onEvent)
     }
-    ,onBackPress(){
 
-
-        return false
-    }
     ,onShow(){
         this.refresh()
     }
@@ -383,7 +384,7 @@
 
       if(json.list != null && json.list.length != 0){
 
-        //根据筛选json.list里面的东西
+        //根据缓存中的最后一个帖子的{{posts_date}}时间筛选json.list里面的东西
         var tempList = []
         for(var x in json.list){
         if(json.list[x].posts_date > this.lastReplyTime)
@@ -391,36 +392,44 @@
         }
         json.list = tempList
 
-        //更新最后的回复的时间
-
-        if(json.list.length != 0)
-            this.lastReplyTime = json.list[json.list.length -1].posts_date
 
         json.list = this.convertList(json.list)
 
-
-        // 如果是图片的话,添加到图片总数之中
+        //NOTE 处理数据
         this.images = []
         for(var x in json.list){
-            var re = json.list[x]
-            for(var y in re.reply_content){
-                var rc = re.reply_content[y]
-                if(rc.type == 1){
-                    this.images.push(rc.originalInfo)
-                }
+          var re = json.list[x]
+
+          //NOTE:如果是图片的话,添加到图片总数之中
+          for(var y in re.reply_content){
+            var rc = re.reply_content[y]
+            if(rc.type == 1){
+              this.images.push(rc.originalInfo)
             }
+          }
+
+          if(re.position <= this.DEFAULT_PAGE_SIZE+this.topNumber+1){
+            re.position -= this.topNumber
+          }
         }
+
+        //NOTE:更新最后的回复的时间
+        if(json.list.length != 0)
+            this.lastReplyTime = json.list[json.list.length -1].posts_date
+
+
+
 
         this.list = this.list.concat(json.list)
 
         this.renderReplyComplete()
 
-        if(json.list.length < 25 || json.has_next == 0){
+        if(json.list.length < this.DEFAULT_PAGE_SIZE || json.has_next == 0){
 
              this.renderError("没有更多了")
         }
 
-        if(json.list.length == 25)
+        if(json.list.length >= this.DEFAULT_PAGE_SIZE)
             this.page = this.page +1
 
       }  else {
@@ -509,12 +518,12 @@
 
         this.list = this.list.concat(json.list)
 
-       if(json.list.length < 25 || json.has_next == 0){
+       if(json.list.length < this.DEFAULT_PAGE_SIZE || json.has_next == 0){
 
             this.renderError("没有更多了")
        }
 
-       if(json.list.length == 25)
+       if(json.list.length >= this.DEFAULT_PAGE_SIZE)
            this.page = this.page +1
 
         this.renderReplyComplete()
@@ -599,10 +608,6 @@
                 this.renderMoreReply(json)
               }
 
-
-              // //如果 json.list.lengt 等于25 就是说这一页已经加载完成了,下一次就可以加载下一页了
-              // if(json.list.length == 25)
-              //   this.page = this.page +1
             } else {
               this.renderError(json.errcode)
             }

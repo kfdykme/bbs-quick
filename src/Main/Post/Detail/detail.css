@@ -1,4 +1,10 @@
-
+  .high-light{
+      color: #f17c67;
+      font-weight: bold;
+      border-radius: 2px;
+      border-width: 2px;
+      border-color: #f17c67;
+  }
   .post-page{
     flex-direction: column;
     justify-content: center;

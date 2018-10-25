@@ -143,6 +143,7 @@
               <list-item type="reply-header">
                   <div class="reply-header card">
 
+                      <text class="high-light" show="{{re.poststick == 1}}">置顶</text>
                       <image class="avatar" @click="onEvent({type:'user',data:re.reply_id})" src="{{re.icon}}"/>
 
                       <div class="header-text">
@@ -222,6 +223,7 @@
                   <div class="reply-exinfo">
 
                     <text show="{{re.extraPanel[0].extParams.recommendAdd!=0}}" class="reply-support" >{{re.extraPanel[0].extParams.recommendAdd}}点赞</text>
+                    
                     <text class="reply-position">{{re.position}}楼</text>
                   </div>
 
