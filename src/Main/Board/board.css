@@ -1,4 +1,5 @@
 
+
   .board-page{
         flex-direction: column;
 
@@ -73,7 +74,7 @@
                     .tab-content{
                           height: 100%;
                           background-color: #eeeeee;
- 
+
                     }
               }
 

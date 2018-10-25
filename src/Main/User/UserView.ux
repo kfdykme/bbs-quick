@@ -40,53 +40,64 @@
                         <text class="{{ tabIndex === 1 ?'tab-title' : ''}}">其他资料</text>
                     </tab-bar>
                     <tab-content >
-                        <div >
-
-                                <post-list-view type="me-publish" tag="{{uid}}"  ></post-list-view>
+                        <div>
+                          <post-list-view type="me-publish" tag="{{uid}}"  ></post-list-view>
                         </div>
-                        <div class="other-info">
-                            <!-- NOTE: 回复,关注,粉丝 -->
-                            <div class="user-second-info card">
+                        <div>
+                          <stack>
+                            <div class="other-info">
+                              <!-- NOTE: 回复,关注,粉丝 -->
+                              <div class="user-second-info card">
 
-                                    <div  class="info-active-item"
-                                        @click="onClickEvent('replycount',uid)">
-                                        <text class="info-value">{{replyTotalNumber}}</text>
-                                        <text class="info-title"> 参与 </text>
-                                    </div>
-                                    <text>|</text>
-                                    <div  class="info-active-item"
+                                <div  class="info-active-item"
+                                @click="onClickEvent('replycount',uid)">
+                                <text class="info-value">{{replyTotalNumber}}</text>
+                                <text class="info-title"> 参与 </text>
+                              </div>
+                              <text>|</text>
+                              <div  class="info-active-item"
 
-                                     @click="onClickEvent('lookfollow',uid)"  >
-                                        <text class="info-value">{{followNumber}}</text>
-                                        <text class="info-title"> 关注 </text>
-                                    </div>
-                                    <text>|</text>
+                              @click="onClickEvent('lookfollow',uid)"  >
+                              <text class="info-value">{{followNumber}}</text>
+                              <text class="info-title"> 关注 </text>
+                            </div>
+                            <text>|</text>
 
-                                   <div  class="info-active-item" @click="onClickEvent('lookfollowed',uid)" >
-                                        <text class="info-value">{{followerNumber}}</text>
-                                        <text class="info-title"> 粉丝 </text>
-                                    </div>
-
+                            <div  class="info-active-item" @click="onClickEvent('lookfollowed',uid)" >
+                              <text class="info-value">{{followerNumber}}</text>
+                              <text class="info-title"> 粉丝 </text>
                             </div>
 
-                            <!-- NOTE: 其他资料 -->
+                          </div>
 
-                            <div if="{{userInfo.email != '' && userInfo.email}}"   class="info-item card ">
-                                <text>email : {{userInfo.email}}</text>
+                          <!-- NOTE: 其他资料 -->
+
+                          <div if="{{userInfo.email != '' && userInfo.email}}"   class="info-item card ">
+                            <text>email : {{userInfo.email}}</text>
+
+                          </div>
+
+                          <block for=" p in userInfo.body.profileList">
+
+                            <div if="{{p.data != ''}}"   class="info-item card ">
+                              <text>{{p.title}} : {{p.data}}</text>
 
                             </div>
+                          </block>
 
-                            <block for=" p in userInfo.body.profileList">
+                          <div class="blank-item">
 
-                                <div if="{{p.data != ''}}"   class="info-item card ">
-                                    <text>{{p.title}} : {{p.data}}</text>
+                          </div>
+                            </div>
+                            <div class="shadown">
+                              <div class="shadown-header">
 
-                                </div>
-                            </block>
+                              </div>
+                              <div class="shadown-footer">
 
-                           <div class="blank-item">
-
-                           </div>
+                              </div>
+                            </div>
+                          </stack>
                         </div>
                     </tab-content>
                 </tabs>
@@ -115,49 +126,60 @@
                        <div  >
                                <user-list-view uid="{{uid}}" tag="friend"></user-list-view>
                        </div>
-                       <div class="other-info">
+                       <div>
+                         <stack>
+                           <div class="other-info">
 
-                           <!-- NOTE: 回复,关注,粉丝 -->
-                           <div class="user-second-info card">
+                               <!-- NOTE: 回复,关注,粉丝 -->
+                               <div class="user-second-info card">
 
-                                   <div  class="info-active-item"
-                                       @click="onClickEvent('replycount',uid)">
-                                       <text class="info-value">{{replyTotalNumber}}</text>
-                                       <text class="info-title"> 参与 </text>
-                                   </div>
-                                   <text>|</text>
-                                   <div  class="info-active-item"
-                                    @click="onClickEvent('lookfollow',uid)"  >
-                                       <text class="info-value">{{followNumber}}</text>
-                                       <text class="info-title"> 关注 </text>
-                                   </div>
-                                   <text>|</text>
+                                       <div  class="info-active-item"
+                                           @click="onClickEvent('replycount',uid)">
+                                           <text class="info-value">{{replyTotalNumber}}</text>
+                                           <text class="info-title"> 参与 </text>
+                                       </div>
+                                       <text>|</text>
+                                       <div  class="info-active-item"
+                                        @click="onClickEvent('lookfollow',uid)"  >
+                                           <text class="info-value">{{followNumber}}</text>
+                                           <text class="info-title"> 关注 </text>
+                                       </div>
+                                       <text>|</text>
 
-                                   <div  class="info-active-item" @click="onClickEvent('lookfollowed',uid)" >
-                                       <text class="info-value">{{followerNumber}}</text>
-                                       <text class="info-title"> 粉丝 </text>
-                                   </div>
-
-                           </div>
-
-                           <!-- NOTE: 其他资料 -->
-                           <div if="{{userInfo.email != '' && userInfo.email }}"   class="info-item card ">
-                               <text>email : {{userInfo.email}}</text>
-
-                           </div>
-                           <block for=" p in userInfo.body.profileList">
-                               <div if="{{p.data != ''}}"  class="info-item card">
-                                   <text>{{p.title}} : {{p.data}}</text>
+                                       <div  class="info-active-item" @click="onClickEvent('lookfollowed',uid)" >
+                                           <text class="info-value">{{followerNumber}}</text>
+                                           <text class="info-title"> 粉丝 </text>
+                                       </div>
 
                                </div>
-                           </block>
-                           <div class="blank-item">
 
+                               <!-- NOTE: 其他资料 -->
+                               <div if="{{userInfo.email != '' && userInfo.email }}"   class="info-item card ">
+                                   <text>email : {{userInfo.email}}</text>
+
+                               </div>
+                               <block for=" p in userInfo.body.profileList">
+                                   <div if="{{p.data != ''}}"  class="info-item card">
+                                       <text>{{p.title}} : {{p.data}}</text>
+
+                                   </div>
+                               </block>
+                               <div class="blank-item">
+
+                               </div>
+                              <text class="btn card "   @click="onClickEvent('favorite',uid)" value="我的收藏"></text>
+                               <text class="btn card "  @click="onClickEvent('about')" value="关于"></text>
+                               <text class="btn btn-logout card "   @click="onClickEvent('logout')" value="注销"></text>
                            </div>
-                         <input show="false" class="btn card " type="button" @click="onClickEvent('history',uid)" value="历史记录"></input>
-                           <input class="btn card " type="button" @click="onClickEvent('favorite',uid)" value="我的收藏"></input>
-                           <input class="btn card " type="button" @click="onClickEvent('about')" value="关于"></input>
-                           <input class="btn btn-logout card " type="button" @click="onClickEvent('logout')" value="注销"></input>
+                           <div class="shadown">
+                             <div class="shadown-header">
+
+                             </div>
+                             <div class="shadown-footer">
+
+                             </div>
+                           </div>
+                         </stack>
                        </div>
                      </tab-content>
                </tabs>
@@ -169,13 +191,43 @@
 
 <style lang="less">
 
+  @import '../../Comp/shadown.less';
+  @import '../../Comp/card.less';
+  @import "../../Comp/base.less";
 
+
+  stack{
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height:100%;
+      width:100%;
+        .shadown{
+          height: 100%;
+          width: 100%;
+          flex-direction: column;
+          justify-content: space-between;
+          .shadown-header{
+            height:10px;
+            width:100%;
+            opacity:0.7;
+            background: linear-gradient(rgba(0,0,0,0.3),rgba(255,255,255,0));
+          }
+
+          .shadown-footer{
+            height:10px;
+            width:100%;
+            background: linear-gradient(rgba(255,255,255,0),rgba(0,0,0,0.3));
+
+          }
+        }
+  }
 
 
     .user-page{
 
 
-                background-color: #eeeeee;
+                background-color: @primaryBackground;
                 width: 100%;
                 flex-direction: column;
 
@@ -201,7 +253,7 @@
                         background: linear-gradient(to top,rgba(0,0,0,0.3),rgba(0,0,0,0.0));
 
                         text{
-                            color:#ffffff;
+                            color:@white;
 
                             font-weight: bold;
                             padding: 16px;
@@ -224,19 +276,13 @@
 
 
 
-                .card{
-                    width: 100%;
-                    background-color: #ffffff;
-                    margin-left: 16px;
-                    margin-right:16px;
-                }
 
                 .blank-item{
                     flex-grow: 1;
                 }
 
                 tab-bar{
-                    background-color:#ffffff;
+                    background-color:@white;
 
                     text{
 
@@ -252,7 +298,8 @@
 
                 .other-info{
                     flex-direction: column;
-
+                    width: 100%;
+                    height: 100%;
                     .info-item{
                         margin-left: 0px;
                         margin-right: 0px;
@@ -295,7 +342,7 @@
                     }
 
                     text{
-                        color:#333333;
+                        color:@textColor;
                     }
 
 
@@ -314,15 +361,15 @@
 
                     .others-action-bar{
 
-                        background-color: #ffffff;
+                        background-color: @white;
 
                         .others-action-btn{
                             flex-grow: 1;
                             text-align: center;
                             padding: 16px;
-                            color: #ffbc4d;
+                            color:@primaryColor;
                             border-width: 4px;
-                            border-color: #ffbc4d;
+                            border-color:@primaryColor;
                             border-radius: 16px;
                             margin: 8px;
                         }
@@ -340,22 +387,23 @@
                     .other-info{
                         flex-direction: column;
                         justify-content: flex-end;
+                        width: 100%;
+                        height: 100%;
 
                         .btn{
-
+                            margin-left:0px;
+                            margin-right:0px;
                             height: 100px;
                             text-align: center;
-                            color:#00bcd4;
+                            color:@primaryColor;
                             padding: 16px;
-                            margin-left: 0px;
-                            margin-right: 0px;
                             margin-bottom: 16px;
                         }
 
 
                         .btn-logout{
 
-                            color: #ff645e;
+                            color:@accentColor;
                         }
                     }
 

@@ -113,7 +113,7 @@ export default class MessageModel{
                for (let x in list){
                  var l = list[x]
                  l.replied_date = DateUtil.convertTime(l.lastDateline)
-                 l.topic_content = l.lastSummary == "" ? "[image]" : l.lastSummary
+                 l.topic_content = l.lastSummary == "" ? "[图片]" : l.lastSummary
                  l.icon = l.toUserAvatar
                }
 
