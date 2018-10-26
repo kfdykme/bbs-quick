@@ -94,12 +94,12 @@
                                 </div>
                             </list-item>
 
-                            <list-item class="item-right"type="msg-right" if="{{pm.type != 'emoji'}}">
+                            <list-item class="item-right" type="msg-right" if="{{pm.type != 'emoji'}}">
                                   <div class="msg msg-right" >
                                       <div class="blank">
 
                                       </div>
-                                      <div class="">
+                                      <div >
 
                                           <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
                                       </div>
@@ -138,7 +138,7 @@
 
       </div>
   </div>
-  <emoji-bar if="{{showEmojiBar}}"></emojibar>
+  <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
 </stack>
 </template>
 

@@ -1,5 +1,7 @@
   @import "../Comp/base.less";
 
+
+
   .main-page {
 
       flex-direction: column;
@@ -42,13 +44,28 @@
                         border-color: @primaryColor;
                     }
 
+                    > stack{
+
+                      flex-direction: row;
+                      height: 100px;
+                    }
+
+                    .shadown-to-right{
+                      width: 55px;
+                      margin-left: 5px;
+                      height: 100%;
+                      background: linear-gradient(to right,rgba(0,0,0,0.25),rgba(255,255,255,0));
+                      /* border-radius: 30px; */
+                    }
+
                     .search{
                       justify-content: center;
                       padding: 16px;
-                      padding-left: 43px;
+                      padding-left: 40px;
                       margin-left: -40px;
                       align-items: center;
                       margin-right: 8px;
+                      height: 100%;
                       background-color: @primaryColor;
                       border-radius: 48px;
 

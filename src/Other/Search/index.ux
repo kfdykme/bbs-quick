@@ -9,7 +9,7 @@
 
 
             <div class="search-input-bar">
-                <input class="input-search" type="text" @change="onChange({type:'change-key'})"  ></input>
+                <input class="input-search"  @change="onChange({type:'change-key'})"  ></input>
                 <input class="btn-search" @click="onEvent({type:'do-search'})" type="button" value="搜索"></input>
             </div>
 

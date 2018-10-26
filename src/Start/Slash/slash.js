@@ -18,7 +18,7 @@ export default {
   ,async onInit(){
 
       var startTime = new Date().getTime()
-    //读取登陆缓存
+    //读取登陆缓存 
     await storage.get({
         key : "user"
     }).then(data =>{

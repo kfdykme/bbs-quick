@@ -6,7 +6,7 @@
                     <div class="input-image-item">
                         <image @click="onEvent({type:'view-image',data:image})" src="{{image}}"></image>
                     </div>
-                </list-item type="pick-image">
+                </list-item>
             </block>
         </list>
         <div class="input-image-upload" if="{{showUploadImageButton}}">

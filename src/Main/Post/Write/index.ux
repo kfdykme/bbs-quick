@@ -16,13 +16,10 @@
                     </select>
 
                 </div>
-                <div class="board"  if="{{board.length != 0}}">
-
-                    <select class="board-select" @change="onSelectBoard"  >
-
-                        <option id="board-select-option-{{i}}"   selected="{{i == 0}}" value="{{b}}" for="(i,b) in board">{{b.board_name}}</option>
-
-                    </select>
+                <div class="board"  if="{{targetBoard}}">
+ 
+                   
+                   <text @click="onEvent({type:'click-selected-board'})">{{targetBoard.board_name}}</text>
 
                 </div>
 
@@ -31,7 +28,7 @@
             <div class="write-content">
 
                 <div class="input input-header">
-                    <input id="publish-title" @change="onChangeTitle" class="input-title" placeholder="请输入标题" type="text"  value="{{publishTitle}}"></input>
+                    <input id="publish-title" @change="onChangeTitle" class="input-title" placeholder="请输入标题"  value="{{publishTitle}}"></input>
 
                     <div class="btn">
                         <text  @click="onPublish" >发布</text>
@@ -67,6 +64,12 @@
 
             </progress>
           </div>
+        </div>
+        <div class='board-select-page' show="{{showBoard}}">
+            
+            <div  for="b in board"  @click="onEvent({type:'select-board',data:b})">
+                <text  @click="onEvent({type:'select-board',data:b})" >{{b.board_name}}</text>
+            </div>
         </div>
     </stack>
 

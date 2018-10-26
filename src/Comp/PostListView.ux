@@ -1,81 +1,73 @@
+<import name="loading-progress-view" src="./LoadingProgressView">
+</import>
 
-<import name="loading-progress-view" src="./LoadingProgressView"></import>
-
-<template >
+<template>
   <stack>
 
-    <div class="post-list-view" >
+    <div class="post-list-view">
 
       <refresh onrefresh="dore" refreshing={{isRefreshing}}>
         <list onscrollbottom="onScrollBottom">
 
 
-          <block  for="{{list}}">
+          <block for="{{list}}">
 
 
 
-            <list-item type="post-item-header" >
+            <list-item type="post-item-header">
 
               <div class="header card">
 
-                <img class="avatar"  @click="onClickEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}"/>
+                <image class="avatar" @click="onClickEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}"></image>
                 <div class="header-text">
                   <div class="line-one">
 
-                    <div class="">
-                      <text
-                      class="user-nike-name"
-                      @click="onClickEvent({type :'user',data : $item.user_id})">
-                      {{$item.user_nick_name}}
+                    <div>
+                      <text class="user-nike-name" @click="onClickEvent({type :'user',data : $item.user_id})">
+                        {{$item.user_nick_name}}
+                      </text>
+
+                      <image show="{{$item.gender != null && $item.gender != 0}}" src="{{$item.gender == 1 ? '/Res/ic_male.png' : '/Res/ic_female.png'}}">
+                      </image>
+
+                    </div>
+                    <text class="board-name">
+                      {{$item.board_name}}
                     </text>
 
-                    <image
-                    show="{{$item.gender != null && $item.gender != 0}}"
-                    src="{{$item.gender == 1 ? '/Res/ic_male.png' : '/Res/ic_female.png'}}">
-                  </image>
+                  </div>
+                  <div class="header-title-bar" onclick="onClickEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
 
+                    <text class="high-light" show="{{$item.vote == 1}}">投票</text>
+                    <text class="high-light" show="{{$item.hot == 1}}">热门</text>
+                    <text class="high-light" show="{{$item.top == 1}}">置顶</text>
+                    <text class="title">
+                      {{$item.title}}
+                    </text>
+                  </div>
+                  <text class="date">
+                    {{$item.last_reply_date}}
+                  </text>
                 </div>
-                <text
-                class="board-name">
-                {{$item.board_name}}
-              </text>
-
-            </div>
-            <div class="header-title-bar"
-            onclick="onClickEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
-
-              <text class="high-light" show="{{$item.vote == 1}}">投票</text>
-              <text class="high-light" show="{{$item.hot == 1}}">热门</text>
-              <text class="high-light" show="{{$item.top == 1}}">置顶</text>
-              <text
-              class="title"  >
-              {{$item.title}}
-            </text>
-          </div>
-          <text
-          class="date" >
-          {{$item.last_reply_date}}
-        </text>
-      </div>
 
               </div>
 
             </list-item>
 
-            <list-item type="post-item-subject"  >
-              <div class="section card" @click="onClickEvent({type:'post', data : $item.topic_id})" >
-                <text class="subject"    >{{$item.subject}}</text>
+            <list-item type="post-item-subject">
+              <div class="section card" @click="onClickEvent({type:'post', data : $item.topic_id})">
+                <text class="subject">{{$item.subject}}</text>
 
               </div>
             </list-item>
 
             <list-item type="post-item-hnr">
 
-              <div class="footer card" @click="onClickEvent({type:'post', data : $item.topic_id})" >
+              <div class="footer card" @click="onClickEvent({type:'post', data : $item.topic_id})">
 
                 <div class="hnr">
                   <text show="{{$item.hits != 0}}" class="hit">{{$item.hits}}点击</text>
-                  <text show="{{$item.replies != 0}}"class="replycount">{{$item.replies}}回复</text>
+                  <text show="{{$item.replies != 0}}" class="replycount">{{$item.replies}}回复</text>
 
                 </div>
               </div>
@@ -83,7 +75,7 @@
 
           </block>
 
-          <list-item type="loadMore" >
+          <list-item type="loadMore">
 
             <loading-progress-view tag="{{tag}}"></loading-progress-view>
           </list-item>
@@ -106,245 +98,247 @@
   @import './shadown.less';
   @import './card.less';
 
-stack{
+  stack {
 
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height:100%;
-    width:100%;
+    height: 100%;
+    width: 100%;
 
 
 
-}
-
-.post-list-view {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #eeeeee;
-  refresh{
-
-      height: 100%;
   }
 
-  list{
-    height: 100%;
+  .post-list-view {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #eeeeee;
+
+    refresh {
+      height: 100%;
+    }
+
+    list {
+      height: 100%;
 
 
 
-    .header{
-      flex-direction: row;
-      padding: 8px;
-      padding-bottom: 16px;
-      margin-top: 16px;
+      .header {
+        flex-direction: row;
+        padding: 8px;
+        padding-bottom: 16px;
+        margin-top: 16px;
 
-      .avatar{
+        .avatar {
           width: 64px;
-          height :64px;
+          height: 64px;
           margin: 8px;
           border-radius: 32px;
-      }
+        }
 
 
-      .header-text{
-            flex-direction: column;
+        .header-text {
+          flex-direction: column;
 
+          width: 100%;
+
+          .line-one {
+            flex-direction: row;
             width: 100%;
+            justify-content: space-between;
 
-            .line-one{
-                flex-direction: row;
-                width: 100%;
-                justify-content: space-between;
-
-                image{
-                    height: 30px;
-                }
-
-                .user-nike-name{
-                    /* width: 70%; */
-                    color: #aabcd4;
-                    font-size: 30px;
-                }
-
-                .board-name{
-                    /* width: 30%; */
-                    height: 100%;
-                    text-align: right;
-                    font-size: 20px;
-                    text-align: right;
-                    color: #aaaaaa;
-                }
+            image {
+              height: 30px;
             }
 
-
-            .header-title-bar{
-                .high-light{
-                    color: #f17c67;
-                    font-weight: bold;
-                    border-radius: 2px;
-                    border-width: 2px;
-                    border-color: #f17c67;
-                }
-                .title{
-                    lines : 1;
-                    font-weight :bold;
-                    padding-right: 16px;
-                    text-overflow: ellipsis;
-                }
-            }
-
-
-            .date{
+            .user-nike-name {
+              /* width: 70%; */
+              color: #aabcd4;
               font-size: 30px;
-              color: #ffbc4d;
             }
+
+            .board-name {
+              /* width: 30%; */
+              height: 100%;
+              text-align: right;
+              font-size: 20px;
+              text-align: right;
+              color: #aaaaaa;
+            }
+          }
+
+
+          .header-title-bar {
+            .high-light {
+              color: #f17c67;
+              font-weight: bold;
+              border-radius: 2px;
+              border-width: 2px;
+              border-color: #f17c67;
+            }
+            .title {
+              lines: 1;
+              font-weight: bold;
+              padding-right: 16px;
+              text-overflow: ellipsis;
+            }
+          }
+
+
+          .date {
+            font-size: 30px;
+            color: #ffbc4d;
+          }
+
+        }
+
+
+      }
+
+      .section {
+
+        .subject {
+          padding: 8px;
+          margin-left: 64px;
+        }
+      }
+
+      .footer {
+        .hnr {
+          width: 100%;
+          flex-direction: row;
+          align-items: flex-end;
+          justify-content: flex-end;
+
+          text {
+            padding: 16px;
+          }
+          .hit {
+            color: #00bcd4;
+          }
+
+          .replycount {
+            color: #ffbcd4;
+          }
+        }
 
       }
 
 
-    }
-
-    .section{
-
-        .subject{
-            padding: 8px;
-            margin-left: 64px;
-        }
-    }
-
-    .footer{
-        .hnr{
-              width: 100%;
-                  flex-direction: row;
-                  align-items: flex-end;
-                  justify-content: flex-end;
-
-              text{
-                  padding: 16px;
-              }
-              .hit{
-                    color :#00bcd4;
-              }
-
-              .replycount{
-                  color : #ffbcd4;
-              }
-        }
 
     }
-
-
 
   }
-
-}
 </style>
 
 <script>
-import BoardApi from '../Common/BoardApi'
-import ForumApi from '../Common/ForumApi'
-import UserApi from '../Common/UserApi'
-import prompt from '@system.prompt'
-import PostListPresenter from './PostListPresenter'
+  import BoardApi from '../Common/BoardApi'
+  import ForumApi from '../Common/ForumApi'
+  import UserApi from '../Common/UserApi'
+  import prompt from '@system.prompt'
+  import PostListPresenter from './PostListPresenter'
 
 
 
-export default{
-  props:[
-    'type',
-    'tag'
-  ],
-  data:{
-    list:[],
-    page:1,
-    canLoadMore:true,
-    isRefreshing :false,
-  },
- async onInit(){
+  export default {
+    props: [
+      'type',
+      'tag'
+    ],
+    data: {
+      list: [],
+      page: 1,
+      canLoadMore: true,
+      isRefreshing: false,
+    },
+    async onInit() {
 
 
-     this.presenter = new PostListPresenter(this.view())
-     this.presenter.attach()
+      this.list = []
+      this.page = 1
+      this.presenter = new PostListPresenter(this.view())
+      this.presenter.attach()
 
-  },
-  dore(e){
-    this.isRefreshing = e.refreshing
-    this.presenter.refresh()
-  }
-  ,view(){
-    var View = new Object
-    View.context = this
+    },
+    dore(e) {
+      this.isRefreshing = e.refreshing
+      this.presenter.refresh()
+    }
+    , view() {
+      var View = new Object
+      View.context = this
 
-    View.renderMore = function(list){
-        if(list != null && list.length != 0){
+      View.renderMore = function (list) {
+        if (list != null && list.length != 0) {
 
           this.list = this.list.concat(list);
         } else {
-            View.renderError("没有更多了~~")
+          View.renderError("没有更多了~~")
         }
         View.loadMoreComplete()
-    }.bind(this)
+      }.bind(this)
 
-    View.render = function(list){
+      View.render = function (list) {
 
-      if(list != null && list.length!=0){
-        this.list = list
-        View.refreshComplete()
-      } else {
-        View.renderError("没有更多了~~")
-      }
+        if (list != null && list.length != 0) {
+          this.list = list
+          View.refreshComplete()
+        } else {
+          View.renderError("没有更多了~~")
+        }
 
-    }.bind(this)
+      }.bind(this)
 
-    View.renderLoading = function(){
+      View.renderLoading = function () {
 
-        this.$broadcast("render_loading",{ tag : this.tag})
-    }.bind(this)
+        this.$broadcast("render_loading", { tag: this.tag })
+      }.bind(this)
 
-    View.renderNoMore = function(){
-        this.$broadcast("render_no_more",{tag : this.tag})
-    }.bind(this)
+      View.renderNoMore = function () {
+        this.$broadcast("render_no_more", { tag: this.tag })
+      }.bind(this)
 
-    View.renderError = function(msg){
-        this.$broadcast("render_no_more",{tag : this.tag})
-    }.bind(this)
+      View.renderError = function (msg) {
+        this.$broadcast("render_no_more", { tag: this.tag })
+      }.bind(this)
 
-    View.loadMoreComplete = function(){
+      View.loadMoreComplete = function () {
 
         this.canLoadMore = true
 
         View.renderNoMore()
 
-    }.bind(this)
+      }.bind(this)
 
-    View.refreshComplete = function(){
-        if(this.isRefreshing){
+      View.refreshComplete = function () {
+        if (this.isRefreshing) {
           this.isRefreshing = false
 
           // prompt.showToast({
           //     message: '刷新成功'
           // })
 
-          this.$broadcast("render_normal",{ tag : this.tag})
+          this.$broadcast("render_normal", { tag: this.tag })
         }
 
-    }.bind(this)
-    return View
-  }
-  ,onClickEvent(event){
+      }.bind(this)
+      return View
+    }
+    , onClickEvent(event) {
 
       this.presenter.onClickEvent(event)
-  }
-  ,onScrollBottom(){
-      if(this.canLoadMore){
+    }
+    , onScrollBottom() {
+      if (this.canLoadMore) {
 
-          this.presenter.loadMore()
+        this.presenter.loadMore()
 
       }
+    }
+
+
   }
-
-
-}
 
 </script>
