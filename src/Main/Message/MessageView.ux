@@ -7,8 +7,8 @@
 
         <div class="message-bar">
 
-            <text class="{{messageIndex ==0 ? 'active' : ''}}" onclick="onEvent('index',0)">回复</text>
-            <text class="{{messageIndex ==1? 'active' : ''}}" onclick="onEvent('index',1)">@me</text>
+            <text class="{{messageIndex == 0 ? 'active' : ''}}" onclick="onEvent('index',0)">回复</text>
+            <text class="{{messageIndex == 1? 'active' : ''}}" onclick="onEvent('index',1)">@me</text>
             <text class="{{messageIndex == 2 ? 'active' : ''}}"     onclick="onEvent('index',2)">私信</text>
             <text class="{{messageIndex == 3 ? 'active' : ''}}" onclick="onEvent('index',3)">系统</text>
         </div>
@@ -17,7 +17,7 @@
           <tab-content >
 
               <block for="m in msgList">
-                <div class="">
+                <div >
                   <stack>
                     <div class="message-list" >
 
@@ -31,7 +31,7 @@
                               <div class="header card">
 
 
-                                <img class="avatar" @click="onEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
+                                <image class="avatar" @click="onEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
                                 <div class="header-text">
 
                                   <text class="user-nike-name" @click="onEvent('user',$item.toUserId)">{{$item.toUserName}}</text>
@@ -39,7 +39,7 @@
                                   <text class="date" >{{$item.replied_date}}</text>
 
 
-                                  <div class="">
+                                  <div >
 
 
                                     <!-- 帖子回复 -->

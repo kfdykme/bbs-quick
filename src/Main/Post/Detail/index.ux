@@ -9,235 +9,245 @@
     <stack>
 
       <div class="post-content">
+        
         <text class="title">{{topic.title}}</text>
+        <stack>
+          <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
+            <list @scrollbottom="onScrollBottom">
 
-        <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
-          <list @scrollbottom="onScrollBottom">
 
 
-
-            <!-- 内容-topic 开始 -->
-            <list-item type="topic-header">
+              <!-- 内容-topic 开始 -->
+              <list-item type="topic-header">
                 <div class="tpic-header big-card">
-                    <image class="avatar"  @click="onEvent({type:'user',data:topic.user_id})" src="{{topic.icon}}" />
-                    <div class="header-text">
-                        <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name}}</text>
-                        <text class="date">{{topic.create_date}}</text>
-                    </div>
+                  <image class="avatar"  @click="onEvent({type:'user',data:topic.user_id})" src="{{topic.icon}}" />
+                  <div class="header-text">
+                    <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name}}</text>
+                    <text class="date">{{topic.create_date}}</text>
+                  </div>
 
                 </div>
-            </list-item>
+              </list-item>
 
-            <block for="t in topic.content">
-
-
-                <!-- NOTE:文本 -->
-                <list-item type="topic-text" if="{{t.type  == 0 }}" >
-                    <div class="topic-content big-card">
-                        <text  >{{t.infor}}</text>
-
-                    </div>
-                </list-item>
-
-                <!-- NOTE: 图片  -->
-                <list-item type="topic-image-{{t.originalInfo}}" if="{{t.type  == 1  && showImage}}"   >
-                    <div class="topic-content big-card">
-
-                        <image onclick="onEvent({type:'view-image',data:t.originalInfo})" class="content-image" src="{{t.originalInfo}}" alt="/Res/ic_loading_image.png"></image>
-                    </div>
-                </list-item>
-
-                <!-- NOTE:超链接 -->
-                <list-item type="topic-url" if="{{t.type  == 4 }}" >
-                    <div  class="topic-content big-card">
-
-                        <exa  url="{{t.url}}"  infor="{{t.infor}}"  ></exa>
-
-                    </div>
-                </list-item>
-
-                <!-- TODO: 要改成下载的 -->
-                <!-- NOTE: 下载  -->
-                <list-item type="topic-dl" if="{{t.type  == 5}}" >
-                    <div class="topic-content big-card">
-                        <exa url="{{t.url}}" infor="{{t.infor}}"></exa>
-                        <text>{{t.desc}}</text>
-
-                    </div>
-                </list-item>
+              <block for="t in topic.content">
 
 
-                <!-- NOTE: 评论-表情包 -->
-                <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.item}}">
-                    <div class="topic-content big-card emoji">
+                  <!-- NOTE:文本 -->
+                  <list-item type="topic-text" if="{{t.type  == 0 }}" >
+                      <div class="topic-content big-card">
+                          <text  >{{t.infor}}</text>
 
-                        <block for="e in t.infor">
-                            <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
-                            <text if="{{e == '</br>'}}" class="tv-br"></text>
-                            <image if="{{e.length != 1 && e != '</br>'}}" src="{{e}}"></image>
-                        </block>
-                    </div>
-                </list-item>
-
-            </block>
-
-            <!-- 内容-topic 结束 -->
-
-            <!-- 菜单开始 -->
-            <list-item
-                type="post-menu" if="{{list.length != 0}}">
-
-                <div class="topic-content  big-card  post-menu">
-                    <text
-                        class="btn"
-                        @click="onEvent({type:'change-sort-mode'})">
-                        {{sortMode == 1 ? '倒序':'正序'}}
-                    </text>
-                </div>
-
-            </list-item>
-            <!-- 菜单结束 -->
-
-
-            <!-- NOTE:内容-投票 -->
-            <block
-             if="{{topic.poll_info != null }}"
-             >
-                <list-item type="topic-vote-header" if="{{topic.poll_info.poll_item_list.length != 0}}">
-                    <div class="topic-content card vote-header">
-                        <text>已有{{topic.poll_info.voters}}人投票</text>
-                    </div>
-                </list-item>
-                <list-item type="topic-poll-item" for="poll in topic.poll_info.poll_item_list">
-                    <div class="topic-content card vote">
-                        <div class="vote-content">
-
-                            <text>{{poll.name}}</text>
-                            <div class="">
-
-                                <progress percent="{{poll.percentNumber}}"></progress>
-                                <text>{{poll.percent}}({{poll.total_num}}人)</text>
-                            </div>
-                        </div>
-                        <input
-                            type="checkbox" @change="onChange({type:'change-vote',data:poll.poll_item_id})"
-                            show="{{topic.poll_info.poll_status == 2}}">
-                        </input>
-                    </div>
-                </list-item>
-                <list-item type="topic-vote-footer" if="{{topic.poll_info.poll_item_list.length != 0}}">
-
-                    <!-- NOTE:只知道poll-status等于1是已投票,很迷 -->
-                    <div class="topic-content card vote-footer " show="{{topic.poll_info.poll_status == 2}}">
-                            <text @click="onEvent({type:'vote'})" class="vote-btn">投票</text>
-                    </div>
-                </list-item>
-            </block>
-
-
-
-            <!-- 内容-回复 -->
-            <block  for="(index,re) in list">
-
-
-              <list-item type="reply-header">
-                  <div class="reply-header card">
-
-                      <text class="high-light" show="{{re.poststick == 1}}">置顶</text>
-                      <image class="avatar" @click="onEvent({type:'user',data:re.reply_id})" src="{{re.icon}}"/>
-
-                      <div class="header-text">
-
-                          <text class="name"  @click="onEvent({type:'user',data:re.reply_id})">{{re.reply_name}}</text>
-                          <text class="date">{{re.posts_date}}</text>
                       </div>
-                  </div>
+                  </list-item>
+
+                  <!-- NOTE: 图片  -->
+                  <list-item type="topic-image-{{t.originalInfo}}" if="{{t.type  == 1  && showImage}}"   >
+                      <div class="topic-content big-card">
+
+                          <image onclick="onEvent({type:'view-image',data:t.originalInfo})" class="content-image" src="{{t.originalInfo}}" alt="/Res/ic_loading_image.png"></image>
+                      </div>
+                  </list-item>
+
+                  <!-- NOTE:超链接 -->
+                  <list-item type="topic-url" if="{{t.type  == 4 }}" >
+                      <div  class="topic-content big-card">
+
+                          <exa  url="{{t.url}}"  infor="{{t.infor}}"  ></exa>
+
+                      </div>
+                  </list-item>
+
+                  <!-- TODO: 要改成下载的 -->
+                  <!-- NOTE: 下载  -->
+                  <list-item type="topic-dl" if="{{t.type  == 5}}" >
+                      <div class="topic-content big-card">
+                          <exa url="{{t.url}}" infor="{{t.infor}}"></exa>
+                          <text>{{t.desc}}</text>
+
+                      </div>
+                  </list-item>
+
+
+                  <!-- NOTE: 评论-表情包 -->
+                  <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.item}}">
+                      <div class="topic-content big-card emoji">
+
+                          <block for="e in t.infor">
+                              <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                              <text if="{{e == '</br>'}}" class="tv-br"></text>
+                              <image if="{{e.length != 1 && e != '</br>'}}" src="{{e}}"></image>
+                          </block>
+                      </div>
+                  </list-item>
+
+              </block>
+
+              <list-item type="shadown-header">
+                <div class="shadown-header"></div>
               </list-item>
 
-              <block if="{{re.quote_content != ''}}">
+              <!-- 内容-topic 结束 -->
 
-                <!-- NOTE: 评论-引用 -->
-                <list-item type="reply-quote">
-                    <div class="card">
+              <!-- 菜单开始 -->
+              <list-item
+                  type="post-menu" if="{{list.length != 0}}">
 
-                        <div class="reply-quote">
-                            <text>{{re.quote_content}}</text>
+                  <div class="topic-content  big-card  post-menu">
+                      <text
+                          class="btn"
+                          @click="onEvent({type:'change-sort-mode'})">
+                          {{sortMode == 1 ? '倒序':'正序'}}
+                      </text>
+                  </div>
+
+              </list-item>
+              <!-- 菜单结束 -->
+
+
+              <!-- NOTE:内容-投票 -->
+              <block
+               if="{{topic.poll_info != null }}"
+               >
+                  <list-item type="topic-vote-header" if="{{topic.poll_info.poll_item_list.length != 0}}">
+                      <div class="topic-content card vote-header">
+                          <text>已有{{topic.poll_info.voters}}人投票</text>
+                      </div>
+                  </list-item>
+                  <list-item type="topic-poll-item" for="poll in topic.poll_info.poll_item_list">
+                      <div class="topic-content card vote">
+                          <div class="vote-content">
+
+                              <text>{{poll.name}}</text>
+                              <div >
+
+                                  <progress percent="{{poll.percentNumber}}"></progress>
+                                  <text>{{poll.percent}}({{poll.total_num}}人)</text>
+                              </div>
+                          </div>
+                          <input
+                              type="checkbox" @change="onChange({type:'change-vote',data:poll.poll_item_id})"
+                              show="{{topic.poll_info.poll_status == 2}}">
+                          </input>
+                      </div>
+                  </list-item>
+                  <list-item type="topic-vote-footer" if="{{topic.poll_info.poll_item_list.length != 0}}">
+
+                      <!-- NOTE:只知道poll-status等于1是已投票,很迷 -->
+                      <div class="topic-content card vote-footer " show="{{topic.poll_info.poll_status == 2}}">
+                              <text @click="onEvent({type:'vote'})" class="vote-btn">投票</text>
+                      </div>
+                  </list-item>
+              </block>
+
+
+
+              <!-- 内容-回复 -->
+              <block  for="(index,re) in list">
+
+
+                <list-item type="reply-header">
+                    <div class="reply-header card">
+
+                        <text class="high-light" show="{{re.poststick == 1}}">置顶</text>
+                        <image class="avatar" @click="onEvent({type:'user',data:re.reply_id})" src="{{re.icon}}"/>
+
+                        <div class="header-text">
+
+                            <text class="name"  @click="onEvent({type:'user',data:re.reply_id})">{{re.reply_name}}</text>
+                            <text class="date">{{re.posts_date}}</text>
                         </div>
                     </div>
                 </list-item>
-              </block>
 
-              <block for="{{re.reply_content}}">
+                <block if="{{re.quote_content != ''}}">
+
+                  <!-- NOTE: 评论-引用 -->
+                  <list-item type="reply-quote">
+                      <div class="card">
+
+                          <div class="reply-quote">
+                              <text>{{re.quote_content}}</text>
+                          </div>
+                      </div>
+                  </list-item>
+                </block>
+
+                <block for="{{re.reply_content}}">
 
 
-                <!-- NOTE: 评论-文本 -->
-                <list-item type="reply-text" if="{{$item.type  == 0 }}">
-                    <div class=" card">
+                  <!-- NOTE: 评论-文本 -->
+                  <list-item type="reply-text" if="{{$item.type  == 0 }}">
+                      <div class=" card">
 
-                        <text class="content">{{$item.infor}}</text>
+                          <text class="content">{{$item.infor}}</text>
+                      </div>
+                  </list-item>
+
+                  <!-- NOTE: 评论-图片 -->
+                  <list-item type="reply-image" if="{{$item.type  == 1 }}">
+                      <div class="card">
+                          <image onclick="onEvent({type:'view-image',data:$item.originalInfo})" class="content"  src="{{$item.originalInfo}}"/>
+
+                      </div>
+                  </list-item>
+
+                  <!-- NOTE:评论-超链接2333 -->
+                  <list-item type="image-type4" if="{{$item.type  == 4 }}">
+                      <div class="card">
+                          <exa url="{{$item.url}}"></exa>
+                          <!-- <a class="content" href="{{$item.url}}">{{$item.infor}}</a> -->
+                      </div>
+                  </list-item>
+
+                  <!-- NOTE: 评论-表情包 -->
+                  <list-item  if="{{$item.type == 11}}" type="reply-emoji-{{$item.item}}">
+                      <div class="card emoji">
+
+                          <block for="e in  $item.infor">
+                              <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                              <text if="{{e == '</br>'}}" class="tv-br"></text>
+                              <image if="{{e.length != 1 && e != '</br>'}}" src="{{e}}"></image>
+                          </block>
+                      </div>
+                  </list-item>
+                </block>
+
+
+
+                <list-item type="reply-footer">
+                  <div class="reply-footer content card ">
+                    <div class="reply-action">
+
+                          <div  class="btn-action">
+
+                              <text show="{{re.extraPanel[0].extParams.isHasRecommendAdd != 1  }}" class="btn-support"  @click="replySupport(index)">点赞</text>
+                              <text class="btn-reply"  @click="onEvent({type:'reply',data:index})">回复</text>
+                          </div>
+
                     </div>
-                </list-item>
+                    <div class="reply-exinfo">
 
-                <!-- NOTE: 评论-图片 -->
-                <list-item type="reply-image" if="{{$item.type  == 1 }}">
-                    <div class="card">
-                        <image onclick="onEvent({type:'view-image',data:$item.originalInfo})" class="content"  src="{{$item.originalInfo}}"/>
+                      <text show="{{re.extraPanel[0].extParams.recommendAdd!=0}}" class="reply-support" >{{re.extraPanel[0].extParams.recommendAdd}}点赞</text>
 
+                      <text class="reply-position" show="{{re.poststick != 1}}">{{re.position}}楼</text>
                     </div>
-                </list-item>
-
-                <!-- NOTE:评论-超链接2333 -->
-                <list-item type="image-type4" if="{{$item.type  == 4 }}">
-                    <div class="card">
-                        <exa url="{{$item.url}}"></exa>
-                        <!-- <a class="content" href="{{$item.url}}">{{$item.infor}}</a> -->
-                    </div>
-                </list-item>
-
-                <!-- NOTE: 评论-表情包 -->
-                <list-item  if="{{$item.type == 11}}" type="reply-emoji-{{$item.item}}">
-                    <div class="card emoji">
-
-                        <block for="e in  $item.infor">
-                            <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
-                            <text if="{{e == '</br>'}}" class="tv-br"></text>
-                            <image if="{{e.length != 1 && e != '</br>'}}" src="{{e}}"></image>
-                        </block>
-                    </div>
-                </list-item>
-              </block>
-
-
-
-              <list-item type="reply-footer">
-                <div class="reply-footer content card ">
-                  <div class="reply-action">
-
-                        <div  class="btn-action">
-
-                            <text show="{{re.extraPanel[0].extParams.isHasRecommendAdd != 1  }}" class="btn-support"  @click="replySupport(index)">点赞</text>
-                            <text class="btn-reply"  @click="onEvent({type:'reply',data:index})">回复</text>
-                        </div>
 
                   </div>
-                  <div class="reply-exinfo">
+                </list-item>
 
-                    <text show="{{re.extraPanel[0].extParams.recommendAdd!=0}}" class="reply-support" >{{re.extraPanel[0].extParams.recommendAdd}}点赞</text>
-                    
-                    <text class="reply-position">{{re.position}}楼</text>
-                  </div>
 
-                </div>
+
+              </block>
+              <list-item type="loadMore" class="load-more" >
+                <loading-progress-view tag="{{TAG}}"></loading-progress-view>
               </list-item>
+            </list>
+          </refresh>
+          <div class="shadown-header">
 
+          </div>
+        </stack>
 
-
-            </block>
-            <list-item type="loadMore" class="load-more" >
-              <loading-progress-view tag="{{TAG}}"></loading-progress-view>
-            </list-item>
-          </list>
-        </refresh>
 
       </div>
 
@@ -249,13 +259,7 @@
 
 
       </div>
-
-      </div>
-
-
-
-
-
+ 
 
     </stack>
 

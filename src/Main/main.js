@@ -19,7 +19,8 @@ export default {
       ForumApi.Tag.newReply,
       ForumApi.Tag.newPublish,
       ForumApi.Tag.todayHot
-    ]
+    ],
+    debugLastChangeFromIndexTime :0,
   }
   ,onShow(){
       $umeng_stat.resume(this)
@@ -43,10 +44,19 @@ export default {
    * @method onChangeForm
    * @param {number} index
    * @desc 当改变首页中的某个页面时发生
+   * DEBUG: 在华为引擎中,刚刚启动该页面的时候如果快速切换
+   * tab-content,会出现疯狂反复调用该方法的情况,
+   * 
+   * 为了debug增加了一个时间变量用于检测
    */
   , onChangeForm(index) {
+    let t = new Date().getTime() 
+   
+    if(t-this.debugLastChangeFromIndexTime<=100)
+      return;
     this.formIndex = index
-
+    
+    this.debugLastChangeFromIndexTime = new Date().getTime()
   }
   /**
    * @method onClickBottom

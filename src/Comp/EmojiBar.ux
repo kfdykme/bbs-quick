@@ -16,7 +16,7 @@
                         </list>
                 </block>
             </tab-content>
-            <tab-bar mode="fixed" class="emoji-bottom-bar">
+            <tab-bar  class="emoji-bottom-bar">
                 <block for="(i,tag) in emojis">
                     <div class="emoji-tag {{i == tagIndex ? 'active':''}}">
 

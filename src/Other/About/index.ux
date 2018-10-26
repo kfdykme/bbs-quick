@@ -45,10 +45,9 @@
         ,onHide() {
             $umeng_stat.pause(this)
         }
-        ,onInit(){
-
-            this.about = this.$app.options.env.appVersionName
-            this.update = "\n点进去看图片的时候更舒服\n改了一些bug"
+        ,onInit(){ 
+            this.about = "1.2.9"
+            this.update = "\n改了很多bug"
         }
         ,onEvent(e){
             if(e.type == "reflact"){
