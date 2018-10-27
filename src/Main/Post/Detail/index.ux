@@ -10,7 +10,11 @@
 
       <div class="post-content">
         
-        <text class="title">{{topic.title}}</text>
+        <div class="post-title-bar" show="{{topic.title != ''}}">
+          <image @click="onEvent({type:'back'})" src="/Res/ic_back.png"></image>
+          <text class="title">{{topic.title}}</text>
+          <image @click="onEvent({type:'share'})" src="/Res/ic_share.png"></image>
+        </div>
         <stack>
           <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
             <list @scrollbottom="onScrollBottom">
@@ -259,7 +263,7 @@
 
 
       </div>
- 
+
 
     </stack>
 

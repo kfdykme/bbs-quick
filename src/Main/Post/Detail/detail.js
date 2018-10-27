@@ -5,7 +5,8 @@ import DateUtil from '../../../Common/DateUtil'
 import ImageUtil from '../../../Common/ImageUtil'
 import router from '@system.router'
 import clipboard from '@system.clipboard'
-
+import share from '@service.share'
+import systemShare from '@system.share'
 //
 
 export default {
@@ -183,6 +184,23 @@ export default {
     , async onEvent(e) {
 
 
+        //NOTE: 回退
+        if(e.type == 'back'){
+          router.back();
+        }
+
+        if(e.type == 'share'){
+
+          const url = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid="+this.topic.topic_id
+         
+          share.share({
+            shareType: 0,
+            imagePath:this.images.length == 0 ? '':this.images[0],
+            title: this.topic.title,
+            targetUrl: url,
+          })
+        }
+
         //修改浏览顺序
         if (e.type == 'change-sort-mode') {
 
@@ -263,18 +281,7 @@ export default {
 
         }
 
-        //查看emoji -- 弃用
-        if (e.type == 'emoji') {
-            this.showEmojiBar = !this.showEmojiBar
-        }
 
-        //选择一个emoji -- 弃用
-        if (e.type == 'choose_emoji') {
-
-            this.showEmojiBar = !this.showEmojiBar
-            //把该emoji的url格式化之后添加到文本内容里
-            this.commentContent += e.detail.event.data
-        }
 
 
         //跳转到评论页面
@@ -392,7 +399,7 @@ export default {
             json.list = tempList
 
             //NOTE:更新最后的回复的时间
-            //NOTE: 该操作要在 @method convertList() 之前,否则最后的回复时间会变成字符而不是时间戳 
+            //NOTE: 该操作要在 @method convertList() 之前,否则最后的回复时间会变成字符而不是时间戳
             if (json.list.length != 0)
                 this.lastReplyTime = json.list[json.list.length - 1].posts_date
 
