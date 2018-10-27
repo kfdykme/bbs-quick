@@ -42,7 +42,17 @@
 
         { "name": "system.device"}
         ,{"name": "system.notification"}
-        ,{"name": "system.vibrator"}
+        ,{"name": "system.vibrator"},
+        {"name": "system.share"},
+        {
+          "name": "service.share",
+          "params": {
+            "appSign": "",
+            "qqKey": "tTBy5bU5wesScUDF",
+            "wxKey": "",
+            "sinaKey": ""
+          }
+        }
     ],
     "permissions": [
         {

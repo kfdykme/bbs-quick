@@ -7,10 +7,10 @@
 
         <div class="message-bar">
 
-            <text class="{{messageIndex == 0 ? 'active' : ''}}" onclick="onEvent('index',0)">回复</text>
-            <text class="{{messageIndex == 1? 'active' : ''}}" onclick="onEvent('index',1)">@me</text>
-            <text class="{{messageIndex == 2 ? 'active' : ''}}"     onclick="onEvent('index',2)">私信</text>
-            <text class="{{messageIndex == 3 ? 'active' : ''}}" onclick="onEvent('index',3)">系统</text>
+            <text class="{{messageIndex == 0 ? 'top-tab-active' : ''}}" onclick="onEvent('index',0)">回复</text>
+            <text class="{{messageIndex == 1? 'top-tab-active' : ''}}" onclick="onEvent('index',1)">@me</text>
+            <text class="{{messageIndex == 2 ? 'top-tab-active' : ''}}"     onclick="onEvent('index',2)">私信</text>
+            <text class="{{messageIndex == 3 ? 'top-tab-active' : ''}}" onclick="onEvent('index',3)">系统</text>
         </div>
 
         <tabs @change="onChangeMessage" index="{{messageIndex}}">
@@ -95,6 +95,7 @@
 
     @import '../../Comp/shadown.less';
 
+    @import '../../Comp/base.less';
 
     .message-view{
 
@@ -114,13 +115,9 @@
                   height: 100px;
                 }
 
-                .active{
-                  /* background-color: #ffbc4d;
-                  color: #ffffff; */
+                .top-tab-active{
 
                   margin-bottom: 8px;
-                  border-bottom-width: 4px;
-                  border-color: #00bcd4;
                 }
 
                 .username {

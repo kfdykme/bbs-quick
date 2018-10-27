@@ -92,7 +92,7 @@
             height: 100%;
 
             .reply-content-image{
-                width: 80px;
+                width: 100px;
                 flex-direction: column;
                 justify-content: flex-start;
                 /* height: 120px; */
@@ -103,30 +103,30 @@
                     resize-mode:contain;
                 }
 
+                .reply-send-bar {
+                    width:100px;
+                    padding: 5px;
+                    justify-content: center;
+                    text {
+                        color: #00bcd4;
+                    }
 
-            }
-
-            .reply-send-bar {
-                width: 70px;
-                margin: 5px;
-                justify-content: center;
-                text {
-                    color: #00bcd4;
                 }
 
-            }
+                .reply-emoji{
+                    height:80px;
+                    margin: 8px;
+                }
 
-            .reply-emoji{
-                height:80px;
-                margin: 8px;
+
             }
 
 
             textarea {
-                border-left-width: 1px;
+                border-left-width: 2px;
                 border-color: #00bcdf;
                 padding: 8px;
-                width: 100%;
+                width: 550px;
                 height: 100%;
             }
         }
