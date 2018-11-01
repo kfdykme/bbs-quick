@@ -222,7 +222,7 @@ function comment(commentContent,images,topicId,suc){
  * @param {number} page
  * @param {function} onSearchSuccess
  */
-function search(key,page,onSearchSuccess){
+function search(key,page,onSearchSuccess,onSuccessError){
     Api.fetch(
         Api.BASE_URL+"/app/web/index.php?r=forum/search",
         {
@@ -235,7 +235,8 @@ function search(key,page,onSearchSuccess){
             keyword:key,
             page:page
         },
-        onSearchSuccess
+        onSearchSuccess,
+        onSuccessError
     )
 }
 

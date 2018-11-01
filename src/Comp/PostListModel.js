@@ -44,7 +44,7 @@ export default class PostListModel{
 
 
 
-    load(page,tag,suc,type){
+    load(page,tag,suc,type,fail){
 
         const that = this
         var success = function(re){
@@ -52,9 +52,7 @@ export default class PostListModel{
             {
                 that.save(tag,JSON.stringify(re))
             }
-
-            if(tag == 'search')
-              console.info('search',JSON.stringify(re))
+ 
             suc(re)
         }
 
@@ -102,7 +100,7 @@ export default class PostListModel{
         // NOTE : search
         if(type == 'search'){
             const key = tag
-            PostApi.search(key,page,success)
+            PostApi.search(key,page,success,fail)
         }
     }
 

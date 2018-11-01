@@ -46,15 +46,24 @@ function upload(o,success){
 
 
 
-function onFetchFail(data,code){
+function onFetchFail(data,code,and){
+  if(and != null)
+    and(data)
   console.error("发生了错误: "+code +"\n"+data);
   prompt.showToast({
     message :"发生了错误: "+code +"\n"+data
   })
 }
 
-function onSuccessError(re){
-  console.info(JSON.stringify(re));
+function onSuccessError(re,and){
+  if(and != null)
+    and(re)
+    
+  console.error(JSON.stringify(re))
+  //TODO : 喊后台把这个字符串改了
+  if(re.errcode == 'faq_keyword_empty')
+    re.errcode = '抱歉，您尚未指定要搜索的关键字'
+
   prompt.showToast({
     message :re.errcode
   })
@@ -69,7 +78,7 @@ function onSuccessError(re){
   * @param <Object> data post的表格数据
   * @param <function> success(re) 请求成功后的回调
   */
-function fetch(url,data,suc){
+function fetch(url,data,suc,andError){
 
     var that = this
     fetchModule.fetch({
@@ -78,18 +87,18 @@ function fetch(url,data,suc){
       data : data,
       success :function(data){
 
-          if(data.code != 200) return 
+          if(data.code != 200) return
 
         const re = JSON.parse(data.data)
 
         if(re.rs == 0)
-            that.onSuccessError(re)
+            that.onSuccessError(re,andError)
         else if (re.rs == 1)
             suc(re)
 
       },
       fail : function(data,code){
-        that.onFetchFail(data,code)
+        that.onFetchFail(data,code,andError)
       }
     })
 }

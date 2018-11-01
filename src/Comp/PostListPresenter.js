@@ -79,8 +79,13 @@ export default class PostListPresenter{
 
         }.bind(this)
 
+        var fail = function(re){
+              console.info("search fail",JSON.stringify(re))
+              this.view.renderError("没有更多了")
+        }.bind(this)
 
-        this.model.load(page,tag,success,this.type)
+
+        this.model.load(page,tag,success,this.type,fail)
     }
 
 
