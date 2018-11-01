@@ -2,7 +2,7 @@
 
     <stack>
 
-        <tabs index="{{imageIndex}}">
+        <tabs index="{{imageIndex}}" @change="onEvent({type:'change-image'})">
             <tab-content >
                 <block for="img in images">
                     <div >
@@ -81,7 +81,8 @@
             type:"view",
             toolSrc:"",
             images:[],
-            imageIndex:0
+            imageIndex:0,
+            hasInitImageIndex:false
         }
         ,onShow(){
             $umeng_stat.resume(this)
@@ -91,9 +92,7 @@
         }
         ,onInit(){
 
-            console.info(this.images)
             this.images = JSON.parse(this.images)
-            console.info(this.images)
             for(var x in this.images){
                 if(this.images[x] == this.src)
                 {
@@ -101,11 +100,21 @@
                     this.imageIndex = x
                 }
             }
+
+            this.hasInitImageIndex = true
             if(this.type == 'view-upload'){
                 this.toolSrc = "/Res/ic_delete.png"
             }
         }
-        ,onEvent(e){
+        ,onEvent(e,originE){
+            if(e.type == "change-image"){
+              // if this event befor init imageIndex , return
+              if(!this.hasInitImageIndex)
+                return
+              // console.info('change-image',JSON.stringify(e2))
+              this.imageIndex = originE.index
+            }
+
             if(e.type == "view-upload"){
                 prompt.showDialog({
                   message: '确定删除该图片吗',

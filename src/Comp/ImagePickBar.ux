@@ -106,7 +106,7 @@
 
             if(e.type == 'view-image'){
 
-                ImageUtil.ViewImage(e.data,'view-upload')
+                ImageUtil.ViewImage(e.data,this.uploadImages,'view-upload')
             }
         }
     }
