@@ -17,20 +17,28 @@
 
                 <block for="t in searchTypes">
                         <div class="search-type">
-                            <text @click="onEvent({type:'change-type',data:t})" class="{{type == t ? 'active' : ''}}">{{t == 'post'? '帖子' : '用户'}}</text>
+                            <text @click="onEvent({type:'change-type',data:t})" class="search-type {{type == t ? 'top-tab-active ' : ''}}">{{t == 'post'? '帖子' : '用户'}}</text>
                         </div>
                 </block>
             </div>
 
         </div>
-        <div class="container">
-         <user-list-view if="{{searchType == 'user'}}" keyword="{{searchKeyword}}" tag="search"></user-list-view>
-         <post-list-view if="{{searchType == 'post' }}" type="search" tag="{{searchKeyword}}"  ></post-list-view>
-        </div>
+        <stack class="shadown">
+          <div class="shadown-header">
+
+          </div>
+          <div class="container">
+            <user-list-view if="{{searchType == 'user'}}" keyword="{{searchKeyword}}" tag="search"></user-list-view>
+            <post-list-view if="{{searchType == 'post' }}" type="search" tag="{{searchKeyword}}"  ></post-list-view>
+          </div>
+        </stack>
     </div>
 </template>
 
 <style lang="less">
+
+    @import "../../Comp/base.less";
+    @import "../../Comp/shadown.less";
     .search-page{
         flex-direction: column;
         justify-content: flex-start;
@@ -61,30 +69,24 @@
                     color:#00bcd4;
                     margin-top: 4px;
                     margin-bottom: 4px;
-
                 }
             }
 
             .search-select{
                 width: 100%;
-
+                height:100px;
 
                 .search-type{
                     flex-grow: 1;
+                    height:100px;
 
                     text{
-
+                        height:100px;
                         width: 100%;
                         text-align: center;
-                        background-color: #00bcd4;
-                        padding: 16px;
-                        color: #ffffff;
                     }
 
-                    .active{
 
-                        font-size: 57px;
-                    }
                 }
             }
 
@@ -107,6 +109,7 @@
 
         constructor(view){
             this.view = view
+            this.key = ''
         }
 
         onEvent(e){

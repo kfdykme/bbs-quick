@@ -52,6 +52,9 @@ export default class PostListModel{
             {
                 that.save(tag,JSON.stringify(re))
             }
+
+            if(tag == 'search')
+              console.info('search',JSON.stringify(re))
             suc(re)
         }
 

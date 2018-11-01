@@ -54,6 +54,7 @@ export default class PostListPresenter{
 
         var success = function (re){
 
+
             let x
             for(x in re.list){
                 let time = re.list[x].last_reply_date
@@ -71,12 +72,13 @@ export default class PostListPresenter{
                 this.view.renderMore(re.list)
             }
 
-            if(re.has_next == 0){
+            if(re.has_next == 0 ){
                 this.view.renderError("没有更多了")
                 return
             }
 
         }.bind(this)
+
 
         this.model.load(page,tag,success,this.type)
     }
