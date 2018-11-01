@@ -1,4 +1,4 @@
-  @import "../../../Comp/Shadown.less";
+  @import "../../../Comp/shadown.less";
 
   .high-light{
       color: #f17c67;
@@ -38,7 +38,7 @@
           }
           .title{
             width: 550px;
-            background-color: #00bcd4; 
+            background-color: #00bcd4;
             color: #ffffff;
             padding: 10px;
             font-size: 40px;
