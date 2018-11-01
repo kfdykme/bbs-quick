@@ -1,4 +1,6 @@
 <template>
+  <div class="emoji-page">
+
     <div class="emoji-bar" >
 
         <tabs  @change="onChangeTag">
@@ -27,10 +29,17 @@
         </tabs>
 
     </div>
+  </div>
 </template>
 
 <style lang="less">
 
+
+    .emoji-page{
+      width:100%;
+      height:100%;
+      background-color:rgba(0, 0, 0,0.5);
+    }
 
     .emoji-bar{
         height: 50%;
@@ -38,19 +47,18 @@
         margin: 40px;
         margin-top: 200px;
         border-radius: 20px;
-        border-width: 2px;
-        border-color: #00bcd4;
-        background-color: #eeeeee;
+        background-color: #ffffff;
     }
 
 
     .emoji-bottom-bar{
 
-        /* background-color: #efefef; */
+        background-color: #efefef;
         height: 10%;
 
         align-items: center;
         justify-content: center;
+
 
         div{
             justify-content: center;
@@ -429,6 +437,43 @@
                         {"src":"alu/40.gif" ,"alt":"[a:1153]"},
                         {"src":"alu/39.gif" ,"alt":"[a:1152]"},
                         {"src":"alu/22.gif" ,"alt":"[a:1135]"}]
+                    },
+                    {
+                      "tag":"yellowface",
+                      "list": [{"src":"yellowface/(15).gif","alt":"[s:667]"},
+                      {"src":"yellowface/(29).gif","alt":"[s:648]"},
+                      {"src":"yellowface/(28).gif","alt":"[s:647]"},
+                      {"src":"yellowface/(27).gif","alt":"[s:646]"},
+                      {"src":"yellowface/(26).gif","alt":"[s:645]"},
+                      {"src":"yellowface/(25).gif","alt":"[s:644]"},
+                      {"src":"yellowface/(24).gif","alt":"[s:643]"},
+                      {"src":"yellowface/(23).gif","alt":"[s:642]"},
+                      {"src":"yellowface/(22).gif","alt":"[s:641]"},
+                      {"src":"yellowface/(21).gif","alt":"[s:640]"},
+                      {"src":"yellowface/1.gif","alt":"[s:639]"},
+                      {"src":"yellowface/(20).gif","alt":"[s:638]"},
+                      {"src":"yellowface/(19).gif","alt":"[s:637]"},
+                      {"src":"yellowface/(18).gif","alt":"[s:636]"},
+                      {"src":"yellowface/(17).gif","alt":"[s:635]"},
+                      {"src":"yellowface/(6).gif","alt":"[s:658]"},
+                      {"src":"yellowface/(30).gif","alt":"[s:649]"},
+                      {"src":"yellowface/(31).gif","alt":"[s:650]"},
+                      {"src":"yellowface/(14).gif","alt":"[s:666]"},
+                      {"src":"yellowface/(13).gif","alt":"[s:665]"},
+                      {"src":"yellowface/(12).gif","alt":"[s:664]"},
+                      {"src":"yellowface/(11).gif","alt":"[s:663]"},
+                      {"src":"yellowface/(10).gif","alt":"[s:662]"},
+                      {"src":"yellowface/(9).gif","alt":"[s:661]"},
+                      {"src":"yellowface/(8).gif","alt":"[s:660]"},
+                      {"src":"yellowface/(7).gif","alt":"[s:659]"},
+                      {"src":"yellowface/(38).gif","alt":"[s:657]"},
+                      {"src":"yellowface/(37).gif","alt":"[s:656]"},
+                      {"src":"yellowface/(36).gif","alt":"[s:655]"},
+                      {"src":"yellowface/(35).gif","alt":"[s:654]"},
+                      {"src":"yellowface/(34).gif","alt":"[s:653]"},
+                      {"src":"yellowface/(33).gif","alt":"[s:652]"},
+                      {"src":"yellowface/(32).gif","alt":"[s:651]"},
+                      {"src":"yellowface/(16).gif","alt":"[s:634]"}]
                     }
                 ]
             }
