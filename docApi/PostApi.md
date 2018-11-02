@@ -1,7 +1,7 @@
 
 # POST API
 
-## DETAIL 
+## DETAIL
 
 ### res
 ``` json
@@ -473,3 +473,51 @@ type	topic
 [type == topic|post]
 [action == support |  against]
 ### res json
+
+## 评分
+### url
+URL	http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate
+&
+
+### query
+ sdkVersion=2.6.1.7
+
+ &accessToken=3a92218375094ad61d1afb42d3627
+
+ &accessSecret=2870f155b160fa40addd801dd71ab
+
+ &apphash=40b0fc2d
+
+ &tid=1740647
+
+ &pid=30980849
+
+ &type=view
+
+### post data
+
+
+score2=3　
+
+&reason=测试啦啦啦
+
+&sendreasonpm=on  // 是否通知作者，　否则为空
+
+&modsubmit=确定
+
+
+### res
+
+成功则返回html格式的字符串
+
+return alert when fail
+
+<script>
+    alert("抱歉，您不能给自己发表的帖子评分");
+    location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=40b0fc2d";
+</script>
+
+<script>
+    alert("抱歉，您不能对同一个帖子重复评分");
+    location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=40b0fc2d";
+</script>

@@ -44,7 +44,7 @@
 <style lang="less">
 
   @import './shadown.less';
-  
+
   stack{
       flex-direction: column;
       justify-content: center;
@@ -249,6 +249,10 @@ export default{
                   this.renderError("没有更多了")
                   return
                 }
+            }.bind(this),
+            function(re){
+
+                this.renderError("没有更多了")
             }.bind(this))
         }
   },

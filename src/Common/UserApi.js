@@ -308,7 +308,7 @@ function unFollow(uid,onUnFollowSuccess) {
  * @method search
  * @param keyword
  */
-function search(keyword,page,onSearchSuccess){
+function search(keyword,page,onSearchSuccess,andError){
     Api.fetch(
         Api.BASE_URL +"/app/web/index.php?r=user/searchuser",
         {
@@ -321,7 +321,8 @@ function search(keyword,page,onSearchSuccess){
             keyword:keyword,
             page : page
         },
-        onSearchSuccess
+        onSearchSuccess,
+        andError
     )
 }
 export default {

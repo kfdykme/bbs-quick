@@ -304,6 +304,12 @@
         this.$broadcast("render_no_more", { tag: this.tag })
       }.bind(this)
 
+      View.renderMessage = function (msg){
+        prompt.showToast({
+          message:msg
+        })
+      }
+
       View.loadMoreComplete = function () {
 
         this.canLoadMore = true
