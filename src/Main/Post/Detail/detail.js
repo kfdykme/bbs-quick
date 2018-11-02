@@ -216,6 +216,15 @@ export default {
     }
     , async onEvent(e,oriE) {
 
+        if(e.type == 'scroll'){
+          console.info(oriE.scrollY);
+        }
+
+        if(e.type == 'scroll-to-top'){
+          this.$element('postList').scrollTo({
+          index:0})
+        }
+
         if(e.type == 'toggle-zan'){
           this.zan.showZan = ! this.zan.showZan
         }
@@ -474,7 +483,7 @@ export default {
         this.showCommentBtn = true
         this.loadMore()
     },
-    renderReply(json) { 
+    renderReply(json) {
         if (json.list != null && json.list.length != 0) {
 
             //根据缓存中的最后一个帖子的{{posts_date}}时间筛选json.list里面的东西

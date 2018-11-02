@@ -307,7 +307,7 @@
 
 
     }
-
+/*
 
     .post-input{
         justify-content: center;
@@ -362,7 +362,7 @@
 
               }
 
-    }
+    } */
 
     .post-comment{
 
@@ -400,6 +400,24 @@
 
     }
 
+    .post-to-top-page{
+      height: 100%;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: flex-end;
+
+      .containor-to-top{
+        margin: 100px ;
+        width: 70px;
+        height: 70px;
+        background-color: @white;
+        border-radius: 50px;
+        justify-content: center;
+        opacity:0.5;
+
+
+      }
+    }
 
 
   }
