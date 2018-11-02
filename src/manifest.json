@@ -21,8 +21,12 @@
         {
             "name": "system.storage"
         },
+
         {
             "name": "system.network"
+        },
+        {
+            "name": "system.webview"
         },
         {
             "name": "system.request"
