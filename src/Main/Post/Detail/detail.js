@@ -1,5 +1,6 @@
 
 import PostApi from '../../../Common/PostApi'
+import Api from '../../../Common/Api'
 import prompt from '@system.prompt'
 import DateUtil from '../../../Common/DateUtil'
 import ImageUtil from '../../../Common/ImageUtil'
@@ -25,20 +26,36 @@ export default {
         page: 1,
         commentSend: "发送",
         commentContent: "",
-        showCommentBtn: false,                   //是否显示评论按钮
+        showCommentBtn: false,                     //是否显示评论按钮
         commentBtnText: "评论",
         commentReplyId: 0,
-        showImage: false,                        // 是否可以加载图片了
+        showImage: false,                          // 是否可以加载图片了
         TAG: "Main/Post/Detail",
         topicImages: [],
         images: [],                                // 本页的图片url数组,查看图片时作为参数传入
         emojiId: 0,                                // 用于作为list-item-type的标识
-        lastReplyTime: 0,                         //最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
+        lastReplyTime: 0,                          //最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
         votes: [],                                 //投票选项id
         totalNumber: 0,                            //全部回复的数量
-        sortMode: 1,                              //正序还是倒序
-        topNumber: 0,                             //置顶的回复数,用于显示楼层时去掉置顶项
+        sortMode: 1,                               //正序还是倒序
+        topNumber: 0,                              //置顶的回复数,用于显示楼层时去掉置顶项
         DEFAULT_PAGE_SIZE: 25,                     //默认每页加载回复数
+        userId:0,                                  //
+        dialogScore:{                              //
+          showScoreDialo: false,                   // if show Score dialogScore
+          sendreasonpm:"",                         //[false->'',ture->'on']
+          scoreOptions:[],
+          reason:"",
+          score:0
+        },
+        zan:{
+          hasZan :false,
+          showZan: false
+        },
+        rate:{
+          showRate:false
+        }
+
     }
     , onShow() {
         $umeng_stat.resume(this)
@@ -152,6 +169,13 @@ export default {
 
         PostApi.init(app)
 
+        //init this.userId
+        this.usrId = app.$def.cache.user.uid
+
+        //init scoreOptions
+        for(var i = -5 ; i <=30 ;i++)
+          this.dialogScore.scoreOptions.push(i)
+
         this.$on('choose_emoji', this.onEvent)
     }
 
@@ -161,6 +185,15 @@ export default {
     , onScrollBottom() {
         this.loadMore()
     }
+
+    , onBackPress(){
+      if(this.dialogScore.showScoreDialo){
+        this.dialogScore.showScoreDialo = false;
+        return true;
+      }
+    }
+
+
 
     /**
      * @method onChange
@@ -181,8 +214,55 @@ export default {
 
         this.onEvent(eve)
     }
-    , async onEvent(e) {
+    , async onEvent(e,oriE) {
 
+        if(e.type == 'toggle-zan'){
+          this.zan.showZan = ! this.zan.showZan
+        }
+
+        if(e.type == 'toggle-rate'){
+          this.rate.showRate = ! this.rate.showRate
+        }
+
+        if(e.type == 'dialog-change-score-reason'){
+          this.dialogScore.reason = oriE.value
+        }
+
+        if(e.type == 'dialog-select-score'){
+          this.dialogScore.score = oriE.newValue
+        }
+
+        if(e.type == 'dialog-check-sendreasonpm'){
+          this.dialogScore.sendreasonpm =  this.dialogScore.sendreasonpm == 'on' ? '' : "on"
+        }
+
+        if(e.type == 'dialog-send-score'){
+          console.info(JSON.stringify(this.dialogScore))
+          // var scoreRes = await PostApi.score(th)
+        }
+
+        //
+        if(e.type =='on-score'){
+          // this.dialogScore.showScoreDialo = true
+          console.info(JSON.stringify(this.topic))
+          router.push({
+              uri:"Other/Web",
+              params:{
+                  baseUrl:this.topic.extraPanel[0].action
+              }
+          })
+        }
+
+
+        if(e.type == 'support-topic'){
+
+          Api.fetch(  this.topic.extraPanel[1].action,null,function(re){
+            prompt.showToast({
+              message : re.errcode
+            })
+          })
+          console.info(JSON.stringify(this.topic))
+        }
 
         //NOTE: 回退
         if(e.type == 'back'){
@@ -192,7 +272,7 @@ export default {
         if(e.type == 'share'){
 
           const url = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid="+this.topic.topic_id
-         
+
           share.share({
             shareType: 0,
             imagePath:this.images.length == 0 ? '':this.images[0],
@@ -352,6 +432,14 @@ export default {
         }
         this.topic = json.topic
 
+        //如果赞的列表里面已经有了自己，就不显示点赞了
+        for(var x in json.topic.zanList){
+          var zan = json.topic.zanList[x]
+          if(zan.recommenduid == this.$app.$def.cache.user.uid){
+            this.zan.hasZhan = true
+          }
+        }
+
 
         // 如果是图片的话,添加到图片总数之中
         this.topicImages = []
@@ -386,8 +474,7 @@ export default {
         this.showCommentBtn = true
         this.loadMore()
     },
-    renderReply(json) {
-
+    renderReply(json) { 
         if (json.list != null && json.list.length != 0) {
 
             //根据缓存中的最后一个帖子的{{posts_date}}时间筛选json.list里面的东西

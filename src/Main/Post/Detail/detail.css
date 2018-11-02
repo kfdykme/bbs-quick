@@ -1,4 +1,6 @@
   @import "../../../Comp/shadown.less";
+  @import "../../../Comp/css/dialog.less";
+  @import "../../../Comp/base.less";
 
   .high-light{
       color: #f17c67;
@@ -62,7 +64,6 @@
                 .header-text{
                   flex-direction: column;
 
-
                   .name {
                     width: 70%;
                     color: #aabcd4;
@@ -76,12 +77,8 @@
                 }
 
 
-                .big-card{
 
-                    width: 100%;
-                    background-color: #ffffff;
-                    padding: 8px;
-                }
+
 
 
                 .emoji{
@@ -103,19 +100,19 @@
                 }
 
                 .post-menu{
-                    margin-top: 16px;
+                    margin-top: @mUnit;
                     flex-direction: row;
                     justify-content: flex-end;
 
                     .btn{
                         color:#00bcd4;
-                        margin-right: 16px;
+                        margin-right: @mUnit;
                     }
 
                 }
 
                 .vote-header{
-                    margin-top: 16px;
+                    margin-top: @mUnit;
                 }
 
                 .vote{
@@ -140,29 +137,27 @@
                     }
                 }
 
-                .card{
-                    width: 100%;
-                    background-color: #ffffff;
-                    margin-left: 16px;
-                    margin-right:16px;
-                    padding: 16px;
-                }
 
+                .card{
+                    padding: @mUnit;
+                }
                 .topic-header{
 
                 }
 
+
+
                 .topic-content{
-                    padding: 16px;
+                    padding: @mUnit;
                 }
 
                 .reply-header{
-                    margin-top: 16px;
-                    padding: 16px;
+                    margin-top: @mUnit;
+                    padding: @mUnit;
                 }
                 .reply-quote{
                     background-color: #eeeeee;
-                    padding: 16px;
+                    padding: @mUnit;
                     border-radius: 5px;
                     border-color: #eeeeee;
                     border-width: 5px;
@@ -185,8 +180,8 @@
 
                       .btn-action{
                         flex-direction: row;
-                        margin-right :16px;
-                        padding: 16px;
+                        margin-right :@mUnit;
+                        padding: @mUnit;
                         opacity: 0.7;
 
 
@@ -203,7 +198,7 @@
 
                         .btn-support{
                             color: #aacde7;
-                            margin-right: 16px;
+                            margin-right: @mUnit;
                         }
 
                       }
@@ -239,8 +234,67 @@
                 }
 
 
+                .topic-zan-header{
 
 
+                  padding-left: @mUnit;
+                  margin-top: @mUnit;
+                  .topic-zan-title{
+                    font-size: 24px;
+                    color: @primaryColor;
+
+                  }
+                }
+
+                .topic-zan-div{
+                  padding-left: @mUnit + @mUnit;
+                  >text{
+                    line-height: 30px;
+                    height: 30px;
+                    font-size: 24px;
+                  }
+                }
+
+
+                .topic-rate-header{
+                  padding-left: @mUnit;
+                  margin-top: @mUnit;
+                  flex-direction: column;
+
+                  >text{
+                    font-size: 24px;
+                    color: @primaryColor;
+                  }
+                  >div{
+                    width: 100%;
+                    div{
+                      margin-right: @mUnit+ @mUnit;
+                      >text{
+                        margin-right: @mUnit + @mUnit;
+                      }
+
+                    }
+                  }
+
+                }
+
+                .topic-rate-item{
+                  padding-left: @mUnit;
+                  .name{
+
+                    color: #aabcd4;
+                    font-size: 30px;
+                  }
+                }
+
+                .rate-number{
+                  margin: @mUnit;
+                  color: @white;
+                  background-color: @primaryColor;
+                  width: 50px;
+                  border-radius: 25px;
+                  text-align: center;
+                }
             }
 
 
@@ -280,7 +334,7 @@
                   width: 60%;
                   flex-direction: column;
                   background-color: #eeeeee;
-                  border-radius: 16px;
+                  border-radius: @mUnit;
                   border-width: 4px;
                   border-color: #ffbc4d;
                   opacity: 0.9;
@@ -312,28 +366,31 @@
 
     .post-comment{
 
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: flex-end;
-      width: 100%;
-      height: 100%;
-
+       flex-direction: column;
+       justify-content: flex-end;
+       align-items: center;
+       height: 100%;
+       width: 100%;
 
       .btn-show{
-        margin: 100px;
-
-        background-color:#00bcd4;
-
-        border-radius: 32px;
+        margin-bottom: -50px;
+        padding-bottom: 125px;
+        width: 129px;
+        height: 84px;
+        background-color: #00bcd4;
+        border-radius: 60px;
+        justify-content: center;
         opacity: 0.7;
-        padding: 16px;
+
+
         text{
 
           color: #ffffff;
           text-align: center;
           font-weight: bold;
-          background-color: #00bcd4;
-
+          width: 100px;
+          height: 50px;
+          margin-top: 20px;
         }
 
 

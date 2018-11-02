@@ -9,7 +9,7 @@
     <stack>
 
       <div class="post-content">
-        
+
         <div class="post-title-bar" show="{{topic.title != ''}}">
           <image @click="onEvent({type:'back'})" src="/Res/ic_back.png"></image>
           <text class="title">{{topic.title}}</text>
@@ -23,7 +23,7 @@
 
               <!-- 内容-topic 开始 -->
               <list-item type="topic-header">
-                <div class="tpic-header big-card">
+                <div class="topic-header card-ex">
                   <image class="avatar"  @click="onEvent({type:'user',data:topic.user_id})" src="{{topic.icon}}" />
                   <div class="header-text">
                     <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name}}</text>
@@ -38,7 +38,7 @@
 
                   <!-- NOTE:文本 -->
                   <list-item type="topic-text" if="{{t.type  == 0 }}" >
-                      <div class="topic-content big-card">
+                      <div class="topic-content card-ex">
                           <text  >{{t.infor}}</text>
 
                       </div>
@@ -46,7 +46,7 @@
 
                   <!-- NOTE: 图片  -->
                   <list-item type="topic-image-{{t.originalInfo}}" if="{{t.type  == 1  && showImage}}"   >
-                      <div class="topic-content big-card">
+                      <div class="topic-content card-ex">
 
                           <image onclick="onEvent({type:'view-image',data:t.originalInfo})" class="content-image" src="{{t.originalInfo}}" alt="/Res/ic_loading_image.png"></image>
                       </div>
@@ -54,7 +54,7 @@
 
                   <!-- NOTE:超链接 -->
                   <list-item type="topic-url" if="{{t.type  == 4 }}" >
-                      <div  class="topic-content big-card">
+                      <div  class="topic-content card-ex">
 
                           <exa  url="{{t.url}}"  infor="{{t.infor}}"  ></exa>
 
@@ -64,7 +64,7 @@
                   <!-- TODO: 要改成下载的 -->
                   <!-- NOTE: 下载  -->
                   <list-item type="topic-dl" if="{{t.type  == 5}}" >
-                      <div class="topic-content big-card">
+                      <div class="topic-content card-ex">
                           <exa url="{{t.url}}" infor="{{t.infor}}"></exa>
                           <text>{{t.desc}}</text>
 
@@ -74,7 +74,7 @@
 
                   <!-- NOTE: 评论-表情包 -->
                   <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.item}}">
-                      <div class="topic-content big-card emoji">
+                      <div class="topic-content card-ex emoji">
 
                           <block for="e in t.infor">
                               <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
@@ -86,17 +86,77 @@
 
               </block>
 
-              <list-item type="shadown-header">
-                <div class="shadown-header"></div>
-              </list-item>
+                <list-item type="shadown-header">
+                  <div class="shadown-header"></div>
+                </list-item>
+
 
               <!-- 内容-topic 结束 -->
+
+              <!-- 点赞开始 -->
+              <block if="{{topic.zanList != null && topic.zanList.length != 0}}">
+                <list-item type="zan-header-type" >
+                  <div class="topic-zan-header card" @click="onEvent({type:'toggle-zan'})">
+
+                    <text class="topic-zan-title" @click="onEvent({type:'toggle-zan'})">赞了的人</text>
+                  </div>
+                </list-item>
+                <block for="zanItem in topic.zanList" >
+                  <list-item type="topic-zan-item" if="{{zan.showZan}}">
+                    <div class="topic-zan-div topic-content card">
+                      <text >{{zanItem.username}}</text>
+                    </div>
+                  </list-item>
+                </block>
+              </block>
+              <!-- 点赞结束 -->
+
+              <!-- 评分开始 -->
+
+              <block if="{{topic.rateList != null && topic.rateList.head != null }}">
+                <list-item type="topic-rate-header-type" >
+
+                  <div class="topic-rate-header card" @click="onEvent({type:'toggle-rate'})">
+
+                    <text class="topic-rate-title">评分</text>
+
+                    <div class="" show="{{rate.showRate}}">
+
+                      <div class="" >
+                        <text>{{topic.rateList.head.field1}}</text>
+                        <text  class="rate-number">{{topic.rateList.total.field1}}</text>
+                      </div>
+                      <div class="" >
+                        <text>{{topic.rateList.head.field2}}</text>
+                        <text  class="rate-number">{{topic.rateList.total.field2}}</text>
+                      </div>
+                    </div>
+                  </div>
+                </list-item>
+
+                <list-item type="topic-rate-item-type" for="rateItem in topic.rateList.body" if="{{rate.showRate}}">
+                  <div class="topic-rate-item card">
+
+                    <text class="name">{{rateItem.field1}}</text>
+                    <text class="rate-number">{{rateItem.field2}}</text>
+                  </div>
+                </list-item>
+              </block>
+
+              <!-- 评分结束 -->
 
               <!-- 菜单开始 -->
               <list-item
                   type="post-menu" if="{{list.length != 0}}">
 
-                  <div class="topic-content  big-card  post-menu">
+                  <div class="topic-content  card-ex  post-menu">
+                      <text class="btn" @click="onEvent({type:'support-topic'})" if="{{!zan.hasZhan}}" >
+                        点赞
+                      </text>
+
+                      <text class="btn" @click="onEvent({type:'on-score'})" if="{{topic.user_id != userId}}">
+                        评分
+                      </text>
                       <text
                           class="btn"
                           @click="onEvent({type:'change-sort-mode'})">
@@ -263,6 +323,32 @@
 
 
       </div>
+
+      <div class="dialog-page" if="{{dialogScore.showScoreDialo}}" @click="onEvent({type:'dialog'})">
+          <div class="card dialog-window">
+              <div class="dialog-header">
+                <text class="dialog-title">评分</text>
+              </div>
+              <div class="dialog-containor">
+                  <div class="dialog-line-between">
+                    <div >
+
+                      <input class="dialog-checkbox" type="checkbox" @change="onEvent({type:'dialog-check-sendreasonpm'})" ></input>
+                      <text>通知作者</text>
+                    </div>
+                    <select @change="onEvent({type:'dialog-select-score'})">
+                        <option for="opt in dialogScore.scoreOptions" value="{{opt}}" selected="{{opt == 0}}">水滴 {{opt}}</option>
+                    </select>
+                  </div>
+                  <input class="dialog-input-text" type="text" @change="onEvent({type:'dialog-change-score-reason'})" placeholder="理由(可選)"></input>
+              </div>
+              <div class="dialog-footer">
+                <text class="btn" @click="onEvent({type:'dialog-send-score'})">确定</text>
+              </div>
+          </div>
+      </div>
+
+
 
 
     </stack>

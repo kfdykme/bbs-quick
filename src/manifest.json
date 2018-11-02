@@ -10,7 +10,7 @@
             "name": "system.prompt"
         },
         {
-            "name": "system.router"
+            "name": "system.router" 
         },
         {
             "name": "system.shortcut"

@@ -58,7 +58,7 @@ function onFetchFail(data,code,and){
 function onSuccessError(re,and){
   if(and != null)
     and(re)
-    
+
   console.error(JSON.stringify(re))
   //TODO : 喊后台把这个字符串改了
   if(re.errcode == 'faq_keyword_empty')
@@ -77,8 +77,10 @@ function onSuccessError(re,and){
   * @param <string> url 请求地址
   * @param <Object> data post的表格数据
   * @param <function> success(re) 请求成功后的回调
+  * @param <function> andError 请求失败后的自定义回调
+  × @param <function> onParseFail 转换成json格式失败后会调用的函数
   */
-function fetch(url,data,suc,andError){
+function fetch(url,data,suc,andError,onParseFail){
 
     var that = this
     fetchModule.fetch({
@@ -87,14 +89,21 @@ function fetch(url,data,suc,andError){
       data : data,
       success :function(data){
 
-          if(data.code != 200) return
+        if(data.code != 200) return
 
-        const re = JSON.parse(data.data)
+        try{
 
-        if(re.rs == 0)
-            that.onSuccessError(re,andError)
-        else if (re.rs == 1)
-            suc(re)
+          const re = JSON.parse(data.data)
+
+          if(re.rs == 0)
+          that.onSuccessError(re,andError)
+          else if (re.rs == 1)
+          suc(re)
+        }  catch(e){
+          console.error(e)
+          that.onParseFail(data)
+        }
+
 
       },
       fail : function(data,code){
