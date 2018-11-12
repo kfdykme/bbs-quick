@@ -216,8 +216,19 @@ export default {
     }
     , async onEvent(e,oriE) {
 
+        if(e.tupe == 'favo'){
+          PostApi.favorite(
+            this.topic.is_favor  == 0 ? PostApi.Constant.FAVO : PostApi.Constant.DELFAVO,
+            this.topicic
+          ).then((re)=>{
+
+          }).catch((re)=>{
+
+          })
+        }
+
         if(e.type == 'scroll'){
-          console.info(oriE.scrollY);
+
         }
 
         if(e.type == 'scroll-to-top'){
@@ -279,7 +290,7 @@ export default {
             this.refresh()
           }.bind(this))
 
-          
+
           console.info(JSON.stringify(this.topic))
         }
 

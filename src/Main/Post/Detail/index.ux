@@ -150,6 +150,11 @@
                   type="post-menu" if="{{list.length != 0}}">
 
                   <div class="topic-content  card-ex  post-menu">
+
+                      <text class="btn" @click="onEvent({type:'favo'})" if="{{!zan.hasZhan}}" >
+                        收藏
+                      </text>
+
                       <text class="btn" @click="onEvent({type:'support-topic'})" if="{{!zan.hasZhan}}" >
                         点赞
                       </text>

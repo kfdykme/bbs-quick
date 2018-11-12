@@ -3,7 +3,11 @@ import fetch from "@system.fetch"
 import UserCache from './UserCache'
 
 
-var app = null
+const Constant = {
+  FAVO : "favorite",
+  DELFAVO : "delfavorite"
+}
+
 function init(app){
   this.app = app
   UserCache.init(app)
@@ -48,6 +52,32 @@ async function score(tid,pid,score,reason,sendreasonpm){
       sendreasonpm : sendreasonpm,
       modsubmit : modsubmit
     }
+  })
+}
+
+/**
+ * @method favorite
+ * @param {string} action
+ * @param {string} p id
+ * @desc get this api from  https://github.com/Febers/UESTC_BBS/blob/master/app/src/main/java/com/febers/uestc_bbs/utils/ApiUtils.kt
+ * 一直找不到这个收藏的api，还以为需要最后去模拟cookie
+ */
+async function favorite(action,pid){
+  const url =  Api.BASE_URL + "app/web/index.php?r=user/userfavorite"+
+  "&accessToken="+UserCache.token() +
+  "&accessSecret="+ UserCache.secret()+
+  "&apphash="+UserCache.appHash()
+
+  const data = {
+    action :action,
+    id:pid,
+    idType:"tid"
+  }
+
+  return await fetch.fetch({
+    url : url,
+    method :"POST",
+    data:data
   })
 }
 
@@ -277,5 +307,7 @@ export default{
   reverse,
   search,
   score,
-  vote
+  vote,
+  favorite,
+  Constant
 }
