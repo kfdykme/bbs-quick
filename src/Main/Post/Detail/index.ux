@@ -152,7 +152,7 @@
                   <div class="topic-content  card-ex  post-menu">
 
                       <text class="btn" @click="onEvent({type:'favo'})" if="{{!zan.hasZhan}}" >
-                        收藏
+                        {{topic.is_favor == 0?'收藏':'取消收藏'}}
                       </text>
 
                       <text class="btn" @click="onEvent({type:'support-topic'})" if="{{!zan.hasZhan}}" >
