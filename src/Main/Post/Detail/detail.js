@@ -85,6 +85,7 @@ export default {
                 this.topNumber++
             }
 
+            //NOTE : 如果没有这一行，signature就不会更新
             list[x].signature = ""
 
 
