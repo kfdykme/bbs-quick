@@ -1,6 +1,6 @@
 <import name="loading-progress-view" src="../../../Comp/LoadingProgressView"></import>
-<!-- <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import> -->
 <import name="exa" src="../../../Comp/Exa.ux"></import>
+<import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
 
 
 <template>
@@ -147,7 +147,7 @@
 
               <!-- 菜单开始 -->
               <list-item
-                  type="post-menu" if="{{showMenu}}">
+                  type="post-menu" if="{{list.length != 0}}">
 
                   <div class="topic-content  card-ex  post-menu">
                       <text class="btn" @click="onEvent({type:'support-topic'})" if="{{!zan.hasZhan}}" >
@@ -169,8 +169,9 @@
 
 
               <!-- NOTE:内容-投票 -->
-              <block if="{{topic.poll_info != null }}">
-
+              <block
+               if="{{topic.poll_info != null }}"
+               >
                   <list-item type="topic-vote-header" if="{{topic.poll_info.poll_item_list.length != 0}}">
                       <div class="topic-content card vote-header">
                           <text>已有{{topic.poll_info.voters}}人投票</text>
@@ -275,16 +276,6 @@
                   </list-item>
                 </block>
 
-                <block if="{{re.signature != '' && re.signature != null}}">
-                  <list-item type="reply-signature">
-                    <div class="card reply-signature">
-                      <div class="reply-signature-containor">
-                        <div></div>
-                        <text clas="">{{re.signature}}</text>
-                      </div>
-                    </div>
-                  </list-item>
-                </block>
 
 
                 <list-item type="reply-footer">
@@ -364,6 +355,7 @@
       </div>
 
 
+      <loading-page id="loadingPage"></loading-page>
 
 
     </stack>
