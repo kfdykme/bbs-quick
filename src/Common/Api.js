@@ -101,7 +101,10 @@ function fetch(url,data,suc,andError,onParseFail){
           suc(re)
         }  catch(e){
           console.error(e)
-          that.onParseFail(data)
+          if(onParseFail!= null){
+
+            that.onParseFail(data)
+          }
         }
 
 
