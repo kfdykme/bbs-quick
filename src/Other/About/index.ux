@@ -46,8 +46,8 @@
             $umeng_stat.pause(this)
         }
         ,onInit(){
-            this.about = "1.2.9"
-            this.update = "\n改了很多bug"
+            this.about = "1.3.2"
+            this.update = "\n改了很多bug\n加了收藏\n加了帖子里看签名"
         }
         ,onEvent(e){
             if(e.type == "reflact"){
