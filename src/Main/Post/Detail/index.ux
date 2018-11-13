@@ -1,5 +1,4 @@
 <import name="loading-progress-view" src="../../../Comp/LoadingProgressView"></import>
-<!-- <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import> -->
 <import name="exa" src="../../../Comp/Exa.ux"></import>
 <import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
 
