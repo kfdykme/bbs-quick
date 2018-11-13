@@ -1,5 +1,6 @@
 
 import PostApi from '../../../Common/PostApi'
+import UserApi from '../../../Common/UserApi'
 import Api from '../../../Common/Api'
 import prompt from '@system.prompt'
 import DateUtil from '../../../Common/DateUtil'
@@ -180,6 +181,7 @@ export default {
         var app = this.$app
 
         PostApi.init(app)
+        UserApi.init(app)
 
         //init this.userId
         this.usrId = app.$def.cache.user.uid
