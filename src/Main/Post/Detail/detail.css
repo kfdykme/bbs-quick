@@ -155,6 +155,9 @@
                     margin-top: @mUnit;
                     padding: @mUnit;
                 }
+
+
+
                 .reply-quote{
                     background-color: #eeeeee;
                     padding: @mUnit;
@@ -166,6 +169,26 @@
                     }
                 }
 
+                .reply-signature{
+
+                  padding-top: @mUnit+@mUnit+@mUnit;
+                  justify-content: flex-end;
+                  .reply-signature-containor{
+
+                    flex-direction: column;
+                    >div{
+                      background-color: #aaaaaa;
+                      height: 1px;
+                      width: 100%;
+
+                    }
+
+                    text{
+                      color:#aaaaaa;
+                    }
+                  }
+
+                }
 
 
                 .reply-footer{
