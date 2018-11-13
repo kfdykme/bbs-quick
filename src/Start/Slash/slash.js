@@ -34,9 +34,9 @@ export default {
         const reg = /pointer.*\r?\n?<\/span/g
         try{
 
-          console.info(re.data)
+          // console.info(re.data)
           var res = re.data.match(reg)
-          console.info(res)
+          // console.info(res)
           res = res[0]
 
           res = res.substring(10,res.length-6)
