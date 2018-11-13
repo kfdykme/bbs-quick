@@ -325,11 +325,27 @@ function search(keyword,page,onSearchSuccess,andError){
         andError
     )
 }
+
+
+async function getAtUserList(){
+  return await nativeFetch.fetch({
+    url:Api.BASE_URL +"/app/web/index.php?r=forum/atuserlist",
+    method : "POST",
+    data : {
+      pageSize : 1000,
+      apphash :UserCache.appHash(),
+      accessSecret : UserCache.secret(),
+      accessToken : UserCache.token()
+    }
+  })
+
+}
 export default {
      addFriend
     ,deleteFriend
     ,follow
     ,unFollow
+    ,getAtUserList
     ,getUserInfo
     ,getUserAvatarBig
     ,getUserReplyPost
