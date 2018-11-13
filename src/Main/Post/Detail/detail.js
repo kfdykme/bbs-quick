@@ -220,8 +220,9 @@ export default {
     }
     , async onEvent(e,oriE) {
 
+
         if(e.type == 'scroll'){
-          console.info(oriE.scrollY);
+
         }
 
         if(e.type == 'scroll-to-top'){
@@ -266,6 +267,26 @@ export default {
           })
         }
 
+
+        if(e.type == 'favo'){
+
+          var loadingPage = this.$vm('loadingPage')
+          loadingPage.renderLoad()
+          PostApi.favorite(
+            this.topic.is_favor  == 0 ? PostApi.Constant.FAVO : PostApi.Constant.DELFAVO,
+            this.topicid
+          ).then((re)=>{
+            loadingPage.renderHide()
+            var res = JSON.parse(re.data.data)
+            prompt.showToast({
+              message : res.errcode
+            })
+            this.refresh()
+          }).catch((re)=>{
+              console.error(JSON.stringify(re));
+              loadingPage.renderHide()
+          })
+        }
 
         if(e.type == 'support-topic'){
 
