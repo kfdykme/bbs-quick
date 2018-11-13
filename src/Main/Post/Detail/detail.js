@@ -276,6 +276,25 @@ export default {
         }
 
 
+        if(e.type == 'favo'){
+           var loadingPage = this.$vm('loadingPage')
+          loadingPage.renderLoad()
+          PostApi.favorite(
+            this.topic.is_favor  == 0 ? PostApi.Constant.FAVO : PostApi.Constant.DELFAVO,
+            this.topicid
+          ).then((re)=>{
+            loadingPage.renderHide()
+            var res = JSON.parse(re.data.data)
+            prompt.showToast({
+              message : res.errcode
+            })
+            this.refresh()
+          }).catch((re)=>{
+              console.error(JSON.stringify(re));
+              loadingPage.renderHide()
+          })
+        }
+
         if(e.type == 'support-topic'){
 
           var loadingPage = this.$vm('loadingPage')
@@ -328,6 +347,7 @@ export default {
                 this.page = 1
                 this.lastReplyTime = 0
                 this.refresh()
+
             }
 
         }
@@ -344,6 +364,7 @@ export default {
                     prompt.showToast({
                         message: rs.errcode
                     })
+                    this.refresh()
                 })
                 .catch(data => {
                     prompt.showToast({
@@ -504,6 +525,7 @@ export default {
 
         this.showImage = true
         this.showCommentBtn = true
+        this.showMenu = true
         this.loadMore()
     },
     renderReply(json) {
