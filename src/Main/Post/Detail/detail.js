@@ -35,6 +35,7 @@ export default {
         TAG: "Main/Post/Detail",
         topicImages: [],
         images: [],                                // 本页的图片url数组,查看图片时作为参数传入
+        imageId:0,
         emojiId: 0,                                // 用于作为list-item-type的标识
         lastReplyTime: 0,                          //最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
         votes: [],                                 //投票选项id
@@ -81,6 +82,13 @@ export default {
             // NOTE: 判断是否是置顶的回复,是的话就topNumber++
             if (list[x].poststick == 1) {
                 this.topNumber++
+            }
+
+            // NOTE:判断是否为图片如果是则image++
+            for(var i in list[x].reply_content){
+              if(list[x].reply_content[i].type == 1){
+                list[x].reply_content[i].id = this.imageId++
+              }
             }
 
             //NOTE : 如果没有这一行，signature就不会更新

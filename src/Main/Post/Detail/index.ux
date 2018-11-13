@@ -253,7 +253,7 @@
                   </list-item>
 
                   <!-- NOTE: 评论-图片 -->
-                  <list-item type="reply-image" if="{{$item.type  == 1 }}">
+                  <list-item type="reply-image-{{$item.id}}" if="{{$item.type  == 1 }}">
                       <div class="card">
                           <image onclick="onEvent({type:'view-image',data:$item.originalInfo})" class="content"  src="{{$item.originalInfo}}"/>
 
