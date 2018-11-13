@@ -123,10 +123,10 @@
 
 
             textarea {
-                border-left-width: 2px;
-                border-color: #00bcdf;
+
                 padding: 8px;
-                width: 550px;
+                padding-right:32px;
+                width: 650px;
                 height: 100%;
             }
         }

@@ -1,6 +1,5 @@
 
 import PostApi from '../../../Common/PostApi'
-import UserApi from '../../../Common/UserApi'
 import Api from '../../../Common/Api'
 import prompt from '@system.prompt'
 import DateUtil from '../../../Common/DateUtil'
@@ -9,7 +8,6 @@ import router from '@system.router'
 import clipboard from '@system.clipboard'
 import share from '@service.share'
 import systemShare from '@system.share'
-import fetch from "@system.fetch"
 //
 
 export default {
@@ -32,7 +30,6 @@ export default {
         commentBtnText: "评论",
         commentReplyId: 0,
         showImage: false,                          // 是否可以加载图片了
-        showMenu: false,                           // 是否展示菜单
         TAG: "Main/Post/Detail",
         topicImages: [],
         images: [],                                // 本页的图片url数组,查看图片时作为参数传入
@@ -74,7 +71,7 @@ export default {
      */
     , convertList(list) {
 
-
+        // console.info(JSON.stringify(list))
 
         for (let x in list) {
 
@@ -93,7 +90,6 @@ export default {
             var rc = this.convertEmoji(list[x].reply_content)
 
         }
-
 
 
         return list
@@ -157,13 +153,6 @@ export default {
      * @method loadSend
      * @desc 加载评论/回复之后的内容
      */
-
-    , convertSign(v){
-        UserApi.getUserInfo(this.list[v].reply_id,function(res){
-          this.list[v].signature = res.sign
-
-        }.bind(this))
-    }
     , loadSend() {
 
 
@@ -183,7 +172,6 @@ export default {
         var app = this.$app
 
         PostApi.init(app)
-        UserApi.init(app)
 
         //init this.userId
         this.usrId = app.$def.cache.user.uid
@@ -233,7 +221,7 @@ export default {
     , async onEvent(e,oriE) {
 
         if(e.type == 'scroll'){
-
+          console.info(oriE.scrollY);
         }
 
         if(e.type == 'scroll-to-top'){
@@ -243,7 +231,6 @@ export default {
 
         if(e.type == 'toggle-zan'){
           this.zan.showZan = ! this.zan.showZan
-          console.info(this.signlist)
         }
 
         if(e.type == 'toggle-rate'){
@@ -263,7 +250,7 @@ export default {
         }
 
         if(e.type == 'dialog-send-score'){
-          // console.info(JSON.stringify(this.dialogScore))
+          console.info(JSON.stringify(this.dialogScore))
           // var scoreRes = await PostApi.score(th)
         }
 
@@ -282,12 +269,22 @@ export default {
 
         if(e.type == 'support-topic'){
 
+          var loadingPage = this.$vm('loadingPage')
+          loadingPage.renderLoad()
           Api.fetch(  this.topic.extraPanel[1].action,null,function(re){
             prompt.showToast({
               message : re.errcode
             })
-          })
+            loadingPage.renderHide()
+            this.refresh()
+          }.bind(this),function(){
 
+            loadingPage.renderHide()
+            this.refresh()
+          }.bind(this))
+
+
+          console.info(JSON.stringify(this.topic))
         }
 
         //NOTE: 回退
@@ -498,10 +495,9 @@ export default {
 
         this.showImage = true
         this.showCommentBtn = true
-        this.showMenu = true
         this.loadMore()
     },
-    async renderReply(json) {
+    renderReply(json) {
         if (json.list != null && json.list.length != 0) {
 
             //根据缓存中的最后一个帖子的{{posts_date}}时间筛选json.list里面的东西
@@ -542,16 +538,6 @@ export default {
 
 
             this.list = this.list.concat(json.list)
-
-
-            //note 获取签名
-            for(let v in this.list){
-              this.convertSign(v)
-            }
-
-
-
-
 
             this.renderReplyComplete()
 
@@ -628,7 +614,10 @@ export default {
                     tempList.push(json.list[x])
             }
             json.list = tempList
-
+            //DEBUG:
+            {
+                console.info(this.lastReplyTime)
+            }
 
 
             //更新最后的回复的时间
@@ -667,9 +656,11 @@ export default {
         // console.info(this.list)
     },
     renderReplyComplete() {
+        // prompt.showToast({
+        //   message : "加载新的回复"
+        // })
 
         this.loadMoreComplete()
-
     },
     renderError(msg) {
         this.$broadcast("render_no_more", { tag: this.TAG })
