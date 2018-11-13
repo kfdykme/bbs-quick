@@ -5,6 +5,7 @@ import request from '@system.request'
 import prompt from '@system.prompt'
 import storage from '@system.storage'
 import UserCache from '../../Common/UserCache'
+
 export default {
   protected: {
       imageUrl :"internal://files/home.jpg",
@@ -30,15 +31,15 @@ export default {
     fetch.fetch({
       url : "http://bbs.uestc.edu.cn/forum.php?mobile=no",
       success:(re)=>{
-        const reg = /pointer.*\r?\n?<?/g
+        const reg = /pointer.*\r?\n?<\/span/g
         try{
 
-          console.info(re.data)
+          // console.info(re.data)
           var res = re.data.match(reg)
-          console.info(res)
+          // console.info(res)
           res = res[0]
 
-          res = res.substring(10,res.length-1)
+          res = res.substring(10,res.length-6)
           console.info(res)
           this.note = res
           storage.set({

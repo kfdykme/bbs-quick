@@ -27,9 +27,12 @@ export default {
         showBoard: false,
 
         showLoadingPage: false,
-
+        showingAts:false,
+        skipAt:false,
         uploadImages: [],//保存已经上传的图片的数组
-        showUploadImageButton: true // 是否显示上传图片的按钮
+        showUploadImageButton: true, // 是否显示上传图片的按钮
+        lastContent:"",          // 记录textarea上一次改动时的文本长度，用于判断是输入还是删除
+        contentIndex:0
 
 
     }
@@ -44,7 +47,7 @@ export default {
             // 从数据中获取回传给本页面的数据
             const data = this.$app.$data.dataImageView.params
             const newImages = []
-            for (var x in this.uploadImages) {
+            for (let x in this.uploadImages) {
                 if (data.uri != this.uploadImages[x])
                     newImages.push(this.uploadImages[x])
             }
@@ -81,11 +84,12 @@ export default {
 
 
         this.$on('choose_emoji', this.onEvent)
+        this.$on('choose_ats',this.onEvent)
         this.$on('on-pick-image', this.onEvent)
 
         //bind views
-        var loadingPage = this.$vm('loadingPage')
-        var imagePickBar = this.$vm('imagePickBar')
+        let loadingPage = this.$vm('loadingPage')
+        let imagePickBar = this.$vm('imagePickBar')
         imagePickBar.loadingPage = loadingPage
     }
 
@@ -108,6 +112,12 @@ export default {
             return true
         }
 
+        if(this.showingAts){
+          this.toggleAts()
+
+          return true
+        }
+
 
         return false
     }
@@ -125,7 +135,7 @@ export default {
 
         if (e.type == 'change-category') {
             this.showBoard = false;
-            var tempList = JSON.parse(e.data).board_list
+            let tempList = JSON.parse(e.data).board_list
 
             this.board = tempList;
 
@@ -135,6 +145,22 @@ export default {
 
         if (e.type == 'emoji') {
             this.showEmojiBar = !this.showEmojiBar
+        }
+
+        if(e.type == 'choose_ats'){
+          let name = e.detail.at
+          this.toggleAts()
+          let first = this.publishContent.substring(0,this.contentIndex)
+          let end = this.publishContent.substring(this.contentIndex)
+
+          this.skipAt = true
+
+          this.publishContent  = first +end[0]+name+end.substring(1)
+
+          //因为修改publishContent会触发onChange事件，所以我选择加一个异步防止无限触发
+          setTimeout(()=>{
+            this.skipAt = false
+          },200)
         }
 
 
@@ -160,6 +186,40 @@ export default {
 
     , onChangeContent(e) {
         this.publishContent = e.value
+
+
+        //输入的时候才会触发
+        if(!this.skipAt && this.lastContent.length < e.value.length){
+
+          //如果正在显示ats的时候再次输入，那就返回去
+          if(this.showingAts){
+            this.toggleAts()
+          }
+          //判断现在的文本是不是比上一次的文本多了一个 @ 符号
+
+
+          let isAt = false
+          let x
+          for( x in this.lastContent){
+            if(this.lastContent[x] != e.value[x] && e.value[x] === '@'){
+              isAt = true
+
+              break;
+            }
+          }
+
+          x = isAt ? x : e.value.length-1
+          this.contentIndex = x
+          if(e.value[x] === '@'){
+            isAt = true
+          }
+
+          if(isAt){
+            this.toggleAts()
+          }
+        }
+
+        this.lastContent= e.value
     }
 
     , onChangeTitle(e) {
@@ -169,7 +229,7 @@ export default {
 
 
     , async onChangeBoard(board) {
-        var key = 'classification' + board.board_id
+        let key = 'classification' + board.board_id
 
         this.classificationType_list = [{
             "classificationType_id": 0,
@@ -179,7 +239,7 @@ export default {
 
         this.targetClass = this.classificationType_list[0]
 
-        var res = await storage.get({ key: key })
+        let res = await storage.get({ key: key })
         if (res.data != "") {
 
             res = JSON.parse(res.data)
@@ -191,7 +251,7 @@ export default {
         }
 
 
-        var success = function (data) {
+        let success = function (data) {
 
             this.classificationType_list = [{
                 "classificationType_id": 0,
@@ -227,8 +287,8 @@ export default {
         //console.info("id   ",this.targetBoard.board_id,"name  ",this.targetBoard.board_name);
         if (!this.isPublishing) {
             this.isPublishing = true;
-            var contentList = []
-            var publishContent = {}
+            let contentList = []
+            let publishContent = {}
 
 
 
@@ -237,15 +297,15 @@ export default {
             contentList.push(publishContent)
 
             //把上传的图片插到末尾
-            for (var x in this.uploadImages) {
-                var content = {
+            for (let x in this.uploadImages) {
+                let content = {
                     type: 1,
                     infor: this.uploadImages[x]
                 }
                 contentList.push(content)
             }
 
-            var info = {}
+            let info = {}
             info.content = JSON.stringify(contentList)
             info.title = this.publishTitle
             info.fid = this.targetBoard.board_id
@@ -253,10 +313,10 @@ export default {
             if (this.targetClass.classificationType_id != 0)
                 info.typeId = this.targetClass.classificationType_id
 
-            var body = {}
+            let body = {}
             body.json = info
 
-            var publishJson = {}
+            let publishJson = {}
             publishJson.body = body
 
 
@@ -303,10 +363,26 @@ export default {
      */
     , async save(value, key) {
 
-        var res = await storage.set({
+        let res = await storage.set({
             key: key,
             value: value
         })
 
+    }
+
+    /**
+     * @method showAts
+     * @param {integer} index  @ 符合所在的index
+     */
+    , toggleAts(index){
+      let atsPage = this.$vm('atsPage')
+        if(this.showingAts){
+
+          atsPage.renderHideAts()
+        } else{
+
+          atsPage.renderAts()
+        }
+      this.showingAts = !this.showingAts
     }
 }

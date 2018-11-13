@@ -1,6 +1,8 @@
 <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
 <import name="image-pick-bar" src="../../../Comp/ImagePickBar.ux"></import>
 <import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
+<import name="ats-page" src="../../../Comp/AtsPage.ux"></import>
+
 <template>
 
     <stack>
@@ -17,8 +19,8 @@
 
                 </div>
                 <div class="board"  if="{{targetBoard}}">
- 
-                   
+
+
                    <text @click="onEvent({type:'click-selected-board'})">{{targetBoard.board_name}}</text>
 
                 </div>
@@ -58,6 +60,7 @@
         </div>
         <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
         <loading-page id="loadingPage"></loading-page>
+        <ats-page id="atsPage"></ats-page>
         <div class="loading-page">
           <div  show="{{showLoadingPage}}" class="dialog">
             <progress type="circular">
@@ -66,7 +69,7 @@
           </div>
         </div>
         <div class='board-select-page' show="{{showBoard}}">
-            
+
             <div  for="b in board"  @click="onEvent({type:'select-board',data:b})">
                 <text  @click="onEvent({type:'select-board',data:b})" >{{b.board_name}}</text>
             </div>

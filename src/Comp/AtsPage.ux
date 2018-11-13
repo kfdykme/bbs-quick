@@ -1,0 +1,98 @@
+<template>
+  <div class="ats-page" show="{{showAts}}" @click="onEvent({type:'dispatch-event'})">
+    <div   class="dialog column">
+      <list>
+        <block for="at in ats">
+          <list-item type="ats-item">
+            <div>
+
+              <text class="ats-text" @click="onEvent({type:'choose_ats',data:at.name})">@{{at.name}}</text>
+            </div>
+          </list-item>
+        </block>
+      </list>
+    </div>
+  </div>
+</template>
+<style lang="less">
+.ats-page{
+  height:100%;
+  width:100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(111, 111,111 , 0.8);
+  .dialog{
+    width: 300px;
+    height : 500px;
+    padding : 16px;
+    border-radius: 40px;
+    background-color:#ffffff;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+
+    >list{
+      width:100%;
+
+
+      div{
+        padding:16px;
+
+      }
+
+      .ats-text{
+        color:#00bcd4;
+      }
+    }
+
+
+  }
+}
+
+</style>
+
+<script>
+
+  import UserApi from "../Common/UserApi"
+
+  export default{
+    props:[
+
+    ],
+    data:{
+      showAts:false,
+      ats:[]
+    },
+    async onInit(){
+        UserApi.init(this.$app)
+        this.$on('render_ats',this.renderAts)
+
+        this.$on('render_hide_ats',this.renderHideAts)
+        await UserApi.getAtUserList()
+          .then((re)=>{
+            const res = JSON.parse(re.data.data)
+            this.ats = res.list
+          })
+          .catch((re)=>{
+              console.info(re)
+          })
+    }
+    ,renderAts(){
+      this.showAts= true;
+    }
+    ,renderHideAts(){
+      this.showAts= false;
+    }
+    ,onEvent(e){
+      switch (e.type) {
+        case 'choose_ats':
+
+          this.$dispatch(e.type,{at:e.data+" "})
+          break;
+        default:
+
+      }
+    }
+  }
+</script>

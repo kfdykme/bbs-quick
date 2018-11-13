@@ -11,16 +11,55 @@
 <script>
     import router from "@system.router"
 
+
+
+    String.prototype.startWith=function(str){
+      var reg=new RegExp("^"+str);
+      return reg.test(this);
+    }
+
+
     export default{
         props:[
             'url',
             'infor'
         ]
         ,data:{
-            infoUsed :""// 不知道命名为啥子好,因为props:[]里面的info不能更改,但是需要判断infor是否为空,所以就另外设了一个Infor
+            infoUsed :"",          // 不知道命名为啥子好,因为props:[]里面的info不能更改,但是需要判断infor是否为空,所以就另外设了一个Infor
+            POST_URL : /http:\/\/bbs.uestc.edu.cn\/forum.php\?mod=viewthread&tid=/g,
+            USER_URL : /http:\/\/bbs.uestc.edu.cn\/home.php\?mod=space&uid=/g
         }
+
         ,onEvent(e){
             if(e.type == "web"){
+
+              const url = e.data
+
+
+              //note: 如果url是跳转到另外一个帖子，就直接用快应用的方式打开
+              if(url.match(this.POST_URL)!= null ){
+                let tid= url.match(/[0-9]+/g)[0]
+                router.push({
+                  uri:"Main/Post/Detail",
+                  params:{
+                    topicid:tid
+                  }
+                })
+                return
+              }
+
+              //note: 如果url是跳转到某个用户，就直接用快应用的方式打开
+              if(url.match(this.USER_URL) != null){
+                let uid= url.match(/[0-9]+/g)[0]
+                router.push({
+                    uri : "Main/User",
+                    params :{
+                        uid :uid
+                    }
+                })
+                return
+              }
+
                 router.push({
                     uri:"Other/Web",
                     params:{

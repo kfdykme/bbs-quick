@@ -2,6 +2,7 @@
 <import name="image-pick-bar" src="../../../Comp/ImagePickBar.ux"></import>
 <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
 <import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
+<import name="ats-page" src="../../../Comp/AtsPage.ux"></import>
 <template>
 
     <stack>
@@ -41,6 +42,7 @@
         <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
 
         <loading-page id="replyLoadingPage"></loading-page>
+        <ats-page id="atsPage"></ats-page>
     </stack>
 </template>
 
@@ -149,7 +151,13 @@
             textSend: "发送",//
             uploadImages:[],
             option:{},
-            isReplying :false //是不是正在发送网络请求进行回复
+            isReplying :false, //是不是正在发送网络请求进行回复
+            atsPage:{
+              skipAt:false,
+              showingAts:false,
+              lastContent:"",          // 记录textarea上一次改动时的文本长度，用于判断是输入还是删除
+              contentIndex:0
+            }
         }
         ,onShow(){
             $umeng_stat.resume(this)
@@ -179,6 +187,7 @@
 
             this.option = JSON.parse(this.option)
             this.$on('choose_emoji', this.onEvent)
+            this.$on('choose_ats',this.onEvent)
             this.$on('on-pick-image',this.onEvent)
 
             setTimeout(()=>{
@@ -206,15 +215,57 @@
 
             return false
         }
-        ,onBackPress(){
-            if(this.showEmojiBar)
-            {
-                this.showEmojiBar = false
-                return true;
-            }
-        }
         , onChange(e) {
             this.onEvent({ type: 'change-text', data: e.value })
+
+            //输入的时候才会触发
+            if(!this.atsPage.skipAt && this.atsPage.lastContent.length < e.value.length){
+
+              //如果正在显示ats的时候再次输入，那就返回去
+              if(this.atsPage.showingAts){
+                this.toggleAts()
+              }
+              //判断现在的文本是不是比上一次的文本多了一个 @ 符号
+
+
+              let isAt = false
+              let x
+              for( x in this.atsPage.lastContent){
+                if(this.atsPage.lastContent[x] != e.value[x] && e.value[x] === '@'){
+                  isAt = true
+
+                  break;
+                }
+              }
+
+              x = isAt ? x : e.value.length-1
+              this.atsPage.contentIndex = x
+              if(e.value[x] === '@'){
+                isAt = true
+              }
+
+              if(isAt){
+                this.toggleAts()
+              }
+            }
+
+            this.atsPage.lastContent= e.value
+        }
+        /**
+         * @method showAts
+         * @param {integer} index  @ 符合所在的index
+         */
+        , toggleAts(index){
+
+          let view = this.$vm('atsPage')
+            if(this.atsPage.showingAts){
+
+            view.renderHideAts()
+            } else{
+
+              view.renderAts()
+            }
+          this.atsPage.showingAts = !this.atsPage.showingAts
         }
         , onEvent(e) {
 
@@ -251,7 +302,7 @@
                   }
                 } else {
 
-
+start
 
                   if(!this.isReplying){
                         this.isReplying = true
@@ -295,6 +346,23 @@
                 //把该emoji的url格式化之后添加到文本内容里
                 // let imageUrl = "["+e.detail.event.data+"]"
                 this.replyContent += e.detail.event.data
+            }
+
+
+            if(e.type == 'choose_ats'){
+              let name = e.detail.at
+              this.toggleAts()
+              let first = this.replyContent.substring(0,this.atsPage.contentIndex)
+              let end = this.replyContent.substring(this.atsPage.contentIndex)
+
+              this.atsPage.skipAt = true
+
+              this.replyContent  = first +end[0]+name+end.substring(1)
+
+              //因为修改publishContent会触发onChange事件，所以我选择加一个异步防止无限触发
+              setTimeout(()=>{
+                this.atsPage.skipAt = false
+              },200)
             }
 
 
