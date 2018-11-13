@@ -147,7 +147,7 @@
 
               <!-- 菜单开始 -->
               <list-item
-                  type="post-menu" if="{{list.length != 0}}">
+                  type="post-menu" if="{{showMenu}}">
 
                   <div class="topic-content  card-ex  post-menu">
 
@@ -174,9 +174,7 @@
 
 
               <!-- NOTE:内容-投票 -->
-              <block
-               if="{{topic.poll_info != null }}"
-               >
+              <block if="{{topic.poll_info != null }}"   >
                   <list-item type="topic-vote-header" if="{{topic.poll_info.poll_item_list.length != 0}}">
                       <div class="topic-content card vote-header">
                           <text>已有{{topic.poll_info.voters}}人投票</text>
@@ -282,7 +280,18 @@
                 </block>
 
 
+                <block if="{{re.signature != '' && re.signature != null}}">
+                  <list-item type="reply-signature">
+                    <div class="card reply-signature">
+                      <div class="reply-signature-containor">
+                        <div></div>
+                        <text clas="">{{re.signature}}</text>
+                      </div>
+                    </div>
+                  </list-item>
+                </block>
 
+                
                 <list-item type="reply-footer">
                   <div class="reply-footer content card ">
                     <div class="reply-action">

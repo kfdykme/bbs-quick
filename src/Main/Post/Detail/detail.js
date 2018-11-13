@@ -30,6 +30,7 @@ export default {
         commentBtnText: "评论",
         commentReplyId: 0,
         showImage: false,                          // 是否可以加载图片了
+        showMenu:false,
         TAG: "Main/Post/Detail",
         topicImages: [],
         images: [],                                // 本页的图片url数组,查看图片时作为参数传入
@@ -71,7 +72,6 @@ export default {
      */
     , convertList(list) {
 
-        // console.info(JSON.stringify(list))
 
         for (let x in list) {
 
@@ -81,6 +81,10 @@ export default {
             if (list[x].poststick == 1) {
                 this.topNumber++
             }
+
+            //NOTE : 如果没有这一行，signature就不会更新
+            list[x].signature = ""
+
 
             //处理表情
             var rc = this.convertEmoji(list[x].reply_content)
@@ -145,6 +149,14 @@ export default {
         }
         return rc
     }
+
+
+    , convertSign(v){
+        UserApi.getUserInfo(this.list[v].reply_id,function(res){
+          this.list[v].signature = res.sign
+         }.bind(this))
+    }
+
     /**
      * @method loadSend
      * @desc 加载评论/回复之后的内容
@@ -216,7 +228,6 @@ export default {
     }
     , async onEvent(e,oriE) {
 
-
         if(e.type == 'scroll'){
 
         }
@@ -247,8 +258,7 @@ export default {
         }
 
         if(e.type == 'dialog-send-score'){
-          console.info(JSON.stringify(this.dialogScore))
-          // var scoreRes = await PostApi.score(th)
+
         }
 
         //
@@ -263,26 +273,6 @@ export default {
           })
         }
 
-
-        if(e.type == 'favo'){
-
-          var loadingPage = this.$vm('loadingPage')
-          loadingPage.renderLoad()
-          PostApi.favorite(
-            this.topic.is_favor  == 0 ? PostApi.Constant.FAVO : PostApi.Constant.DELFAVO,
-            this.topicid
-          ).then((re)=>{
-            loadingPage.renderHide()
-            var res = JSON.parse(re.data.data)
-            prompt.showToast({
-              message : res.errcode
-            })
-            this.refresh()
-          }).catch((re)=>{
-              console.error(JSON.stringify(re));
-              loadingPage.renderHide()
-          })
-        }
 
         if(e.type == 'support-topic'){
 
@@ -556,6 +546,11 @@ export default {
 
             this.list = this.list.concat(json.list)
 
+            //note: 获取签名
+            for(let v in this.list){
+              this.convertSign(v)
+            }
+
             this.renderReplyComplete()
 
             if (json.list.length < this.DEFAULT_PAGE_SIZE || json.has_next == 0) {
@@ -631,10 +626,7 @@ export default {
                     tempList.push(json.list[x])
             }
             json.list = tempList
-            //DEBUG:
-            {
-                console.info(this.lastReplyTime)
-            }
+
 
 
             //更新最后的回复的时间
@@ -670,12 +662,9 @@ export default {
             this.loadMoreComplete()
         }
 
-        // console.info(this.list)
     },
     renderReplyComplete() {
-        // prompt.showToast({
-        //   message : "加载新的回复"
-        // })
+
 
         this.loadMoreComplete()
     },
