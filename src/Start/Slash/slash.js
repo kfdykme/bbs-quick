@@ -7,7 +7,9 @@ import storage from '@system.storage'
 import UserCache from '../../Common/UserCache'
 export default {
   protected: {
-      imageUrl :"internal://files/home.jpg"
+      imageUrl :"internal://files/home.jpg",
+      START_TIME :2000,
+      note:""
   }
   ,onShow(){
       $umeng_stat.resume(this)
@@ -17,12 +19,45 @@ export default {
   }
   ,async onInit(){
 
-      var startTime = new Date().getTime()
-    //读取登陆缓存 
+
+
+    var startTime = new Date().getTime()
+    await storage.get({
+      key: "flash-note"
+    }).then((data)=>{
+      this.note = data.data
+    })
+    fetch.fetch({
+      url : "http://bbs.uestc.edu.cn/forum.php?mobile=no",
+      success:(re)=>{
+        const reg = /pointer.*\r?\n?<?/g
+        try{
+
+          console.info(re.data)
+          var res = re.data.match(reg)
+          console.info(res)
+          res = res[0]
+
+          res = res.substring(10,res.length-1)
+          console.info(res)
+          this.note = res
+          storage.set({
+            key: "flash-note",
+            value:res,
+            success:(re)=>{
+              console.info(re)
+            }
+          })
+        } catch(e){
+          console.error(e);
+        }
+      }
+    })
+    //读取登陆缓存
     await storage.get({
         key : "user"
     }).then(data =>{
-        while(new Date().getTime() -startTime < 2000);
+        while(new Date().getTime() -startTime < 3000);
 
         if(data){
             const user = JSON.parse(data.data)
@@ -49,7 +84,7 @@ export default {
             })
         }
     }).catch(data =>{
-        while(new Date().getTime() -startTime < 2000);
+        while(new Date().getTime() -startTime < 3000);
 
         router.replace({
             uri : "Start/Login",

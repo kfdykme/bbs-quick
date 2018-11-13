@@ -4,10 +4,11 @@
 
         <div class="pic-container">
 
-         <image src="{{imageUrl}}" ></image>
+         <!-- <image src="{{imageUrl}}" ></image> -->
+         <text>{{note}}</text>
         </div>
 
-        <div class="bottom-bar">  
+        <div class="bottom-bar">
               <text>清水河畔</text>
         </div>
     </div>
