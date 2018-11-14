@@ -213,6 +213,13 @@
                 return true
             }
 
+            if(this.atsPage.showingAts){
+              this.toggleAts()
+
+              return true
+            }
+
+
             return false
         }
         , onChange(e) {
