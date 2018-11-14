@@ -1,20 +1,29 @@
 <template>
-  <div class="ats-page" show="{{showAts}}" @click="onEvent({type:'dispatch-event'})">
-    <div   class="dialog column">
-      <list>
-        <block for="at in ats">
-          <list-item type="ats-item">
-            <div>
 
-              <text class="ats-text" @click="onEvent({type:'choose_ats',data:at.name})">@{{at.name}}</text>
-            </div>
-          </list-item>
-        </block>
-      </list>
+  <div class="ats-containor">
+
+    <div class="ats-page" show="{{showAts}}" @click="onEvent({type:'dispatch-event'})">
+      <div   class="dialog column">
+        <list>
+          <block for="at in ats">
+            <list-item type="ats-item">
+              <div>
+
+                <text class="ats-text" @click="onEvent({type:'choose_ats',data:at.name})">@{{at.name}}</text>
+              </div>
+            </list-item>
+          </block>
+        </list>
+      </div>
     </div>
   </div>
 </template>
 <style lang="less">
+.ats-containor{
+  height:100%;
+  width:100%;
+}
+
 .ats-page{
   height:100%;
   width:100%;

@@ -46,7 +46,7 @@
             $umeng_stat.pause(this)
         }
         ,onInit(){
-            this.about = "1.3.3"
+            this.about = "1.3.4"
             this.update = "\n改了很多bug\n可以在输入框@人\n话说之前数据丢失造成的bug.....╮(╯▽╰)╭"
         }
         ,onEvent(e){
