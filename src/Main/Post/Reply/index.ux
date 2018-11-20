@@ -309,8 +309,6 @@
                   }
                 } else {
 
-start
-
                   if(!this.isReplying){
                         this.isReplying = true
                         this.$broadcast('render_load')
