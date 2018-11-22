@@ -1,0 +1,32 @@
+
+<import name="user-list-view" src="../../../Comp/UserListView"></import>
+
+
+<template >
+    <user-list-view uid="{{uid}}" tag="{{tag}}"></user-list-view>
+</template>
+
+
+<style lang="less">
+</style>
+
+<script>
+
+
+export default{
+  protected:{
+    uid:0,
+    tag :"",
+  }
+  ,onShow(){
+      $umeng_stat.resume(this)
+  }
+  ,onHide() {
+      $umeng_stat.pause(this)
+  }
+  ,onInit(){
+
+  }
+}
+
+</script>

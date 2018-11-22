@@ -1,0 +1,89 @@
+<import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
+<import name="image-pick-bar" src="../../../Comp/ImagePickBar.ux"></import>
+<import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
+<import name="ats-page" src="../../../Comp/AtsPage.ux"></import>
+
+<template>
+
+    <stack>
+        <div class="write-page">
+
+            <div class="board-select-bar">
+                <div class="category">
+
+                    <select class="category-select"   @change="onChangeGategory" if="{{category.length != 0}}" >
+
+                        <option value="{{$item}}" for="category">{{$item.board_category_name}}</option>
+
+                    </select>
+
+                </div>
+                <div class="board"  if="{{targetBoard}}">
+
+
+                   <text @click="onEvent({type:'click-selected-board'})">{{targetBoard.board_name}}</text>
+
+                </div>
+
+            </div>
+
+            <div class="write-content">
+
+                <div class="input input-header">
+                    <input id="publish-title" @change="onChangeTitle" class="input-title" placeholder="请输入标题"  value="{{publishTitle}}"></input>
+
+                    <div class="btn">
+                        <text  @click="onPublish" >发布</text>
+                    </div>
+
+
+                </div>
+                <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容"  >{{publishContent}}</textarea>
+
+
+                <div class="input input-others-bar">
+                    <image   @click="onEvent({type:'emoji'})" src="/Res/ic_emoji.png"></image>
+                </div>
+
+
+                <image-pick-bar id="imagePickBar"></image-pick-bar>
+                <list class="input input-classifi" >
+                    <list-item type="classi-text"  for="cl in classificationType_list">
+
+                        <text class="classi-text {{cl.classificationType_id == targetClass.classificationType_id ? 'active' : ''}}" @click="onClickClassification(cl)">{{cl.classificationType_name}}</text>
+
+                    </list-item>
+                </list>
+
+            </div>
+
+        </div>
+        <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
+        <loading-page id="loadingPage"></loading-page>
+        <ats-page id="atsPage"></ats-page>
+        <div class="loading-page">
+          <div  show="{{showLoadingPage}}" class="dialog">
+            <progress type="circular">
+
+            </progress>
+          </div>
+        </div>
+        <div class='board-select-page' show="{{showBoard}}">
+
+            <div  for="b in board"  @click="onEvent({type:'select-board',data:b})">
+                <text  @click="onEvent({type:'select-board',data:b})" >{{b.board_name}}</text>
+            </div>
+        </div>
+    </stack>
+
+</template>
+
+
+<style lang="less" src="./write.css">
+
+</style>
+
+<script src="./write.js">
+
+
+</script>

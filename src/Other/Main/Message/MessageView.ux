@@ -1,0 +1,441 @@
+
+<import name="loading-progress-view" src="../../Comp/LoadingProgressView"></import>
+
+
+<template >
+  <div class="message-view">
+
+        <div class="message-bar">
+
+            <text class="{{messageIndex == 0 ? 'top-tab-active' : ''}}" onclick="onEvent('index',0)">回复</text>
+            <text class="{{messageIndex == 1? 'top-tab-active' : ''}}" onclick="onEvent('index',1)">@me</text>
+            <text class="{{messageIndex == 2 ? 'top-tab-active' : ''}}"     onclick="onEvent('index',2)">私信</text>
+            <text class="{{messageIndex == 3 ? 'top-tab-active' : ''}}" onclick="onEvent('index',3)">系统</text>
+        </div>
+
+        <tabs @change="onChangeMessage" index="{{messageIndex}}">
+          <tab-content >
+
+              <block for="m in msgList">
+                <div >
+                  <stack>
+                    <div class="message-list" >
+
+                      <refresh @refresh="onRefrsh(m)" refreshing={{m.isRefreshing}}>
+                        <list @scrollbottom="onScrollBottom(m)">
+                          <block  for="{{m.list}}">
+
+
+
+                            <list-item type="message-item-header" >
+                              <div class="header card">
+
+
+                                <image class="avatar" @click="onEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
+                                <div class="header-text">
+
+                                  <text class="user-nike-name" @click="onEvent('user',$item.toUserId)">{{$item.toUserName}}</text>
+                                  <text class="user-nike-name" @click="onEvent('user',$item.user_id)">{{$item.user_name}}</text>
+                                  <text class="date" >{{$item.replied_date}}</text>
+
+
+                                  <div >
+
+
+                                    <!-- 帖子回复 -->
+                                    <text class="content" @click="onEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag == 'post'}}">{{$item.topic_subject}}</text>
+                                    <!-- atme -->
+                                    <text class="atme-content" @click="onEvent('topic',$item.topic_id)" if="{{$item.topic_content != null && m.tag =='atme'}}">{{$item.topic_content}}</text>
+                                    <!-- 私信 -->
+                                    <text class="pm-content" @click="onEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 'pm'}}">{{$item.topic_content}}</text>
+                                    <!-- 系统消息 -->
+                                    <text class="system-content"  @click="onEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 'system'}}">{{$item.topic_content}}</text>
+                                    <text class="action-btn" @click="onEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}">同意</text>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                            </list-item>
+
+                            <list-item type="messaage-item-reply"  >
+                              <div class="section card">
+
+                                <text class="reply-content" @click="onEvent('topic',$item.topic_id)" >{{$item.reply_content ? $item.reply_content : $item.content }}</text>
+                              </div>
+                            </list-item>
+
+
+                          </block>
+
+                          <list-item type="loadingProgress" >
+                            <loading-progress-view tag="{{m.tag}}" ></loading-progress-view>
+                          </list-item>
+                        </list>
+                      </refresh>
+                    </div>
+                    <div class="shadown">
+                      <div class="shadown-header"></div>
+                      <div class="shadown-footer"></div>
+                    </div>
+                  </stack>
+                </div>
+
+              </block>
+
+          </tab-content>
+        </tabs>
+
+
+  </div>
+</template>
+
+
+<style lang="less">
+
+    @import '../../Comp/shadown.less';
+
+    @import '../../Comp/base.less';
+
+    .message-view{
+
+          width: 100%;
+          height: 100%;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+
+          .message-bar{
+                flex-direction: row;
+                width: 100%;
+
+                text{
+                  text-align: center;
+                  flex-grow: 1;
+                  height: 100px;
+                }
+
+                .top-tab-active{
+
+                  margin-bottom: 8px;
+                }
+
+                .username {
+                  background-color: #00bcd4;
+                  color: #ffffff;
+                }
+
+
+          }
+
+          tabs {
+
+              width: 100%;
+              height: 100%;
+
+
+                tab-content {
+                      width: 100%;
+                      height: 100%;
+
+                  .message-list {
+                        background-color: #eeeeee;
+
+                        refresh{
+
+                          height: 100%;
+                        }
+
+                        list{
+                          height: 100%;
+
+
+                          .card{
+                              width: 100%;
+                              background-color: #ffffff;
+                              margin-left: 16px;
+                              margin-right:16px;
+                          }
+
+
+                          .header{
+                                flex-direction: row;
+                                margin-top: 16px;
+                                padding: 16px;
+
+                                .avatar{
+                                  width: 64px;
+                                  height :64px;
+                                  margin: 8px;
+                                  border-radius: 32px;
+                                }
+
+                                .header-text{
+                                    flex-direction: column;
+
+                                    div{
+                                        flex-direction: row;
+                                    }
+                                }
+
+
+
+                                .user-nike-name{
+                                  width: 70%;
+                                  color: #aabcd4;
+                                  font-size: 30px;
+                                }
+
+                                .date{
+                                      font-size: 30px;
+                                      color: #ffbc4d;
+                                }
+
+                                .atme-content{
+
+                                      margin: 16px;
+                                      margin-left: 0px;
+                                      padding: 8px;
+                                      color:#aaaaaa;
+                                      border-color: #00bcd4;
+                                      border-left-width: 4px;
+                                }
+
+                                .content{
+
+                                      margin: 16px;
+                                      margin-left: 0px;
+                                      padding: 8px;
+
+                                      color:#aaaaaa;
+                                      border-color: #00bcd4;
+                                      border-left-width: 4px;
+                                }
+
+                                .pm-content{
+
+                                }
+
+                                .system-content{
+
+                                }
+
+                                .action-btn  {
+
+
+                                    margin: 16px;
+                                    background-color: #ff534d;
+                                    border-radius: 30px;
+                                    color: #ffffff;
+                                    padding: 16px;
+                                }
+                          }
+
+
+
+                          .section{
+
+                              .reply-content{
+                                  padding: 8px;
+                                  color:#333333;
+                                  margin-left: 80px;/* 16padding + 64width*/
+                              }
+
+                          }
+
+                          .item-footer{
+                                height: 1px;
+                                width: 80%;
+                                margin-left: 64px;
+                                margin-bottom: 16px;
+
+                                background-color: #ffbc4d;
+                          }
+
+
+
+                        }
+
+
+                }
+
+          }
+
+
+    }
+
+
+}
+</style>
+
+<script>
+
+        import MessagePresenter from "./MessagePresenter"
+
+        import prompt from '@system.prompt'
+        import notification from '@system.notification'
+        import vibrator from '@system.vibrator'
+
+        export default{
+          props:[
+            'tag'
+          ],
+          data:{
+            msgList :[
+              {
+                tag:'post',
+                list:[],
+                isRefreshing:false
+              },
+              {
+                tag:'atme',
+                list:[],
+                isRefreshing:false
+              },
+              {
+                tag:'pm',
+                list:[],
+                isRefreshing:false
+              },
+              {
+                tag:'system',
+                list:[],
+                isRefreshing:false
+              }
+            ],
+            messageIndex :0
+          }
+          ,onShow(){
+              $umeng_stat.resume(this)
+          }
+          ,onHide() {
+              $umeng_stat.pause(this)
+          }
+          ,onInit(){
+
+              this.presenter = new MessagePresenter(this.view())
+              this.presenter.attach()
+
+              this.$on('show-home-view',function(){
+                  this.onEvent('show-home-view')
+              }.bind(this))
+          }
+          ,onRefrsh(m,e){
+
+              m.isRefreshing =e.refreshing
+
+              this.presenter.refresh(m.tag)
+
+
+          }
+          ,onScrollBottom(m){
+
+              this.presenter.loadMore(m.tag)
+
+          }
+          ,onRenderComplete(tag){
+              this.onRefreshComplete(tag)
+          }
+          ,onRenderMoreComplete(t){
+              this.$broadcast("render_normal",{ tag :t})
+
+          }
+          ,renderLoading(tag){
+
+              this.$broadcast("render_loading",{ tag :tag})
+          }
+          ,renderData(list,tag){
+
+
+
+                for(var x in this.msgList){
+                    var m = this.msgList[x]
+                    if(m.tag == tag){
+                        m.list = list
+                    }
+                }
+
+                this.onRenderComplete(tag)
+
+          }
+          ,renderHeart(showNotification){
+              if(showNotification)
+                  notification.show({
+                      contentTitle :"新消息",
+                      clickAction:{
+                          uri : "/Main?homeIndex=2"
+                      }
+                  })
+              prompt.showToast({
+                  message:"有新的消息"
+              })
+
+
+          }
+          ,onRefreshComplete(t){
+
+              for(var x in this.msgList){
+                  var m = this.msgList[x]
+                  if(m.tag == t){
+                      m.isRefreshing = false
+
+                  }
+              }
+
+                this.$broadcast("render_normal",{ tag :t})
+                this.presenter.onRefreshComplete(t)
+          }
+          ,renderMoreData(list,tag){
+
+                console.info("render more data "+tag)
+                for(var x in this.msgList){
+                    var m = this.msgList[x]
+                    if(m.tag == tag){
+                        m.list =     m.list.concat(list)
+                    }
+                }
+                this.onRenderMoreComplete(tag)
+          }
+          ,renderNoMore(msg,t){
+                this.$broadcast("render_no_more", { tag :t})
+          }
+          , view(){
+            var mView = new Object
+            mView.renderData = this.renderData.bind(this)
+            mView.renderMoreData = this.renderMoreData.bind(this)
+            mView.renderNoMore = this.renderNoMore.bind(this)
+            mView.renderLoading = this.renderLoading.bind(this)
+            mView.renderHeart  = this.renderHeart.bind(this)
+            mView.context = this
+            return mView
+        }
+          ,onEvent(type,arg){
+              switch (type) {
+                case 'index':
+                    this.messageIndex = arg
+                  break;
+                default:
+                  this.presenter.onEvent(type,arg)
+
+              }
+          }
+
+          /**
+           * @method onChangeMessage
+           * @param {object} evt
+           * @desc 切换查看的消息类型时发生
+           */
+          ,onChangeMessage(evt){
+              this.messageIndex = evt.index
+
+
+              //切换查看消息类型的时候顺便刷新一下
+              //TODO:会不会引起别的问题? 暂不知
+              this.presenter.refresh(
+                  this.msgList[this.messageIndex].tag
+              )
+          }
+
+        }
+
+</script>

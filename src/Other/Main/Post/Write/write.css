@@ -1,0 +1,226 @@
+@import "../../../Comp/base.less";
+@import "../../../Comp/card.less";
+
+.write-page{
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .board-select-bar{
+          flex-direction: row;
+          height: 130px;
+          width: 100%;
+
+
+
+          .category{
+              flex-direction: column;
+              background-color: @primaryColor;
+              width: 50%;
+              height: 85%;
+              justify-content: center;
+              border-radius: 16px;
+
+              margin: 16px;
+              padding: 16px;
+
+              text{
+                  padding: 8px;
+                  font-size: 20px;
+              }
+              select {
+
+                    color: @white;
+                    font-size: 50px;
+
+                    option{
+                      padding: 8px;
+                      color: @primaryColor;
+                      justify-content: center;
+                      align-items:center;
+                    }
+              }
+          }
+
+          .board {
+                flex-direction: column;
+                width: 50%; 
+                height: 85%;
+
+                margin: 16px;
+                border-radius: 16px;
+                padding: 16px;
+
+                justify-content: center;
+
+                text{
+                    padding: 8px;
+                    font-size: 50px;
+                    color: @primaryColor;
+                }
+ 
+
+          }
+
+
+
+    }
+
+
+    .write-content{
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
+
+          justify-content: flex-start;
+          align-items: flex-start;
+          .input{
+                width: 100%;
+                margin: 16px;
+                padding: 8px;
+          }
+
+          .input-content {
+
+              border-bottom-width: 0.5px;
+              border-color: @primaryColor;
+          }
+
+          .input-title{
+
+              border-bottom-width: 0.5px;
+              border-color: @primaryColor;
+          }
+
+          .input-header{
+                width: 100%;
+                height: 10%;
+
+                .input-title{
+                      width: 70%;
+                      height: 100%;
+                }
+
+                .btn{
+
+                      width: 25%;
+                      height: 100%;
+                      align-items: center;
+                      justify-content: center;
+                      opacity: 0.6;
+                    text{
+                        border-color: @primaryColor;
+                        border-width:4px;
+                        background-color: @white;
+                        font-size:40px;
+                        color: @primaryColor;
+                        margin: 8px;
+                        padding: 24px;
+                        border-radius: 16px;
+                    }
+
+                }
+
+
+          }
+
+          .input-content{
+              height: 35%;
+          }
+
+          .input-image{
+              height: 30%;
+              flex-wrap:wrap;
+
+              div{
+                  
+                  height: 30%;
+                  width: 30%;
+
+              }
+
+              image{
+                  resize-mode:contain;
+              }
+          }
+
+          .input-others-bar{
+              height:80px;
+              image{
+                  height: 100%;
+
+                  resize-mode:cover;
+              }
+          }
+
+          .input-classifi{
+                height: 200px;
+                flex-direction: row;
+                margin: 0px;
+                padding: 0px;
+                columns :2;
+
+                .classi-text{
+                  background-color: @primaryBackground;
+                  border-radius: 8px;
+                  font-size: 40px;
+                  margin:16px;
+                  padding: 16px;
+                }
+
+
+                .active{
+                      background-color: @primaryColor;
+                      color: @primaryBackground;
+                      font-size: 40px;
+                }
+          }
+
+
+    }
+
+}
+
+.board-select-page{
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    div{
+        background-color:#ffffff;
+        margin-top:10px;
+        width:70%;
+        justify-content: center;
+    }
+
+    text{
+        font-size:40px;
+        margin: 10px;
+        color: @primaryColor;
+        
+    }
+}
+
+.loading-page{
+  height:100%;
+  width:100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .dialog{
+    width: 300px;
+    height: 300px;
+    background-color: rgba(111, 111,111 , 0.8);
+    border-radius: 40px;
+    justify-content: center;
+    align-items: center;
+    progress{
+      width: 50%;
+      height: 50%;
+      color: #ffffff;
+    }
+  }
+}

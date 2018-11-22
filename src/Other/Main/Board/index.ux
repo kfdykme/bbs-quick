@@ -1,0 +1,66 @@
+
+<import name="post-list-view" src="../../Comp/PostListView"></import>
+<import name="float-bar" src="../../Comp/FloatBar"></import>
+
+
+<template>
+  <div class="board-page">
+
+    <stack>
+
+        <div class="page">
+          <div class="board-top-bar">
+              <div class="foruminfo-title">
+
+                <text class="title  {{boardIndex == 0 ? 'active' : '' }}" onclick="onClickBoard(0)"  >{{forumInfo.title}}</text>
+
+              </div>
+
+                <list id="child-board" class="child-boards">
+                <block for="(i,b) in boardList">
+
+                  <list-item type="child-board-name">
+                      <text class="board-name {{boardIndex == (i+1) ? 'active' : '' }}"  onclick="onClickBoard(i+1)"  >{{b.board_name}}</text>
+                  </list-item>
+
+                </block>
+              </list>
+          </div>
+
+          <tabs onchange="changeTabBoard"  index="{{boardIndex}}" class="board-content">
+              <tab-content >
+
+                    <div>
+                      <post-list-view type="board" tag="{{boardId}}"  ></post-list-view>
+
+                    </div>
+                    <block for="b in boardList">
+                      <div>
+                        <post-list-view type="board" tag="{{b.board_id}}"  ></post-list-view>
+
+                      </div>
+                    </block>
+
+              </tab-content>
+
+          </tabs>
+
+        </div>
+
+
+        <float-bar></float-bar>
+    </stack>
+
+
+  </div>
+</template>
+
+
+<style lang="less" src="./board.css">
+
+
+</style>
+
+<script src="./board.js">
+
+</script>

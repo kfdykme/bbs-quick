@@ -9,12 +9,11 @@
 
 
             <div class="search-input-bar">
-                <input class="input-search"  @change="onChange({type:'change-key'})"  ></input>
+                <input class="input-search"  @change="onChange({type:'change-key'})"  @enterkeyclick="onEvent({type:'enter-key'})"></input>
                 <input class="btn-search" @click="onEvent({type:'do-search'})" type="button" value="搜索"></input>
             </div>
 
             <div class="search-select">
-
                 <block for="t in searchTypes">
                         <div class="search-type">
                             <text @click="onEvent({type:'change-type',data:t})" class="search-type {{type == t ? 'top-tab-active ' : ''}}">{{t == 'post'? '帖子' : '用户'}}</text>
@@ -102,63 +101,9 @@
 <script>
 
 
-    /**
-     * @class SearchPresenter
-     */
-    class SearchPresenter {
+  import SearchPresenter from './SearchPresenter'
+  import SearchView from './SearchView'
 
-        constructor(view){
-            this.view = view
-            this.key = ''
-        }
-
-        onEvent(e){
-            if(e.type == 'change-type'){
-                this.type = e.data
-                this.view.renderChangeType(e.data)
-            }
-
-            if(e.type == 'change-key'){
-                this.key = e.data
-            }
-
-            if(e.type == 'do-search'){
-                this.search()
-            }
-        }
-
-        search(){
-            const key = this.key
-            var type = this.type
-
-            // NOTE : 初始化type为post
-            if(type == '' || type == null) type = 'post'
-
-            this.view.renderSearch(key,type)
-        }
-    }
-
-    class SearchView{
-
-        constructor(page){
-            this.app = page.$app
-            this.page = page
-        }
-
-        renderChangeType(type){
-            this.page.type = type
-        }
-
-        renderSearch(key,type){
-            this.page.searchType = ''
-            setTimeout(function(){
-
-                this.page.searchType = type
-                this.page.searchKeyword = key
-
-            }.bind(this),100)
-        }
-    }
 
     export default {
         protected :{
