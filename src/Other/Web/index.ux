@@ -1,7 +1,7 @@
 <template>
     <div class="web-page">
 
-        <web src="{{baseUrl}}"></web>
+        <web src="{{baseUrl}}" @pagestart="onPageStart"></web>
     </div>
 
 </template>
@@ -16,6 +16,7 @@
 
 <script>
     import prompt from "@system.prompt"
+    import router from "@system.router"
     import clipboard from "@system.clipboard"
 
     export default {
@@ -52,8 +53,18 @@
             prompt.showToast({
                 message : copyResult.data
             })
+
         }
         ,onInit(){
+
+        }
+        , onPageStart(e){
+          const url = e.url
+          const reg = /http:\/\/bbs.uestc.edu.cn\/mobcent\/app\/web\/index.php\?r=index\/returnmobileview/
+          const res = url.match(reg)
+          if(res != null && res.length != 0){
+            router.back()
+          }
 
         }
     }

@@ -74,7 +74,7 @@ export default {
 
           },
           complete : function (){
-            this.login = "Login"
+            this.login = "登录"
             this.tryingLogin = false
           }.bind(this)
         })
