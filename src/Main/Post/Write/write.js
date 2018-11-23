@@ -334,7 +334,7 @@ export default {
                         message: re.errcode
                     })
                     this.showLoadingPage = false;
-                    this.onPublishCompelete()
+                    this.onPublishCompelete(re.rs)
                 }.bind(this))
 
 
@@ -342,17 +342,26 @@ export default {
         this.onPublishCompelete()
     }
 
-    , onPublishCompelete() {
+    /**
+     *  @methodd onPublishCompelete
+     *  @param {number} isSuccess  0->fail,1->success
+     */
+    , onPublishCompelete(rs) {
 
         //加载结束
         this.$broadcast('render_hide')
 
         this.isPublishing = false
 
-        this.publishContent = ""
-        this.publishTitle = ""
-        this.uploadImages = []
-        this.showUploadImageButton = true
+
+        //当发贴成功时才会重置该页面
+        if(rs == 1){
+
+          this.publishContent = ""
+          this.publishTitle = ""
+          this.uploadImages = []
+          this.showUploadImageButton = true
+        }
 
     }
 
