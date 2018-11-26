@@ -30,6 +30,8 @@ function upload(o,success){
         data : o.data,
         method:"POST",
         success : function(data){
+          try{
+
             const re = JSON.parse(data.data)
             if(re.rs == 0)
             {
@@ -37,6 +39,11 @@ function upload(o,success){
             } else {
               success(re)
             }
+          } catch(e){
+            prompt.showToast({
+              message :e
+            })
+          }
         },
         fail: that.onFetchFail
     })
