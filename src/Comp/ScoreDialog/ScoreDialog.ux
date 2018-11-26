@@ -1,0 +1,11 @@
+<template>
+
+</template>
+
+<style lang="less" src="./ScoreDialog.less">
+
+</style>
+
+<script src="./ScoreDialog.js">
+
+</script>

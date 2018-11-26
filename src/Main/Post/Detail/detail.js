@@ -10,6 +10,8 @@ import clipboard from '@system.clipboard'
 import share from '@service.share'
 import systemShare from '@system.share'
 //
+//for debug
+import fetch from '@system.fetch'
 
 export default {
     protected: {
@@ -273,14 +275,30 @@ export default {
 
         //
         if(e.type =='on-score'){
-          // this.dialogScore.showScoreDialo = true
-          console.info(JSON.stringify(this.topic))
-          router.push({
-              uri:"Other/Web",
-              params:{
-                  baseUrl:this.topic.extraPanel[0].action
-              }
-          })
+
+          var re = await fetch.fetch({url:this.topic.extraPanel[0].action})
+          const regAction = /action="(.*?)"/
+          const regAlert = /alert\((.*?)\)/
+          const regWater = /30<\/td>\n?.*?<td>(.*?)<\/td>/
+          const DEFAULT_ERROR_MSG = "errorMsg"
+          const errMsg = re.data.data.match(regAlert)[1]
+          if(errMsg!= DEFAULT_ERROR_MSG){
+            prompt.showToast({
+              message:errMsg
+            })
+          }else{
+
+            try{
+
+              const actionScoreUrl = re.data.data.match(regAction)[1]
+              const canUseWater = re.data.data.match(regWater)[1]
+              prompt.showToast({
+                message:canUseWater
+              })
+            } catch(e){
+              console.error(e)
+            }
+          }
         }
 
 
