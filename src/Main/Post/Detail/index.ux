@@ -1,7 +1,7 @@
 <import name="loading-progress-view" src="../../../Comp/LoadingProgressView"></import>
 <import name="exa" src="../../../Comp/Exa.ux"></import>
 <import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
-
+<import name="score-dialog" src="../../../Comp/ScoreDialog/ScoreDialog.ux"></import>
 
 <template>
 
@@ -329,7 +329,6 @@
 
 
       </div>
-      <loading-page id="loadingPage"></loading-page>
       <div class="post-comment">
 
         <div  show="{{showCommentBtn}}"  class="btn-show" >
@@ -344,33 +343,8 @@
           <image src="/Res/ic_to_top.svg" @click="onEvent({type:'scroll-to-top'})"></image>
         </div>
       </div>
-
-      <div class="dialog-page" if="{{dialogScore.showScoreDialo}}" @click="onEvent({type:'dialog'})">
-          <div class="card dialog-window">
-              <div class="dialog-header">
-                <text class="dialog-title">评分</text>
-              </div>
-              <div class="dialog-containor">
-                  <div class="dialog-line-between">
-                    <div >
-
-                      <input class="dialog-checkbox" type="checkbox" @change="onEvent({type:'dialog-check-sendreasonpm'})" ></input>
-                      <text>通知作者</text>
-                    </div>
-                    <select @change="onEvent({type:'dialog-select-score'})">
-                        <option for="opt in dialogScore.scoreOptions" value="{{opt}}" selected="{{opt == 0}}">水滴 {{opt}}</option>
-                    </select>
-                  </div>
-                  <input class="dialog-input-text" type="text" @change="onEvent({type:'dialog-change-score-reason'})" placeholder="理由(可選)"></input>
-              </div>
-              <div class="dialog-footer">
-                <text class="btn" @click="onEvent({type:'dialog-send-score'})">确定</text>
-              </div>
-          </div>
-      </div>
-
-
-
+      <score-dialog id="scoreDialog" if="{{topic != null && topic.extraPanel != null }}"url="{{topic.extraPanel[0].action}}"></score-dialog>
+      <loading-page id="loadingPage"></loading-page>
 
     </stack>
 

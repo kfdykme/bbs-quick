@@ -1,0 +1,179 @@
+
+
+<template>
+  <div class="dialog-page {{view != null && view.showDialog ? 'active-dialog' : ''}}">
+      <div class="card dialog-window" @click="onEvent" show="{{view != null && view.showDialog && !view.loading }}">
+          <div class="dialog-header">
+            <text class="dialog-title">评分</text>
+          </div>
+          <div class="shadown-header">
+
+          </div>
+          <div class="dialog-containor">
+              <div class="dialog-line-between score-line">
+                <text>给予水滴</text>
+                <input class="dialog-input-text" type="text" @change="onEvent({type:'dialog-change-score'})" placeholder="{{view != null ? view.canUseRange : ''}}"></input>
+
+              </div>
+              <div class="dialog-line-between">
+                <div >
+
+                  <input class="dialog-checkbox" type="checkbox" @change="onEvent({type:'dialog-check-sendreasonpm'})" ></input>
+                  <text>通知作者</text>
+                </div>
+                <div >
+                  <text>今日剩余可用水滴 </text>
+                  <text class="dialog-highlight">{{view != null ? view.canUseWater : ''}}</text>
+                </div>
+              </div>
+              <input class="dialog-input-text" type="text" @change="onEvent({type:'dialog-change-score-reason'})" placeholder="理由(可選)"></input>
+          </div>
+          <div class="dialog-footer">
+            <text class="dialog-btn" @click="onEvent({type:'dialog-send-score'})">确定</text>
+          </div>
+      </div>
+      <div class="dialog-progress" show="{{view != null && view.showDialog && view.loading }}" >
+          <progress type="circular">
+
+          </progress>
+      </div>
+    </div>
+</template>
+
+<style lang="less">
+  @import "../css/dialog.less";
+  @import "../shadown.less";
+  @import "../base.less";
+
+  .score-line{
+    margin-left: @unit;
+    margin-right: @unit;
+  }
+
+</style>
+
+<script >
+  /**
+   * @name ScoreDialog
+   * @desc 实现了评分
+   * @depend 使用的时候需要传入 url ，url 从BBS的Topic中取到，
+   * 该组件默认为不显示，如果要显示的话需要把broadcast 一个 on-score 事件
+   * 为了在点击back键的时候，让该组件隐藏，需要通过id获取该组件，然后通过@function {isShowing}来判断是否正在显示中
+   */
+  import fetch from '@system.fetch'
+  import prompt from '@system.prompt'
+
+  import ScoreDialogView from './ScoreDialogView'
+  import ScoreDialogPresenter from './ScoreDialogPresenter'
+
+
+
+  //默认
+  const DEFAULT_ERROR_MSG = "errorMsg"
+
+  const SEND_REASON_PM_ON = 'on'
+  const SEND_REASON_PM_OFF = ''
+
+  export default{
+    props:[
+      'url'
+    ],
+    data:{
+      view:null,
+      presenter:null,
+      errMsg : DEFAULT_ERROR_MSG
+    },
+    onInit(){
+
+      //
+      this.$on('on-score', this.onEvent)
+
+
+    },
+    /**
+     * @method initView
+     * @desc 通过 fetch @param {url} 然后正则抓取数据取到进行评分时的url，以及部分相关数据，然后构造view
+     */
+    async initView(){
+      var re = await fetch.fetch({url:this.url})
+      const regAction = /action="(.*?)"/
+      const regAlert = /alert\("(.*?)"\)/
+      const regWater = /~.*<\/td>\n?.*?<td>(.*?)<\/td>/
+      const regRange = /<td>(.*?)~(.*?)<\/td>/
+      console.info(re.data.data.match(regAlert))
+      var resErrMsg = re.data.data.match(regAlert)
+
+      if(resErrMsg != null && resErrMsg.length > 1){
+        this.errMsg = resErrMsg[1]
+
+        if(this.errMsg!= DEFAULT_ERROR_MSG ){
+          prompt.showToast({
+            message:this.errMsg
+          })
+        }
+
+      } else {
+
+        try{
+
+          const actionScoreUrl = re.data.data.match(regAction)[1]
+          const canUseWater = re.data.data.match(regWater)[1]
+          const canUseRange = re.data.data.match(regRange)[1]+"~"+re.data.data.match(regRange)[2]
+          this.view = new ScoreDialogView()
+          this.view.canUseWater = canUseWater
+          this.view.canUseRange = canUseRange
+          this.presenter = new ScoreDialogPresenter(this.view,this.$app)
+          this.presenter.actionUrl = actionScoreUrl
+
+
+          this.showDialog = this.view.toggle()
+        } catch(e){
+          console.error(e)
+
+          this.errMsg = DEFAULT_ERROR_MSG
+        }
+      }
+    },
+
+    /**
+     * @method onEvent
+     * @desc 作为事件监听
+     */
+    onEvent(e,exe){
+      switch (e.type) {
+        case 'touch-dialog-background':
+        case 'on-score':
+          if(this.view != null){
+
+            this.showDialog = this.view.toggle()
+          } else {
+            this.initView()
+
+          }
+
+          break;
+        case 'dialog-change-score':
+          this.presenter.score = exe.value
+          break;
+        case 'dialog-change-score-reason':
+          this.presenter.reason = exe.value
+          break;
+        case 'dialog-check-sendreasonpm':
+
+          this.presenter.sendreasonpm =  this.presenter.sendreasonpm == SEND_REASON_PM_ON ? SEND_REASON_PM_OFF : SEND_REASON_PM_ON
+          break;
+        case 'dialog-send-score':
+          this.presenter.sendScore()
+          break;
+
+        default:
+
+      }
+    },
+    isShowing(){
+      return this.view.showDialog
+    }
+
+  }
+
+</script>

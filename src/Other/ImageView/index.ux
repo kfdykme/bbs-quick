@@ -8,7 +8,7 @@
                     <div >
                                 <div class="view-image">
 
-                                    <image src="{{img}}" alt="\Res\ic_loading_image.png"></image>
+                                    <image src="{{img}}" @longpress="onEvent({type:'long-press-image',data:img})" alt="\Res\ic_loading_image.png"></image>
                                 </div>
                     </div>
                 </block>
@@ -74,6 +74,7 @@
 
     import prompt from '@system.prompt'
     import router from '@system.router'
+    import request from '@system.request'
 
     export default {
         protected :{
@@ -107,6 +108,42 @@
             }
         }
         ,onEvent(e,originE){
+
+          switch (e.type) {
+            case 'long-press-image':
+              prompt.showDialog({
+                message :'是否要下载该图片',
+                buttons:[
+                  {
+                    text :'是',
+                    color : '#00bcd4'
+                  },
+                  {
+                    text :'否',
+                    color : '#ffbc4d'
+                  }
+                ],
+                success:function(data){
+                  request.download({
+                    url: e.data,
+                    success: function(data) {
+                      prompt.showToast({
+                        message : "下载成功 :" +e.data
+                      })
+                    },
+                    fail: function(data, code) {
+                      prompt.showToast({
+                        message :"下载失败 ： "+data +code
+                      })
+                    }
+                  })
+
+                }
+              })
+              break;
+            default:
+
+          }
             if(e.type == "change-image"){
               // if this event befor init imageIndex , return
               if(!this.hasInitImageIndex)

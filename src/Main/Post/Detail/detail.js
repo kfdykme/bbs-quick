@@ -9,7 +9,8 @@ import router from '@system.router'
 import clipboard from '@system.clipboard'
 import share from '@service.share'
 import systemShare from '@system.share'
-//
+
+
 
 export default {
     protected: {
@@ -32,7 +33,7 @@ export default {
         commentReplyId: 0,
         showImage: false,                          // 是否可以加载图片了
         showMenu:false,
-        TAG: "Main/Post/Detail",
+
         topicImages: [],
         images: [],                                // 本页的图片url数组,查看图片时作为参数传入
         imageId:0,
@@ -44,21 +45,16 @@ export default {
         topNumber: 0,                              //置顶的回复数,用于显示楼层时去掉置顶项
         DEFAULT_PAGE_SIZE: 25,                     //默认每页加载回复数
         userId:0,                                  //
-        dialogScore:{                              //
-          showScoreDialo: false,                   // if show Score dialogScore
-          sendreasonpm:"",                         //[false->'',ture->'on']
-          scoreOptions:[],
-          reason:"",
-          score:0
-        },
         zan:{
           hasZan :false,
           showZan: false
         },
         rate:{
           showRate:false
+        },
+        score:{
+          showScore:false                         //是否正在显示评价dialog
         }
-
     }
     , onShow() {
         $umeng_stat.resume(this)
@@ -194,11 +190,9 @@ export default {
         //init this.userId
         this.usrId = app.$def.cache.user.uid
 
-        //init scoreOptions
-        for(var i = -5 ; i <=30 ;i++)
-          this.dialogScore.scoreOptions.push(i)
-
-        this.$on('choose_emoji', this.onEvent)
+        this.$on('on-score-back',this.onEvent)
+        this.$on('on-render-fetching',this.onEvent)
+        this.$on('on-render-fetch-end',this.onEvent)
     }
 
     , onShow() {
@@ -209,8 +203,9 @@ export default {
     }
 
     , onBackPress(){
-      if(this.dialogScore.showScoreDialo){
-        this.dialogScore.showScoreDialo = false;
+      var scoreDialog = this.$vm('scoreDialog')
+      if(scoreDialog != null && scoreDialog.view != null && scoreDialog.isShowing()){
+        scoreDialog.view.toggle()
         return true;
       }
     }
@@ -273,16 +268,25 @@ export default {
 
         //
         if(e.type =='on-score'){
-          // this.dialogScore.showScoreDialo = true
-          console.info(JSON.stringify(this.topic))
-          router.push({
-              uri:"Other/Web",
-              params:{
-                  baseUrl:this.topic.extraPanel[0].action
-              }
-          })
+
+          this.$broadcast('on-score',{type:'on-score'})
+
         }
 
+        if(e.type == 'on-score-back'){
+          this.score.showScore = e.detail.data
+        }
+
+        if(e.type == 'on-render-fetching'){
+          var loadingPage = this.$vm('loadingPage')
+          loadingPage.renderLoad()
+        }
+
+        if(e.type == 'on-render-fetch-end'){
+          var loadingPage = this.$vm('loadingPage')
+          loadingPage.renderHide()
+          this.refresh()
+        }
 
         if(e.type == 'favo'){
            var loadingPage = this.$vm('loadingPage')
@@ -535,6 +539,21 @@ export default {
         this.showCommentBtn = true
         this.showMenu = true
         this.loadMore()
+
+        //NOTE: 没有用的
+        // //当topic加载完之后，才会把ScoreDialog加载出来，所以这个时候可以找一下
+        // try{
+        //   if(this.scoreDialog != null ){
+        //     return
+        //   }
+        //   this.scoreDialog = this.$element('score-dialog')
+        //   if(this.scoreDialog == null){
+        //     console.error("读取scoreDialog失败")
+        //   }
+        //
+        // }catch(e){
+        //   console.error(e)
+        // }
     },
     renderReply(json) {
         if (json.list != null && json.list.length != 0) {

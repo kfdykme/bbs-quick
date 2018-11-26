@@ -31,17 +31,10 @@ async function reverse(topic_id,number){
 /**
  * @method score
  */
-async function score(tid,pid,score,reason,sendreasonpm){
+async function score(url,score,reason,sendreasonpm){
   const type = 'view'
   const modsubmit = '确定'
-  const url = Api.BASE_URL + "app/web/index.php?r=forum/topicrate" +
-  "sdkVersion=2.6.1.7"+
-  "&accessToken="+UserCache.token() +
-  "&accessSecret="+ UserCache.secret()+
-  "&apphash="+UserCache.appHash() +
-  "&tid="+ tid+
-  "&pid="+pid +
-  "&type="+type
+  
 
   return await fetch.fetch({
     url : url,
