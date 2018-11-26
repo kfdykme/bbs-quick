@@ -31,7 +31,7 @@
 
         .post-title-bar{
           width: 100%;
-          background-color: #00bcd4;
+          background: @titleBarBackGround;
 
           image{
             height: 100px;
@@ -40,7 +40,6 @@
           }
           .title{
             width: 550px;
-            background-color: #00bcd4;
             color: #ffffff;
             padding: 10px;
             font-size: 40px;
