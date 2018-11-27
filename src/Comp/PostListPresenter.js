@@ -25,8 +25,7 @@ export default class PostListPresenter{
     async attach(){
 
 
-        const re = await this.model.loadLocal(this.tag)
-
+        const re = await this.model.loadLocal(this.tag) 
         // console.info(JSON.stringify(re))
         if(re!= null){
 
@@ -50,8 +49,6 @@ export default class PostListPresenter{
     * @param {number} page
     */
     fetchPosts(tag,page){
-        // console.log("fetpost page : "+page);
-
         var success = function (re){
 
 

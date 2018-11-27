@@ -49,13 +49,16 @@ export default class UserModel{
     async getUserInfo(uid){
         var that = this
         return new Promise(function(resolve, reject) {
+
             UserApi.getUserInfo(
                 uid,
-                function(re){
-                    that.save(uid,re)
+                (re)=>{
 
-                    resolve(re)
-                }
+                  that.save(uid,re)
+
+                  resolve(re)
+                },
+                reject
             )
         });
     }
@@ -64,9 +67,14 @@ export default class UserModel{
     async loadLocal(uid){
 
             const key = this.KEY+uid
-            const local =  await storage.get({key : key}) 
+            const local =  await storage.get({key : key})
+            try{
 
-            return JSON.parse(local.data)
+              return JSON.parse(local.data)
+            } catch (e){
+              // console.error(e)
+              return null
+            }
 
     }
 

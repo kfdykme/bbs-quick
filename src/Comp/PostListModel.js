@@ -33,11 +33,13 @@ export default class PostListModel{
 
     async loadLocal(key){
         const that = this
+
         try{
 
             const local =  await storage.get({key : this.KEY+key})
             return JSON.parse(local.data)
         } catch(err){
+
             return null
         }
     }
@@ -52,7 +54,7 @@ export default class PostListModel{
             {
                 that.save(tag,JSON.stringify(re))
             }
- 
+
             suc(re)
         }
 

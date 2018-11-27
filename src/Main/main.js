@@ -2,7 +2,8 @@
 import ForumApi from '../Common/ForumApi'
 import UserCache from '../Common/UserCache'
 import router from '@system.router'
-
+import network from '@system.network'
+import prompt from '@system.prompt'
 
 export default {
   public: {
@@ -26,6 +27,17 @@ export default {
   ,onShow(){
       $umeng_stat.resume(this)
       this.$broadcast("show-home-view")
+
+      //判断一下网络状态
+      network.getType({
+        success:(re)=>{
+          if(re.type == 'none'){
+            prompt.showToast({
+              message :"当前无网络~~~"
+            })
+          }
+        }
+      })
   }
   ,onHide() {
       $umeng_stat.pause(this)
