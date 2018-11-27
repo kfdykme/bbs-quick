@@ -1,7 +1,7 @@
 import prompt from "@system.prompt"
 import fetchModule from "@system.fetch"
 import request from '@system.request'
-
+import network from '@system.network'
 
 var app = null
 function init(app){
@@ -90,36 +90,46 @@ function onSuccessError(re,and){
 function fetch(url,data,suc,andError,onParseFail){
 
     var that = this
-    fetchModule.fetch({
-      url : url,
-      method : "POST",
-      data : data,
-      success :function(data){
+    network.getType({
+      success:(net)=>{
+        if(net.type != 'none'){
 
-        if(data.code != 200) return
+          fetchModule.fetch({
+            url : url,
+            method : "POST",
+            data : data,
+            success :function(data){
 
-        try{
+              if(data.code != 200) return
 
-          const re = JSON.parse(data.data)
+              try{
 
-          if(re.rs == 0)
-          that.onSuccessError(re,andError)
-          else if (re.rs == 1)
-          suc(re)
-        }  catch(e){
-          console.error(e)
-          if(onParseFail!= null){
+                const re = JSON.parse(data.data)
 
-            that.onParseFail(data)
-          }
+                if(re.rs == 0)
+                that.onSuccessError(re,andError)
+                else if (re.rs == 1)
+                suc(re)
+              }  catch(e){
+                console.error(e)
+                if(onParseFail!= null){
+
+                  that.onParseFail(data)
+                }
+              }
+
+
+            },
+            fail : function(data,code){
+              that.onFetchFail(data,code,andError)
+            }
+          })
+        } else if (net.type == 'none'){
+          console.error('network error .')
         }
-
-
-      },
-      fail : function(data,code){
-        that.onFetchFail(data,code,andError)
       }
     })
+
 }
 
 

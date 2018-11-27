@@ -23,8 +23,9 @@ function user(){
 /* getUserInfo 获取用户基本信息
  * @params <string> uid
  * @params <function> success
+ * @params <function> error
  */
-function getUserInfo(uid,success){
+function getUserInfo(uid,success,error){
 
     var data = {
 
@@ -37,10 +38,13 @@ function getUserInfo(uid,success){
 
 
 
+
     Api.fetch(
         Api.BASE_URL + "/app/web/index.php?r=user/userinfo",
         data
-      ,success)
+      ,success
+      ,error
+      ,error)
 }
 
 /**

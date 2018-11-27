@@ -61,23 +61,29 @@ export default {
         while(new Date().getTime() -startTime < 3000);
 
         if(data){
-            const user = JSON.parse(data.data)
+            try{
 
-                if(user != null && user.rs != 0){
+              const user = JSON.parse(data.data)
 
-                     this.$app.initUser(user)
+              if(user != null && user.rs != 0){
 
-                     UserCache.init(this.$app)
-                     router.replace({
-                        uri: "Main"
-                     })
+                this.$app.initUser(user)
 
-                } else {
+                UserCache.init(this.$app)
+                router.replace({
+                  uri: "Main"
+                })
 
-                    router.replace({
-                        uri : "Start/Login",
-                    })
-                }
+              } else {
+
+                router.replace({
+                  uri : "Start/Login",
+                })
+              }
+            } catch (e){
+              //防止Json.parse失败
+              console.error(e)
+            }
         } else {
 
             router.replace({

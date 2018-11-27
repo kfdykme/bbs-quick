@@ -34,23 +34,28 @@ export default class UserPresenter{
         try{
 
             var userRe = await this.model.loadLocal(this.uid)
+            if(userRe != null){
 
-            this.view.renderUserInfo(userRe)
-            this.view.renderAvatar(UserApi.getUserAvatarBig(this.uid))
-            console.info("load userinfo from local success")
+              this.view.renderUserInfo(userRe)
+              this.view.renderAvatar(UserApi.getUserAvatarBig(this.uid))
+              console.info("load userinfo from local success")
+            } else {
+              console.info("load userinfo success but null")
+            }
         } catch(err){
-            console.info("load userinfo from local fail : "+JSON.stringify(err))
+            console.info("load userinfo from local fail : "+err)
         }
         this.initInfo()
     }
 
     async initInfo(){
 
+
         const userRe = await this.model.getUserInfo(this.uid)
 
+      
         this.view.renderUserInfo(userRe)
         this.view.renderAvatar(UserApi.getUserAvatarBig(this.uid))
-
 
 
         this.initPosts()

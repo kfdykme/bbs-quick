@@ -253,7 +253,7 @@
       canLoadMore: true,
       isRefreshing: false,
     },
-    async onInit() {
+    onInit() {
 
 
       this.list = []

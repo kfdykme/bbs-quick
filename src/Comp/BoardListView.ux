@@ -48,7 +48,7 @@
     justify-content: center;
     align-items: center;
 
-  
+
     list{
 
         width: 100%;
@@ -139,8 +139,13 @@ class BoardListPresenter{
 
     async loadLocal(){
         const res = await storage.get({key:"BoardList"})
-        const re = JSON.parse(res.data)
-        this.view.renderBoard(re)
+        try{
+
+          const re = JSON.parse(res.data)
+          this.view.renderBoard(re)
+        } catch (e){
+          this.view.renderEmpty()
+        }
     }
 
     load(){
@@ -208,6 +213,10 @@ export default{
 
           this.board = re.list
       }.bind(this)
+
+      View.renderEmpty = function(){
+        //todo
+      }
       return View
   }
   ,onInit(){
