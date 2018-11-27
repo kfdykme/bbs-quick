@@ -6,7 +6,7 @@
         <text>最近更新了:</text>
         <text>{{update}}</text>
 
-        <text class="btn" @click="onEvent({type:'reflact'})">可以在这个帖子反馈(*^_^*)</text>
+        <!-- <text class="btn" @click="onEvent({type:'reflact'})">可以在这个帖子反馈(*^_^*)</text> -->
 
 
     </div>
