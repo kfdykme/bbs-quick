@@ -3,6 +3,7 @@ import ForumApi from '../Common/ForumApi'
 import UserCache from '../Common/UserCache'
 import router from '@system.router'
 
+
 export default {
   public: {
 
@@ -38,6 +39,7 @@ export default {
 
     this.username = UserCache.user().userName
     this.uid = UserCache.user().uid
+
   }
 
   /**
@@ -46,16 +48,16 @@ export default {
    * @desc 当改变首页中的某个页面时发生
    * DEBUG: 在华为引擎中,刚刚启动该页面的时候如果快速切换
    * tab-content,会出现疯狂反复调用该方法的情况,
-   * 
+   *
    * 为了debug增加了一个时间变量用于检测
    */
   , onChangeForm(index) {
-    let t = new Date().getTime() 
-   
+    let t = new Date().getTime()
+
     if(t-this.debugLastChangeFromIndexTime<=100)
       return;
     this.formIndex = index
-    
+
     this.debugLastChangeFromIndexTime = new Date().getTime()
   }
   /**

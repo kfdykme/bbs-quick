@@ -4,6 +4,7 @@ import MessageModel from "./MessageModel"
 import prompt from '@system.prompt'
 import notification from '@system.notification'
 import vibrator from '@system.vibrator'
+import network from '@system.network'
 
 /**
  * @class MessagePresenter
@@ -147,7 +148,14 @@ import vibrator from '@system.vibrator'
             return;
 
         setTimeout(function(){
-            this.fetchHeart()
+          network.getType({
+            success:function(data){
+              if(data.type != 'none'){
+
+                this.fetchHeart()
+              }
+            }.bind(this)
+          })
         }.bind(this),5000)
     }
 
@@ -333,7 +341,7 @@ import vibrator from '@system.vibrator'
                         baseUrl:actions[0].redirect
                     }
                 })
-             
+
 
 
             }
