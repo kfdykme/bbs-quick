@@ -6,6 +6,11 @@
 
 
     <div class="user-page">
+        <block if="re.length == 0">
+          <progress type="circular">
+
+          </progress>
+        </block>
         <block for="userInfo in re">
             <stack class="user-header">
 
@@ -344,7 +349,7 @@
 
             height: 100%;
             flex-direction: column;
- 
+
 
             .others-action-bar {
 
