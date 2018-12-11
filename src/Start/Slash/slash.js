@@ -23,11 +23,14 @@ export default {
 
 
     var startTime = new Date().getTime()
+
     await storage.get({
       key: "flash-note"
     }).then((data)=>{
       this.note = data.data
     })
+
+
     fetch.fetch({
       url : "http://bbs.uestc.edu.cn/forum.php?mobile=no",
       success:(re)=>{
@@ -54,13 +57,17 @@ export default {
         }
       }
     })
-    //读取登陆缓存
+    /**
+     * 读取登陆缓存
+     * 这里面的嵌套太多了
+     *  主要就是读取storage的缓存，然后读不到会怎样，读到了解析错误会怎样，没有好多优化方法，看起来有嗲乱
+     */
     await storage.get({
         key : "user"
     }).then(data =>{
         while(new Date().getTime() -startTime < 3000);
 
-        if(data){
+        if(data != null){
             try{
 
               const user = JSON.parse(data.data)
@@ -70,12 +77,13 @@ export default {
                 this.$app.initUser(user)
 
                 UserCache.init(this.$app)
+                console.info("Enter Main Page because load UserCache success.")
                 router.replace({
                   uri: "Main"
                 })
 
               } else {
-
+                console.info("Enter Login Page because UserCache is useless.")
                 router.replace({
                   uri : "Start/Login",
                 })
@@ -83,9 +91,14 @@ export default {
             } catch (e){
               //防止Json.parse失败
               console.error(e)
+              console.info("Enter Login Page because parse UserCache fail.")
+              router.replace({
+                uri : "Start/Login",
+              })
             }
         } else {
 
+            console.info("Enter Login Page because has not UserCache in storage.")
             router.replace({
                 uri : "Start/Login",
             })
@@ -93,6 +106,7 @@ export default {
     }).catch(data =>{
         while(new Date().getTime() -startTime < 3000);
 
+        console.info("Enter Login Page because read UserCache from storage fail .")
         router.replace({
             uri : "Start/Login",
         })
