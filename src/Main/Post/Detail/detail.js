@@ -558,6 +558,21 @@ export default {
     renderReply(json) {
         if (json.list != null && json.list.length != 0) {
 
+            /**
+             *  fixbug: 需要在筛选之前就充值this.image里面的内容，不然的话就没了
+             */
+             this.images = []
+             for (var x in json.list) {
+                 var re = json.list[x]
+                 //NOTE:如果是图片的话,添加到图片总数之中
+                 for (var y in re.reply_content) {
+                     var rc = re.reply_content[y]
+                     if (rc.type == 1) {
+                         this.images.push(rc.originalInfo)
+                     }
+                 }
+             }
+
             //根据缓存中的最后一个帖子的{{posts_date}}时间筛选json.list里面的东西
             var tempList = []
             for (var x in json.list) {
@@ -574,18 +589,9 @@ export default {
             json.list = this.convertList(json.list)
 
             //NOTE 处理数据
-            this.images = []
             for (var x in json.list) {
                 var re = json.list[x]
-
-                //NOTE:如果是图片的话,添加到图片总数之中
-                for (var y in re.reply_content) {
-                    var rc = re.reply_content[y]
-                    if (rc.type == 1) {
-                        this.images.push(rc.originalInfo)
-                    }
-                }
-
+                
                 if (re.position <= this.DEFAULT_PAGE_SIZE + this.topNumber + 1) {
                     re.position -= this.topNumber
                 }
