@@ -12,12 +12,6 @@ export default {
       START_TIME :2000,
       note:""
   }
-  ,onShow(){
-      $umeng_stat.resume(this)
-  }
-  ,onHide() {
-      $umeng_stat.pause(this)
-  }
   ,async onInit(){
 
 
