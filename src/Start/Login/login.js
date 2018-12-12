@@ -16,12 +16,6 @@ export default {
     login : "登陆",
     tryingLogin : false
   }
-  ,onShow(){
-      $umeng_stat.resume(this)
-  }
-  ,onHide() {
-      $umeng_stat.pause(this)
-  }
   ,onInit(){
 
 

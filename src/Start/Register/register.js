@@ -20,13 +20,6 @@ export default {
     emailhash:"",
     cookie:""
   }
-
-  ,onShow(){
-      $umeng_stat.resume(this)
-  }
-  ,onHide() {
-      $umeng_stat.pause(this)
-  }
   /**
    * @method convsertCookie
    * @param {} cookie

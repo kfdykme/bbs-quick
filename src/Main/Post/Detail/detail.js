@@ -582,7 +582,7 @@ export default {
             json.list = tempList
 
             //NOTE:更新最后的回复的时间
-            //NOTE: 该操作要在 @method convertList() 之前,否则最后的回复时间会变成字符而不是时间戳
+            //NOT E: 该操作要在 @method convertList() 之前,否则最后的回复时间会变成字符而不是时间戳
             if (json.list.length != 0)
                 this.lastReplyTime = json.list[json.list.length - 1].posts_date
 
@@ -591,7 +591,7 @@ export default {
             //NOTE 处理数据
             for (var x in json.list) {
                 var re = json.list[x]
-                
+
                 if (re.position <= this.DEFAULT_PAGE_SIZE + this.topNumber + 1) {
                     re.position -= this.topNumber
                 }
@@ -752,14 +752,17 @@ export default {
 
         PostApi.fetchPostDetail(1, this.topicid,
             function (data) {
-
-                let json = JSON.parse(data.data)
-                if (json.rs == 1) {
+                try {
+                  let json = JSON.parse(data.data)
+                  if (json.rs == 1) {
                     this.renderTopic(json)
 
 
-                } else {
+                  } else {
                     this.renderError(json.errcode)
+                  }
+                } catch (e) {
+                  console.error('Error while fetchTopic : ' + e)
                 }
 
             }.bind(this),
@@ -775,26 +778,27 @@ export default {
         PostApi.fetchPostDetail(this.page, this.topicid,
             function (data) {
 
+              try {
                 let json = JSON.parse(data.data)
-
-
 
                 if (json.rs == 1) {
 
-                    //update totalNumber
-                    if (json.total_num != null)
-                        this.totalNumber = json.total_num
+                  //update totalNumber
+                  if (json.total_num != null)
+                  this.totalNumber = json.total_num
 
-
-                    if (this.page == 1) {
-                        this.renderReply(json)
-                    } else {
-                        this.renderMoreReply(json)
-                    }
-
+                  if (this.page == 1) {
+                    this.renderReply(json)
+                  } else {
+                    this.renderMoreReply(json)
+                  }
                 } else {
-                    this.renderError(json.errcode)
+                  this.renderError(json.errcode)
                 }
+              } catch (e) {
+                console.error('Error in fetchReplys() : ' + e)
+                this.renderError(e)
+              }
 
 
             }.bind(this),
