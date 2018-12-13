@@ -762,7 +762,9 @@ export default {
                     this.renderError(json.errcode)
                   }
                 } catch (e) {
+                  console.info('Your data is : ', data )
                   console.error('Error while fetchTopic : ' + e)
+                  this.renderError('抱歉服务器发生了一下错误')
                 }
 
             }.bind(this),
@@ -797,7 +799,7 @@ export default {
                 }
               } catch (e) {
                 console.error('Error in fetchReplys() : ' + e)
-                this.renderError(e)
+                this.renderError('抱歉服务器发生了一些错误')
               }
 
 
