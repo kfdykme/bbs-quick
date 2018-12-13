@@ -21,7 +21,6 @@
         {
             "name": "system.storage"
         },
-
         {
             "name": "system.network"
         },
@@ -43,9 +42,12 @@
         {
             "name": "system.clipboard"
         },
-
-        { "name": "system.device"}
-        ,{"name": "system.notification"}
+        
+        {"name": "service.account"},
+        {
+           "name": "system.device"
+         },
+         {"name": "system.notification"}
         ,{"name": "system.vibrator"},
         {"name": "system.share"},
         {

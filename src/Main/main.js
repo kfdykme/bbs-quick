@@ -26,6 +26,7 @@ export default {
   }
   ,onShow(){
       $umeng_stat.resume(this)
+      APP_STATISTICS.page_show()
       this.$broadcast("show-home-view")
 
       //判断一下网络状态
@@ -41,6 +42,7 @@ export default {
   }
   ,onHide() {
       $umeng_stat.pause(this)
+      APP_STATISTICS.page_hide()
       this.$broadcast("hide-home-view")
   }
   , onInit() {
