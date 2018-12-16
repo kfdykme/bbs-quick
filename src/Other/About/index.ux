@@ -46,8 +46,8 @@
             $umeng_stat.pause(this)
         }
         ,onInit(){
-            this.about = "1.3.9"
-            this.update = "\n许久未更新，不清不楚的2333"
+            this.about = "1.3.12"
+            this.update = "\n抱歉由于服务器原因部分页面暂时无法显示"
         }
         ,onEvent(e){
             if(e.type == "reflact"){
