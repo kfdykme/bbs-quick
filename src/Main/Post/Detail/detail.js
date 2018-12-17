@@ -33,7 +33,10 @@ export default {
         commentReplyId: 0,
         showImage: false,                          // 是否可以加载图片了
         showMenu:false,
-
+        /**
+         *  scrollY 用来记录滚动的距离
+         */
+        scrollY:0,
         topicImages: [],
         images: [],                                // 本页的图片url数组,查看图片时作为参数传入
         imageId:0,
@@ -233,8 +236,8 @@ export default {
     }
     , async onEvent(e,oriE) {
 
-        if(e.type == 'scroll'){
-
+        if(e.type === 'scroll'){
+          this.scrollY += oriE.scrollY
         }
 
         if(e.type == 'scroll-to-top'){
