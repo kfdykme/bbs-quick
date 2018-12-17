@@ -34,7 +34,7 @@ async function reverse(topic_id,number){
 async function score(url,score,reason,sendreasonpm){
   const type = 'view'
   const modsubmit = '确定'
-  
+
 
   return await fetch.fetch({
     url : url,
@@ -132,7 +132,15 @@ function fetchPostDetail(page,topicId,suc,fai){
       accessSecret : UserCache.secret(),
       accessToken : UserCache.token()
     },
-    success: suc,
+    success: function (data) {
+      if (data.code != 200) {
+        prompt.showToast({
+          message: '抱歉发生了错误：' + data.code
+        })
+        return
+      }
+      suc(data)
+    },
     fail: fai
   })
 }
@@ -181,7 +189,15 @@ function replyComment(commentContent,images,topicId,replyId,suc){
           accessSecret : UserCache.secret(),
           accessToken : UserCache.token()
         },
-        success: suc,
+        success: function (data) {
+          if (data.code != 200) {
+            prompt.showToast({
+              message: '抱歉发生了错误：' + data.code
+            })
+            return
+          }
+          suc(data)
+        },
         fail: function(data,code){
             console.log(data);
         }
@@ -205,9 +221,17 @@ function publish(publishJson,suc){
         accessSecret : UserCache.secret(),
         accessToken : UserCache.token()
       },
-      success: suc,
+      success: function (data) {
+        if (data.code != 200) {
+          prompt.showToast({
+            message: '抱歉发生了错误：' + data.code
+          })
+          return
+        }
+        suc(data)
+      },
       fail: function(data,code){
-
+        console.err("Error while publish post " + data)
       }
     })
 
@@ -248,19 +272,27 @@ function comment(commentContent,images,topicId,suc){
   const url = Api.BASE_URL + "app/web/index.php?r=forum/topicadmin"
 
   fetch.fetch({
-        url : url,
-        method : "POST",
-        data : {
-            json : JSON.stringify(publishJson),
-            act : 'reply',
-            apphash :UserCache.appHash(),
-            accessSecret : UserCache.secret(),
-            accessToken : UserCache.token()
-        },
-        success: suc,
-        fail: function(data,code){
-
-        }
+    url : url,
+    method : "POST",
+    data : {
+        json : JSON.stringify(publishJson),
+        act : 'reply',
+        apphash :UserCache.appHash(),
+        accessSecret : UserCache.secret(),
+        accessToken : UserCache.token()
+    },
+    success: function (data) {
+      if (data.code != 200) {
+        prompt.showToast({
+          message: '抱歉发生了错误：' + data.code
+        })
+        return
+      }
+      suc(data)
+    },
+    fail: function(data,code){
+      console.error(data)
+    }
   })
 }
 

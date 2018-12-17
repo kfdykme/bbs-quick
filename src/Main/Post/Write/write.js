@@ -290,8 +290,6 @@ export default {
             let contentList = []
             let publishContent = {}
 
-
-
             publishContent.infor = this.publishContent
             publishContent.type = 0
             contentList.push(publishContent)

@@ -168,13 +168,18 @@ function deleteFriend(uid,success){
             modsubmit:"确定"
         },
         success :function(data){
-
-            console.info(data.data)
-            var re = {
-                rs :1,
-                errcode :"success ignore friends"
-            }
-            success(re)
+          if (data.code != 200) {
+            prompt.showToast({
+              message: '抱歉发生了错误：' + data.code
+            })
+            return
+          }
+          console.info(data.data)
+          var re = {
+              rs :1,
+              errcode :"success ignore friends"
+          }
+          success(re)
         },
         fail : function(data,code){
           Api.onFetchFail(data,code)
@@ -197,13 +202,18 @@ function addFriend(uid,success){
             modsubmit:"确定"
         },
         success :function(data){
-
-            console.info(data.data)
-            var re = {
-                rs :1,
-                errcode :"好友请求已发送，请等待对方验证"
-            }
-            success(re)
+          if (data.code != 200) {
+            prompt.showToast({
+              message: '抱歉发生了错误：' + data.code
+            })
+            return
+          }
+          console.info(data.data)
+          var re = {
+              rs :1,
+              errcode :"好友请求已发送，请等待对方验证"
+          }
+          success(re)
         },
         fail : function(data,code){
           Api.onFetchFail(data,code)

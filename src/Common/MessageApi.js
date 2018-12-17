@@ -271,13 +271,19 @@ function userAdd2(uid,success){
           sdkVersion : Api.sdkVersion,
           appHash :UserCache.appHash()
       },
-      success :function(data){
-          var re = {
-              rs : 1,
-              errcode :"添加成功"
-          }
+      success :function (data) {
+        if (data.code != 200) {
+          prompt.showToast({
+            message: '抱歉发生了错误：' + data.code
+          })
+          return
+        }
+        var re = {
+            rs : 1,
+            errcode :"添加成功"
+        }
 
-          success(re)
+        success(re)
       },
       fail : function(data,code){
         Api.onFetchFail(data,code)
@@ -300,17 +306,22 @@ function dealMessageActions(actions,suc){
     fetch.fetch({
         url : action.redirect,
         success : function(data){
+          if (data.code != 200) {
+            prompt.showToast({
+              message: '抱歉发生了错误：' + data.code
+            })
+            return
+          }
+          //NOTE:处理script返回,原先只是返回了js的alert加上重定位,现在得暂时自己来
+          const regExp =  /alert\(\".*\"\);/g
+          var errcode =  data.data.match(regExp);
+          errcode = errcode[0].substring(7)
+          errcode = errcode.substring(0,errcode.length-3)
 
-                //NOTE:处理script返回,原先只是返回了js的alert加上重定位,现在得暂时自己来
-                const regExp =  /alert\(\".*\"\);/g
-                var errcode =  data.data.match(regExp);
-                errcode = errcode[0].substring(7)
-                errcode = errcode.substring(0,errcode.length-3)
-
-                var re = {}
-                re.rs = 1
-                re.errcode = errcode
-                suc(re)
+          var re = {}
+          re.rs = 1
+          re.errcode = errcode
+          suc(re)
         },
         fail : function(data,code){
           Api.onFetchFail(data,code)
