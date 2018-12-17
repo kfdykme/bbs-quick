@@ -50,7 +50,7 @@
                 <list class="input input-classifi" >
                     <list-item type="classi-text"  for="cl in classificationType_list">
 
-                        <text class="classi-text {{cl.classificationType_id == targetClass.classificationType_id ? 'active' : ''}}" @click="onClickClassification(cl)">{{cl.classificationType_name}}</text>
+                        <text if="cl != null" class="classi-text {{cl.classificationType_id == targetClass.classificationType_id ? 'active' : ''}}" @click="onClickClassification(cl)">{{cl.classificationType_name}}</text>
 
                     </list-item>
                 </list>
