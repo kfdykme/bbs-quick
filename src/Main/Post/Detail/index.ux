@@ -19,8 +19,6 @@
           <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
             <list id="postList" @scrollbottom="onScrollBottom" @scroll="onEvent({type:'scroll'})">
 
-
-
               <!-- 内容-topic 开始 -->
               <list-item type="topic-header">
                 <div class="topic-header card-ex">
@@ -29,25 +27,21 @@
                     <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name}}</text>
                     <text class="date">{{topic.create_date}}</text>
                   </div>
-
                 </div>
               </list-item>
 
               <block for="t in topic.content">
 
-
                   <!-- NOTE:文本 -->
                   <list-item type="topic-text" if="{{t.type  == 0 }}" >
                       <div class="topic-content card-ex">
                           <text  >{{t.infor}}</text>
-
                       </div>
                   </list-item>
 
                   <!-- NOTE: 图片  -->
                   <list-item type="topic-image-{{t.originalInfo}}" if="{{t.type  == 1  && showImage}}"   >
                       <div class="topic-content card-ex">
-
                           <image onclick="onEvent({type:'view-image',data:t.originalInfo})" class="content-image" src="{{t.originalInfo}}" alt="/Res/ic_loading_image.png"></image>
                       </div>
                   </list-item>
@@ -55,9 +49,7 @@
                   <!-- NOTE:超链接 -->
                   <list-item type="topic-url" if="{{t.type  == 4 }}" >
                       <div  class="topic-content card-ex">
-
                           <exa  url="{{t.url}}"  infor="{{t.infor}}"  ></exa>
-
                       </div>
                   </list-item>
 
@@ -67,7 +59,6 @@
                       <div class="topic-content card-ex">
                           <exa url="{{t.url}}" infor="{{t.infor}}"></exa>
                           <text>{{t.desc}}</text>
-
                       </div>
                   </list-item>
 
@@ -75,7 +66,6 @@
                   <!-- NOTE: 评论-表情包 -->
                   <list-item  if="{{t.type == 11}}" type="topic-emoji-{{t.item}}">
                       <div class="topic-content card-ex emoji">
-
                           <block for="e in t.infor">
                               <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
                               <text if="{{e == '</br>'}}" class="tv-br"></text>
@@ -329,20 +319,30 @@
 
 
       </div>
-      <div class="post-comment">
 
-        <div  show="{{showCommentBtn}}"  class="btn-show" >
-          <text @click="onEvent({type:'comment'})">{{commentBtnText}}</text>
-        </div>
+      <!-- 评论按钮-->
+      <div class="post-comment"  show="{{showCommentBtn}}">
+        <stack class="post-comment-stack">
+          <div class="post-comment-footer-containor">
+            <div class="shadown-footer"></div>
+            <div class="post-comment-footer">
+              <div>
 
-
+              </div>
+            </div>
+          </div>
+          <div  class="btn-show" >
+            <text @click="onEvent({type:'comment'})">{{commentBtnText}}</text>
+          </div>
+        </stack>
       </div>
 
-      <div class="post-to-top-page">
+      <div class="post-to-top-page" show="{{scrollY > 1000}}">
         <div class="containor-to-top"  show="{{showCommentBtn}}">
           <image src="/Res/ic_to_top.svg" @click="onEvent({type:'scroll-to-top'})"></image>
         </div>
       </div>
+
       <score-dialog id="scoreDialog" if="{{topic != null && topic.extraPanel != null }}"url="{{topic.extraPanel[0].action}}"></score-dialog>
       <loading-page id="loadingPage"></loading-page>
 
