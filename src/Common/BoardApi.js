@@ -126,8 +126,12 @@ function fetchBoardPostList(page,boardId,suc){
         }
 
         const re = JSON.parse(data.data)
-
-
+        
+        if (re.rs === 0) {
+          prompt.showToast({
+            message: re.errcode
+          })
+        }
         suc(re)
       },
       fail : function (data,code){
