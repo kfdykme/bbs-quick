@@ -10,70 +10,64 @@
   <div class="main-page">
 
         <stack>
+            <div class="page">
+              <div  class="top-tab-bar {{homeIndex == 0 ? '' : 'hide'}}" >
+                  <stack>
+                    <div class="shadown-to-right"></div>
+                    <div class="search">
+                      <image @click="onClickEvent({type:'search',data :null})" src="../Res/ic_shortcut_search.png"></image>
+                    </div>
+                  </stack>
+                  <text class="{{formIndex === 0 ? 'top-tab-active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
+                  <text class="{{formIndex === 1 ? 'top-tab-active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
+                  <text class="{{formIndex === 2 ? 'top-tab-active' : ''}}" onclick="clickTabBar(2)">热门话题</text>
 
-              <div class="page">
+              </div>
+              
+              <div class="paper">
+                <div show="{{homeIndex == 0}}">
+                    <tabs onchange="changeTabactive" index="{{formIndex}}">
 
-                <div  class="top-tab-bar {{homeIndex == 0 ? '' : 'hide'}}" >
-                    <stack>
-                      <div class="shadown-to-right"></div>
-                      <div class="search">
-                        <image @click="onClickEvent({type:'search',data :null})" src="../Res/ic_shortcut_search.png"></image>
-                      </div>
-                    </stack>
-                    <text class="{{formIndex === 0 ? 'top-tab-active' : ''}}" onclick="clickTabBar(0)">最新回复</text>
-                    <text class="{{formIndex === 1 ? 'top-tab-active' : ''}}" onclick="clickTabBar(1)">最新发表</text>
-                    <text class="{{formIndex === 2 ? 'top-tab-active' : ''}}" onclick="clickTabBar(2)">热门话题</text>
+                      <tab-content   >
+                        <div class="tab-content-section">
+                          <post-list-view type="forum" tag="{{tags[0]}}"  ></post-list-view>
+                        </div>
+                        <div class="tab-content-section">
+                          <post-list-view type="forum" tag="{{tags[1]}}" ></post-list-view>
+                        </div>
+                        <div class="tab-content-section">
+                          <post-list-view type="forum" tag="{{tags[2]}}"  ></post-list-view>
+                        </div>
 
-                </div>
-                <div class="paper">
-
-                  <div show="{{homeIndex == 0}}">
-                      <tabs onchange="changeTabactive" index="{{formIndex}}">
-
-                        <tab-content   >
-                          <div class="tab-content-section">
-                            <post-list-view type="forum" tag="{{tags[0]}}"  ></post-list-view>
-                          </div>
-                          <div class="tab-content-section">
-                            <post-list-view type="forum" tag="{{tags[1]}}" ></post-list-view>
-                          </div>
-                          <div class="tab-content-section">
-                            <post-list-view type="forum" tag="{{tags[2]}}"  ></post-list-view>
-                          </div>
-
-                        </tab-content>
-                      </tabs>
-                  </div>
-
-                  <div  show="{{homeIndex == 1}}">
-                      <board-list-view>
-                      </board-list-view>
-                  </div> -->
-                  <div show="{{homeIndex == 2}}">
-                      <message-view tag="message"></message-view>
-                  </div>
-                  <div  show="{{homeIndex == 3}}">
-
-                      <user-view uid="{{uid}}"></user-view >
-
-                  </div>
+                      </tab-content>
+                    </tabs>
                 </div>
 
-
-
-
-                <div  class="tab-bar">
-                  <text  @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'bottom-tab-active' : ''}}"  >首页</text>
-                  <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'bottom-tab-active' : ''}}"  >板块</text>
-                  <text  @click="onClickBottom(2)" class="{{homeIndex == 2 ? 'bottom-tab-active' : ''}}"  >消息</text>
-                  <text  @click="onClickBottom(3)" class="{{homeIndex === 3 ? 'bottom-tab-active' : ''}}"  >{{username}}</text>
-
+                <div  show="{{homeIndex == 1}}">
+                    <board-list-view>
+                    </board-list-view>
                 </div>
 
-        </div>
+                <div show="{{homeIndex == 2}}">
+                    <message-view tag="message"></message-view>
+                </div>
+                <div  show="{{homeIndex == 3}}">
+                    <user-view uid="{{uid}}"></user-view >
+                </div>
+              </div>
 
-          <float-bar></float-bar>
-        </stack>
+              <div  class="tab-bar">
+                <text  @click="onClickBottom(0)" class="{{homeIndex === 0 ? 'bottom-tab-active' : ''}}"  >首页</text>
+                <text  @click="onClickBottom(1)" class="{{homeIndex === 1 ? 'bottom-tab-active' : ''}}"  >板块</text>
+                <text  @click="onClickBottom(2)" class="{{homeIndex == 2 ? 'bottom-tab-active' : ''}}"  >消息</text>
+                <text  @click="onClickBottom(3)" class="{{homeIndex === 3 ? 'bottom-tab-active' : ''}}"  >{{username}}</text>
+
+              </div>
+
+      </div>
+
+        <float-bar></float-bar>
+      </stack>
   </div>
 </template>
 

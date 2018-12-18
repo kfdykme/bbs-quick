@@ -100,16 +100,21 @@ function fetch(url,data,suc,andError,onParseFail){
             data : data,
             success :function(data){
 
-              if(data.code != 200) return
+              if(data.code != 200) {
+                prompt.showToast({
+                  message: data.data
+                })
+                return
+              }
 
               try{
 
                 const re = JSON.parse(data.data)
 
                 if(re.rs == 0)
-                that.onSuccessError(re,andError)
+                  that.onSuccessError(re,andError)
                 else if (re.rs == 1)
-                suc(re)
+                  suc(re)
               }  catch(e){
                 console.error(e)
                 if(onParseFail!= null){
@@ -135,7 +140,6 @@ function fetch(url,data,suc,andError,onParseFail){
 
 export default {
   REGISTER_URL : "http://bbs.uestc.edu.cn/member.php?mod=register",
-
   BASE_URL : "http://bbs.uestc.edu.cn/mobcent/",
   login : "app/web/index.php?r=user/login/",
   formlist : "app/web/index.php?r=forum/forumlist",

@@ -125,8 +125,6 @@ import router from '@system.router'
 import DateUtil from '../Common/DateUtil'
 import storage from '@system.storage'
 
-
-
 class BoardListPresenter{
 
     constructor(view){
@@ -136,12 +134,11 @@ class BoardListPresenter{
         BoardApi.init(this.app)
     }
 
-
     async loadLocal(){
         const res = await storage.get({key:"BoardList"})
         try{
-
           const re = JSON.parse(res.data)
+
           this.view.renderBoard(re)
         } catch (e){
           this.view.renderEmpty()
@@ -149,32 +146,32 @@ class BoardListPresenter{
     }
 
     load(){
-
         BoardApi.getForumList(
           function (data){
-
             const re = JSON.parse(data.data)
 
             for(let x in re.list){
-
                 for(let y in re.list[x].board_list){
                     const t = re.list[x].board_list[y]
 
-
                     t.last_posts_date = DateUtil.convertTimeShort(t.last_posts_date)
                 }
+
+                re.list[x].board_list = re.list[x].board_list.filter(item => BoardApi.checkBoardCanFetch(item.board_name))
             }
+
+            re.list = re.list.filter(item => item.board_list.length > 0)
 
             this.save(re)
             this.view.renderBoard(re)
 
           }.bind(this),
+
           function (data,code){
             console.log(code);
           }
         )
     }
-
 
     onClickEvent(event){
         switch (event.type) {
@@ -217,6 +214,8 @@ export default{
       View.renderEmpty = function(){
         //todo
       }
+
+
       return View
   }
   ,onInit(){
