@@ -3,40 +3,30 @@
 
 
 <template>
-
-
     <div class="user-page">
         <block if="re.length == 0">
           <progress type="circular">
-
           </progress>
         </block>
         <block for="userInfo in re">
             <stack class="user-header">
+                <image class="user-image" src="{{avatarBig}}">
+                </image>
 
-                <image class="user-image" src="{{avatarBig}}"></image>
                 <div class="user-info">
                     <div>
-
                         <text class="name">{{userInfo.name}}</text>
                         <text class="title">{{userInfo.userTitle}}</text>
                     </div>
                     <text class="sign">{{userInfo.sign}}</text>
 
-
                     <div>
-
                         <block for=" c in userInfo.body.creditShowList">
                             <text>{{c.title}} : {{c.data}}</text>
                         </block>
                     </div>
-
-
-
                 </div>
-
             </stack>
-
 
             <div class="others-content" if="{{uid != myId}}">
                 <tabs @change="onChangeTab" index="{{tabIndex}}">
@@ -105,7 +95,7 @@
                 </tabs>
 
                 <div class="others-action-bar">
-                    <text @click="onClickEvent('chat')" class="others-action-btn">站内私信</text>
+                    <text @click="onClickEvent('chat')" class="others-action-btn others-action-btn-primary">站内私信</text>
                     <text if="{{re.length >0 &&re[0].isFriend == 0}}" @click="onClickEvent('addFriend')" class="others-action-btn">加为好友</text>
                     <text if="{{re.length >0 &&re[0].isFriend == 1}}" @click="onClickEvent('unFriend')" class="others-action-btn">删除好友</text>
                     <text if="{{re.length >0 &&re[0].is_follow == 0}}" @click="onClickEvent('follow')" class="others-action-btn">加为关注</text>
@@ -121,7 +111,6 @@
                         <text class="{{ tabIndex === 2 ?'tab-title' : ''}}">其他</text>
                     </tab-bar>
                     <tab-content class="tab-content">
-
                         <div class="post">
                             <post-list-view type="me-publish" tag="{{uid}}"></post-list-view>
                         </div>
@@ -194,33 +183,6 @@
     @import '../../Comp/card.less';
     @import "../../Comp/base.less";
 
-
-    stack {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        width: 100%;
-        .shadown {
-            height: 100%;
-            width: 100%;
-            flex-direction: column;
-            justify-content: space-between;
-            .shadown-header {
-                height: 10px;
-                width: 100%;
-                opacity: 0.7;
-                background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0));
-            }
-
-            .shadown-footer {
-                height: 10px;
-                width: 100%;
-                background: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3));
-
-            }
-        }
-    }
 
 
     .user-page {
@@ -344,7 +306,9 @@
         }
 
 
-
+        /**
+         * 查看其他人的信息
+         */
         .others-content {
 
             height: 100%;
@@ -358,12 +322,12 @@
                 .others-action-btn {
                     flex-grow: 1;
                     text-align: center;
-                    padding: 16px;
-                    color: @primaryColor;
-                    border-width: 4px;
-                    border-color: @primaryColor;
-                    border-radius: 16px;
-                    margin: 8px;
+                    padding: 24px;
+                    color: @textColor;
+                }
+
+                .others-action-btn-primary {
+                  color: @primaryColor;
                 }
 
             }
@@ -394,7 +358,6 @@
 
 
                 .btn-logout {
-
                     color: @accentColor;
                 }
             }
