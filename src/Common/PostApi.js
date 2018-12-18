@@ -1,11 +1,12 @@
 import Api from "./Api"
 import fetch from "@system.fetch"
 import UserCache from './UserCache'
-
+import Strings from './Strings'
+import prompt from '@system.prompt'
 
 const Constant = {
-  FAVO : "favorite",
-  DELFAVO : "delfavorite"
+  FAVO : Strings.POST_FAVO,
+  DELFAVO : Strings.POST_DELFAVO
 }
 
 function init(app){
@@ -18,7 +19,7 @@ async function reverse(topic_id,number){
 
     return await fetch.fetch({
       url : Api.BASE_URL + "app/web/index.php?r=forum/postlist&pageSize="+number,
-      method : "POST",
+      method : Strings.POST,
       data : {
         page : 1,
         topicId : topic_id,
@@ -32,13 +33,13 @@ async function reverse(topic_id,number){
  * @method score
  */
 async function score(url,score,reason,sendreasonpm){
-  const type = 'view'
-  const modsubmit = '确定'
+  const type = Strings.POST_SCORE_TYPE
+  const modsubmit = Strings.POST_SCORE_MODSUBMIT
 
 
   return await fetch.fetch({
     url : url,
-    method : "POST",
+    method : Strings.POST,
     data:{
       score2: score,
       reason : reason,
@@ -69,7 +70,7 @@ async function favorite(action,pid){
 
   return await fetch.fetch({
     url : url,
-    method :"POST",
+    method :Strings.POST,
     data:data
   })
 }
@@ -83,7 +84,7 @@ async function favorite(action,pid){
 async function vote(tid,options){
     return await fetch.fetch({
         url : "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/vote",
-        method:"POST",
+        method:Strings.POST,
         data :{
             tid	:tid,
             options:options,
@@ -105,7 +106,7 @@ async function supportPost(tid,pid,type){
 
     return await fetch.fetch({
         url : Api.BASE_URL + "app/web/index.php?r=forum/support",
-        method: "POST",
+        method: Strings.POST,
         data : {
             tid : tid,
             pid : pid,
@@ -124,7 +125,7 @@ function fetchPostDetail(page,topicId,suc,fai){
 
   fetch.fetch({
     url : url,
-    method : "POST",
+    method : Strings.POST,
     data : {
       page : page,
       topicId : topicId,
@@ -135,7 +136,7 @@ function fetchPostDetail(page,topicId,suc,fai){
     success: function (data) {
       if (data.code != 200) {
         prompt.showToast({
-          message: '抱歉发生了错误：' + data.code
+          message: Strings.NET_ERROR_500
         })
         return
       }
@@ -181,7 +182,7 @@ function replyComment(commentContent,images,topicId,replyId,suc){
 
       fetch.fetch({
         url : url,
-        method : "POST",
+        method : Strings.POST,
         data : {
           json : JSON.stringify(publishJson),
           act : 'reply',
@@ -192,7 +193,7 @@ function replyComment(commentContent,images,topicId,replyId,suc){
         success: function (data) {
           if (data.code != 200) {
             prompt.showToast({
-              message: '抱歉发生了错误：' + data.code
+              message: Strings.NET_ERROR_500
             })
             return
           }
@@ -213,7 +214,7 @@ function publish(publishJson,suc){
 
     fetch.fetch({
       url : url,
-      method : "POST",
+      method : Strings.POST,
       data : {
         json : JSON.stringify(publishJson),
         act : 'new',
@@ -224,7 +225,7 @@ function publish(publishJson,suc){
       success: function (data) {
         if (data.code != 200) {
           prompt.showToast({
-            message: '抱歉发生了错误：' + data.code
+            message: Strings.NET_ERROR_500
           })
           return
         }
@@ -273,7 +274,7 @@ function comment(commentContent,images,topicId,suc){
 
   fetch.fetch({
     url : url,
-    method : "POST",
+    method : Strings.POST,
     data : {
         json : JSON.stringify(publishJson),
         act : 'reply',
@@ -284,7 +285,7 @@ function comment(commentContent,images,topicId,suc){
     success: function (data) {
       if (data.code != 200) {
         prompt.showToast({
-          message: '抱歉发生了错误：' + data.code
+          message: Strings.NET_ERROR_500
         })
         return
       }

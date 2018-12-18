@@ -3,6 +3,7 @@ import fetch from "@system.fetch"
 import UserCache from './UserCache'
 import storage from '@system.storage'
 import prompt from '@system.prompt'
+import Strings from './Strings'
 
 var app = null
 function init(app){
@@ -49,7 +50,7 @@ function getForumList(suc,fai){
 
   fetch.fetch({
     url : url,
-    mothod :"POST",
+    mothod :Strings.POST,
     data :{
       apphash :UserCache.appHash(),
       accessToken : UserCache.token(),
@@ -60,7 +61,7 @@ function getForumList(suc,fai){
 
       if (data.code != 200) {
         prompt.showToast({
-          message: '抱歉发生了错误：' + data.code
+          message: Strings.NET_ERROR_500
         })
         return
       }
@@ -78,7 +79,7 @@ function fetchChildBoardList(fid,suc){
 
   fetch.fetch({
     url : url,
-    mothod :"POST",
+    mothod :Strings.POST,
     data :{
       apphash :UserCache.appHash(),
       accessToken : UserCache.token(),
@@ -89,7 +90,7 @@ function fetchChildBoardList(fid,suc){
     success :function(data){
       if (data.code != 200) {
         prompt.showToast({
-          message: '抱歉发生了错误：' + data.code
+          message: Strings.NET_ERROR_500
         })
         return
       }
@@ -110,7 +111,7 @@ function fetchClassificationTypeList(boardId,suc){
 
     fetch.fetch({
       url : url,
-      mothod :"POST",
+      mothod :Strings.POST,
       data :{
         apphash :UserCache.appHash(),
         accessToken : UserCache.token(),
@@ -121,7 +122,7 @@ function fetchClassificationTypeList(boardId,suc){
       success :function (data) {
         if (data.code != 200) {
           prompt.showToast({
-            message: '抱歉发生了错误：' + data.code
+            message: Strings.NET_ERROR_500
           })
           return
         }
@@ -140,7 +141,7 @@ function fetchBoardPostList(page,boardId,suc){
 
     fetch.fetch({
       url : url,
-      mothod :"POST",
+      mothod :Strings.POST,
       data :{
         accessToken : UserCache.token(),
         apphash :UserCache.appHash(),
@@ -151,7 +152,7 @@ function fetchBoardPostList(page,boardId,suc){
       success :function(data){
         if (data.code != 200) {
           prompt.showToast({
-            message: '抱歉发生了错误：' + data.code
+            message: Strings.NET_ERROR_500
           })
           return
         }

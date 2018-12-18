@@ -70,7 +70,7 @@ function onSuccessError(re,and){
   //TODO : 喊后台把这个字符串改了
   if(re.errcode == 'faq_keyword_empty')
     re.errcode = '抱歉，您尚未指定要搜索的关键字'
- 
+
   prompt.showToast({
     message :re.errcode
   })
@@ -140,7 +140,6 @@ function fetch(url,data,suc,andError,onParseFail){
 
 export default {
   REGISTER_URL : "http://bbs.uestc.edu.cn/member.php?mod=register",
-
   BASE_URL : "http://bbs.uestc.edu.cn/mobcent/",
   login : "app/web/index.php?r=user/login/",
   formlist : "app/web/index.php?r=forum/forumlist",
