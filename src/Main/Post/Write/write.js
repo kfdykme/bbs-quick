@@ -68,18 +68,28 @@ export default {
         if (forumlist.data != "")
             this.category = JSON.parse(forumlist.data).list
 
-        if (this.category.length == 0)
-            BoardApi.getForumList(
-                function (data) {
-                    const re = JSON.parse(data.data)
-                    this.save(data.data, "forumlist")
-                    this.category = re.list
+        BoardApi.getForumList(
+            function (data) {
+              const re = JSON.parse(data.data)
+              this.save(data.data, "forumlist")
 
-                }.bind(this),
-                function (data, code) {
-                    console.log(code);
-                }
-            )
+              re.list = re.list.filter(item => {
+                item.board_list = item.board_list.filter(board => {
+                  return BoardApi.checkBoardCanFetch(board.board_name)
+                })
+                return item.board_list.length > 0
+              })
+              console.info(re.list)
+              this.category = re.list
+              storage.set({
+                key: 'forumlist',
+                value: JSON.stringify(this.category)
+              })
+            }.bind(this),
+            function (data, code) {
+                console.log(code);
+            }
+        )
 
 
 

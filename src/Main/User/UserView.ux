@@ -1,13 +1,13 @@
 <import name="user-list-view" src="../../Comp/UserListView"></import>
 <import name="post-list-view" src="../../Comp/PostListView"></import>
 
-
 <template>
     <div class="user-page">
         <block if="re.length == 0">
           <progress type="circular">
           </progress>
         </block>
+
         <block for="userInfo in re">
             <stack class="user-header">
                 <image class="user-image" src="{{avatarBig}}">
@@ -34,10 +34,12 @@
                         <text class="{{ tabIndex === 0 ?'tab-title' : ''}}">Ta的发帖</text>
                         <text class="{{ tabIndex === 1 ?'tab-title' : ''}}">其他资料</text>
                     </tab-bar>
+
                     <tab-content>
                         <div>
                             <post-list-view type="me-publish" tag="{{uid}}"></post-list-view>
                         </div>
+
                         <div>
                             <stack>
                                 <div class="other-info">
@@ -81,12 +83,12 @@
 
                                     </div>
                                 </div>
+
                                 <div class="shadown">
                                     <div class="shadown-header">
-
                                     </div>
-                                    <div class="shadown-footer">
 
+                                    <div class="shadown-footer">
                                     </div>
                                 </div>
                             </stack>
@@ -305,10 +307,6 @@
 
         }
 
-
-        /**
-         * 查看其他人的信息
-         */
         .others-content {
 
             height: 100%;
@@ -393,10 +391,14 @@
             replyPage: 0,
             replyTotalNumber: 0,
             followNumber: 0,
-            followerNumber: 0
+            followerNumber: 0,
+            touch:false
         }
         , onClickEvent(type, arg) {
             this.presenter.onClickEvent(type, arg)
+        }
+        , onEvent (e) {
+          this.touch = !this.touch
         }
         , onChangeTab(e) {
             var index = e.index;

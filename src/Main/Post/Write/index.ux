@@ -11,7 +11,7 @@
             <div class="board-select-bar">
                 <div class="category">
 
-                    <select class="category-select"   @change="onChangeGategory" if="{{category.length != 0}}" >
+                    <select class="category-select"   @change="onChangeGategory" if="{{category != null && category.length != 0}}" >
 
                         <option value="{{$item}}" for="category">{{$item.board_category_name}}</option>
 

@@ -1,7 +1,5 @@
 
 <import name="loading-progress-view" src="./LoadingProgressView"></import>
-
-
 <template >
 
   <stack>
