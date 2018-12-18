@@ -45,39 +45,52 @@
                                 <div class="other-info">
                                     <!-- NOTE: 回复,关注,粉丝 -->
                                     <div class="user-second-info card">
-
-                                        <div class="info-active-item" @click="onClickEvent('replycount',uid)">
+                                        <div class="user-second-info-header">
+                                          <text class="user-second-info-title">
+                                            互动指数
+                                          </text>
+                                        </div>
+                                        <div class="user-sencond-info-content">
+                                          <div class="info-active-item" @click="onClickEvent('replycount',uid)">
                                             <text class="info-value">{{replyTotalNumber}}</text>
                                             <text class="info-title"> 参与 </text>
-                                        </div>
-                                        <text>|</text>
-                                        <div class="info-active-item" @click="onClickEvent('lookfollow',uid)">
+                                          </div>
+
+                                          <text>|</text>
+
+                                          <div class="info-active-item" @click="onClickEvent('lookfollow',uid)">
                                             <text class="info-value">{{followNumber}}</text>
                                             <text class="info-title"> 关注 </text>
-                                        </div>
-                                        <text>|</text>
+                                          </div>
 
-                                        <div class="info-active-item" @click="onClickEvent('lookfollowed',uid)">
+                                          <text>|</text>
+
+                                          <div class="info-active-item" @click="onClickEvent('lookfollowed',uid)">
                                             <text class="info-value">{{followerNumber}}</text>
                                             <text class="info-title"> 粉丝 </text>
+                                          </div>
                                         </div>
-
                                     </div>
 
                                     <!-- NOTE: 其他资料 -->
-
-                                    <div if="{{userInfo.email != '' && userInfo.email}}" class="info-item card ">
+                                    <div class="user-second-info card">
+                                      <div class="user-second-info-header">
+                                        <text class="user-second-info-title">
+                                          公开的个人信息
+                                        </text>
+                                      </div>
+                                      <div if="{{userInfo.email != '' && userInfo.email }}" class="info-item card ">
                                         <text>email : {{userInfo.email}}</text>
+                                      </div>
 
-                                    </div>
-
-                                    <block for=" p in userInfo.body.profileList">
-
-                                        <div if="{{p.data != ''}}" class="info-item card ">
-                                            <text>{{p.title}} : {{p.data}}</text>
+                                      <block for=" p in userInfo.body.profileList">
+                                        <div if="{{p.data != ''}}" class="info-item card">
+                                          <text>{{p.title}} : {{p.data}}</text>
 
                                         </div>
-                                    </block>
+                                      </block>
+                                    </div>
+
 
                                     <div class="blank-item">
 
@@ -125,42 +138,76 @@
 
                                     <!-- NOTE: 回复,关注,粉丝 -->
                                     <div class="user-second-info card">
-
-                                        <div class="info-active-item" @click="onClickEvent('replycount',uid)">
+                                        <div class="user-second-info-header">
+                                          <text class="user-second-info-title">
+                                            互动指数
+                                          </text>
+                                        </div>
+                                        <div class="user-sencond-info-content">
+                                          <div class="info-active-item" @click="onClickEvent('replycount',uid)">
                                             <text class="info-value">{{replyTotalNumber}}</text>
                                             <text class="info-title"> 参与 </text>
-                                        </div>
-                                        <text>|</text>
-                                        <div class="info-active-item" @click="onClickEvent('lookfollow',uid)">
+                                          </div>
+
+                                          <text>|</text>
+
+                                          <div class="info-active-item" @click="onClickEvent('lookfollow',uid)">
                                             <text class="info-value">{{followNumber}}</text>
                                             <text class="info-title"> 关注 </text>
-                                        </div>
-                                        <text>|</text>
+                                          </div>
 
-                                        <div class="info-active-item" @click="onClickEvent('lookfollowed',uid)">
+                                          <text>|</text>
+
+                                          <div class="info-active-item" @click="onClickEvent('lookfollowed',uid)">
                                             <text class="info-value">{{followerNumber}}</text>
                                             <text class="info-title"> 粉丝 </text>
+                                          </div>
                                         </div>
-
                                     </div>
 
                                     <!-- NOTE: 其他资料 -->
-                                    <div if="{{userInfo.email != '' && userInfo.email }}" class="info-item card ">
+                                    <div class="user-second-info card">
+                                      <div class="user-second-info-header">
+                                        <text class="user-second-info-title">
+                                          公开的个人信息
+                                        </text>
+                                      </div>
+                                      <div if="{{userInfo.email != '' && userInfo.email }}" class="info-item card ">
                                         <text>email : {{userInfo.email}}</text>
+                                      </div>
 
-                                    </div>
-                                    <block for=" p in userInfo.body.profileList">
+                                      <block for=" p in userInfo.body.profileList">
                                         <div if="{{p.data != ''}}" class="info-item card">
-                                            <text>{{p.title}} : {{p.data}}</text>
+                                          <text>{{p.title}} : {{p.data}}</text>
 
                                         </div>
-                                    </block>
+                                      </block>
+                                    </div>
                                     <div class="blank-item">
 
                                     </div>
-                                    <text class="btn card " @click="onClickEvent('favorite',uid)">我的收藏</text>
-                                    <text class="btn card " @click="onClickEvent('about')">关于</text>
-                                    <text class="btn btn-logout card " @click="onClickEvent('logout')">注销 </text>
+                                    <div class="user-second-info card">
+                                      <div class="user-second-info-header">
+                                        <text class="user-second-info-title">
+                                          其他功能
+                                        </text>
+                                      </div>
+
+                                      <div class="user-second-info-btn" @click="onClickEvent('favorite',uid)">
+                                        <image class="user-second-info-btn-img" src="/Res/ic_favorite.svg"></image>
+                                        <text class="user-second-info-btn-label">我的收藏</text>
+                                      </div>
+
+                                      <div class="user-second-info-btn" @click="onClickEvent('about')">
+                                        <image class="user-second-info-btn-img" src="/Res/ic_about.svg"></image>
+                                        <text class="user-second-info-btn-label" >关于</text>
+                                      </div>
+
+                                    </div>
+
+                                    <div class="user-second-info card-danger">
+                                      <text class="btn btn-logout card-danger " @click="onClickEvent('logout')"> 注销 </text>
+                                    </div>
                                 </div>
                                 <div class="shadown">
                                     <div class="shadown-header">
@@ -233,9 +280,6 @@
 
         }
 
-
-
-
         .blank-item {
             flex-grow: 1;
         }
@@ -243,69 +287,93 @@
         tab-bar {
             background-color: @white;
 
-            text {
+            .tab-title {
+              font-size: 48px;
+              padding: 8px;
+              margin: 16px;
+            }
 
+            text {
                 text-align: center;
             }
         }
 
-        .tab-title {
-            font-size: 48px;
-            padding: 8px;
-            margin: 16px;
-        }
 
         .other-info {
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-            .info-item {
-                margin-left: 0px;
-                margin-right: 0px;
-                margin-top: 2px;
-                padding: 8px;
-            }
-        }
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
 
-
-        .user-second-info {
-            width: 100%;
-
-            padding: 8px;
+          .user-second-info {
+            width: 90%;
+            padding-top: 8px;
+            padding-right: 8px;
+            padding-bottom: 8px;
+            padding-left: 8px;
             align-items: center;
             justify-content: center;
+            align-self: center;
+            border-radius: 16px;
             margin-top: 16px;
+            margin-bottom: 16px;
+            flex-direction: column;
 
-            margin-left: 0px;
-            margin-right: 0px;
+            .user-second-info-header {
+              height: 50px;
+              width: 90%;
+
+              .user-second-info-title {
+                width: 100%;
+                border-bottom-width: 0.5px;
+                border-color: #aaaaaa;
+                color: #aaaaaa;
+                font-size: 25px;
+              }
+            }
+
+            .user-second-info-btn {
+              width: 100%;
+              height: 100px;
+              padding-left: 10px;
+              align-items: center;
+
+              .user-second-info-btn-img {
+                margin: 16px;
+                height: 32px;
+                resize-mode: contain;
+              }
+            }
 
             .info-active-item {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 16px;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 16px;
 
+              .info-title {
+                padding: 8px;
+                padding-top: 0px;
+                font-weight: bold;
+              }
 
-                .info-title {
-                    padding: 8px;
-                    padding-top: 0px;
-                    font-weight: bold;
-
-                }
-
-                .info-value {
-
-                    padding: 8px;
-                    padding-bottom: 0px;
-                }
+              .info-value {
+                padding: 8px;
+                padding-bottom: 0px;
+              }
             }
 
             text {
-                color: @textColor;
+              color: @textColor;
             }
+          }
 
-
+          .info-item {
+            margin-top: 2px;
+            padding: 8px;
+          }
         }
+
+
 
         .others-content {
 
@@ -336,8 +404,6 @@
             flex-direction: column;
             justify-content: flex-end;
 
-
-
             .other-info {
                 flex-direction: column;
                 justify-content: flex-end;
@@ -348,15 +414,14 @@
                     margin-left: 0px;
                     margin-right: 0px;
                     height: 100px;
-                    text-align: center;
-                    color: @primaryColor;
+                    color: @textColor;
                     padding: 16px;
-                    margin-bottom: 16px;
                 }
 
 
                 .btn-logout {
-                    color: @accentColor;
+                    color: @white;
+                    font-size: 48px;
                 }
             }
 
