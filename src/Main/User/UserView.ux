@@ -31,8 +31,8 @@
             <div class="others-content" if="{{uid != myId}}">
                 <tabs @change="onChangeTab" index="{{tabIndex}}">
                     <tab-bar class="tab-bar">
-                        <text class="{{ tabIndex === 0 ?'tab-title' : ''}}">Ta的发帖</text>
-                        <text class="{{ tabIndex === 1 ?'tab-title' : ''}}">其他资料</text>
+                        <text class="{{ tabIndex === 0 ?'top-tab-active' : ''}}">Ta的发帖</text>
+                        <text class="{{ tabIndex === 1 ?'top-tab-active' : ''}}">其他资料</text>
                     </tab-bar>
 
                     <tab-content>
@@ -116,9 +116,9 @@
             <div class="self-content" if="{{uid == myId }}">
                 <tabs @change="onChangeTab" index="{{tabIndex}}">
                     <tab-bar class="tab-bar">
-                        <text class="{{ tabIndex === 0 ?'tab-title' : ''}}">我的发帖</text>
-                        <text class="{{ tabIndex === 1 ?'tab-title' : ''}}">我的好友</text>
-                        <text class="{{ tabIndex === 2 ?'tab-title' : ''}}">其他</text>
+                        <text class="{{ tabIndex === 0 ?'top-tab-active' : ''}}">我的发帖</text>
+                        <text class="{{ tabIndex === 1 ?'top-tab-active' : ''}}">我的好友</text>
+                        <text class="{{ tabIndex === 2 ?'top-tab-active' : ''}}">其他</text>
                     </tab-bar>
                     <tab-content class="tab-content">
                         <div class="post">
@@ -278,15 +278,17 @@
 
         tab-bar {
             background-color: @white;
+            height: 100px;
 
-            .tab-title {
+            .top-tab-active {
               font-size: 48px;
+              margin-bottom: 0px;
               padding: 8px;
-              margin: 16px;
             }
 
             text {
-                text-align: center;
+              height: 100%;
+              text-align: center;
             }
         }
 
