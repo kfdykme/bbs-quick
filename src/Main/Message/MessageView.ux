@@ -221,13 +221,21 @@
                                 }
 
                                 .action-btn  {
-
-
-                                    margin: 16px;
-                                    background-color: #ff534d;
-                                    border-radius: 30px;
-                                    color: #ffffff;
                                     padding: 16px;
+                                    margin-top: 16px;
+                                    margin-right: 16px;
+                                    margin-bottom: 16px;
+                                    margin-left: 16px;
+                                    background-color: #fdfdfd;
+                                    /* border-radius: 50px; */
+                                    color: #ff534d;
+                                    padding-top: 16px;
+                                    padding-right: 16px;
+                                    padding-bottom: 16px;
+                                    padding-left: 16px;
+                                    width: 100px;
+                                    height: 100px;
+                                    text-align: center;
                                 }
                           }
 
