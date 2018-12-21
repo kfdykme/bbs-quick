@@ -9,6 +9,23 @@ function init(app){
   UserCache.init(app)
 }
 
+
+/**
+ * 由于服务器原因,以下部分板块无法显示
+ * 需要在板块页面以及发帖的时候将这部分隐藏
+ */
+const BOARD_CAN_NOT_FETCH = [
+  '学术交流',
+  '出国留学',
+  '考试专区',
+  '新生专区',
+  '自然科学',
+  '前段之美',
+  '科技资讯',
+  '站务公告',
+  '站务综合'
+]
+
 function saveCookie(name,value){
     this.app.$def.cache.cookie[name] = value
 }
@@ -147,6 +164,7 @@ export default {
   topiclist : "app/web/index.php?r=forum/topiclist",
   topiclistex : "app/web/index.php?r=forum/topiclistex",
   sdkVersion : "2.5.0.0",
+  BOARD_CAN_NOT_FETCH,
   fetch,
   onFetchFail,
   onSuccessError,

@@ -1,8 +1,12 @@
 
 import PostListModel from './PostListModel'
-
 import DateUtil from  '../Common/DateUtil'
 import router from '@system.router'
+
+/**
+ * 为了筛选一些临时错误
+ */
+import Api from '../Common/Api'
 
 /**
  * @class PostListPresenter
@@ -25,7 +29,7 @@ export default class PostListPresenter{
     async attach(){
 
 
-        const re = await this.model.loadLocal(this.tag) 
+        const re = await this.model.loadLocal(this.tag)
         // console.info(JSON.stringify(re))
         if(re!= null){
 
@@ -52,27 +56,37 @@ export default class PostListPresenter{
         var success = function (re){
 
 
-            let x
-            for(x in re.list){
-                let time = re.list[x].last_reply_date
-                re.list[x].last_reply_date = DateUtil.convertTime(time)
-                re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
+          let x
+          for(x in re.list){
+              let time = re.list[x].last_reply_date
+              re.list[x].last_reply_date = DateUtil.convertTime(time)
+              re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
           }
 
-
-
-            if(page == 1){
-                this.view.render(re.list)
-            } else {
-
-                // console.log(JSON.stringify(re.list));
-                this.view.renderMore(re.list)
+          /**
+           * 临时无奈的筛选
+           */
+          re.list = re.list.filter(item => {
+            for (let x in Api.BOARD_CAN_NOT_FETCH) {
+              if (Api.BOARD_CAN_NOT_FETCH[x] === item.board_name) {
+                return false
+              }
             }
+            return true
+          })
 
-            if(re.has_next == 0 ){
-                this.view.renderError("没有更多了")
-                return
-            }
+          if(page == 1){
+              this.view.render(re.list)
+          } else {
+
+              // console.log(JSON.stringify(re.list));
+              this.view.renderMore(re.list)
+          }
+
+          if(re.has_next == 0 ){
+              this.view.renderError("没有更多了")
+              return
+          }
 
         }.bind(this)
 
