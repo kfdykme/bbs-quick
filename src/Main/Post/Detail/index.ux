@@ -202,7 +202,11 @@
               <!-- 内容-回复 -->
               <block  for="(index,re) in list">
 
-
+                <list-item type="card-border-header">
+                  <div class="card-border card-border-header">
+                    <div class="card-content card-header"></div>
+                  </div>
+                </list-item>
                 <list-item type="reply-header">
                     <div class="reply-header card">
 
@@ -304,8 +308,11 @@
                   </div>
                 </list-item>
 
-
-
+                <list-item type="card-footer-border">
+                  <div class="card-border">
+                    <div class="card-content card-footer"></div>
+                  </div>
+                </list-item>
               </block>
               <list-item type="loadMore" class="load-more" >
                 <loading-progress-view tag="{{TAG}}"></loading-progress-view>

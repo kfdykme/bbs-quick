@@ -4,12 +4,13 @@
 
 <template >
   <div class="message-view">
-
         <div class="message-bar">
-
             <text class="{{messageIndex == 0 ? 'top-tab-active' : ''}}" onclick="onEvent('index',0)">回复</text>
+
             <text class="{{messageIndex == 1? 'top-tab-active' : ''}}" onclick="onEvent('index',1)">@me</text>
+
             <text class="{{messageIndex == 2 ? 'top-tab-active' : ''}}"     onclick="onEvent('index',2)">私信</text>
+
             <text class="{{messageIndex == 3 ? 'top-tab-active' : ''}}" onclick="onEvent('index',3)">系统</text>
         </div>
 
@@ -24,24 +25,24 @@
                       <refresh @refresh="onRefrsh(m)" refreshing={{m.isRefreshing}}>
                         <list @scrollbottom="onScrollBottom(m)">
                           <block  for="{{m.list}}">
-
-
+                            <list-item type="card-border-header">
+                              <div class="card-border card-border-header">
+                                <div class="card-content card-header"></div>
+                              </div>
+                            </list-item>
 
                             <list-item type="message-item-header" >
                               <div class="header card">
-
-
                                 <image class="avatar" @click="onEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
-                                <div class="header-text">
 
+                                <div class="header-text">
                                   <text class="user-nike-name" @click="onEvent('user',$item.toUserId)">{{$item.toUserName}}</text>
+
                                   <text class="user-nike-name" @click="onEvent('user',$item.user_id)">{{$item.user_name}}</text>
+
                                   <text class="date" >{{$item.replied_date}}</text>
 
-
                                   <div >
-
-
                                     <!-- 帖子回复 -->
                                     <text class="content" @click="onEvent('topic',$item.topic_id)" if="{{$item.topic_subject != null && m.tag == 'post'}}">{{$item.topic_subject}}</text>
                                     <!-- atme -->
@@ -54,18 +55,19 @@
                                   </div>
                                 </div>
                               </div>
-
-
                             </list-item>
 
                             <list-item type="messaage-item-reply"  >
                               <div class="section card">
-
                                 <text class="reply-content" @click="onEvent('topic',$item.topic_id)" >{{$item.reply_content ? $item.reply_content : $item.content }}</text>
                               </div>
                             </list-item>
 
-
+                            <list-item type="card-footer-border">
+                              <div class="card-border">
+                                <div class="card-content card-footer"></div>
+                              </div>
+                            </list-item>
                           </block>
 
                           <list-item type="loadingProgress" >
@@ -74,31 +76,26 @@
                         </list>
                       </refresh>
                     </div>
+
                     <div class="shadown">
                       <div class="shadown-header"></div>
                       <div class="shadown-footer"></div>
                     </div>
                   </stack>
                 </div>
-
               </block>
-
           </tab-content>
         </tabs>
-
-
   </div>
 </template>
 
 
 <style lang="less">
-
     @import '../../Comp/shadown.less';
-
+    @import '../../Comp/card.less';
     @import '../../Comp/base.less';
 
     .message-view{
-
           width: 100%;
           height: 100%;
           flex-direction: column;
@@ -116,7 +113,6 @@
                 }
 
                 .top-tab-active{
-
                   margin-bottom: 8px;
                 }
 
@@ -124,15 +120,11 @@
                   background-color: #00bcd4;
                   color: #ffffff;
                 }
-
-
           }
 
           tabs {
-
               width: 100%;
               height: 100%;
-
 
                 tab-content {
                       width: 100%;
@@ -142,13 +134,11 @@
                         background-color: #eeeeee;
 
                         refresh{
-
                           height: 100%;
                         }
 
                         list{
                           height: 100%;
-
 
                           .card{
                               width: 100%;
@@ -157,10 +147,8 @@
                               margin-right:16px;
                           }
 
-
                           .header{
                                 flex-direction: row;
-                                margin-top: 16px;
                                 padding: 16px;
 
                                 .avatar{
@@ -178,8 +166,6 @@
                                     }
                                 }
 
-
-
                                 .user-nike-name{
                                   width: 70%;
                                   color: #aabcd4;
@@ -192,7 +178,6 @@
                                 }
 
                                 .atme-content{
-
                                       margin: 16px;
                                       margin-left: 0px;
                                       padding: 8px;
@@ -202,27 +187,21 @@
                                 }
 
                                 .content{
-
                                       margin: 16px;
                                       margin-left: 0px;
                                       padding: 8px;
-
                                       color:#aaaaaa;
                                       border-color: #00bcd4;
                                       border-left-width: 4px;
                                 }
 
                                 .pm-content{
-
                                 }
 
                                 .system-content{
-
                                 }
 
                                 .action-btn  {
-
-
                                     margin: 16px;
                                     background-color: #ff534d;
                                     border-radius: 30px;
@@ -231,16 +210,12 @@
                                 }
                           }
 
-
-
                           .section{
-
                               .reply-content{
                                   padding: 8px;
                                   color:#333333;
                                   margin-left: 80px;/* 16padding + 64width*/
                               }
-
                           }
 
                           .item-footer{
@@ -248,23 +223,12 @@
                                 width: 80%;
                                 margin-left: 64px;
                                 margin-bottom: 16px;
-
                                 background-color: #ffbc4d;
                           }
-
-
-
                         }
-
-
                 }
-
           }
-
-
     }
-
-
 }
 </style>
 
