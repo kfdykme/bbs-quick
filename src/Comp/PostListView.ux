@@ -3,25 +3,22 @@
 
 <template>
   <stack>
-
     <div class="post-list-view">
-
       <refresh onrefresh="dore" refreshing={{isRefreshing}}>
         <list onscrollbottom="onScrollBottom">
-
-
           <block for="{{list}}">
-
-
+            <list-item type="post-item-border-header">
+              <div class="card-border card-border-header">
+                <div class="card-content card-header"></div>
+              </div>
+            </list-item>
 
             <list-item type="post-item-header">
-
               <div class="header card">
-
                 <image class="avatar" @click="onClickEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}"></image>
+
                 <div class="header-text">
                   <div class="line-one">
-
                     <div>
                       <text class="user-nike-name" @click="onClickEvent({type :'user',data : $item.user_id})">
                         {{$item.user_nick_name}}
@@ -29,69 +26,68 @@
 
                       <image show="{{$item.gender != null && $item.gender != 0}}" src="{{$item.gender == 1 ? '/Res/ic_male.png' : '/Res/ic_female.png'}}">
                       </image>
-
                     </div>
+
                     <text class="board-name">
                       {{$item.board_name}}
                     </text>
-
                   </div>
-                  <div class="header-title-bar" onclick="onClickEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
 
+                  <div class="header-title-bar" onclick="onClickEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
                     <text class="high-light" show="{{$item.vote == 1}}">投票</text>
+
                     <text class="high-light" show="{{$item.hot == 1}}">热门</text>
+
                     <text class="high-light" show="{{$item.top == 1}}">置顶</text>
+
                     <text class="title">
                       {{$item.title}}
                     </text>
                   </div>
+
                   <text class="date">
                     {{$item.last_reply_date}}
                   </text>
                 </div>
-
               </div>
-
             </list-item>
 
             <list-item type="post-item-subject">
               <div class="section card" @click="onClickEvent({type:'post', data : $item.topic_id})">
                 <text class="subject">{{$item.subject}}</text>
-
               </div>
             </list-item>
 
             <list-item type="post-item-hnr">
-
               <div class="footer card" @click="onClickEvent({type:'post', data : $item.topic_id})">
-
                 <div class="hnr">
                   <text show="{{$item.hits != 0}}" class="hit">{{$item.hits}}点击</text>
                   <text show="{{$item.replies != 0}}" class="replycount">{{$item.replies}}回复</text>
-
                 </div>
               </div>
             </list-item>
 
+            <list-item type="post-item-footer-border">
+              <div class="card-border">
+                <div class="card-content card-footer"></div>
+              </div>
+            </list-item>
           </block>
 
           <list-item type="loadMore">
-
             <loading-progress-view tag="{{tag}}"></loading-progress-view>
           </list-item>
         </list>
       </refresh>
     </div>
+
     <div class="shadown">
       <div class="shadown-header">
-
       </div>
       <div class="shadown-footer">
-
       </div>
     </div>
   </stack>
-
 </template>
 
 <style lang="less">
@@ -129,7 +125,6 @@
         flex-direction: row;
         padding: 8px;
         padding-bottom: 16px;
-        margin-top: 16px;
 
         .avatar {
           width: 64px;
@@ -225,8 +220,6 @@
         }
 
       }
-
-
 
     }
 
