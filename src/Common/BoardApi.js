@@ -11,21 +11,6 @@ function init(app){
   UserCache.init(app)
 }
 
-/**
- * 由于服务器原因,以下部分板块无法显示
- * 需要在板块页面以及发帖的时候将这部分隐藏
- */
-const BOARD_CAN_NOT_FETCH = [
-  '学术交流',
-  '出国留学',
-  '考试专区',
-  '新生专区',
-  '自然科学',
-  '前段之美',
-  '科技资讯',
-  '站务公告',
-  '站务综合'
-]
 
 
 /**
@@ -34,8 +19,8 @@ const BOARD_CAN_NOT_FETCH = [
  * @return {boolean} 返回是否可以 fetch 到
  */
 function checkBoardCanFetch (boardName) {
-  for (let x in BOARD_CAN_NOT_FETCH) {
-    if (BOARD_CAN_NOT_FETCH[x] === boardName) {
+  for (let x in Api.BOARD_CAN_NOT_FETCH) {
+    if (Api.BOARD_CAN_NOT_FETCH[x] === boardName) {
       return false
     }
   }
