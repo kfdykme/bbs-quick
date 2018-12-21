@@ -1,9 +1,9 @@
 {
     "package": "org.starstudio.qapp.bbs",
     "name": "清水河畔",
-    "versionName": "1.3.12",
-    "versionCode": 48 ,
-    "minPlatformVersion": 1030,
+    "versionName": "1.3.15",
+    "versionCode": 52,
+    "minPlatformVersion": 1020,
     "icon": "/Res/logo.png",
     "features": [
         {
@@ -42,14 +42,21 @@
         {
             "name": "system.clipboard"
         },
-
-        {"name": "service.account"},
+        {
+          "name": "service.account"
+        },
         {
            "name": "system.device"
-         },
-         {"name": "system.notification"}
-        ,{"name": "system.vibrator"},
-        {"name": "system.share"},
+        },
+        {
+          "name": "system.notification"
+        },
+        {
+          "name": "system.vibrator"
+        },
+        {
+          "name": "system.share"
+        },
         {
           "name": "service.share",
           "params": {
