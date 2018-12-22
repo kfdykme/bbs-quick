@@ -274,14 +274,12 @@
       }.bind(this)
 
       View.render = function (list) {
-
         if (list != null && list.length != 0) {
           this.list = list
           View.refreshComplete()
         } else {
           View.renderError("没有更多了~~")
         }
-
       }.bind(this)
 
       View.renderLoading = function () {
@@ -315,25 +313,18 @@
         if (this.isRefreshing) {
           this.isRefreshing = false
 
-          // prompt.showToast({
-          //     message: '刷新成功'
-          // })
-
           this.$broadcast("render_normal", { tag: this.tag })
         }
-
       }.bind(this)
+
       return View
     }
     , onClickEvent(event) {
-
       this.presenter.onClickEvent(event)
     }
     , onScrollBottom() {
       if (this.canLoadMore) {
-
         this.presenter.loadMore()
-
       }
     }
 
