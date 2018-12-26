@@ -73,36 +73,40 @@
                       width: 20px;
                       height: 20px;
                       border-radius: 10px;
-                      background-color: #00bcd4;
+                      border-width: 3px;
+                      border-color: #aaaaaa;
                   }
 
                   .pop-big{
                       width: 24px;
                       height: 24px;
                       border-radius: 12px;
-                      background-color: #00bcd4;
+                      border-width: 3px;
+                      border-color: #aaaaaa;
                   }
 
                   .content{
                       padding: 16px;
                       font-size: 40px;
                       border-radius: 16px;
-                      background-color: #00bcd4;
-                      color: #ffffff;
+                      border-width: 3px;
+                      border-color: #aaaaaa;
                   }
 
                   .content-image{
+                      background-color: #00bcd4;
                       width: 100px;
                       height: 100px;
                       border-radius: 16px;
                       border-width: 3px;
-                      border-color: #00bcd4;
+                      border-color: #aaaaaa;
                   }
 
                   .content-emoji{
 
                       border-radius: 16px;
-                      background-color: #00bcd4;
+                      border-width: 3px;
+                      border-color: #aaaaaa;
                       flex-direction: row;
                       flex-wrap: wrap;
                       padding: 16px;
@@ -115,7 +119,6 @@
                       text{
                             height: 40px;
                             font-size: 40px;
-                            color: #ffffff;
                             /* margin: 8px; */
                       }
                   }
@@ -142,6 +145,27 @@
                   align-items: flex-end;
                   width: 100%;
 
+                  .content {
+                    border-color: #00bcd4;
+                    color:#00bcd4;
+                  }
+
+                  .content-emoji {
+                    border-color: #00bcd4;
+                    color:#00bcd4;
+                  }
+
+                  .content-image {
+                    border-color: #00bcd4;
+                  }
+
+                  .pop {
+                    border-color: #00bcd4;
+                  }
+
+                  .pop-big {
+                    border-color: #00bcd4;
+                  }
 
               }
 
@@ -178,13 +202,10 @@
             .reply-input-send{
                 width: 20%;
                 height: 70px;
-
-                border-left-width: 2px;
                 margin-top: 8px;
                 margin-bottom: 8px;
-                border-color: #ffbc4d;
                 background-color: #ffffff;
-                color: #ffbc4d;
+                color: #00bcd4;
             }
         }
 
