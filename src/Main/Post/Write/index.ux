@@ -63,7 +63,7 @@
             </progress>
           </div>
         </div>
-        <div class='board-select-page' show="{{showBoard}}">
+        <div class="board-select-page {{showBoard ? 'show-page':'hide-page'}}"  if="{{showBoardSelectPage}}">
 
             <div  for="b in board"  @click="onEvent({type:'select-board',data:b})">
                 <text  @click="onEvent({type:'select-board',data:b})" >{{b.board_name}}</text>
