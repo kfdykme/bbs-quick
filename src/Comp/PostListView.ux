@@ -118,8 +118,21 @@
 
     list {
       height: 100%;
+      @keyframes showCard {
+        from {
+          opacity: 0.2;
+        }
 
+        to {
+          opacity: 1;
+        }
+      }
 
+      list-item {
+        animation-name: showCard;
+        animation-duration: 500ms;
+
+      }
 
       .header {
         flex-direction: row;
