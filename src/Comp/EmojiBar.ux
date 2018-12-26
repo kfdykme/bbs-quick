@@ -1,8 +1,6 @@
 <template>
-  <div class="emoji-page">
-
-    <div class="emoji-bar" >
-
+  <div class="emoji-page {{hideEmojiBar ? 'hidePage' : 'showPage'}}" @click="onClick({type: 'click_page'})">
+    <div class="emoji-bar {{hideEmojiBar ? 'hide' : 'show'}}" >
         <tabs  @change="onChangeTag">
             <tab-content class="emoji-content">
                 <block for="emoji in emojis">
@@ -27,43 +25,93 @@
                 </block>
             </tab-bar>
         </tabs>
-
     </div>
   </div>
 </template>
 
 <style lang="less">
+    @keyframes appear {
+      from {
+        /* height:0px; */
+        transform: translateY(1000)
+      }
+      to {
+        /* height:50%; */
+        transform: translateY(0)
+      }
+    }
 
+    @keyframes showPage {
+      from {
+        opacity:0.2;
+      }
+      to {
+        opacity:1;
+      }
+    }
+
+    @keyframes hidePage {
+      from {
+        opacity:1;
+      }
+      to {
+        opacity: 0.2;
+      }
+    }
+
+
+    @keyframes disappear {
+      from {
+        /* height:0px; */
+        transform: translateY(0)
+      }
+      to {
+        /* height:50%; */
+        transform: translateY(1000)
+      }
+    }
 
     .emoji-page{
       width:100%;
       height:100%;
       background-color:rgba(0, 0, 0,0.5);
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .show {
+      animation-name:appear;
+      animation-duration: 500ms;
+    }
+
+    .hide {
+      animation-name: disappear;
+      animation-duration: 500ms;
+    }
+
+    .hidePage {
+      animation-name: hidePage;
+      animation-duration: 500ms;
     }
 
     .emoji-bar{
-        height: 50%;
-
-        margin: 40px;
-        margin-top: 200px;
-        border-radius: 20px;
-        background-color: #ffffff;
+      height: 50%;
+      border-radius: 20px;
+      background-color: #ffffff;
     }
 
 
     .emoji-bottom-bar{
-
         background-color: #efefef;
         height: 10%;
-
         align-items: center;
         justify-content: center;
-
 
         div{
             justify-content: center;
             border-radius: 8px;
         }
+
         image{
             width: 40px;
             height: 40px;
@@ -80,9 +128,6 @@
             width: 100%;
             text-align: center;
         }
-
-
-
     }
 
     .emoji-list{
@@ -515,7 +560,8 @@
         data :{
             tags:[],
             emojis:[],
-            tagIndex :0
+            tagIndex :0,
+            hideEmojiBar: false
         }
         ,view(){
 
@@ -525,20 +571,25 @@
             this.tags = model.tags
             this.emojis = model.emojis
 
-
-
+            this.$on('render-hide-emoji-bar', () => {
+              this.hideEmojiBar = true
+            })
         }
         ,onChangeTag(e){
             this.tagIndex = e.index
         }
 
         ,onClick(e){
-
-            if(e.type == 'choose_emoji'){
-                console.info(e)
-                this.$dispatch('choose_emoji',{event:e})
-            }
-
+          switch (e.type) {
+            case 'choose_emoji':
+              this.$dispatch('choose_emoji',{event:e})
+              break;
+            case 'click_page':
+              this.$dispatch('click_emoji_page', {event: e})
+              break;
+            default:
+              break;
+          }
         }
     }
 </script>

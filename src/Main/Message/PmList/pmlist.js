@@ -91,11 +91,8 @@ export default{
                 const rs = JSON.parse(data.data.data)
 
                 if(rs.body.pmInfos.length != 0){
-
                     this.fetchPmList()
                 }
-
-
             })
             .catch(data =>{
                 console.error(data)
@@ -128,12 +125,12 @@ export default{
 
       //注册表情包选择框的反馈
       this.$on('choose_emoji', this.onEvent)
-
+      this.$on('click_emoji_page', this.onEvent)
 
     }
     ,onBackPress(){
         if(this.showEmojiBar){
-            this.showEmojiBar = false
+            this.hideEmojiBar()
             return true
         }
 
@@ -152,7 +149,7 @@ export default{
             for(let x in msl){
 
                 msl[x].date = DateUtil.convertTime(msl[x].time)
-                
+
                 if( x == 0
                     || msl[x].time -msl[x-1].time >120000){
 
@@ -212,16 +209,13 @@ export default{
         var onPickImageSuccess = function (uri){
             MessageApi.uploadPmFile(uri,
               function(re){
-
                   MessageApi.send(
                     that.re.body.pmList[0].fromUid, //touid
                     that.re.body.pmList[0].plid, //plid
                     "image",
                     re.body.attachment[0].urlName,
                     function(re){
-
                         that.onSendComplete()
-
                     }.bind(this)
 
                   )
@@ -282,24 +276,44 @@ export default{
     }
     ,onEvent(e){
         if(e.type == 'emoji'){
-            this.showEmojiBar = !this.showEmojiBar
+          /**
+          * 如果输入法正在打开，就yingchangshurufa
+          */
+          let taPostContent = this.$element('textarea-pmlist-content')
+          taPostContent.focus({
+            focus: false
+          })
+          this.showEmojiBar = !this.showEmojiBar
         }
 
 
         if(e.type == 'choose_emoji'){
 
-            this.showEmojiBar = !this.showEmojiBar
             //把该emoji的url格式化之后添加到文本内容里
             // let imageUrl = "["+e.detail.event.data+"]"
             this.textToSend += e.detail.event.data
         }
+
+        if (e.type == 'click_emoji_page') {
+          this.hideEmojiBar()
+        }
+    }
+
+    , hideEmojiBar() {
+      this.$broadcast('render-hide-emoji-bar')
+      /**
+       * animation 2s
+       */
+      setTimeout(() => {
+
+        this.showEmojiBar = !this.showEmojiBar
+      }, 400)
     }
 
     /**
      * @method refresh 弃用
      */
     ,async refresh(){
-
 
         MessageApi.fetchPmseMissionList(
             this.re.body.pmList[0].fromUid,//fromUid

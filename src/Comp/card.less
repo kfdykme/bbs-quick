@@ -1,8 +1,24 @@
+@keyframes showCard {
+  from {
+    opacity: 0.2;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.card-show {
+  animation-name: showCard;
+  animation-duration: 500ms;
+}
+
 .card{
     width: 100%;
     background-color: #ffffff;
     margin-left: 16px;
     margin-right:16px;
+
 }
 
 .card-ex{
@@ -27,7 +43,6 @@
   width: 100%;
   margin-left: 16px;
   margin-right: 16px;
-
 
   .card-content {
     height: 32px;

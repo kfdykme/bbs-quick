@@ -130,6 +130,7 @@
             </div>
             <div class="reply-input-bar ">
                 <textarea
+                    id="textarea-pmlist-content"
                     class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea"
                     @change="onChangeText"  >{{textToSend}}</textarea>
                 <input class="reply-input-send" @click="onClickSend" type="button" value="发送" ></input>

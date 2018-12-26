@@ -102,7 +102,6 @@
               <!-- 点赞结束 -->
 
               <!-- 评分开始 -->
-
               <block if="{{topic.rateList != null && topic.rateList.head != null }}">
                 <list-item type="topic-rate-header-type" >
 
@@ -126,7 +125,6 @@
 
                 <list-item type="topic-rate-item-type" for="rateItem in topic.rateList.body" if="{{rate.showRate}}">
                   <div class="topic-rate-item card">
-
                     <text class="name">{{rateItem.field1}}</text>
                     <text class="rate-number">{{rateItem.field2}}</text>
                   </div>
@@ -152,6 +150,7 @@
                       <text class="btn" @click="onEvent({type:'on-score'})" if="{{topic.user_id != userId}}">
                         评分
                       </text>
+
                       <text
                           class="btn"
                           @click="onEvent({type:'change-sort-mode'})">
@@ -174,22 +173,22 @@
                   <list-item type="topic-poll-item" for="poll in topic.poll_info.poll_item_list">
                       <div class="topic-content card vote">
                           <div class="vote-content">
-
                               <text>{{poll.name}}</text>
-                              <div >
 
+                              <div >
                                   <progress percent="{{poll.percentNumber}}"></progress>
                                   <text>{{poll.percent}}({{poll.total_num}}人)</text>
                               </div>
                           </div>
+
                           <input
                               type="checkbox" @change="onChange({type:'change-vote',data:poll.poll_item_id})"
                               show="{{topic.poll_info.poll_status == 2}}">
                           </input>
                       </div>
                   </list-item>
-                  <list-item type="topic-vote-footer" if="{{topic.poll_info.poll_item_list.length != 0}}">
 
+                  <list-item type="topic-vote-footer" if="{{topic.poll_info.poll_item_list.length != 0}}">
                       <!-- NOTE:只知道poll-status等于1是已投票,很迷 -->
                       <div class="topic-content card vote-footer " show="{{topic.poll_info.poll_status == 2}}">
                               <text @click="onEvent({type:'vote'})" class="vote-btn">投票</text>
@@ -207,6 +206,7 @@
                     <div class="card-content card-header"></div>
                   </div>
                 </list-item>
+
                 <list-item type="reply-header">
                     <div class="reply-header card">
 
@@ -214,7 +214,6 @@
                         <image class="avatar" @click="onEvent({type:'user',data:re.reply_id})" src="{{re.icon}}"/>
 
                         <div class="header-text">
-
                             <text class="name"  @click="onEvent({type:'user',data:re.reply_id})">{{re.reply_name}}</text>
                             <text class="date">{{re.posts_date}}</text>
                         </div>
@@ -345,7 +344,7 @@
       </div>
 
       <div class="post-to-top-page" show="{{scrollY > 1000}}">
-        <div class="containor-to-top"  show="{{showCommentBtn}}">
+        <div class="containor-to-top {{showCommentBtn ? 'show' : ''}}"  if="{{showCommentBtn}}">
           <image src="/Res/ic_to_top.svg" @click="onEvent({type:'scroll-to-top'})"></image>
         </div>
       </div>
