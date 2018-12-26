@@ -9,6 +9,7 @@ import storage from '@system.storage'
 import media from "@system.media"
 
 export default {
+
     protected: {
         category: [],
         board: [{}],
@@ -23,9 +24,7 @@ export default {
         publishContent: "",
         isPublishing: false,
         showEmojiBar: false, //是否显示选择emoji的框框的boolean
-
         showBoard: false,
-
         showLoadingPage: false,
         showingAts:false,
         skipAt:false,
@@ -33,15 +32,15 @@ export default {
         showUploadImageButton: true, // 是否显示上传图片的按钮
         lastContent:"",          // 记录textarea上一次改动时的文本长度，用于判断是输入还是删除
         contentIndex:0
-
-
     }
+
     , onShow() {
         $umeng_stat.resume(this)
     }
     , onHide() {
         $umeng_stat.pause(this)
     }
+
     , onShow() {
         if (this.$app.$data.dataImageView && this.$app.$data.dataImageView.gotoPage === 'image-pick-bar') {
             // 从数据中获取回传给本页面的数据
@@ -56,6 +55,7 @@ export default {
             this.$broadcast('view-upload-update', this.uploadImages)
         }
     }
+
     , async onInit() {
         BoardApi.init(this.$app)
         PostApi.init(this.$app)
@@ -91,9 +91,8 @@ export default {
             }
         )
 
-
-
         this.$on('choose_emoji', this.onEvent)
+        this.$on('click_emoji_page', this.onEvent)
         this.$on('choose_ats',this.onEvent)
         this.$on('on-pick-image', this.onEvent)
 
@@ -102,7 +101,6 @@ export default {
         let imagePickBar = this.$vm('imagePickBar')
         imagePickBar.loadingPage = loadingPage
     }
-
 
     /**
      * @method onBackPress
@@ -118,7 +116,7 @@ export default {
         }
 
         if (this.showEmojiBar == true) {
-            this.showEmojiBar = false
+            this.hideEmojiBar()
             return true
         }
 
@@ -154,7 +152,14 @@ export default {
         }
 
         if (e.type == 'emoji') {
-            this.showEmojiBar = !this.showEmojiBar
+          /**
+          * 如果输入法正在打开，就yingchangshurufa
+          */
+          let taPostContent = this.$element('textarea-post-content')
+          taPostContent.focus({
+            focus: false
+          })
+          this.showEmojiBar = !this.showEmojiBar
         }
 
         if(e.type == 'choose_ats'){
@@ -176,10 +181,14 @@ export default {
 
         if (e.type == 'choose_emoji') {
 
-            this.showEmojiBar = !this.showEmojiBar
+            // this.showEmojiBar = !this.showEmojiBar
             //把该emoji的url格式化之后添加到文本内容里
             // let imageUrl = "["+e.detail.event.data+"]"
             this.publishContent += e.detail.event.data
+        }
+
+        if (e.type == 'click_emoji_page') {
+          this.hideEmojiBar()
         }
 
 
@@ -235,8 +244,6 @@ export default {
     , onChangeTitle(e) {
         this.publishTitle = e.value
     }
-
-
 
     , async onChangeBoard(board) {
         let key = 'classification' + board.board_id
@@ -348,6 +355,17 @@ export default {
 
         }
         this.onPublishCompelete()
+    }
+
+    , hideEmojiBar(){
+      this.$broadcast('render-hide-emoji-bar')
+      /**
+       * animation 2s
+       */
+      setTimeout(() => {
+
+        this.showEmojiBar = !this.showEmojiBar
+      }, 400)
     }
 
     /**

@@ -28,23 +28,18 @@
             </div>
 
             <div class="write-content">
-
                 <div class="input input-header">
                     <input id="publish-title" @change="onChangeTitle" class="input-title" placeholder="请输入标题"  value="{{publishTitle}}"></input>
 
                     <div class="btn">
                         <text  @click="onPublish" >发布</text>
                     </div>
-
-
                 </div>
-                <textarea @change="onChangeContent" class="input input-content" placeholder="请输入内容"  >{{publishContent}}</textarea>
-
+                <textarea id="textarea-post-content" @change="onChangeContent" class="input input-content" placeholder="请输入内容"  >{{publishContent}}</textarea>
 
                 <div class="input input-others-bar">
                     <image   @click="onEvent({type:'emoji'})" src="/Res/ic_emoji.png"></image>
                 </div>
-
 
                 <image-pick-bar id="imagePickBar"></image-pick-bar>
                 <list class="input input-classifi" >

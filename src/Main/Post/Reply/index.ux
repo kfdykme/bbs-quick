@@ -10,38 +10,39 @@
             <div class="reply-header">
                 <image class="reply-header-image" src="{{user.avatar}}">
                 </image>
+
                 <div class="reply-header-others">
                     <text class="reply-header-name">
                         {{user.userName}}
                     </text>
+
                     <text class="reply-header-date">
                         刚刚
                     </text>
                 </div>
-
             </div>
             <div class="reply-content">
-
                 <div class="reply-content-image">
                     <image
                         class="reply-emoji"
                         @click="onEvent({type:'emoji'})"
                         src="/Res/ic_emoji.png">
                     </image>
-                    <div class="reply-send-bar">
 
+                    <div class="reply-send-bar">
                         <text @click="onEvent({type:'send-reply'})">
                             {{textSend}}
                         </text>
                     </div>
                 </div>
-                <textarea @change="onChange" placeholder="说点什么吧">{{replyContent}}</textarea>
+                <textarea id="textarea-reply-content" @change="onChange" placeholder="说点什么吧">{{replyContent}}</textarea>
             </div>
             <image-pick-bar id="replyImagePickBar"></image-pick-bar>
         </div>
         <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
 
         <loading-page id="replyLoadingPage"></loading-page>
+
         <ats-page id="atsPage"></ats-page>
     </stack>
 </template>
@@ -187,6 +188,7 @@
 
             this.option = JSON.parse(this.option)
             this.$on('choose_emoji', this.onEvent)
+            this.$on('click_emoji_page',this.onEvent)
             this.$on('choose_ats',this.onEvent)
             this.$on('on-pick-image',this.onEvent)
 
@@ -209,7 +211,7 @@
         ,onBackPress(){
             if(this.showEmojiBar == true)
             {
-                this.showEmojiBar = false
+                this.hideEmojiBar()
                 return true
             }
 
@@ -274,6 +276,14 @@
             }
           this.atsPage.showingAts = !this.atsPage.showingAts
         }
+
+        , hideEmojiBar(){
+          this.$broadcast('render-hide-emoji-bar')
+          setTimeout(() => {
+            this.showEmojiBar = false
+          }, 450)
+        }
+
         , onEvent(e) {
 
 
@@ -341,18 +351,25 @@
             }
 
             if (e.type == 'emoji'){
-                this.showEmojiBar = !this.showEmojiBar
-
+              /**
+              * 如果输入法正在打开，就yingchangshurufa
+              */
+              let taReplyContent = this.$element('textarea-reply-content')
+              taReplyContent.focus({
+                focus: false
+              })
+              this.showEmojiBar = !this.showEmojiBar
             }
 
             if(e.type == 'choose_emoji'){
-
-                this.showEmojiBar = !this.showEmojiBar
                 //把该emoji的url格式化之后添加到文本内容里
                 // let imageUrl = "["+e.detail.event.data+"]"
                 this.replyContent += e.detail.event.data
             }
 
+            if (e.type === 'click_emoji_page') {
+              this.hideEmojiBar()
+            }
 
             if(e.type == 'choose_ats'){
               let name = e.detail.at
