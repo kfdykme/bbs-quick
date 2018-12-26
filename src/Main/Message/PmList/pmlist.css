@@ -107,7 +107,7 @@
                       flex-wrap: wrap;
                       padding: 16px;
                       image{
-                          
+
                           height: 80px;
                           resize-mode :contain;
                       }
