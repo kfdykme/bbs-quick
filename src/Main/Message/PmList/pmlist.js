@@ -25,14 +25,11 @@ export default{
       plid : '',
       length:0,//长度
       images:[],
-      showEmojiBar:false//是否显示表情包选择框
+      showEmojiBar:false,//是否显示表情包选择框
+      showList: false,
+      listItemId:0
     }
-    ,onShow(){
-        $umeng_stat.resume(this)
-    }
-    ,onHide() {
-        $umeng_stat.pause(this)
-    }
+
 
     /**
      * @method convertEmoji
@@ -75,6 +72,7 @@ export default{
                     //NOTE:先用11作为带有表情包的文本
                     content.type = 'emoji'
                     content.content = nt
+                    content.id = this.listItemId++
                 }
             }
         }
@@ -105,18 +103,15 @@ export default{
 
     , async onInit(){
 
-
-
       MessageApi.init(this.$app)
       this.model =  MessageModel.getInstance(null,this.$app.$def.cache.user.uid)
 
       try{
-
           var localRe = await this.model.loadLocalPmlist(this.toUserId,this.plid)
           this.render(localRe)
-
       } catch(err){
-          console.error(err)
+          console.error('Error while render local pmlist ' + err)
+          this.showList = true
       }
 
       this.fetchPmList()
@@ -135,7 +130,6 @@ export default{
         }
 
         this.$page.finish()
-
         return true
     }
 
@@ -183,15 +177,28 @@ export default{
      * @param {object} re
      */
     ,render(re){
-        if(re==null || re.body == null) return;
-        this.re = re
-        this.$element("pmList"+this.plid)
-        .scrollTo({
-            index:re.length
-        })
+
+        if (re != null) {
+          try {
+          this.re = re
+          let list = null
+            list = this.$element("pmList"+this.plid)
+            setTimeout(()=>{
+              list.scrollTo({
+                index:this.re.length
+              })
+              this.showList = true
+            },200)
+          } catch (e) {
+            console.error('-----------------------\nError while list.scrollTo :\n' + e + '\n\t re :' + JSON.stringify(re) +'\n\tlist: ' + JSON.stringify(list) )
+          }
+        }
+
+
     }
     ,async save(re){
         if(re==null || re.body == null) return;
+
         await this.model.savePmlist(this.toUserId,this.plid,re)
         .then(data =>{
             console.log(data,re)
@@ -322,7 +329,6 @@ export default{
             async function(re){
                   this.re = re
                   var msl = this.re.body.pmList[0].msgList
-
                   msl = this.convertEmoji(msl)
 
                   for(let x in msl){
@@ -333,11 +339,6 @@ export default{
                   }
 
                   const saveRes = await this.model.savePmlist(this.toUserId,this.plid,re)
-                  const pmList = this.$element('pmList')
-                  if(pmList)
-                      pmList.scrollTo({
-                          index: 100000
-                      })
             }.bind(this)
         )
     }
