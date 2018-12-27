@@ -5,11 +5,11 @@
   <div class="pm-list-page">
       <div class="pm-list">
 
-          <div class="name-bar" if="{{re && re.body}}">
+          <div class="name-bar" if="{{re != null && re.body != null}}">
               <text class="to-user-name" >{{re.body.pmList[0].name}}</text>
-
           </div>
-          <list  id="pmList{{plid}}"  >
+
+          <list  id="pmList{{plid}}"  show="{showList}">
 
 
                 <block for="(i,pm) in re.body.pmList[0].msgList">
@@ -24,7 +24,7 @@
 
                                 </div>
                           </list-item>
-                          <list-item if="{{pm.type == 'emoji'}}" type="msg-left-{{pm.content.length}}">
+                          <list-item if="{{pm.type == 'emoji'}}" type="msg-left-{{pm.content.id}}">
                               <div class="msg">
                                     <image
                                           class="avatar"
@@ -77,7 +77,7 @@
                                   </div>
                             </list-item>
 
-                            <list-item if="{{pm.type == 'emoji'}}" type="msg-right-{{pm.content.length}}">
+                            <list-item if="{{pm.type == 'emoji'}}" type="msg-right-{{pm.content.id}}">
                                 <div class="msg msg-right" >
                                     <div class="blank">
 
@@ -110,13 +110,10 @@
                                   </div>
                             </list-item>
                     </block>
-
-
                 </block>
           </list>
       </div>
       <div class="reply-view">
-
             <div class="reply-add-bar " >
               <image
                   src="{{imageToSend}}"
@@ -128,15 +125,14 @@
                 @click="onEvent({type:'emoji'})">
               </image>
             </div>
+
             <div class="reply-input-bar ">
                 <textarea
                     id="textarea-pmlist-content"
                     class="{{isEx ? 'reply-input-textarea-big' :''}} reply-input-textarea"
                     @change="onChangeText"  >{{textToSend}}</textarea>
                 <input class="reply-input-send" @click="onClickSend" type="button" value="发送" ></input>
-
             </div>
-
       </div>
   </div>
   <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
