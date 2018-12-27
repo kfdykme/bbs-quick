@@ -139,6 +139,7 @@
                             height: 40px;
                             font-size: 40px;
                             /* margin: 8px; */
+
                       }
                   }
               }
@@ -171,7 +172,10 @@
 
                   .content-emoji {
                     border-color: #00bcd4;
-                    color:#00bcd4;
+
+                    text {
+                      color:#00bcd4;
+                    }
                   }
 
                   .content-image {

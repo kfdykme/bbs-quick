@@ -179,9 +179,9 @@ export default{
     ,render(re){
 
         if (re != null) {
-          try {
           this.re = re
           let list = null
+          try {
             list = this.$element("pmList"+this.plid)
             setTimeout(()=>{
               list.scrollTo({
