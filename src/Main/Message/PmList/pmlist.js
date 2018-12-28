@@ -19,6 +19,7 @@ export default{
       baseImageToSend :"../../../Res/ic_pick_image.png",
       textToSend :"",
       isEx:false,
+      lastInputTime:'',
       toUserId : '',
       length:0,//长度
       images:[],
@@ -249,8 +250,34 @@ export default{
         })
     }
     ,onChangeText(e){
+
+        /**
+         * NOTE: 通过修改 @param isEx 使得 textarea的class改变,高度改变为对应class中的值
+         * 然后又 再次修改 @param isEx 使得 textarea的class改回来,高度自适应为当前控件中内容的高度
+         * 达到 最大高度的效果
+         */
+
+        this.isEx = true
+        this.lastInputTime = new Date().getTime()
+        this.check()
         this.textToSend = e.value
     }
+
+    , check() {
+
+      if (this.isEx)
+      setTimeout(function (){
+        console.info(new Date().getTime() -this.lastInputTime)
+        if (new Date().getTime() -this.lastInputTime > 5000) {
+          this.lastInputTime = new Date().getTime()
+          this.isEx = false
+        } else {
+          this.check()
+        }
+      }.bind(this),5000)
+
+    }
+
     ,onClickSend(){
 
       MessageApi.send(
