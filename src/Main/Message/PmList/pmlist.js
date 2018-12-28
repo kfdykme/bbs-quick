@@ -249,15 +249,6 @@ export default{
         })
     }
     ,onChangeText(e){
-
-        /**
-         * NOTE: 通过修改 @param isEx 使得 textarea的class改变,高度改变为对应class中的值
-         * 然后又 再次修改 @param isEx 使得 textarea的class改回来,高度自适应为当前控件中内容的高度
-         * 达到 最大高度的效果
-         */
-
-        this.isEx = true
-        this.isEx = false
         this.textToSend = e.value
     }
     ,onClickSend(){
