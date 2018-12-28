@@ -61,6 +61,7 @@ export default {
     }
     , onShow() {
         $umeng_stat.resume(this)
+        this.refresh()
     }
     , onHide() {
         $umeng_stat.pause(this)
@@ -196,11 +197,9 @@ export default {
         this.$on('on-score-back',this.onEvent)
         this.$on('on-render-fetching',this.onEvent)
         this.$on('on-render-fetch-end',this.onEvent)
+
     }
 
-    , onShow() {
-        this.refresh()
-    }
     , onScrollBottom() {
         this.loadMore()
     }
