@@ -8,21 +8,18 @@ import MessageModel from '../MessageModel'
 
 export default{
     public:{
-      re : {
-          body:{
-              pmList:[
-                  {
-                      msgList:[]
-                  }
-              ]
-          }
-      },
+      msgList:[],
+      name:'',
+      senderUid:0,
+      senderAvatar:'',
+      toAvatar:'',
+      fromUid:0,//fromUid of re.body
+      plid : 0,//plid of re.bodyr
       imageToSend : "../../../Res/ic_pick_image.png",
       baseImageToSend :"../../../Res/ic_pick_image.png",
       textToSend :"",
       isEx:false,
       toUserId : '',
-      plid : '',
       length:0,//长度
       images:[],
       showEmojiBar:false,//是否显示表情包选择框
@@ -45,29 +42,35 @@ export default{
             {
                 const emojiRex = /\[mobcent_phiz=.*?\]/g
                 var emojis = content.content.match(emojiRex)
+
                 if(emojis == null){
-                    continue //没有表情包
-                } else{
+                  continue; //没有表情包
+                } else {
                     // 有表情包
                     var nt = []
+                    let rex = /\[mobcent_phiz=.*?\]/
                     var t = content.content
-                    for(var z in emojis){
-                        var e = emojis[z]
-                        var tempt = t.split(e)
-                        for(var aa in tempt[0]){
 
-                            nt.push(tempt[0][aa])
+                    let res = t.match(rex)
+                    while (res != null) {
+                      let index = res.index
+                      if (index > 0) {
+                        let i = 0
+                        while (i < index){
+                          nt.push(t[i])
+                          i++
                         }
-                        t = tempt[1] == null ? "" :tempt[1]
-                        e = e.substring(14,e.length-1)
-                        nt.push(e)
+                      }
+                      nt.push(res[0].substring(14,res[0].length-1))
+                      t = t.substring(res.index + res[0].length)
+                      res = t.match(rex)
+                    }
+                    let i2 = 0
+                    while (i2 < t.length) {
+                      nt.push(t[i2])
+                      i2++
                     }
 
-                    if(t != null)
-                        for(var aa in t){
-
-                            nt.push(t[aa])
-                        }
                     // console.info(nt)
                     //NOTE:先用11作为带有表情包的文本
                     content.type = 'emoji'
@@ -105,7 +108,7 @@ export default{
 
       MessageApi.init(this.$app)
       this.model =  MessageModel.getInstance(null,this.$app.$def.cache.user.uid)
-
+      this.msgList = []
       try{
           var localRe = await this.model.loadLocalPmlist(this.toUserId,this.plid)
           this.render(localRe)
@@ -179,16 +182,27 @@ export default{
     ,render(re){
 
         if (re != null) {
-          this.re = re
+          this.msgList = []
+          this.msgList = this.msgList.concat(re.body.pmList[0].msgList)
+          this.name = re.body.pmList[0].name
+          this.senderUid = re.body.userInfo.uid
+          this.senderAvatar = re.body.userInfo.avatar
+          this.toAvatar = re.body.pmList[0].avatar
+          this.fromUid = re.body.pmList[0].fromUid
+          this.plid = re.body.pmList[0].plid
+
           let list = null
           try {
-            list = this.$element("pmList"+this.plid)
-            setTimeout(()=>{
-              list.scrollTo({
-                index:this.re.length
-              })
-              this.showList = true
-            },200)
+            list = this.$element("pmList")
+
+            if (list != null) {
+              setTimeout(()=>{
+                list.scrollTo({
+                  index:10000
+                })
+                this.showList = true
+              },200)
+            }
           } catch (e) {
             console.error('-----------------------\nError while list.scrollTo :\n' + e + '\n\t re :' + JSON.stringify(re) +'\n\tlist: ' + JSON.stringify(list) )
           }
@@ -200,12 +214,12 @@ export default{
         if(re==null || re.body == null) return;
 
         await this.model.savePmlist(this.toUserId,this.plid,re)
-        .then(data =>{
-            console.log(data,re)
-        })
-        .catch(data =>{
-            console.error(data)
-        })
+          .then(data =>{
+              console.info('save pmlist: ' + data,re)
+          })
+          .catch(data =>{
+              console.error(data)
+          })
     }
     ,onClickImage2(uri){
         ImageUtil.ViewImage(uri,this.images)
@@ -249,8 +263,8 @@ export default{
     ,onClickSend(){
 
       MessageApi.send(
-        this.re.body.pmList[0].fromUid, //touid
-        this.re.body.pmList[0].plid, //plid
+        this.fromUid, //touid
+        this.plid, //plid
         "text",
         this.textToSend,
         function(re){
@@ -323,18 +337,17 @@ export default{
     ,async refresh(){
 
         MessageApi.fetchPmseMissionList(
-            this.re.body.pmList[0].fromUid,//fromUid
-            this.re.body.pmList[0].plid,//plid
-            this.re.body.pmList[0].plid,//pmid
+            this.fromUid,//fromUid
+            this.plid,//plid
+            this.plid,//pmid
             async function(re){
-                  this.re = re
-                  var msl = this.re.body.pmList[0].msgList
+                  var msl = re.body.pmList[0].msgList
                   msl = this.convertEmoji(msl)
 
                   for(let x in msl){
 
                       msl[x].date = DateUtil.convertTime(msl[x].time)
-                      msl[x].showTime = x == 0 || this.re.body.pmList[0].msgList[x].time - this.re.body.pmList[0].msgList[x-1].time >120000
+                      msl[x].showTime = x == 0 || re.body.pmList[0].msgList[x].time - re.body.pmList[0].msgList[x-1].time >120000
 
                   }
 
