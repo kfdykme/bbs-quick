@@ -117,7 +117,7 @@ export default class PostListPresenter{
      * @method
      * @param {Object} event
      */
-    onClickEvent(event){
+    onEvent(event){
         switch(event.type){
             case 'post':
 

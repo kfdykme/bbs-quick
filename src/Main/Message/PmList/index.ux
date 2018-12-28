@@ -1,116 +1,98 @@
 <import name="emoji-bar" src="../../../Comp/EmojiBar.ux"></import>
 
 <template>
-    <stack>
-  <div class="pm-list-page">
+  <stack>
+    <div class="pm-list-page">
       <div class="pm-list">
 
-          <div class="name-bar" if="{{re != null && re.body != null}}">
-              <text class="to-user-name" >{{re.body.pmList[0].name}}</text>
+          <div class="name-bar">
+              <text class="to-user-name" >{{name}}</text>
           </div>
 
-          <list  id="pmList{{plid}}"  show="{showList}">
+          <list id="pmList"  show="{showList}">
 
+            <block for="(i,pm) in msgList">
+                <!-- 如果不是由当前用户发送的消息，就从左开始显示 -->
+                <block if="pm.sender != senderUid">
+                      <list-item type="msg-time" if="{{pm.showTime }}">
+                            <div class="msg-date">
+                                <text>{{pm.date}}</text>
+                            </div>
+                      </list-item>
 
-                <block for="(i,pm) in re.body.pmList[0].msgList">
+                      <list-item if="{{pm.type == 'emoji'}}" type="msg-left-{{i}}">
+                          <div class="msg">
+                                <image class="avatar"  @click="onClickUser(pm.sender)" src="{{toAvatar}}"></image>
+                                <div class="pop"></div>
 
-
-                    <!-- 如果不是由当前用户发送的消息，就从左开始显示 -->
-                    <block if="pm.sender != re.body.userInfo.uid">
-                          <list-item type="msg-time" if="{{pm.showTime }}">
-                                <div class="msg-date">
-
-                                    <text>{{pm.date}}</text>
+                                <div class="content-emoji">
+                                  <block for="e in pm.content">
+                                      <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                                      <image if="{{e.length != 1}}" src="{{e}}"></image>
+                                  </block>
+                                </div>
+                                <div class="blank">
 
                                 </div>
-                          </list-item>
-                          <list-item if="{{pm.type == 'emoji'}}" type="msg-left-{{pm.content.id}}">
-                              <div class="msg">
-                                    <image
-                                          class="avatar"
-                                          @click="onClickUser(pm.sender)"
-                                          src="{{re.body.pmList[0].avatar}}">
-                                    </image>
-                                    <div
-                                      class="pop">
-                                    </div>
+                          </div>
+                      </list-item>
+                      <list-item type="msg-left" if="{{pm.type != 'emoji'}}">
+                            <div class="msg">
+                                  <image class="avatar" @click="onClickUser(pm.sender)" src="{{toAvatar}}">
+                                  </image>
+                                  <div
+                                    class="pop"></div>
+                                  <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
 
-                                    <div class="content-emoji">
-                                      <block for="e in pm.content">
-                                          <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
-                                          <image if="{{e.length != 1}}" src="{{e}}"></image>
-                                      </block>
-                                    </div>
-                                    <div class="blank">
+                                  <image onclick="onClickImage2(pm.content)"  class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
 
-                                    </div>
-                              </div>
-                          </list-item>
-                          <list-item type="msg-left" if="{{pm.type != 'emoji'}}">
-                                <div class="msg">
-                                      <image
-                                            class="avatar"
-                                            @click="onClickUser(pm.sender)"
-                                            src="{{re.body.pmList[0].avatar}}">
-                                      </image>
-                                      <div
-                                        class="pop"></div>
-                                      <text
-                                        class="content"
-                                        show="{{pm.type == 'text'}}">{{pm.content}}</text>
-                                      <image onclick="onClickImage2(pm.content)"  class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
-
-                                      <div class="blank">
-
-                                      </div>
-                                </div>
-                          </list-item>
-                    </block>
-
-                    <!-- 反之从右开始显示 -->
-                    <block if="pm.sender == re.body.userInfo.uid">
-                            <list-item type="msg-time" if="{{pm.showTime }}">
-                                  <div class="msg-date">
-
-                                      <text>{{pm.date}}</text>
-
-                                  </div>
-                            </list-item>
-
-                            <list-item if="{{pm.type == 'emoji'}}" type="msg-right-{{pm.content.id}}">
-                                <div class="msg msg-right" >
-                                    <div class="blank">
-
-                                    </div>
-                                    <div class="content-emoji">
-                                        <block for="e in pm.content">
-                                            <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
-                                            <image if="{{e.length != 1}}" src="{{e}}"></image>
-                                        </block>
-                                    </div>
-                                    <div class="pop-big"></div>
-                                    <image  class="avatar" @click="onClickUser(re.body.userInfo.uid)" src="{{re.body.userInfo.avatar}}"></image>
-
-                                </div>
-                            </list-item>
-
-                            <list-item class="item-right" type="msg-right" if="{{pm.type != 'emoji'}}">
-                                  <div class="msg msg-right" >
-                                      <div class="blank">
-
-                                      </div>
-                                      <div >
-
-                                          <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
-                                      </div>
-                                      <image onclick="onClickImage2(pm.content)" class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
-                                      <div class="pop-big"></div>
-                                      <image  class="avatar" @click="onClickUser(re.body.userInfo.uid)" src="{{re.body.userInfo.avatar}}"></image>
-
-                                  </div>
-                            </list-item>
-                    </block>
+                                  <div class="blank"></div>
+                            </div>
+                      </list-item>
                 </block>
+
+                <!-- 反之从右开始显示 -->
+                <block if="pm.sender == senderUid">
+                        <list-item type="msg-time" if="{{pm.showTime }}">
+                              <div class="msg-date">
+                                  <text>{{pm.date}}</text>
+                              </div>
+                        </list-item>
+
+                        <list-item if="{{pm.type == 'emoji'}}" type="msg-right-{{i}}">
+                            <div class="msg msg-right" >
+                                <div class="blank">
+                                </div>
+                                <div class="content-emoji">
+                                    <block for="e in pm.content">
+                                        <text if="{{e.length == 1 }}" show="{{e != ' '}}">{{e}}</text>
+                                        <text if="{{e == '</br>'}}" class="tv-br"></text>
+                                        <image if="{{e.length != 1 && e != '</br>'}}" src="{{e}}"></image>
+                                    </block>
+                                </div>
+                                <div class="pop-big"></div>
+                                <image  class="avatar" @click="onClickUser(senderUid)" src="{{senderAvatar}}"></image>
+
+                            </div>
+                        </list-item>
+
+                        <list-item class="item-right" type="msg-right" if="{{pm.type != 'emoji'}}">
+                              <div class="msg msg-right" >
+                                  <div class="blank"></div>
+
+                                  <div >
+                                      <text class="content" show="{{pm.type == 'text'}}">{{pm.content}}</text>
+                                  </div>
+
+                                  <image onclick="onClickImage2(pm.content)" class="content-image" show="{{pm.type == 'image'}}" src="{{pm.content}}"></image>
+
+                                  <div class="pop-big"></div>
+
+                                  <image  class="avatar" @click="onClickUser(senderUid)" src="{{senderAvatar}}"></image>
+                              </div>
+                        </list-item>
+                </block>
+            </block>
           </list>
       </div>
       <div class="reply-view">
@@ -134,9 +116,9 @@
                 <input class="reply-input-send" @click="onClickSend" type="button" value="发送" ></input>
             </div>
       </div>
-  </div>
-  <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
-</stack>
+    </div>
+    <emoji-bar if="{{showEmojiBar}}"></emoji-bar>
+  </stack>
 </template>
 
 

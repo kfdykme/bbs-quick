@@ -15,12 +15,12 @@
 
             <list-item type="post-item-header">
               <div class="header card">
-                <image class="avatar" @click="onClickEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}"></image>
+                <image class="avatar" @click="onEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}"></image>
 
                 <div class="header-text">
                   <div class="line-one">
                     <div>
-                      <text class="user-nike-name" @click="onClickEvent({type :'user',data : $item.user_id})">
+                      <text class="user-nike-name" @click="onEvent({type :'user',data : $item.user_id})">
                         {{$item.user_nick_name}}
                       </text>
 
@@ -33,7 +33,7 @@
                     </text>
                   </div>
 
-                  <div class="header-title-bar" onclick="onClickEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
+                  <div class="header-title-bar" onclick="onEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
                     <text class="high-light" show="{{$item.vote == 1}}">投票</text>
 
                     <text class="high-light" show="{{$item.hot == 1}}">热门</text>
@@ -52,14 +52,15 @@
               </div>
             </list-item>
 
+            <!-- NOTE: 因为热门话题页面没有subject 所以不需要判断topic_id -->
             <list-item type="post-item-subject">
-              <div class="section card" @click="onClickEvent({type:'post', data : $item.topic_id})">
+              <div class="section card" @click="onEvent({type:'post', data : $item.topic_id})">
                 <text class="subject">{{$item.subject}}</text>
               </div>
             </list-item>
 
             <list-item type="post-item-hnr">
-              <div class="footer card" @click="onClickEvent({type:'post', data : $item.topic_id})">
+              <div class="footer card" @click="onEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
                 <div class="hnr">
                   <text show="{{$item.hits != 0}}" class="hit">{{$item.hits}}点击</text>
                   <text show="{{$item.replies != 0}}" class="replycount">{{$item.replies}}回复</text>
@@ -332,8 +333,8 @@
 
       return View
     }
-    , onClickEvent(event) {
-      this.presenter.onClickEvent(event)
+    , onEvent(event) {
+      this.presenter.onEvent(event)
     }
     , onScrollBottom() {
       if (this.canLoadMore) {
