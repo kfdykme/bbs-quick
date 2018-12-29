@@ -50,7 +50,7 @@
                                     <text class="pm-content" @click="onEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 'pm'}}">{{$item.topic_content}}</text>
                                     <!-- 系统消息 -->
                                     <text class="system-content"  @click="onEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 'system'}}">{{$item.topic_content}}</text>
-                                    <text class="action-btn" @click="onEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}">同意</text>
+                                    <input type="button" class="action-btn" @click="onEvent('action',$item)" value="同意" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}"></input>
                                   </div>
                                 </div>
                               </div>
@@ -205,7 +205,7 @@
                                     background-color: #ff534d;
                                     border-radius: 30px;
                                     color: #ffffff;
-                                    padding: 16px;
+                                    font-size: 32px;
                                 }
                           }
 
