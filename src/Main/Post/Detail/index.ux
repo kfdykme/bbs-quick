@@ -327,7 +327,7 @@
       </div>
 
       <!-- 评论按钮-->
-      <div class="post-comment"  show="{{showCommentBtn}}">
+      <div class="post-comment"  if="{{showCommentBtn}}">
         <stack class="post-comment-stack">
           <div class="post-comment-footer-containor">
             <div class="shadown-footer"></div>
@@ -343,8 +343,8 @@
         </stack>
       </div>
 
-      <div class="post-to-top-page" show="{{scrollY > 1000}}">
-        <div class="containor-to-top {{showCommentBtn ? 'show' : ''}}"  if="{{showCommentBtn}}">
+      <div class="post-to-top-page" if="{{scrollY > 1000}}">
+        <div class="containor-to-top {{showCommentBtn ? 'show' : ''}}"  show="{{showCommentBtn}}">
           <image src="/Res/ic_to_top.svg" @click="onEvent({type:'scroll-to-top'})"></image>
         </div>
       </div>
