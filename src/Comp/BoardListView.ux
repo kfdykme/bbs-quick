@@ -4,27 +4,28 @@
     <div class="boardlist-page">
 
       <list>
-        <block for="c in board">
-          <list-item class="category-item"  type="category-title">
+        <block for="(x,c) in board">
+          <list-item class="category-item"  type="category-title-{{c.board_list.length}}">
 
-            <div class="shadown-header"></div>
-            <div class="category">
+            <div class="category card">
 
               <text class="board-category-name">{{c.board_category_name}}</text>
               <!-- <div class="shadown-header"></div> -->
+              <block for="(i,b) in c.board_list">
+              <div>
+
+                <image class="board-icon" src="../Res/{{ic[x][i]}}"></image>
+                <text class="board-name" onclick="onClickEvent({type:'board',data :b.board_id})">{{b.board_name}} </text>
+                <text class="board-post-date" onclick="onClickEvent({type:'board',data :b.board_id})" >{{b.last_posts_date}} </text>
+              </div>
+
+
+
+              </block>
             </div>
+
           </list-item>
 
-
-          <block for="b in c.board_list">
-            <list-item type="board-name">
-
-
-              <text class="board-name" onclick="onClickEvent({type:'board',data :b.board_id})">{{b.board_name}} </text>
-              <text class="board-post-date" onclick="onClickEvent({type:'board',data :b.board_id})" >{{b.last_posts_date}} </text>
-
-            </list-item>
-          </block>
 
 
 
@@ -43,60 +44,69 @@
 
 <style lang="less">
   @import './shadown.less';
+  @import './base.less';
+  @import './card.less';
   .boardlist-page{
     flex-direction:column;
     justify-content: center;
     align-items: center;
+    background-color:#efefef;
 
 
     list{
 
         width: 100%;
         height: 100%;
-        columns:2;
-
 
         .category-item{
-          column-span :2;
           flex-direction: column;
-        };
+          margin:16px;
+        }
 
         .category{
 
-
+            flex-direction:column;
             width: 100%;
-            padding-top: 20px;
+            padding-top: 16px;
+            /* margin-left:32px;
+            margin-right:32px; */
             padding-left: 24px;
+            border-radius:32px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+
 
 
             .board-category-name{
               width: 100%;
-              margin-top: 20px;
-              margin-bottom: 20px;
-              color: #00bcd4;
-              font-size: 50px;
-              /* border-right-width: 2px;
-              border-bottom-width: 2px;
-              border-color: #ffbc4d; */
+              color: #aaaaaa;
+              font-size: 20px;
 
               margin-right: 16px;
             }
 
         }
 
+        .board-icon {
+          height:100%;
+          width:10%;
+          padding:16px;
+          resize-mode: contain;
+          margin-left:8px;
+        }
+
         .board-name{
 
-            width: 60%;
+            width: 50%;
             margin: 14px;
             margin-left: 20px;
-            font-size: 40px;
-
+            font-size: 30px;
             padding: 10px;
             /* color: #00bcd4; */
             lines :1;
             text-align: left;
-            border-left-width: 3px;
-            border-color: #11cde5;
+            /* border-left-width: 3px;
+            border-color: #11cde5; */
 
 
         }
@@ -108,7 +118,7 @@
           width: 40%;
           lines:1;
 
-          text-align: right;
+          text-align: center;
 
         }
 
@@ -201,7 +211,46 @@ export default{
   ],
   data :{
     board : [],
-
+    ic :[
+      [
+        '就业创业.svg',
+        '情感.svg',
+        '评论.svg',
+        '热点.svg',
+        '交通出行.svg',
+        '轨迹.svg',
+        '同城.svg',
+        '毕业.svg',
+      ],
+      [
+        '前端.svg',
+        '数字.svg',
+        'FAQ.svg',
+        '硬件.svg',
+        'linux.svg',
+        '程序.svg',
+        '电子.svg'
+      ],
+      [
+        '船舵.svg',
+        '吃喝玩乐.svg',
+        '自行车.svg',
+        '视觉设计.svg',
+        '军事.svg',
+        '舞蹈.svg',
+        '音乐.svg',
+        '文.svg',
+        '体育.svg',
+        '影视.svg',
+        '动漫.svg',
+        '跑步.svg'
+      ],
+      [
+        '二手.svg',
+        '房屋.svg',
+        '店铺.svg'
+      ]
+    ]
   },
   view(){
       var View = new Object
