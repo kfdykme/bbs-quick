@@ -10,12 +10,12 @@
 
       <div class="post-content">
 
-        <div class="post-title-bar" show="{{topic.title != ''}}">
+        <div class="post-title-bar ani-show-from-top" if="{{topic.title != ''}}">
           <image @click="onEvent({type:'back'})" src="/Res/ic_back.png"></image>
           <text class="title">{{topic.title}}</text>
           <image @click="onEvent({type:'share'})" src="/Res/ic_share.png"></image>
         </div>
-        <stack>
+        <stack >
           <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
             <list id="postList" @scrollbottom="onScrollBottom" @scroll="onEvent({type:'scroll'})">
 
@@ -318,7 +318,7 @@
               </list-item>
             </list>
           </refresh>
-          <div class="shadown-header">
+          <div class="{{topic.title != '' ? 'shadown-header' : ''}}">
 
           </div>
         </stack>

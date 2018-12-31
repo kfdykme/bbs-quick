@@ -20,6 +20,16 @@
   }
 }
 
+@keyframes showFromTop {
+  from {
+    transform: translateY(-200px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
 @keyframes showFromBottom {
   from {
     transform: translateY(200px);
@@ -30,8 +40,15 @@
   }
 }
 
+
+
 .ani-show-from-bottom {
   animation-name: showFromBottom;
+  animation-duration: 500ms;
+}
+
+.ani-show-from-top {
+  animation-name: showFromTop;
   animation-duration: 500ms;
 }
 

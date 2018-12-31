@@ -366,7 +366,7 @@
 
         .post-comment-footer {
           width: 100%;
-          background-color: #00bcd4;
+          background: @titleBarBackGround;
           height: 40px;
           justify-content: center;
           >div {
