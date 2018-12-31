@@ -49,7 +49,7 @@
                     .shadown-to-right{
                       width: 55px;
                       margin-left: 5px;
-                      height: 100%;
+                      height: 100px;
                       background: linear-gradient(to right,rgba(0,0,0,0.25),rgba(255,255,255,0));
                       /* border-radius: 30px; */
                     }
@@ -61,7 +61,7 @@
                       margin-left: -40px;
                       align-items: center;
                       margin-right: 8px;
-                      height: 100%;
+                      height: 100px;
                       background-color: @primaryColor;
                       border-radius: 48px;
 
@@ -82,13 +82,14 @@
 
                   flex-direction: row;
                   width: 100%;
+                  height: 100px;
 
                   text{
                     text-align: center;
                     flex-grow: 1;
                     height: 100px;
                   }
- 
+
             }
 
       }
