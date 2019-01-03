@@ -10,12 +10,12 @@
 
       <div class="post-content">
 
-        <div class="post-title-bar" show="{{topic.title != ''}}">
+        <div class="post-title-bar ani-show-from-top" if="{{topic.title != ''}}">
           <image @click="onEvent({type:'back'})" src="/Res/ic_back.png"></image>
           <text class="title">{{topic.title}}</text>
           <image @click="onEvent({type:'share'})" src="/Res/ic_share.png"></image>
         </div>
-        <stack>
+        <stack >
           <refresh @refresh="reqRefresh" refreshing="{{isRefreshing}}">
             <list id="postList" @scrollbottom="onScrollBottom" @scroll="onEvent({type:'scroll'})">
 
@@ -318,7 +318,7 @@
               </list-item>
             </list>
           </refresh>
-          <div class="shadown-header">
+          <div class="{{topic.title != '' ? 'shadown-header' : ''}}">
 
           </div>
         </stack>
@@ -327,7 +327,7 @@
       </div>
 
       <!-- 评论按钮-->
-      <div class="post-comment"  show="{{showCommentBtn}}">
+      <div class="post-comment"  if="{{showCommentBtn}}">
         <stack class="post-comment-stack">
           <div class="post-comment-footer-containor">
             <div class="shadown-footer"></div>
@@ -343,8 +343,8 @@
         </stack>
       </div>
 
-      <div class="post-to-top-page" show="{{scrollY > 1000}}">
-        <div class="containor-to-top {{showCommentBtn ? 'show' : ''}}"  if="{{showCommentBtn}}">
+      <div class="post-to-top-page" if="{{scrollY > 1000}}">
+        <div class="containor-to-top {{showCommentBtn ? 'show' : ''}}"  show="{{showCommentBtn}}">
           <image src="/Res/ic_to_top.svg" @click="onEvent({type:'scroll-to-top'})"></image>
         </div>
       </div>

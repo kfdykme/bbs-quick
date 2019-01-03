@@ -2,6 +2,15 @@
   @import "../../../Comp/css/dialog.less";
   @import "../../../Comp/base.less";
 
+  @keyframes showFromBottom {
+    from {
+      transform: translateY(200px);
+    }
+    to {
+      transform: translateY(0px);
+    }
+  }
+
   .high-light{
       color: #f17c67;
       font-weight: bold;
@@ -331,6 +340,8 @@
        align-items: center;
        height: 100%;
        width: 100%;
+       animation-name: showFromBottom;
+       animation-duration: 500ms;
 
       .btn-show{
         height: 100px;
@@ -355,7 +366,7 @@
 
         .post-comment-footer {
           width: 100%;
-          background-color: #00bcd4;
+          background: @titleBarBackGround;
           height: 40px;
           justify-content: center;
           >div {
@@ -397,8 +408,12 @@
         background-color: @white;
         border-radius: 50px;
         justify-content: center;
-        opacity:0.5;
 
+      }
+
+      .show {
+        animation-name: showFromBottom;
+        animation-duration: 500ms;
 
       }
     }

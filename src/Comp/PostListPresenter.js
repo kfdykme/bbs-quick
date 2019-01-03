@@ -66,14 +66,18 @@ export default class PostListPresenter{
           /**
            * 临时无奈的筛选
            */
-          re.list = re.list.filter(item => {
-            for (let x in Api.BOARD_CAN_NOT_FETCH) {
-              if (Api.BOARD_CAN_NOT_FETCH[x] === item.board_name) {
-                return false
+          try {
+            re.list = re.list.filter(item => {
+              for (let x in Api.BOARD_CAN_NOT_FETCH) {
+                if (Api.BOARD_CAN_NOT_FETCH[x] === item.board_name) {
+                  return false
+                }
               }
-            }
-            return true
-          })
+              return true
+            })
+          } catch (e) {
+            console.error(JSON.stringify(e))
+          }
 
           if(page == 1){
               this.view.render(re.list)

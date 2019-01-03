@@ -1,0 +1,63 @@
+@keyframes toBig {
+  from {
+    transform: scale(1);
+    background-color: #00bcd4;
+  }
+
+  to {
+    transform: scale(50);
+    background-color: #ffffff;
+  }
+}
+
+@keyframes showFromBlue {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes showFromTop {
+  from {
+    transform: translateY(-200px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes showFromBottom {
+  from {
+    transform: translateY(200px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+
+
+.ani-show-from-bottom {
+  animation-name: showFromBottom;
+  animation-duration: 500ms;
+}
+
+.ani-show-from-top {
+  animation-name: showFromTop;
+  animation-duration: 500ms;
+}
+
+.ani-show-page {
+  animation-name: showFromBlue;
+  animation-duration: 500ms;
+}
+
+.ani-to-big {
+  animation-name: toBig;
+  animation-duration: 500ms;
+}

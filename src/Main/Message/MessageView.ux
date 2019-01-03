@@ -24,13 +24,13 @@
                       <refresh @refresh="onRefrsh(m)" refreshing={{m.isRefreshing}}>
                         <list @scrollbottom="onScrollBottom(m)">
                           <block  for="{{m.list}}">
-                            <list-item type="card-border-header">
+                            <list-item type="card-border-header" if="{{$item.showSystemMessage == null || $item.showSystemMessage}}">
                               <div class="card-border card-border-header">
                                 <div class="card-content card-header"></div>
                               </div>
                             </list-item>
 
-                            <list-item type="message-item-header" >
+                            <list-item type="message-item-header" if="{{$item.showSystemMessage == null || $item.showSystemMessage}}">
                               <div class="header card">
                                 <image class="avatar" @click="onEvent('user',$item.user_id ? $item.user_id :$item.toUserId )" src="{{$item.icon}}" />
 
@@ -50,19 +50,19 @@
                                     <text class="pm-content" @click="onEvent('pm',$item)" if="{{$item.topic_content != null && m.tag == 'pm'}}">{{$item.topic_content}}</text>
                                     <!-- 系统消息 -->
                                     <text class="system-content"  @click="onEvent('system',$item.topic_id)" if="{{$item.topic_content != null && m.tag == 'system'}}">{{$item.topic_content}}</text>
-                                    <text class="action-btn" @click="onEvent('action',$item)" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}">同意</text>
+                                    <input type="button" class="action-btn" @click="onEvent('action',$item)" value="同意" show="{{$item.topic_content != null && m.tag == 'system' && $item.actions != null}}"></input>
                                   </div>
                                 </div>
                               </div>
                             </list-item>
 
-                            <list-item type="messaage-item-reply"  >
+                            <list-item type="messaage-item-reply"  if="{{$item.showSystemMessage == null || $item.showSystemMessage}}">
                               <div class="section card">
                                 <text class="reply-content" @click="onEvent('topic',$item.topic_id)" >{{$item.reply_content ? $item.reply_content : $item.content }}</text>
                               </div>
                             </list-item>
 
-                            <list-item type="card-footer-border">
+                            <list-item type="card-footer-border" if="{{$item.showSystemMessage == null || $item.showSystemMessage}}">
                               <div class="card-border">
                                 <div class="card-content card-footer"></div>
                               </div>
@@ -205,7 +205,7 @@
                                     background-color: #ff534d;
                                     border-radius: 30px;
                                     color: #ffffff;
-                                    padding: 16px;
+                                    font-size: 32px;
                                 }
                           }
 
@@ -238,6 +238,7 @@
         import prompt from '@system.prompt'
         import notification from '@system.notification'
         import vibrator from '@system.vibrator'
+        import systemFetch from '@system.fetch'
 
         export default{
           props:[
@@ -309,16 +310,45 @@
           }
           ,renderData(list,tag){
 
+            if (tag === 'system') {
+              list.map(l => {
+                l.showSystemMessage = false
 
+                if (typeof l.actions !== 'undefined') {
+                  try {
+                   systemFetch.fetch({
+                     url: l.actions[0].redirect
+                   })
+                   .then((data) => {
+                       let html = data.data.data
+                       let rex = /(act=).*(&)/g
+                       let res = html.match(rex)[0]
+                       res = res.substring(4,res.length-1)
 
-                for(var x in this.msgList){
-                    var m = this.msgList[x]
-                    if(m.tag == tag){
-                        m.list = list
-                    }
+                       if (res === 'add') {
+                         l.showSystemMessage = false
+                       } else {
+                         l.showSystemMessage  = true
+                       }
+                     })
+                   } catch (e) {
+                     l.showSystemMessage = true
+                     console.error(e)
+                   }
+                } else {
+                  l.showSystemMessage = true
                 }
+              })
+            }
 
-                this.onRenderComplete(tag)
+            for(var x in this.msgList){
+                var m = this.msgList[x]
+                if(m.tag == tag){
+                    m.list = list
+                }
+            }
+
+            this.onRenderComplete(tag)
 
           }
           ,renderHeart(showNotification){

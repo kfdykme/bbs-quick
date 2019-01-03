@@ -2,7 +2,7 @@
   "name": "BBS-uestc",
   "version": "1.1.2",
   "subversion": {
-    "toolkit": "0.0.36"
+    "toolkit": "0.0.38"
   },
   "description": "电子科技大学官方学生论坛 快应用版",
   "scripts": {
@@ -15,27 +15,26 @@
     "hap-update": "hap update"
   },
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.1",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-syntax-jsx": "^6.18.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "cross-env": "^5.1.4",
+    "hap-toolkit": "0.0.38",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-jsx": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.0",
     "css-what": "^2.1.0",
-    "hap-toolkit": "0.0.36",
     "koa": "^2.3.0",
-    "koa-body": "^2.5.0",
-    "koa-router": "^7.2.1",
     "koa-send": "^4.1.1",
     "koa-static": "^4.0.1",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.2.1",
     "socket.io": "^2.1.0",
-    "webpack": "^3.11.0"
+    "webpack": "^4.18.0",
+    "webpack-cli": "^3.1.0",
+    "cross-env": "^5.1.4",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0"
   },
   "dependencies": {
-    "js-base64": "^2.4.9",
-    "less": "^3.8.1",
-    "less-loader": "^4.1.0",
-    "md5": "^2.2.1"
+    "js-base64": "^2.5.0"
   }
 }
