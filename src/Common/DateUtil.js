@@ -102,8 +102,22 @@ function convertTime(time){
   }
 }
 
+/**
+ * @method beforeDay
+ * @desc time在几天之前返回true
+ */
+function beforeDay(day, time) {
+  const oldTime = day * 1000 * 60 * 60 * 24
+
+  if (time > (new Date().getTime() - oldTime)) {
+    return true
+  } else {
+    return false
+  }
+}
 
 export default {
   convertTime
   ,convertTimeShort
+  ,beforeDay
 }

@@ -158,11 +158,48 @@ function fetchBoardPostList(page,boardId,suc){
 
 }
 
+function fetchBoardPostListWithPagesize(page,boardId,pageSize,suc) {
+  const url = Api.BASE_URL + "app/web/index.php?r=forum/topiclist&pageSize=" + pageSize
+
+  fetch.fetch({
+    url : url,
+    mothod :Strings.POST,
+    data :{
+      accessToken : UserCache.token(),
+      apphash :UserCache.appHash(),
+      accessSecret : UserCache.secret(),
+      page : page,
+      boardId : boardId
+    },
+    success :function(data){
+      if (data.code != 200) {
+        prompt.showToast({
+          message: Strings.NET_ERROR_500
+        })
+        return
+      }
+
+      const re = JSON.parse(data.data)
+
+      if (re.rs === 0) {
+        prompt.showToast({
+          message: re.errcode
+        })
+      }
+      suc(re)
+    },
+    fail : function (data,code){
+      console.log("error : "+ code);
+    }
+  })
+}
+
 export default{
   init,
   getForumList,
   fetchClassificationTypeList,
   fetchBoardPostList,
+  fetchBoardPostListWithPagesize,
   fetchChildBoardList,
   checkBoardCanFetch
 }

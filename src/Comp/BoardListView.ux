@@ -2,38 +2,25 @@
 
   <stack>
     <div class="boardlist-page">
-
       <list>
         <block for="(x,c) in board">
-          <list-item class="category-item"  type="category-title-{{c.board_list.length}}">
-
+          <list-item class="category-item"  type="category-title-{{c.board_list.length}}" @appear="onEvent({type:'appear', data:x})">
             <div class="category card">
-
               <text class="board-category-name">{{c.board_category_name}}</text>
-              <!-- <div class="shadown-header"></div> -->
+
               <block for="(i,b) in c.board_list">
-              <div>
-
-                <image class="board-icon" src="../Res/{{ic[x][i]}}"></image>
-                <text class="board-name" onclick="onClickEvent({type:'board',data :b.board_id})">{{b.board_name}} </text>
-                <text class="board-post-date" onclick="onClickEvent({type:'board',data :b.board_id})" >{{b.last_posts_date}} </text>
-              </div>
-
-
-
+                <div  onclick="onClickEvent({type:'board',data :b.board_id})">
+                  <image class="board-icon" src="../Res/{{ic[x][i]}}"></image>
+                  <text class="board-name" >{{b.board_name}} </text>
+                  <canvas id="boardCanvas{{b.board_id}}"></canvas>
+                </div>id
               </block>
             </div>
-
           </list-item>
-
-
-
-
         </block>
       </list>
-
-
     </div>
+
     <div class="shadown">
       <div class="shadown-header"></div>
       <div class="shadown-footer"></div>
@@ -52,9 +39,7 @@
     align-items: center;
     background-color:#efefef;
 
-
     list{
-
         width: 100%;
         height: 100%;
 
@@ -64,39 +49,31 @@
         }
 
         .category{
-
             flex-direction:column;
             width: 100%;
             padding-top: 16px;
-            /* margin-left:32px;
-            margin-right:32px; */
             padding-left: 24px;
             border-radius:32px;
             margin-top: 20px;
             margin-bottom: 20px;
 
-
-
             .board-category-name{
               width: 100%;
               color: #aaaaaa;
               font-size: 20px;
-
               margin-right: 16px;
             }
-
         }
 
         .board-icon {
           height:100%;
           width:10%;
-          padding:16px;
+          padding:0px;
           resize-mode: contain;
           margin-left:8px;
         }
 
         .board-name{
-
             width: 50%;
             margin: 14px;
             margin-left: 20px;
@@ -107,24 +84,18 @@
             text-align: left;
             /* border-left-width: 3px;
             border-color: #11cde5; */
-
-
         }
 
 
         .board-post-date{
+          height: 150px;
           color: #ff645e;
           opacity: 0.6;
           width: 40%;
           lines:1;
-
           text-align: center;
-
         }
-
     }
-
-
   }
 </style>
 
@@ -134,6 +105,7 @@ import BoardApi from '../Common/BoardApi'
 import router from '@system.router'
 import DateUtil from '../Common/DateUtil'
 import storage from '@system.storage'
+import prompt from '@system.prompt'
 
 class BoardListPresenter{
 
@@ -163,7 +135,6 @@ class BoardListPresenter{
             for(let x in re.list){
                 for(let y in re.list[x].board_list){
                     const t = re.list[x].board_list[y]
-
                     t.last_posts_date = DateUtil.convertTimeShort(t.last_posts_date)
                 }
 
@@ -171,10 +142,8 @@ class BoardListPresenter{
             }
 
             re.list = re.list.filter(item => item.board_list.length > 0)
-
             this.save(re)
             this.view.renderBoard(re)
-
           }.bind(this),
 
           function (data,code){
@@ -193,6 +162,30 @@ class BoardListPresenter{
                   }
                 })
                 break;
+            case 'board-appear':
+                BoardApi.fetchBoardPostListWithPagesize(1, event.data.id, 100, function (re) {
+                  // console.info('onClickEvent ' + event.type)
+                  let list = re.list
+                  let arr = [0,0,0,0,0,0,0,0,0,0]
+
+                  list = list.map(item => {
+                    return item.last_reply_date
+                  }).filter(item => {
+                    return DateUtil.beforeDay(10, item)
+                  }).map((item,i) => {
+                    for (let x = 1; x < 11; x++) {
+                      if (DateUtil.beforeDay(x,item)) {
+                        arr[10-x]++
+                        if(arr[10-x] > 20) {
+                          arr[10-x]--
+                        }
+                        break;
+                      }
+                    }
+                  })
+                  this.view.renderCanvas(event.data.id, arr, true)
+                }.bind(this))
+                break;
             default:
                 break;
         }
@@ -201,7 +194,10 @@ class BoardListPresenter{
     async save(re){
         const data = JSON.stringify(re)
         const res = await storage.set({key :"BoardList",value:data})
-        console.info("on save boardlist : "+JSON.stringify(res))
+    }
+
+    async saveLine(board_id,data) {
+
     }
 }
 
@@ -250,7 +246,8 @@ export default{
         '房屋.svg',
         '店铺.svg'
       ]
-    ]
+    ],
+    canvaDraw:{}
   },
   view(){
       var View = new Object
@@ -258,21 +255,102 @@ export default{
       View.renderBoard  = function(re){
 
           this.board = re.list
+          this.canvaDraw = {}
       }.bind(this)
 
       View.renderEmpty = function(){
         //todo
       }
 
+      View.renderCanvas = function(id, data, clear) {
+        let canvas = this.$element('boardCanvas' + id)
+        const ctx = canvas.getContext('2d')
+        ctx.restore()
+        if (this.canvaDraw[id] != null && this.canvaDraw[id].has && !clear) {
+          return;
+        } else {
+          ctx.clearRect(0,0,1000,1000)
+        }
+        const w = 300
+        const h = 100
+        const p = Math.PI
+
+        ctx.beginPath()
+        ctx.moveTo(0,h/2)
+        ctx.lineWidth = h/120
+        let dd = w * 3/40
+        ctx.lineTo(w * 0.125,h/2)
+        let num = 0
+        for (let x in data) {
+          ctx.lineTo((parseInt(x) - 0.5) * dd + (w * 0.125),h/2)
+          ctx.lineTo(parseInt(x) * dd + (w * 0.125),h/2 - (data[x] * h/40 ))
+          ctx.lineTo((parseInt(x) + 0.5) * dd + (w * 0.125),h/2)
+
+          num += data[x]
+        }
+        ctx.lineTo(w * 0.8, h/2)
+        ctx.lineTo(w ,h/2)
+        const linGrad2 = ctx.createLinearGradient(0, 0, w, h)
+        linGrad2.addColorStop(0, '#ffffff')
+        linGrad2.addColorStop(0.2, '#33BFFF')
+        linGrad2.addColorStop(0.8, '#FFCDE4')
+        linGrad2.addColorStop(1, '#ffffff')
+        ctx.strokeStyle = linGrad2
+        ctx.stroke()
+        ctx.save()
+        this.canvaDraw[id] = {}
+        this.canvaDraw[id].has = true
+        this.canvaDraw[id].n = num
+
+        /**
+         * 把canvas data 保存到本地
+         */
+        let key = id + ''
+        let json =  JSON.stringify({
+          data: data
+        })
+        storage.set({
+          key: key,
+          value: json
+        })
+      }.bind(this)
 
       return View
   }
   ,onInit(){
-
       this.presenter = new BoardListPresenter(this.view())
       this.presenter.loadLocal()
       this.presenter.load()
 
+  }
+  ,onEvent (e) {
+    if (e.type == 'appear') {
+      let cate = this.board[e.data]
+      cate.board_list.map(board => {
+        let key = board.board_id + ''
+        this.view().renderCanvas(board.board_id, [], false)
+        storage.get({
+          key:key,
+          success: function (data) {
+            try {
+              let json = JSON.parse(data)
+              this.view().renderCanvas(board.board_id, json.data, true)
+            } catch (e) {
+              this.view().renderCanvas(board.board_id, [], true)
+              console.error(e)
+            }
+          }.bind(this)
+        })
+        if(this.canvaDraw[board.board_id] != null && this.canvaDraw[board.board_id].n == 0) {
+          this.presenter.onClickEvent({
+            type: 'board-appear',
+            data: {
+              id: board.board_id
+            }
+          })
+        }
+      })
+    }
   }
   ,onClickEvent(event){
       this.presenter.onClickEvent(event)
