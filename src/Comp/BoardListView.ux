@@ -209,42 +209,42 @@ export default{
     board : [],
     ic :[
       [
-        '就业创业.svg',
-        '情感.svg',
-        '评论.svg',
-        '热点.svg',
-        '交通出行.svg',
-        '轨迹.svg',
-        '同城.svg',
-        '毕业.svg',
+        'ic_entrepreneurship.svg',
+        'ic_emotion.svg',
+        'ic_common.svg',
+        'ic_hot.svg',
+        'ic_traffic.svg',
+        'ic_contrail.svg',
+        'ic_same_city.svg',
+        'ic_graduation.svg',
       ],
       [
-        '前端.svg',
-        '数字.svg',
+        'ic_front_end.svg',
+        'ic_number.svg',
         'FAQ.svg',
-        '硬件.svg',
+        'ic_hardware.svg',
         'linux.svg',
-        '程序.svg',
-        '电子.svg'
+        'ic_programe.svg',
+        'ic_electricity.svg'
       ],
       [
-        '船舵.svg',
-        '吃喝玩乐.svg',
-        '自行车.svg',
-        '视觉设计.svg',
-        '军事.svg',
-        '舞蹈.svg',
-        '音乐.svg',
-        '文.svg',
-        '体育.svg',
-        '影视.svg',
-        '动漫.svg',
-        '跑步.svg'
+        'ic_seaman.svg',
+        'ic_eat.svg',
+        'ic_mobile.svg',
+        'ic_design.svg',
+        'ic_military_affairs.svg',
+        'ic_dance.svg',
+        'ic_music.svg',
+        'ic_writter.svg',
+        'ic_sport.svg',
+        'ic_movie.svg',
+        'ic_ac.svg',
+        'ic_running.svg'
       ],
       [
-        '二手.svg',
-        '房屋.svg',
-        '店铺.svg'
+        'ic_second_hand.svg',
+        'ic_house.svg',
+        'ic_store.svg'
       ]
     ],
     canvaDraw:{}
