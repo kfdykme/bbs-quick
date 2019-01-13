@@ -12,8 +12,8 @@
                 <div  onclick="onClickEvent({type:'board',data :b.board_id})">
                   <image class="board-icon" src="../Res/{{ic[x][i]}}"></image>
                   <text class="board-name" >{{b.board_name}} </text>
-                  <canvas id="boardCanvas{{b.board_id}}"></canvas>
-                </div>id
+                  <canvas class='board-canvas' id="boardCanvas{{b.board_id}}"></canvas>
+                </div>
               </block>
             </div>
           </list-item>
@@ -54,6 +54,8 @@
             padding-top: 16px;
             padding-left: 24px;
             border-radius:32px;
+            padding-bottom: 32px;
+            margin-left:0px;
             margin-top: 20px;
             margin-bottom: 20px;
 
@@ -269,7 +271,7 @@ export default{
         if (this.canvaDraw[id] != null && this.canvaDraw[id].has && !clear) {
           return;
         } else {
-          ctx.clearRect(0,0,1000,1000)
+          ctx.clearRect(0,0,300,300)
         }
         const w = 300
         const h = 100

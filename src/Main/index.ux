@@ -23,7 +23,7 @@
                   <text class="{{formIndex === 2 ? 'top-tab-active' : ''}}" onclick="clickTabBar(2)">热门话题</text>
 
               </div>
-              
+
               <div class="paper">
                 <div show="{{homeIndex == 0}}">
                     <tabs onchange="changeTabactive" index="{{formIndex}}">
