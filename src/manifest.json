@@ -142,10 +142,15 @@
             "Main": {},
             "Main/Post/Detail": {},
             "Main/Post/Write": {},
+            "Main/Post/Reply":{},
             "Main/Board": {},
             "Main/Message/PmList": {},
             "Main/User": {},
-            "Other/Image": {},
+            "Main/User/Reply":{},
+            "Main/User/Follow":{},
+            "Other/ImageView": {},
+            "Other/Search":{},
+            "Other/About":{},
             "Other/Web":{
 
                 "titleBar":true
