@@ -1,8 +1,8 @@
 {
     "package": "org.starstudio.qapp.bbs",
     "name": "清水河畔",
-    "versionName": "1.4.2",
-    "versionCode": 55,
+    "versionName": "1.4.4",
+    "versionCode": 58,
     "minPlatformVersion": 1030,
     "icon": "/Res/logo.png",
     "features": [
@@ -142,10 +142,15 @@
             "Main": {},
             "Main/Post/Detail": {},
             "Main/Post/Write": {},
+            "Main/Post/Reply":{},
             "Main/Board": {},
             "Main/Message/PmList": {},
             "Main/User": {},
-            "Other/Image": {},
+            "Main/User/Reply":{},
+            "Main/User/Follow":{},
+            "Other/ImageView": {},
+            "Other/Search":{},
+            "Other/About":{},
             "Other/Web":{
 
                 "titleBar":true

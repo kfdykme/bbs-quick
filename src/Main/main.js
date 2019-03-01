@@ -4,6 +4,7 @@ import UserCache from '../Common/UserCache'
 import router from '@system.router'
 import network from '@system.network'
 import prompt from '@system.prompt'
+import clipboard from '@system.clipboard'
 
 export default {
   public: {
@@ -24,7 +25,7 @@ export default {
     ],
     debugLastChangeFromIndexTime :0,
   }
-  ,onShow(){
+  , async onShow(){
       $umeng_stat.resume(this)
       APP_STATISTICS.page_show()
       this.$broadcast("show-home-view")
@@ -39,12 +40,54 @@ export default {
           }
         }
       })
+
+      //判断一下剪贴板的内容，如果内容是bbs的帖子的网址链接，则询问是否要进入浏览页面
+      var clipContent = await clipboard.get({})
+      clipContent = clipContent.data.text
+
+      //check
+      let POST_URL = /http:\/\/bbs.uestc.edu.cn\/forum.php\?mod=viewthread&tid=/g;
+      if(clipContent.match(POST_URL)!= null ){
+        let tid= clipContent.match(/[0-9]+/g)[0]
+        prompt.showDialog({
+          title: '检测到已复制了一个河畔帖子地址',
+          message: '是否进入该帖子',
+          buttons: [
+            {
+              text: '是',
+              color: '#00bcd4'
+            },
+            {
+              text: '否',
+              color: '#333333'
+            }
+          ],
+          success: function (data) {
+            router.push({
+              uri:"Main/Post/Detail",
+              params:{
+                topicid:tid
+              }
+            })
+            clipboard.set({
+              text: ''
+            })
+          },
+          cancel: function (data) {
+            clipboard.set({
+              text: ''
+            })
+          }
+        })
+      }
   }
+
   ,onHide() {
       $umeng_stat.pause(this)
       APP_STATISTICS.page_hide()
       this.$broadcast("hide-home-view")
   }
+
   , onInit() {
 
     //用户缓存
