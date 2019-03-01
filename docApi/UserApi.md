@@ -1,5 +1,47 @@
 # 用户相关api
 
+## 更新用户信息
+
+### 更新用户个性签名
+
+- status [DONE]
+
+#### url 
+- POST
+- http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/updateuserinfo&type=info
+
+#### Form
+
+sign	新筛
+accessToken	3a92218375094ad61d1afb42d3627
+accessSecret	2870f155b160fa40addd801dd71ab
+sdkVersion	2.4.2
+apphash	76517476
+
+#### res
+
+``` json
+{
+	"rs": 1,
+	"errcode": "\u4e2a\u4eba\u8d44\u6599\u4fdd\u5b58\u6210\u529f ",
+	"head": {
+		"errCode": "00000000",
+		"errInfo": "\u4e2a\u4eba\u8d44\u6599\u4fdd\u5b58\u6210\u529f ",
+		"version": "2.6.1.7",
+		"alert": 1
+	},
+	"body": {
+		"externInfo": {
+			"padding": ""
+		}
+	}
+}
+```
+
+### 更新用户头像
+
+- status [TODO]
+
 ## 删除好友
 ### url
 http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&uid=197671&act=ignore&type=
