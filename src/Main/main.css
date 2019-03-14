@@ -32,6 +32,9 @@
                   flex-direction: row;
                   width: 100%;
 
+                  .top-tab-active {
+                    margin-bottom: 14px;
+                  }
                     text{
                         text-align: center;
                         flex-grow: 1;
@@ -96,6 +99,8 @@
                     flex-grow: 1;
                     height: 100px;
                   }
+
+
 
             }
 
