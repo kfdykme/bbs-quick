@@ -25,10 +25,6 @@
     "webpack-cli": "^3.1.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
-<<<<<<< HEAD
-    "fa-toolkit": "file:fa-toolkit-1.1.0-Stable.301.tgz",
-=======
->>>>>>> new
     "esprima": "^4.0.1",
     "babel-loader": "^8.0.4"
   },

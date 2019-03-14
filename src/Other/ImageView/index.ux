@@ -39,18 +39,18 @@
         }
 
 
-                    .view-image{
-                        width: 100%;
+        .view-image{
+            width: 100%;
 
-                            justify-content: center;
-                            align-items: center;
-                            background-color: #222222;
-                        image{
-                            background-color: #222222;
-                            width: 100%;
-                            resize-mode:cover;
-                        }
-                    }
+                justify-content: center;
+                align-items: center;
+                background-color: #222222;
+            image{
+                background-color: #222222;
+                width: 100%;
+                resize-mode:cover;
+            }
+        }
 
 
         .imageview-tool-bar{
@@ -75,6 +75,7 @@
     import prompt from '@system.prompt'
     import router from '@system.router'
     import request from '@system.request'
+    import media from '@system.media'
 
     export default {
         protected :{
@@ -128,7 +129,34 @@
                     url: e.data,
                     success: function(data) {
                       prompt.showToast({
-                        message : "下载成功 :" +e.data
+                        message : "正在下载图片"
+                      })
+                      request.onDownloadComplete({
+                        token: data.token,
+                        success: function (data) {
+                          prompt.showToast({
+                            message: "正在将图片保存到相册"
+                          })
+
+                          media.saveToPhotosAlbum({
+                            uri: data.uri,
+                            success: function () {
+                              prompt.showToast({
+                                message: '图片保存成功'
+                              })
+                            },
+                            fail: function (data, code) {
+                              prompt.showToast({
+                                message: '图片保存失败: ${code}'
+                              })
+                            }
+                          })
+                        },
+                        fail: function (data, code) {
+                          prompt.showToast({
+                            message: "图片保存失败: ${code}"
+                          })
+                        }
                       })
                     },
                     fail: function(data, code) {
