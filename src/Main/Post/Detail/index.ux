@@ -1,3 +1,4 @@
+
 <import name="loading-progress-view" src="../../../Comp/LoadingProgressView"></import>
 <import name="exa" src="../../../Comp/Exa.ux"></import>
 <import name="loading-page" src="../../../Comp/LoadingPage.ux"></import>
@@ -253,9 +254,9 @@
                   </list-item>
 
                   <!-- NOTE:评论-超链接2333 -->
-                  <list-item type="image-type4" if="{{$item.type  == 4 }}">
+                  <list-item type="reply-type-hplink" if="{{$item.type  == 4 }}">
                       <div class="card">
-                          <exa url="{{$item.url}}"></exa>
+                          <exa url="{{$item.url}}" infor="{{$item.infor}}"></exa>
                           <!-- <a class="content" href="{{$item.url}}">{{$item.infor}}</a> -->
                       </div>
                   </list-item>

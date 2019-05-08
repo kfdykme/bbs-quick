@@ -112,7 +112,7 @@
                 }
 
                 .top-tab-active{
-                  margin-bottom: 8px;
+                  margin-bottom: 6px;
                 }
 
                 .username {

@@ -105,7 +105,7 @@ export default{
         }.bind(this),5000)
     }
 
-    , async onInit(){
+    , async onReady(){
 
       MessageApi.init(this.$app)
       this.model =  MessageModel.getInstance(null,this.$app.$def.cache.user.uid)
