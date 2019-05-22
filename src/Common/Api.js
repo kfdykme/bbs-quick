@@ -3,11 +3,6 @@ import fetchModule from "@system.fetch"
 import request from '@system.request'
 import network from '@system.network'
 
-var app = null
-function init(app){
-  this.app = app
-  UserCache.init(app)
-}
 
 
 /**
@@ -26,6 +21,8 @@ const BOARD_CAN_NOT_FETCH = [
   '站务综合'
 ]
 
+const UPLOAD_PARSE_JSON_ERROR = '上传过程中发生错误'
+
 function saveCookie(name,value){
     this.app.$def.cache.cookie[name] = value
 }
@@ -39,7 +36,7 @@ function saveCookie(name,value){
 function upload(o,success){
 
 
-    console.info(JSON.stringify(o));
+    // console.info('APi.upload', JSON.stringify(o));
     var that = this
     request.upload({
         url : "http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=forum/sendattachmentex",
@@ -48,8 +45,9 @@ function upload(o,success){
         method:"POST",
         success : function(data){
           try{
-
             const re = JSON.parse(data.data)
+
+            console.info('Api.upload:' + JSON.stringify(re, null, 2))
             if(re.rs == 0)
             {
               that.onSuccessError(re)
@@ -57,8 +55,9 @@ function upload(o,success){
               success(re)
             }
           } catch(e){
+            console.info('Api.upload:'+ e)
             prompt.showToast({
-              message :e
+              message : UPLOAD_PARSE_JSON_ERROR
             })
           }
         },
@@ -71,17 +70,21 @@ function upload(o,success){
 
 
 function onFetchFail(data,code,and){
-  if(and != null)
+
+  if(typeof and == 'function'){
     and(data)
-  console.error("发生了错误: "+code +"\n"+data);
+  }
+  console.error("onFetchFail 发生了错误: "+code +"\n"+JSON.stringify(data));
   prompt.showToast({
-    message :"发生了错误: "+code +"\n"+data
+    message :"网络请求发生了错误: "+code
   })
 }
 
 function onSuccessError(re,and){
-  if(and != null)
+
+  if(typeof and == 'function'){
     and(re)
+  }
 
   console.error(JSON.stringify(re))
   //TODO : 喊后台把这个字符串改了
@@ -104,7 +107,7 @@ function onSuccessError(re,and){
   * @param <function> andError 请求失败后的自定义回调
   × @param <function> onParseFail 转换成json格式失败后会调用的函数
   */
-function fetch(url,data,suc,andError,onParseFail){
+function fetch(url,data,suc,andError,onParseFail, tag){
 
     var that = this
     network.getType({
@@ -116,6 +119,10 @@ function fetch(url,data,suc,andError,onParseFail){
             method : "POST",
             data : data,
             success :function(data){
+              if (tag == 'MessageApi') {
+
+                console.info('Api.fetch:',tag, data.data)
+              }
 
               if(data.code != 200) {
                 prompt.showToast({
@@ -143,6 +150,7 @@ function fetch(url,data,suc,andError,onParseFail){
 
             },
             fail : function(data,code){
+              console.info(tag, 'on Fetch Fail')
               that.onFetchFail(data,code,andError)
             }
           })
@@ -169,6 +177,5 @@ export default {
   onFetchFail,
   onSuccessError,
   upload,
-  init,
   saveCookie
 }

@@ -84,7 +84,6 @@ export default {
 
   ,onHide() {
       $umeng_stat.pause(this)
-      APP_STATISTICS.page_hide()
       this.$broadcast("hide-home-view")
   }
 

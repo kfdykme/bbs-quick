@@ -1,7 +1,6 @@
 import Api from "./Api"
 import fetch from "@system.fetch"
 import UserCache from './UserCache'
-import storage from '@system.storage'
 import prompt from '@system.prompt'
 import Strings from './Strings'
 
