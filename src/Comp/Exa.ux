@@ -18,6 +18,9 @@
       return reg.test(this);
     }
 
+    const POST_URL = /http:\/\/bbs.uestc.edu.cn\/forum.php\?mod=viewthread&tid=/g
+    const USER_URL =  /http:\/\/bbs.uestc.edu.cn\/home.php\?mod=space&uid=/g
+
 
     export default{
         props:[
@@ -25,9 +28,7 @@
             'infor'
         ]
         ,data:{
-            infoUsed :"",          // 不知道命名为啥子好,因为props:[]里面的info不能更改,但是需要判断infor是否为空,所以就另外设了一个Infor
-            POST_URL : /http:\/\/bbs.uestc.edu.cn\/forum.php\?mod=viewthread&tid=/g,
-            USER_URL : /http:\/\/bbs.uestc.edu.cn\/home.php\?mod=space&uid=/g
+            infoUsed :""          // 不知道命名为啥子好,因为props:[]里面的info不能更改,但是需要判断infor是否为空,所以就另外设了一个Infor
         }
 
         ,onEvent(e){
@@ -35,9 +36,10 @@
 
               const url = e.data
 
-
               //note: 如果url是跳转到另外一个帖子，就直接用快应用的方式打开
-              if(url.match(this.POST_URL)!= null ){
+
+              if(url.match(POST_URL)!= null ){
+                console.info('Exa: this is a post')
                 let tid= url.match(/[0-9]+/g)[0]
                 router.push({
                   uri:"Main/Post/Detail",
@@ -49,7 +51,8 @@
               }
 
               //note: 如果url是跳转到某个用户，就直接用快应用的方式打开
-              if(url.match(this.USER_URL) != null){
+              if(url.match(USER_URL) != null){
+                console.info('Exa: this is a user')
                 let uid= url.match(/[0-9]+/g)[0]
                 router.push({
                     uri : "Main/User",
@@ -60,6 +63,7 @@
                 return
               }
 
+                console.info('Exa: this is a website')
                 router.push({
                     uri:"Other/Web",
                     params:{

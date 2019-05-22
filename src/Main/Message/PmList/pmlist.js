@@ -6,6 +6,8 @@ import ImageUtil from "../../../Common/ImageUtil"
 import router from "@system.router"
 import MessageModel from '../MessageModel'
 
+const TAG = 'PMLIST'
+
 export default{
     public:{
       msgList:[],
@@ -231,12 +233,15 @@ export default{
         var onPickImageSuccess = function (uri){
             MessageApi.uploadPmFile(uri,
               function(re){
+                console.info(TAG + ':MessageApi.uploadPmFile:' + JSON.stringify(re, null, 2))
+                console.info(TAG + ':MessageApi.uploadPmFile:that.re:' + JSON.stringify(that.re, null, 2))
                   MessageApi.send(
-                    that.re.body.pmList[0].fromUid, //touid
-                    that.re.body.pmList[0].plid, //plid
+                    that.fromUid, //touid
+                    that.plid, //plid
                     "image",
                     re.body.attachment[0].urlName,
                     function(re){
+                        console.info('MessageApi.send', JSON.stringify(re))
                         that.onSendComplete()
                     }.bind(this)
 
