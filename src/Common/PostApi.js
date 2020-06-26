@@ -14,7 +14,7 @@ function init(app){
   UserCache.init(app)
 }
 
-async function reverse(topic_id,number){
+async function all(topic_id,number){
 
 
     return await fetch.fetch({
@@ -330,7 +330,7 @@ export default{
   comment,
   replyComment,
   publish,
-  reverse,
+  all,
   search,
   score,
   vote,
