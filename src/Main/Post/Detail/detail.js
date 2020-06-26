@@ -44,7 +44,7 @@ export default {
         lastReplyTime: 0,                          //最后一条评论/回复的时间,用来筛选某一页的新数据哪些应该加载哪些不应该
         votes: [],                                 //投票选项id
         totalNumber: 0,                            //全部回复的数量
-        sortMode: 1,                               //正序还是倒序
+        sortMode: 1,                               //1 :正序 2: 倒序 3:按点赞排序
         topNumber: 0,                              //置顶的回复数,用于显示楼层时去掉置顶项
         DEFAULT_PAGE_SIZE: 25,                     //默认每页加载回复数
         userId:0,                                  //
@@ -347,7 +347,7 @@ export default {
         }
 
         //修改浏览顺序
-        if (e.type == 'change-sort-mode') {
+        if (e.type == 'change-sort-mode' && e.value == 'default') {
 
             if (this.sortMode == 1) {
 
@@ -355,7 +355,10 @@ export default {
                 this.list = []
                 this.fetchReverseReplys()
 
-            } else {
+            } else if (this.sortMode == 2 ||
+                this.sortMode == 3 ) { 
+                //无论是倒序->正序 还是 点赞排序->正序，都是走这个状态
+                
                 this.list = []
                 this.sortMode = 1
                 this.page = 1
@@ -364,6 +367,19 @@ export default {
 
             }
 
+        }
+
+        //sort by zan
+        if (e.type == 'change-sort-mode' && e.value == 'zan') {
+            if (this.sortMode == 3) {
+                this.onEvent({ type: 'change-sort-mode', value: 'default'})
+            } else if (this.sortMode == 1 
+                || this.sortMode == 2) {
+
+                    this.list = []
+                    this.sortMode = 3
+                    this.fetchAllReplysSortByZan()
+                }
         }
 
         //投票
@@ -817,7 +833,7 @@ export default {
     async fetchReverseReplys() {
 
         //1 加载所有回复
-        await PostApi.reverse(this.topicid, this.totalNumber)
+        await PostApi.all(this.topicid, this.totalNumber)
             .then(data => {
                 const re = JSON.parse(data.data.data)
                 this.sortMode = 2
@@ -829,6 +845,27 @@ export default {
                 })
             })
         //2 倒序
+    },
+    /**
+     * @method fetchAllReplysSortByZan
+     * @desc 尝试获取按赞排序 
+     */
+    async fetchAllReplysSortByZan() {
+        await PostApi.all(this.topicid, this.totalNumber) 
+            .then(data => {
+                let re = JSON.parse(data.data.data)
+                this.sortMode = 3
+                re.list = re.list.sort((a,b) => {
+                    return b.extraPanel[0].extParams.recommendAdd - a.extraPanel[0].extParams.recommendAdd;
+                })
+                //todo: 先用倒序回复的先
+                this.renderReserveReply(re) 
+            })
+            .catch(data => {
+                prompt.showToast({
+                    message: data.data
+                })
+            })
     },
     reqRefresh(e) {
         this.isRefreshing = e.refreshing
