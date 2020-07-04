@@ -25,7 +25,7 @@
                 <div class="topic-header card-ex">
                   <image class="avatar"  @click="onEvent({type:'user',data:topic.user_id})" src="{{topic.icon}}" />
                   <div class="header-text">
-                    <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name}}</text>
+                    <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name}} {{topic.userTitle}}</text>
                     <text class="date">{{topic.create_date}}</text>
                   </div>
                 </div>
@@ -208,32 +208,32 @@
 
 
               <!-- 内容-回复 -->
-              <block  for="(index,re) in list">
+              <block  for="(index,re) in list" >
 
-                <list-item type="card-border-header">
+                <list-item type="card-border-header" >
                   <div class="card-border card-border-header">
                     <div class="card-content card-header"></div>
                   </div>
                 </list-item>
 
-                <list-item type="reply-header">
-                    <div class="reply-header card">
+                <list-item type="reply-header" if="{{!re.is_mute}}">
+                    <div class="reply-header card" >
 
                         <text class="high-light" show="{{re.poststick == 1}}">置顶</text>
                         <image class="avatar" @click="onEvent({type:'user',data:re.reply_id})" src="{{re.icon}}"/>
 
                         <div class="header-text">
-                            <text class="name"  @click="onEvent({type:'user',data:re.reply_id})">{{re.reply_name}}</text>
+                            <text class="name"  @click="onEvent({type:'user',data:re.reply_id})">{{re.reply_name}} {{re.userTitle}}</text>
                             <text class="date">{{re.posts_date}}</text>
                         </div>
                     </div>
                 </list-item>
 
-                <block if="{{re.quote_content != ''}}">
+                <block if="{{re.quote_content != '' }}" >
 
                   <!-- NOTE: 评论-引用 -->
-                  <list-item type="reply-quote">
-                      <div class="card">
+                  <list-item type="reply-quote" if="{{!re.is_mute}}">
+                      <div class="card" >
 
                           <div class="reply-quote">
                               <text>{{re.quote_content}}</text>
@@ -246,7 +246,7 @@
 
 
                   <!-- NOTE: 评论-文本 -->
-                  <list-item type="reply-text" if="{{$item.type  == 0 }}">
+                  <list-item type="reply-text" if="{{$item.type  == 0 && !re.is_mute}}">
                       <div class=" card">
 
                           <text class="content">{{$item.infor}}</text>
@@ -254,7 +254,7 @@
                   </list-item>
 
                   <!-- NOTE: 评论-图片 -->
-                  <list-item type="reply-image-{{$item.id}}" if="{{$item.type  == 1 }}">
+                  <list-item type="reply-image-{{$item.id}}" if="{{$item.type  == 1 && !re.is_mute}}">
                       <div class="card">
                           <image onclick="onEvent({type:'view-image',data:$item.originalInfo})" class="content"  src="{{$item.originalInfo}}"/>
 
@@ -262,7 +262,7 @@
                   </list-item>
 
                   <!-- NOTE:评论-超链接2333 -->
-                  <list-item type="reply-type-hplink" if="{{$item.type  == 4 }}">
+                  <list-item type="reply-type-hplink" if="{{$item.type  == 4 && !re.is_mute}}">
                       <div class="card">
                           <exa url="{{$item.url}}" infor="{{$item.infor}}"></exa>
                           <!-- <a class="content" href="{{$item.url}}">{{$item.infor}}</a> -->
@@ -270,7 +270,7 @@
                   </list-item>
 
                   <!-- NOTE: 评论-表情包 -->
-                  <list-item  if="{{$item.type == 11}}" type="reply-emoji-{{$item.item}}">
+                  <list-item  if="{{$item.type == 11}}" type="reply-emoji-{{$item.item}}" if="{{!re.is_mute}}">
                       <div class="card emoji">
 
                           <block for="e in  $item.infor">
@@ -283,7 +283,7 @@
                 </block>
 
                 <block if="{{re.signature != '' && re.signature != null}}">
-                  <list-item type="reply-signature">
+                  <list-item type="reply-signature" if="{{!re.is_mute}}">
                     <div class="card reply-signature">
                       <div class="reply-signature-containor">
                         <div></div>
@@ -295,8 +295,8 @@
 
 
 
-                <list-item type="reply-footer">
-                  <div class="reply-footer content card ">
+                <list-item type="reply-footer" if="{{!re.is_mute}}">
+                  <div class="reply-footer content card " >
                     <div class="reply-action">
 
                           <div  class="btn-action">
@@ -315,8 +315,14 @@
 
                   </div>
                 </list-item>
+                <!-- NOTE: 评论-文本 -->
+                <list-item type="card-mute-body-text" if="{{re.is_mute}}">
+                    <div class="card">
 
-                <list-item type="card-footer-border">
+                        <text class="content" @click="onEvent({type:'user',data:re.reply_id})">已被屏蔽</text>
+                    </div>
+                </list-item>
+                <list-item type="card-footer-border" >
                   <div class="card-border">
                     <div class="card-content card-footer"></div>
                   </div>

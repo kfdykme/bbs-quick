@@ -3,6 +3,9 @@ import DateUtil from '../../Common/DateUtil'
 import UserApi from "../../Common/UserApi"
 import storage from '@system.storage'
 
+const DEFAULT_LOCAL_CONFIG_USER_SETTINGS = {
+  muteUsers: {}
+}
 /**
  * @class UserModel
  * @constructor constructor
@@ -79,14 +82,47 @@ export default class UserModel{
     }
 
 
+    async loadIsMute(targetUid,currentUid) {
+      let key = this.KEY + currentUid + "/mute/user"
+      let localConfig = await storage.get({ key: key})
+      console.info('load ' + key)
+      try {
+        return JSON.parse(localConfig.data).muteUsers[targetUid]? true : false
+      } catch (e) {
+        return false
+      }
+    }
+
+    async saveIsMute(targetUid, currentUid, isMute) {
+      let key = this.KEY + currentUid + "/mute/user"
+      let localConfig = await storage.get({ key: key})
+      if (localConfig.data == "")
+        localConfig = DEFAULT_LOCAL_CONFIG_USER_SETTINGS
+      else {
+        try {
+
+          localConfig = JSON.parse(localConfig.data)
+        } catch (err) {
+          console.info('parse data from ' + localConfig.data + " error : " + err)
+          localConfig = DEFAULT_LOCAL_CONFIG_USER_SETTINGS
+        }
+      }
+
+      localConfig.muteUsers[targetUid] = isMute
+      await storage.set({key: key , value: JSON.stringify(localConfig)})
+      console.info('save ', localConfig, "to", key, "success")
+      return isMute
+    }
+
     /**
      * @method save 异步保存数据
      *
      */
     async save(uid,re){
-        const data = JSON.stringify(re)
+        let data = JSON.stringify(re)
 
-        const key = this.KEY+uid
-        const res = await storage.set({key :key ,value: data})
+        let key = this.KEY+uid
+        let res = await storage.set({key :key ,value: data})
+        console.info('save ' + key + " to local cache success :" + res )
     }
 }

@@ -13,7 +13,7 @@
               </div>
             </list-item>
 
-            <list-item type="post-item-header">
+            <list-item type="post-item-header" if="{{!$item.isMute}}">
               <div class="header card">
                 <image class="avatar" @click="onEvent({type:'user', data : $item.user_id})" src="{{$item.userAvatar}}"></image>
 
@@ -53,18 +53,23 @@
             </list-item>
 
             <!-- NOTE: 因为热门话题页面没有subject 所以不需要判断topic_id -->
-            <list-item type="post-item-subject">
+            <list-item type="post-item-subject" if="{{!$item.isMute}}">
               <div class="section card" @click="onEvent({type:'post', data : $item.topic_id})">
                 <text class="subject">{{$item.subject}}</text>
               </div>
             </list-item>
 
-            <list-item type="post-item-hnr">
+            <list-item type="post-item-hnr" if="{{!$item.isMute}}">
               <div class="footer card" @click="onEvent({type:'post', data : $item.topic_id == null ? $item.source_id : $item.topic_id})">
                 <div class="hnr">
                   <text show="{{$item.hits != 0}}" class="hit">{{$item.hits}}点击</text>
                   <text show="{{$item.replies != 0}}" class="replycount">{{$item.replies}}回复</text>
                 </div>
+              </div>
+            </list-item>
+            <list-item type="post-item-mute-body" if="{{$item.isMute}}">
+              <div class="section card" @click="onEvent({type :'user',data : $item.user_id})">
+                <text class="subject">已屏蔽</text>
               </div>
             </list-item>
 

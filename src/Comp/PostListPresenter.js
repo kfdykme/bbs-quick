@@ -2,6 +2,7 @@
 import PostListModel from './PostListModel'
 import DateUtil from  '../Common/DateUtil'
 import router from '@system.router'
+import storage from '@system.storage'
 
 /**
  * 为了筛选一些临时错误
@@ -20,7 +21,7 @@ export default class PostListPresenter{
         this.tag = view.context.tag
         this.type = view.context.type
         this.model = PostListModel.getInstance(this.app,this)
-
+        this.muteUsers = {}
     }
 
     /**
@@ -30,11 +31,10 @@ export default class PostListPresenter{
 
 
         const re = await this.model.loadLocal(this.tag)
-        // console.info(JSON.stringify(re))
+
         if(re!= null){
 
-            let x
-            for(x in re.list){
+            for(let x in re.list){
                 let time = re.list[x].last_reply_date
                 re.list[x].last_reply_date = DateUtil.convertTime(time)
 
@@ -44,8 +44,8 @@ export default class PostListPresenter{
         }
 
         this.refresh()
-    }
 
+    }
 
     /**
     * @method fetchPosts
@@ -55,9 +55,13 @@ export default class PostListPresenter{
     fetchPosts(tag,page){
         var success = function (re){
 
-
           let x
           for(x in re.list){
+
+              if (this.muteUsers[re.list[x].user_id])
+                re.list[x].isMute = true
+              else
+                re.list[x].isMute = false
               let time = re.list[x].last_reply_date
               re.list[x].last_reply_date = DateUtil.convertTime(time)
               re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
@@ -147,7 +151,10 @@ export default class PostListPresenter{
     /**
      * @method refresh
      */
-     refresh(){
+     async refresh(){
+
+         this.muteUsers = await this.model.loadMuteStatus()
+         this.muteUsers = this.muteUsers.muteUsers
          this.page = 1
          this.view.renderLoading()
          this.fetchPosts(this.tag,this.page)

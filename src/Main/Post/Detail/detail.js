@@ -9,7 +9,7 @@ import router from '@system.router'
 import clipboard from '@system.clipboard'
 import share from '@service.share'
 import systemShare from '@system.share'
-
+import storage from '@system.storage'
 
 
 export default {
@@ -57,11 +57,16 @@ export default {
         },
         score:{
           showScore:false                         //是否正在显示评价dialog
+        },
+        muteUsers:{
+
         }
     }
-    , onShow() {
+    ,async onShow() {
         $umeng_stat.resume(this)
+        this.initMuteStatus()
         this.refresh()
+
     }
     , onHide() {
         $umeng_stat.pause(this)
@@ -75,8 +80,14 @@ export default {
     , convertList(list) {
 
 
-        for (let x in list) {
 
+        for (let x in list) {
+            //是否屏蔽该用户
+            if (this.muteUsers[list[x].reply_id]) {
+              list[x].is_mute = true
+            } else {
+              list[x].is_mute = false
+            }
             list[x].posts_date = DateUtil.convertTime(list[x].posts_date)
 
             // NOTE: 判断是否是置顶的回复,是的话就topNumber++
@@ -185,7 +196,7 @@ export default {
         this.loadMore()
 
     }
-    , onInit() {
+    ,async onInit() {
 
         var app = this.$app
 
@@ -199,6 +210,18 @@ export default {
         this.$on('on-render-fetching',this.onEvent)
         this.$on('on-render-fetch-end',this.onEvent)
 
+    }
+    , async initMuteStatus () {
+      let key = 'UserModel' + UserApi.user(). uid + "/mute/user"
+
+      let mutes = await storage.get({key: key})
+      try {
+        mutes = JSON.parse(mutes.data)
+      } catch (e) {
+        console.error(e)
+      }
+      console.info('load mutes from key:' + key, mutes)
+      this.muteUsers = mutes.muteUsers
     }
 
     , onScrollBottom() {

@@ -44,7 +44,18 @@ export default class PostListModel{
         }
     }
 
+    async loadMuteStatus () {
+      let key = 'UserModel' + UserApi.user().uid + "/mute/user"
 
+      let mutes = await storage.get({key: key})
+      try {
+        mutes = JSON.parse(mutes.data)
+      } catch (e) {
+        console.error(e)
+      }
+      console.info('load mutes from key:' + key, mutes)
+      return mutes;
+    }
 
     load(page,tag,suc,type,fail){
 

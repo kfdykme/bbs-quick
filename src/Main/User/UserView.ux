@@ -114,6 +114,9 @@
                     <text if="{{re.length >0 &&re[0].isFriend == 1}}" @click="onClickEvent('unFriend')" class="others-action-btn">删除好友</text>
                     <text if="{{re.length >0 &&re[0].is_follow == 0}}" @click="onClickEvent('follow')" class="others-action-btn">加为关注</text>
                     <text if="{{re.length >0 &&re[0].is_follow == 1}}" @click="onClickEvent('unfollow')" class="others-action-btn">取消关注</text>
+                    <text if="{{re.length >0 && local.is_mute}}" @click="onClickEvent('unmute')" class="others-action-btn-warning">取消屏蔽</text>
+                    <text  if="{{re.length >0 && !local.is_mute}}" @click="onClickEvent('mute')" class="others-action-btn-warning">屏蔽用户</text>
+
                 </div>
             </div>
 
@@ -239,10 +242,14 @@
 
 
 
+
+
     .user-page {
         background-color: @primaryBackground;
         width: 100%;
         flex-direction: column;
+
+
 
         .user-header {
             height: 38%;
@@ -396,6 +403,13 @@
                   color: @textColor;
                 }
 
+                .others-action-btn-warning {
+                  flex-grow: 1;
+                  text-align: center;
+                  padding: 24px;
+                  color: @red;
+                }
+
                 .others-action-btn-primary {
                   color: @primaryColor;
                 }
@@ -454,7 +468,10 @@
             replyTotalNumber: 0,
             followNumber: 0,
             followerNumber: 0,
-            touch:false
+            touch:false,
+            local: {
+              is_mute: false
+            }
         }
         , onClickEvent(type, arg) {
             this.presenter.onClickEvent(type, arg)
@@ -507,6 +524,11 @@
 
                 this.followerNumber = re.total_num
             }.bind(this)
+
+            view.renderMute = function (isMute) {
+              this.local.is_mute = isMute
+            }.bind(this)
+
 
             return view
         }
