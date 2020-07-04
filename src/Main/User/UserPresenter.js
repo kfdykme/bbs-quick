@@ -6,12 +6,14 @@ import UserCache from "../../Common/UserCache"
 import UserModel from "./UserModel"
 import router from '@system.router'
 import prompt from '@system.prompt'
-
+import storage from '@system.storage'
 /**
  * @class UserPresenter
  * @constructor constructor
  */
 export default class UserPresenter{
+
+
 
     constructor(view){
         this.view = view
@@ -38,12 +40,20 @@ export default class UserPresenter{
 
               this.view.renderUserInfo(userRe)
               this.view.renderAvatar(UserApi.getUserAvatarBig(this.uid))
-              console.info("load userinfo from local success")
+              console.info("load userinfo from local cache success")
             } else {
               console.info("load userinfo success but null")
             }
         } catch(err){
             console.info("load userinfo from local fail : "+err)
+        }
+        try {
+          var isMute = await this.model.loadIsMute(this.uid,this.myId)
+
+          console.info('load isMute:', isMute)
+          this.view.renderMute(isMute)
+        } catch (err) {
+          console.error("load local user config of " + this.uid + " fail :" + err)
         }
         this.initInfo()
     }
@@ -53,7 +63,7 @@ export default class UserPresenter{
 
         const userRe = await this.model.getUserInfo(this.uid)
 
-      
+
         this.view.renderUserInfo(userRe)
         this.view.renderAvatar(UserApi.getUserAvatarBig(this.uid))
 
@@ -264,6 +274,32 @@ export default class UserPresenter{
                   tag : "followed"
               }
             })
+        }
+
+        // NOTE : 本地缓存屏蔽用户
+        if (type == 'mute') {
+          this.model.saveIsMute(
+            this.uid,
+            this.myId,
+            true
+          ).then(res => {
+            this.view.renderMute(res)
+          }).catch(err => {
+            console.error(err)
+          })
+        }
+
+        //NOTE : 本地缓存取消屏蔽用户
+        if (type == 'unmute') {
+          this.model.saveIsMute(
+            this.uid,
+            this.myId,
+            false
+          ).then(res => {
+            this.view.renderMute(res)
+          }).catch(err => {
+            console.error(err)
+          })
         }
     }
 }
