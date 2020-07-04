@@ -154,7 +154,7 @@
 
                       <text
                           class="btn"
-                          @click="onEvent({type:'change-sort-mode', value: default})">
+                          @click="onEvent({type:'change-sort-mode', value: 'default'})">
                           {{sortMode == 1 ? '倒序':'正序'}}
                       </text>
 
@@ -164,7 +164,7 @@
                           {{sortMode != 3 ?    '点赞排序':'默认排序'}}
                       </text>
 
-                      
+
                   </div>
 
               </list-item>

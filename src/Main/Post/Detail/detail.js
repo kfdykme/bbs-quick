@@ -162,7 +162,8 @@ export default {
 
     , convertSign(v){
         UserApi.getUserInfo(this.list[v].reply_id,function(res){
-          this.list[v].signature = res.sign
+          if (this.list[v] != null)
+              this.list[v].signature = res.sign
          }.bind(this))
     }
 
@@ -348,7 +349,6 @@ export default {
 
         //修改浏览顺序
         if (e.type == 'change-sort-mode' && e.value == 'default') {
-
             if (this.sortMode == 1) {
 
                 //0 清空回复
@@ -356,9 +356,9 @@ export default {
                 this.fetchReverseReplys()
 
             } else if (this.sortMode == 2 ||
-                this.sortMode == 3 ) { 
+                this.sortMode == 3 ) {
                 //无论是倒序->正序 还是 点赞排序->正序，都是走这个状态
-                
+
                 this.list = []
                 this.sortMode = 1
                 this.page = 1
@@ -373,7 +373,7 @@ export default {
         if (e.type == 'change-sort-mode' && e.value == 'zan') {
             if (this.sortMode == 3) {
                 this.onEvent({ type: 'change-sort-mode', value: 'default'})
-            } else if (this.sortMode == 1 
+            } else if (this.sortMode == 1
                 || this.sortMode == 2) {
 
                     this.list = []
@@ -646,11 +646,11 @@ export default {
 
     },
     /**
-     * @method renderReserveReply
+     * @method renderAllReply
      * @param {object} re
      * @desc 渲染一个倒序了的回复数组
      */
-    renderReserveReply(re) {
+    renderAllReply(re) {
 
         //1 判断是否为空
         if (re.list != null && re.list.length != 0) {
@@ -670,6 +670,7 @@ export default {
                 }
             }
 
+            this.renderError("没有更多了")
             this.renderReplyComplete()
 
         } else {
@@ -838,7 +839,7 @@ export default {
                 const re = JSON.parse(data.data.data)
                 this.sortMode = 2
                 re.list = re.list.reverse()
-                this.renderReserveReply(re)
+                this.renderAllReply(re)
             }).catch(data => {
                 prompt.showToast({
                     message: data.data
@@ -848,10 +849,10 @@ export default {
     },
     /**
      * @method fetchAllReplysSortByZan
-     * @desc 尝试获取按赞排序 
+     * @desc 尝试获取按赞排序
      */
     async fetchAllReplysSortByZan() {
-        await PostApi.all(this.topicid, this.totalNumber) 
+        await PostApi.all(this.topicid, this.totalNumber)
             .then(data => {
                 let re = JSON.parse(data.data.data)
                 this.sortMode = 3
@@ -859,7 +860,7 @@ export default {
                     return b.extraPanel[0].extParams.recommendAdd - a.extraPanel[0].extParams.recommendAdd;
                 })
                 //todo: 先用倒序回复的先
-                this.renderReserveReply(re) 
+                this.renderAllReply(re)
             })
             .catch(data => {
                 prompt.showToast({
