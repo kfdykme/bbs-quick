@@ -105,7 +105,7 @@ import network from '@system.network'
             || rs.body.atMeInfo.count != this.cacheHeart.atme
             || rs.body.systemInfo.count != this.cacheHeart.system
             || (rs.body.pmInfos.length != 0
-                && rs.body.pmInfos[0].time != this.cacheHeart.pm)){
+                && rs.body.pmInfos[0] && rs.body.pmInfos[0].time != this.cacheHeart.pm)){
 
 
 

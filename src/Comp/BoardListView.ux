@@ -48,6 +48,11 @@
           margin:16px;
         }
 
+        .board-canvas {
+          width:300px;
+          height: 100px;
+        }
+
         .category{
             flex-direction:column;
             width: 100%;
@@ -69,14 +74,14 @@
 
         .board-icon {
           height:100%;
-          width:10%;
+          width:48px;
           padding:0px;
           resize-mode: contain;
           margin-left:8px;
         }
 
         .board-name{
-            width: 50%;
+            /* width: 50%; */
             margin: 14px;
             margin-left: 20px;
             font-size: 30px;
@@ -194,8 +199,8 @@ class BoardListPresenter{
     }
 
     async save(re){
-        const data = JSON.stringify(re)
-        const res = await storage.set({key :"BoardList",value:data})
+        let data = JSON.stringify(re)
+        let res = await storage.set({key :"BoardList",value:data})
     }
 
     async saveLine(board_id,data) {
@@ -265,10 +270,11 @@ export default{
       }
 
       View.renderCanvas = function(id, data, clear) {
+        console.debug('renderCanvas', id, data, clear)
         let canvas = this.$element('boardCanvas' + id)
         const ctx = canvas.getContext('2d')
         ctx.restore()
-        if (this.canvaDraw[id] != null && this.canvaDraw[id].has && !clear) {
+        if (data.length <10 || (this.canvaDraw[id] != null && this.canvaDraw[id].has && !clear) ) {
           return;
         } else {
           ctx.clearRect(0,0,300,300)
@@ -279,7 +285,7 @@ export default{
 
         ctx.beginPath()
         ctx.moveTo(0,h/2)
-        ctx.lineWidth = h/120
+        ctx.lineWidth = h/60
         let dd = w * 3/40
         ctx.lineTo(w * 0.125,h/2)
         let num = 0
@@ -306,7 +312,9 @@ export default{
 
         /**
          * 把canvas data 保存到本地
-         */
+         */ 
+        if (data.filter(i => i !=0).length == 0)
+          return
         let key = id + ''
         let json =  JSON.stringify({
           data: data
@@ -330,18 +338,22 @@ export default{
       let cate = this.board[e.data]
       cate.board_list.map(board => {
         let key = board.board_id + ''
-        this.view().renderCanvas(board.board_id, [], false)
+        this.view().renderCanvas(board.board_id, [0,0,0,0,0,0,0,0,0,0], false)
         storage.get({
           key:key,
           success: function (data) {
+
+
             try {
               let json = JSON.parse(data)
+              json.data = json.data.length <10? [0,0,0,0,0,0,0,0,0,0] : json.data=
               this.view().renderCanvas(board.board_id, json.data, true)
             } catch (e) {
-              this.view().renderCanvas(board.board_id, [], true)
+              this.view().renderCanvas(board.board_id, [0,0,0,0,0,0,0,0,0,0], true)
               console.error(e)
             }
-          }.bind(this)
+          }.bind(this),
+
         })
         if(this.canvaDraw[board.board_id] != null && this.canvaDraw[board.board_id].n == 0) {
           this.presenter.onClickEvent({
