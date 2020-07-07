@@ -142,7 +142,8 @@
     import UserApi from "../../../Common/UserApi"
     import PostApi from '../../../Common/PostApi'
     import prompt from "@system.prompt"
-
+    import storage from '@system.storage'
+    import router from '@system.router'
     export default {
         protected: {
             user: {},
@@ -175,10 +176,14 @@
                this.$broadcast('view-upload-update',this.uploadImages)
              }
 
+
         }
+
         ,onHide() {
             $umeng_stat.pause(this)
+
         }
+
 
         , onInit() {
             PostApi.init(this.$app)
@@ -187,6 +192,22 @@
 
 
             this.option = JSON.parse(this.option)
+            storage.get({
+              key:'reply-content',
+            }).then(res => {
+              try {
+                res = JSON.parse(res.data)
+              } catch(e) {
+                console.error('has not chache reply content')
+                res = {
+                  replyContent: '',
+                  uploadImages: []
+                }
+              }
+              this.replyContent = res.replyContent
+              this.uploadImages = res.uploadImages
+              this.$broadcast('view-upload-update',this.uploadImages)
+            })
             this.$on('choose_emoji', this.onEvent)
             this.$on('click_emoji_page',this.onEvent)
             this.$on('choose_ats',this.onEvent)
@@ -221,6 +242,47 @@
               return true
             }
 
+            if (this.replyContent != '' || this.uploadImages.length != 0) {
+              prompt.showDialog({
+                title: '保留此次编辑？',
+                message: '是否保存正在编辑内容',
+                buttons: [
+                  {
+                    text: '是',
+                    color: '#00bcd4'
+                  },
+                  {
+                    text: '否',
+                    color: '#333333'
+                  }
+                ],
+                success: function (index) {
+                  switch (index.index) {
+                    case 0:
+                        let data = {
+                         replyContent: this.replyContent,
+                         uploadImages: this.uploadImages
+                       }
+                       storage.set({
+                         key:'reply-content',
+                         value: JSON.stringify(data)
+                       })
+                      break;
+                    default:
+                      storage.set({
+                        key:'reply-content',
+                        value: ''
+                      })
+                  }
+
+                  router.back()
+                }.bind(this),
+                cancel: function () {
+
+                }.bind(this)
+              })
+              return true
+            }
 
             return false
         }

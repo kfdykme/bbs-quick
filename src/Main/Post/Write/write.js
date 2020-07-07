@@ -5,6 +5,7 @@ import MessageApi from '../../../Common/MessageApi'
 import prompt from '@system.prompt'
 import file from '@system.file'
 import storage from '@system.storage'
+import router from "@system.router"
 
 import media from "@system.media"
 
@@ -91,7 +92,24 @@ export default {
                 console.log(code);
             }
         )
-
+        storage.get({
+          key:'write-content',
+        }).then(res => {
+          try {
+            res = JSON.parse(res.data)
+          } catch(e) {
+            console.error('has not chache reply content')
+            res = {
+              publishTitle: '',
+              publishContent: '',
+              uploadImages: []
+            }
+          }
+          this.publishTitle = res.publishTitle
+          this.publishContent = res.publishContent
+          this.uploadImages = res.uploadImages
+          this.$broadcast('view-upload-update',this.uploadImages)
+        })
         this.$on('choose_emoji', this.onEvent)
         this.$on('click_emoji_page', this.onEvent)
         this.$on('choose_ats',this.onEvent)
@@ -127,7 +145,48 @@ export default {
 
           return true
         }
+        if (this.publishTitle != '' || this.publishContent  != '' || this.uploadImages.length != 0) {
+          prompt.showDialog({
+            title: '保留此次编辑？',
+            message: '是否保存正在编辑内容',
+            buttons: [
+              {
+                text: '是',
+                color: '#00bcd4'
+              },
+              {
+                text: '否',
+                color: '#333333'
+              }
+            ],
+            success: function (index) {
+              switch (index.index) {
+                case 0:
+                    let data = {
+                     publishContent: this.publishContent,
+                     publishTitle: this.publishTitle,
+                     uploadImages: this.uploadImages
+                   }
+                   storage.set({
+                     key:'write-content',
+                     value: JSON.stringify(data)
+                   })
+                  break;
+                default:
+                  storage.set({
+                    key:'write-content',
+                    value: ''
+                  })
+              }
 
+              router.back()
+            }.bind(this),
+            cancel: function () {
+
+            }.bind(this)
+          })
+          return true
+        }
 
         return false
     }
