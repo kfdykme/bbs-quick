@@ -25,7 +25,7 @@
                 <div class="topic-header card-ex">
                   <image class="avatar"  @click="onEvent({type:'user',data:topic.user_id})" src="{{topic.icon}}" />
                   <div class="header-text">
-                    <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name}} {{topic.userTitle}}</text>
+                    <text class="name"  @click="onEvent({type:'user',data:topic.user_id})" >{{topic.user_nick_name ? topic.user_nick_name : ''}} {{topic.userTitle ? topic.userTitle : ''}}</text>
                     <text class="date">{{topic.create_date}}</text>
                   </div>
                 </div>
