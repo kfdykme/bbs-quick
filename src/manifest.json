@@ -136,6 +136,9 @@
         "titleBarTextColor": "#414141",
         "menu": true,
         "titleBar": false,
+        "menuBarData": {
+           "menuBar" : false
+         },
         "pages": {
             "Start/Login": {},
             "Start/Slash": {},
