@@ -83,7 +83,7 @@ export default {
 
         for (let x in list) {
             //是否屏蔽该用户
-            if (this.muteUsers[list[x].reply_id]) {
+            if (this.muteUsers != null && this.muteUsers[list[x].reply_id]) {
               list[x].is_mute = true
             } else {
               list[x].is_mute = false
@@ -218,7 +218,7 @@ export default {
       try {
         mutes = JSON.parse(mutes.data)
       } catch (e) {
-        console.error(e)
+        console.console.log();('无屏蔽内容')
       }
       console.info('load mutes from key:' + key, mutes)
       this.muteUsers = mutes.muteUsers

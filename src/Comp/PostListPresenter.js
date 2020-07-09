@@ -31,16 +31,20 @@ export default class PostListPresenter{
 
 
         const re = await this.model.loadLocal(this.tag)
+        try {
 
-        if(re!= null){
+          if(re!= null){
 
-            for(let x in re.list){
-                let time = re.list[x].last_reply_date
-                re.list[x].last_reply_date = DateUtil.convertTime(time)
+              for(let x in re.list){
+                  let time = re.list[x].last_reply_date
+                  re.list[x].last_reply_date = DateUtil.convertTime(time)
 
-                re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
-            }
-            this.view.render(re.list)
+                  re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
+              }
+              this.view.render(re.list)
+          }
+        } catch(e) {
+          console.info(e)
         }
 
         this.refresh()
@@ -58,7 +62,7 @@ export default class PostListPresenter{
           let x
           for(x in re.list){
 
-              if (this.muteUsers[re.list[x].user_id])
+              if (this.muteUsers != null && this.muteUsers[re.list[x].user_id])
                 re.list[x].isMute = true
               else
                 re.list[x].isMute = false

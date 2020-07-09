@@ -39,7 +39,7 @@ export default class PostListModel{
             const local =  await storage.get({key : this.KEY+key})
             return JSON.parse(local.data)
         } catch(err){
-
+            console.error('local local')
             return null
         }
     }
@@ -51,7 +51,7 @@ export default class PostListModel{
       try {
         mutes = JSON.parse(mutes.data)
       } catch (e) {
-        console.error(e)
+        console.info('load no mutes')
       }
       console.info('load mutes from key:' + key, mutes)
       return mutes;
