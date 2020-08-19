@@ -9,6 +9,7 @@ function init(app){
   UserCache.init(app)
 }
 
+const TAG = 'MessageApi'
 
 async function fetchHeart(){
     return await fetch.fetch({
@@ -161,7 +162,7 @@ function fetchMessagePmseMission(success,pageSize = 100, page){
   */
 function uploadPmFile(fileUri,success){
 
-
+      console.info(TAG + ":" + fileUri)
       Api.upload(
             {
               files :[
@@ -239,7 +240,10 @@ function send(touid,pid,type,content,success){
         sdkVersion : Api.sdkVersion,
         appHash :UserCache.appHash()
       },
-      success
+      success,
+      null,
+      null,
+      TAG
     )
 }
 

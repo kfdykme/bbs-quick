@@ -1,8 +1,13 @@
 {
     "package": "org.starstudio.qapp.bbs",
     "name": "清水河畔",
+<<<<<<< HEAD
     "versionName": "1.5.5",
     "versionCode": 76,
+=======
+    "versionName": "1.4.9",
+    "versionCode": 64,
+>>>>>>> fe83f52f26b0d7ae8f76501c15375615e7d22b22
     "minPlatformVersion": 1030,
     "icon": "/Res/logo.png",
     "features": [
