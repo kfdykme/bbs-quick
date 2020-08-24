@@ -3,7 +3,7 @@
 ## 搜索用户
 
 ### url
-http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/searchuser
+https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/searchuser
 ### form  
 searchid	0
 pageSize	10
@@ -199,7 +199,7 @@ page	1
 ## 搜索帖子
 
 ### url
-http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/search&pageSize=25
+https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/search&pageSize=25
 
 ### form  
 searchid	0

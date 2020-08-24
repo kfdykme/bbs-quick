@@ -53,7 +53,7 @@ function getUserInfo(uid,success,error){
  * return url
  */
 function getUserAvatarBig(uid){
-    return "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+uid+"&size=big"
+    return "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+uid+"&size=big"
 }
 
 /*

@@ -123,7 +123,7 @@ function fetchMessagePmseMission(success,pageSize = 100, page){
  function fetchPmseMissionList(fromUid,plid,pmid,success){
 
    Api.fetch(
-     "http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmlist",
+     "https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmlist",
      {
        pmlist : {
              'body':{
@@ -218,7 +218,7 @@ function uploadPmFile(fileUri,success){
  * @desc 发送私信
  */
 function send(touid,pid,type,content,success){
-    const url = "http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmadmin"
+    const url = "https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmadmin"
 
 
     Api.fetch(
@@ -254,7 +254,7 @@ function send(touid,pid,type,content,success){
  * @desc 返回的不是json结构的返回对象,而是js代码
  *        <script>
  *            alert("您已和 Fore 成为好友");
- *                location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=a7bafa8e";
+ *                location.href = "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=a7bafa8e";
  *            </script>
  *
  * @param <string> uid

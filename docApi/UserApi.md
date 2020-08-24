@@ -8,7 +8,7 @@
 
 #### url 
 - POST
-- http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/updateuserinfo&type=info
+- https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/updateuserinfo&type=info
 
 #### Form
 
@@ -44,7 +44,7 @@ apphash	76517476
 
 ## 删除好友
 ### url
-http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&uid=197671&act=ignore&type=
+https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&uid=197671&act=ignore&type=
 ### query
 r	user/useradminview
 sdkVersion	2.6.1.7
@@ -63,7 +63,7 @@ type
 ## 关注
 
 ### url
-http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
+https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
 
 ### form  
 accessToken	3a92218375094ad61d1afb42d3627
@@ -97,7 +97,7 @@ type	follow
 
 
 ### url
-http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
+https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
 
 ### form  
 accessToken	3a92218375094ad61d1afb42d3627
@@ -129,7 +129,7 @@ type  unfollow
 
 ## 获取参与帖子
 ### url
-http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/topiclist
+https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/topiclist
 
 ### form
 
@@ -178,7 +178,7 @@ page	2
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
             "special": 0
         },
         {
@@ -199,7 +199,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 1,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
             "special": 0
         },
         {
@@ -220,7 +220,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=200009&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=200009&size=middle",
             "special": 0
         },
         {
@@ -241,7 +241,7 @@ page	2
             "status": 256,
             "essence": 0,
             "hot": 1,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=158868&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=158868&size=middle",
             "special": 0
         },
         {
@@ -262,7 +262,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=212412&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=212412&size=middle",
             "special": 0
         },
         {
@@ -283,7 +283,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=186702&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=186702&size=middle",
             "special": 0
         },
         {
@@ -304,7 +304,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=214004&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=214004&size=middle",
             "special": 0
         },
         {
@@ -325,7 +325,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
             "special": 0
         },
         {
@@ -346,7 +346,7 @@ page	2
             "status": 0,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=215359&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=215359&size=middle",
             "special": 0
         },
         {
@@ -367,7 +367,7 @@ page	2
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=206495&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=206495&size=middle",
             "special": 0
         },
         {
@@ -388,7 +388,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
             "special": 0
         },
         {
@@ -409,7 +409,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 1,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=158868&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=158868&size=middle",
             "special": 0
         },
         {
@@ -430,7 +430,7 @@ page	2
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=210853&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=210853&size=middle",
             "special": 0
         },
         {
@@ -451,7 +451,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=57912&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=57912&size=middle",
             "special": 0
         },
         {
@@ -472,7 +472,7 @@ page	2
             "status": 0,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
             "special": 0
         },
         {
@@ -493,7 +493,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=178888&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=178888&size=middle",
             "special": 0
         },
         {
@@ -514,7 +514,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=210820&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=210820&size=middle",
             "special": 0
         },
         {
@@ -535,7 +535,7 @@ page	2
             "status": 0,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=206919&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=206919&size=middle",
             "special": 0
         },
         {
@@ -556,7 +556,7 @@ page	2
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197637&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197637&size=middle",
             "special": 0
         },
         {
@@ -577,7 +577,7 @@ page	2
             "status": 32,
             "essence": 0,
             "hot": 1,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=178888&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=178888&size=middle",
             "special": 0
         }
     ],
@@ -589,7 +589,7 @@ page	2
 ```
 ## 获取关注的人
 ### url
-http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/userlist
+https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/userlist
 ### form
 pageSize	20
 accessToken	3a92218375094ad61d1afb42d3627
@@ -629,7 +629,7 @@ page	1
             "status": 0,
             "is_black": 0,
             "gender": 1,
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=186364&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=186364&size=middle",
             "level": 4,
             "userTitle": "鳙鱼 (Lv.6)",
             "verify": [
@@ -839,7 +839,7 @@ sdkType
     "is_black": 0,
     "is_follow": 0,
     "isFriend": 0,
-    "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+    "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
     "level_url": "",
     "name": "kfdykme",
     "email": "wim.k.f@live.com",
@@ -913,7 +913,7 @@ page	1
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
             "special": 0
         },
         {
@@ -934,7 +934,7 @@ page	1
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
             "special": 0
         },
         {
@@ -955,7 +955,7 @@ page	1
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
             "special": 0
         },
         {
@@ -976,7 +976,7 @@ page	1
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
             "special": 0
         },
         {
@@ -997,7 +997,7 @@ page	1
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
             "special": 0
         },
         {
@@ -1018,7 +1018,7 @@ page	1
             "status": 32800,
             "essence": 0,
             "hot": 0,
-            "userAvatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
+            "userAvatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=middle",
             "special": 0
         }
     ],
@@ -1068,7 +1068,7 @@ page	1
             "status": 0,
             "is_black": 0,
             "gender": 1,
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=178888&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=178888&size=middle",
             "level": 0,
             "userTitle": "星辰工作室",
             "verify": [],
@@ -1088,7 +1088,7 @@ page	1
             "status": 0,
             "is_black": 0,
             "gender": 0,
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197674&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197674&size=middle",
             "level": 0,
             "userTitle": "蝌蚪 (Lv.1)",
             "verify": [],
@@ -1106,7 +1106,7 @@ page	1
 
 ### 关注
 
-POST http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
+POST https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
 
 accessToken	3a92218375094ad61d1afb42d3627
 accessSecret	2870f155b160fa40addd801dd71ab
@@ -1117,7 +1117,7 @@ type	follow
 
 ### 取消关注
 
-POST http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
+POST https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=user/useradmin
 
 accessToken	3a92218375094ad61d1afb42d3627
 accessSecret	2870f155b160fa40addd801dd71ab
@@ -1152,10 +1152,10 @@ type	unfollow
                 "note": "嘉木 请求加您为好友  ",
                 "user_name": "嘉木",
                 "user_id": 197671,
-                "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
+                "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197671&size=middle",
                 "actions": [
                     {
-                        "redirect": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkV…627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&act=add&uid=197671",
+                        "redirect": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkV…627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&act=add&uid=197671",
                         "title": "批准申请",
                         "type": "firend"
                     }
@@ -1166,7 +1166,7 @@ type	unfollow
             {
                 "replied_date": "1511485582000",
                 "type": "system",
-                "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
+                "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
                 "user_name": "系统",
                 "user_id": "0",
                 "mod": "admin",
@@ -1176,11 +1176,11 @@ type	unfollow
             {
                 "replied_date": "1511449193000",
                 "type": "system",
-                "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
+                "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
                 "user_name": "系统",
                 "user_id": "0",
                 "mod": "admin",
-                "note": "十年同舟共济，一路河畔有你清河畔今年十岁了！在这十年里，河畔陪伴着大家走过风风雨雨、河畔分享着大家的喜怒哀乐、河畔陪伴着大家一起成长！戳戳这里：http://bbs.uestc.edu.cn/tenth_anniversary/index.php，看看自己与河畔有着怎样的故事~送祝福给河畔有神秘加成哦~",
+                "note": "十年同舟共济，一路河畔有你清河畔今年十岁了！在这十年里，河畔陪伴着大家走过风风雨雨、河畔分享着大家的喜怒哀乐、河畔陪伴着大家一起成长！戳戳这里：https://bbs.uestc.edu.cn/tenth_anniversary/index.php，看看自己与河畔有着怎样的故事~送祝福给河畔有神秘加成哦~",
                 "is_read": "0"
             },
             {
@@ -1189,10 +1189,10 @@ type	unfollow
                 "note": "Fore 请求加您为好友  ",
                 "user_name": "Fore",
                 "user_id": 205769,
-                "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=205769&size=middle",
+                "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=205769&size=middle",
                 "actions": [
                     {
-                        "redirect": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkV…627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&act=add&uid=205769",
+                        "redirect": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkV…627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&act=add&uid=205769",
                         "title": "批准申请",
                         "type": "firend"
                     }
@@ -1206,10 +1206,10 @@ type	unfollow
                 "note": "Вīń 请求加您为好友  ",
                 "user_name": "Вīń",
                 "user_id": 194933,
-                "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=194933&size=middle",
+                "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=194933&size=middle",
                 "actions": [
                     {
-                        "redirect": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkV…627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&act=add&uid=194933",
+                        "redirect": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=user/useradminview&sdkV…627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=&act=add&uid=194933",
                         "title": "批准申请",
                         "type": "firend"
                     }
@@ -1220,7 +1220,7 @@ type	unfollow
             {
                 "replied_date": "1479354880000",
                 "type": "system",
-                "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
+                "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle",
                 "user_name": "系统",
                 "user_id": "0",
                 "mod": "admin",
@@ -1258,7 +1258,7 @@ type	unfollow
       "lastSummary":"哈哈哈",
       "lastDateline":"1510816381000",
       "toUserId":197674,
-      "toUserAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197674&size=middle",
+      "toUserAvatar":"https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197674&size=middle",
       "toUserName":"sgh0109",
       "toUserIsBlack":0,"isNew":0},
       {"plid":4001543,
@@ -1268,7 +1268,7 @@ type	unfollow
       "lastSummary":"水水",
       "lastDateline":"1503295050000",
       "toUserId":194933,
-      "toUserAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=194933&size=middle",
+      "toUserAvatar":"https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=194933&size=middle",
       "toUserName":"Вīń",
       "toUserIsBlack":0,
       "isNew":0}],
@@ -1278,7 +1278,7 @@ type	unfollow
 
 ### 获取私信消息
 
-url : http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmlist
+url : https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmlist
 
 #### 抓取的post body:
 pmlist
@@ -1347,13 +1347,13 @@ sdkType
         "userInfo": {
             "uid": 199446,
             "name": "kfdykme",
-            "avatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=small"
+            "avatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=199446&size=small"
         },
         "pmList": [
             {
                 "fromUid": 197674,
                 "name": "sgh0109",
-                "avatar": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197674&size=small",
+                "avatar": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=197674&size=small",
                 "msgList": [
                     {
                         "sender": 197674,
@@ -1401,7 +1401,7 @@ sdkType
 
 ###发送私信
 
-url : http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmadmin
+url : https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=message/pmadmin
 
 #### post抓包
 packageName	com.appbyme.app118563
@@ -1481,7 +1481,7 @@ sdkType
 ```
 ### 发送附件
 
-url ： http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=forum/sendattachmentex&packageName=com.appbyme.app118563&sortId=0&forumType=7&fid=0&accessToken=3a92218375094ad61d1afb42d3627&module=pm&appName=%E6%B8%85%E6%B0%B4%E6%B2%B3%E7%95%94&accessSecret=2870f155b160fa40addd801dd71ab&sdkVersion=2.5.0.0&imei=868450030049702&apphash=c65cd93e&albumId=0&type=image&forumKey=CBQJazn9Wws8Ivhr6U&platType=1&imsi=460018175289254
+url ： https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=forum/sendattachmentex&packageName=com.appbyme.app118563&sortId=0&forumType=7&fid=0&accessToken=3a92218375094ad61d1afb42d3627&module=pm&appName=%E6%B8%85%E6%B0%B4%E6%B2%B3%E7%95%94&accessSecret=2870f155b160fa40addd801dd71ab&sdkVersion=2.5.0.0&imei=868450030049702&apphash=c65cd93e&albumId=0&type=image&forumKey=CBQJazn9Wws8Ivhr6U&platType=1&imsi=460018175289254
 
 
 r	forum/sendattachmentex
@@ -1530,7 +1530,7 @@ uploadFile[]
         "attachment": [
             {
                 "id": 0,
-                "urlName": "http://bbs.uestc.edu.cn/data/appbyme/upload/image/201808/02/UCssWycOpnZ4.jpg"
+                "urlName": "https://bbs.uestc.edu.cn/data/appbyme/upload/image/201808/02/UCssWycOpnZ4.jpg"
             }
         ]
     }

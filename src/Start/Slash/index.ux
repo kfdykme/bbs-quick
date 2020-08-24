@@ -18,3 +18,31 @@
 </style>
 <script src="./slash.js">
 </script>
+
+
+{
+    'tagName':'div',
+    'attrs':[],
+    'childs':[
+        {
+            'tagName':'div',
+            'attrs': [],
+            'childs': [
+                {
+                    'tagName':'text',
+                    'content':'{{note}}'
+                }
+            ]
+        },
+       {
+            'tagName':'div',
+            'attrs': [],
+            'childs': [
+                {
+                    'tagName':'text',
+                    'content':'清水河畔'
+                }
+            ]
+        },
+    ]
+}

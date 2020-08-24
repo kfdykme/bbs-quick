@@ -1,10 +1,11 @@
-
-import crypto from "md5"
+// if (Deno) {
+  import { Hash } from "https://deno.land/x/checksum@1.2.0/mod.ts";
+// } else {
+//   const crypto = require('md5')
+// }
 import storage from "@system.storage"
+
 const KEY_APP_BY_ME = "appbyme_key"
-
-
-
 
 function appHash(){
 
@@ -14,7 +15,12 @@ function appHash(){
 
   let authString = time.substring(0,5) + authkey
 
-  let hashkey = crypto(authString)
+  let hashkey 
+  if (Deno) {
+    hashkey = new Hash("md5").digestString(authString).hex()
+  } else {
+    hashkey = crypto(authString)
+  }
 
   let appHashValue = hashkey.substring(8,16);
 

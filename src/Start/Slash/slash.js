@@ -26,7 +26,7 @@ export default {
 
 
     fetch.fetch({
-      url : "http://bbs.uestc.edu.cn/forum.php?mobile=no",
+      url : "https://bbs.uestc.edu.cn/forum.php?mobile=no",
       success:(re)=>{
         const reg = /pointer.*\r?\n?<\/span/g
         try{

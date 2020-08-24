@@ -56,7 +56,7 @@ export default {
 
             //NOTE : 用正则表达式获取注册表格的哈希值,以及设置cookie,
             fetch.fetch({
-                url:"http://bbs.uestc.edu.cn/member.php?mod=register",
+                url:"https://bbs.uestc.edu.cn/member.php?mod=register",
                 method : "POST",
                 success:function(data){
                     const regExp =  /formhash\" value=\".*\" \/><i/g
@@ -87,7 +87,7 @@ export default {
 
 
       this.tryingRegister = true
-      const url = "http://bbs.uestc.edu.cn/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1"
+      const url = "https://bbs.uestc.edu.cn/member.php?mod=register&mobile=2&handlekey=registerform&inajax=1"
 
 
       //<label for="XrgAcN">Email:</label></th>
@@ -95,7 +95,7 @@ export default {
       var data = {
             regsubmit : 'yes',
             formhash : 	this.formhash,
-            referer:"http://bbs.uestc.edu.cn/./",
+            referer:"https://bbs.uestc.edu.cn/./",
             activationauth:"",
             agreebbrule : "",
             usr	:this.username,

@@ -83,7 +83,7 @@ async function favorite(action,pid){
  */
 async function vote(tid,options){
     return await fetch.fetch({
-        url : "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/vote",
+        url : "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/vote",
         method:Strings.POST,
         data :{
             tid	:tid,

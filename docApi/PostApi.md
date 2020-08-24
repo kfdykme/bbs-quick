@@ -35,7 +35,7 @@
         "top": 0,
         "is_favor": 0,
         "create_date": "1535965286000",
-        "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=133940&size=middle",
+        "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=133940&size=middle",
         "level": 0,
         "userTitle": "泥鳅 (Lv.4)",
         "userColor": "",
@@ -102,15 +102,15 @@
         "managePanel": [],
         "extraPanel": [
             {
-                "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903377&type=view",
+                "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903377&type=view",
                 "title": "评分",
                 "extParams": {
-                    "beforeAction": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903377&type=check"
+                    "beforeAction": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903377&type=check"
                 },
                 "type": "rate"
             },
             {
-                "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903377&type=thread",
+                "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903377&type=thread",
                 "title": "支持",
                 "extParams": {
                     "beforeAction": "",
@@ -149,7 +149,7 @@
             "poststick": 0,
             "position": 2,
             "posts_date": "1535969842000",
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=203592&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=203592&size=middle",
             "level": 1,
             "userTitle": "河蟹 (Lv.3)",
             "userColor": "",
@@ -168,7 +168,7 @@
             "managePanel": [],
             "extraPanel": [
                 {
-                    "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903528&type=post",
+                    "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903528&type=post",
                     "title": "支持",
                     "recommendAdd": "",
                     "extParams": {
@@ -194,7 +194,7 @@
             "poststick": 0,
             "position": 3,
             "posts_date": "1535969863000",
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=145120&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=145120&size=middle",
             "level": 6,
             "userTitle": "鲤鱼 (Lv.7)",
             "userColor": "",
@@ -213,7 +213,7 @@
             "managePanel": [],
             "extraPanel": [
                 {
-                    "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903529&type=post",
+                    "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903529&type=post",
                     "title": "支持",
                     "recommendAdd": "",
                     "extParams": {
@@ -239,7 +239,7 @@
             "poststick": 0,
             "position": 4,
             "posts_date": "1535987373000",
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=216938&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=216938&size=middle",
             "level": 0,
             "userTitle": "虾米 (Lv.2)",
             "userColor": "",
@@ -258,7 +258,7 @@
             "managePanel": [],
             "extraPanel": [
                 {
-                    "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903998&type=post",
+                    "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30903998&type=post",
                     "title": "支持",
                     "recommendAdd": "",
                     "extParams": {
@@ -284,7 +284,7 @@
             "poststick": 0,
             "position": 5,
             "posts_date": "1536024275000",
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=195440&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=195440&size=middle",
             "level": 0,
             "userTitle": "虾米 (Lv.2)",
             "userColor": "",
@@ -303,7 +303,7 @@
             "managePanel": [],
             "extraPanel": [
                 {
-                    "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30904205&type=post",
+                    "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30904205&type=post",
                     "title": "支持",
                     "recommendAdd": "",
                     "extParams": {
@@ -329,7 +329,7 @@
             "poststick": 0,
             "position": 6,
             "posts_date": "1536049209000",
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=194414&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=194414&size=middle",
             "level": 1,
             "userTitle": "河蟹 (Lv.3)",
             "userColor": "",
@@ -348,7 +348,7 @@
             "managePanel": [],
             "extraPanel": [
                 {
-                    "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30904879&type=post",
+                    "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30904879&type=post",
                     "title": "支持",
                     "recommendAdd": "",
                     "extParams": {
@@ -374,7 +374,7 @@
             "poststick": 0,
             "position": 7,
             "posts_date": "1536113370000",
-            "icon": "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=195440&size=middle",
+            "icon": "https://bbs.uestc.edu.cn/uc_server/avatar.php?uid=195440&size=middle",
             "level": 0,
             "userTitle": "虾米 (Lv.2)",
             "userColor": "",
@@ -393,7 +393,7 @@
             "managePanel": [],
             "extraPanel": [
                 {
-                    "action": "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30905740&type=post",
+                    "action": "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/support&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=ed0e01cb&tid=1732141&pid=30905740&type=post",
                     "title": "支持",
                     "recommendAdd": "",
                     "extParams": {
@@ -408,7 +408,7 @@
     ],
     "forumName": "就业创业",
     "boardId": 174,
-    "forumTopicUrl": "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1732141",
+    "forumTopicUrl": "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1732141",
     "img_url": "",
     "icon_url": ""
 }
@@ -417,7 +417,7 @@
 
 ## 投票
 ### url
-http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/vote
+https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/vote
 ### query
 ```
 tid	1736733   //就是topicid
@@ -460,7 +460,7 @@ apphash	ed0e01cb
 ```
 ## 支持
 ### url
-http://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=forum/support
+https://bbs.uestc.edu.cn//mobcent/app/web/index.php?r=forum/support
 ### query
 pid	0  
 accessToken	3a92218375094ad61d1afb42d3627  
@@ -476,7 +476,7 @@ type	topic
 
 ## 评分
 ### url
-URL	http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate
+URL	https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=forum/topicrate
 &
 
 ### query
@@ -514,10 +514,10 @@ return alert when fail
 
 <script>
     alert("抱歉，您不能给自己发表的帖子评分");
-    location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=40b0fc2d";
+    location.href = "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=40b0fc2d";
 </script>
 
 <script>
     alert("抱歉，您不能对同一个帖子重复评分");
-    location.href = "http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=40b0fc2d";
+    location.href = "https://bbs.uestc.edu.cn/mobcent/app/web/index.php?r=index/returnmobileview&sdkVersion=2.6.1.7&accessToken=3a92218375094ad61d1afb42d3627&accessSecret=2870f155b160fa40addd801dd71ab&apphash=40b0fc2d";
 </script>

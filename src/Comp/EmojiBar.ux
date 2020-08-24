@@ -9,7 +9,7 @@
                                 <list-item type="emoji-item">
                                     <div class="emoji-item" @click="onClick({type:'choose_emoji',data:emo.alt})" @touchstart="onEvent({type:'touchstart', data: [x,y]})" @touchend="onEvent({type:'touchend', data: [x,y]})">
                                         <stack>
-                                          <image src="http://bbs.uestc.edu.cn/static/image/smiley/{{emo.src}}" alt="/Res/ic_emoji.png"></image>
+                                          <image src="https://bbs.uestc.edu.cn/static/image/smiley/{{emo.src}}" alt="/Res/ic_emoji.png"></image>
                                           <div class="emoji-dark" show="{{ture || emo.touchStatus}}"></div>
                                         </stack>
 
@@ -23,7 +23,7 @@
                 <block for="(i,tag) in emojis">
                     <div class="emoji-tag {{i == tagIndex ? 'active':''}}">
 
-                        <image class="tag " src="http://bbs.uestc.edu.cn/static/image/smiley/{{tag.list[0].src}}"></image>
+                        <image class="tag " src="https://bbs.uestc.edu.cn/static/image/smiley/{{tag.list[0].src}}"></image>
                     </div>
                 </block>
             </tab-bar>
@@ -533,7 +533,7 @@
                 ]
             }
             this.tags = []
-            this.baseUrl = "http://bbs.uestc.edu.cn/"
+            this.baseUrl = "https://bbs.uestc.edu.cn/"
             for(var x in this.data.emojis){
                 this.tags.push(this.data.emojis[x].tag)
             }

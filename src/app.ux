@@ -3,6 +3,9 @@
    * 应用级别的配置，供所有页面公用
    */
   import util from './util'
+
+  //startDeno
+    
   import './umenganalysis.es.min.js'
   
   // 脚本：regenerator.js
@@ -12,9 +15,17 @@
   // 注入regeneratorRuntime
   injectRef.regeneratorRuntime = require('babel-runtime/regenerator')
 
+  //endDeno 
+  
   function initUser(u){
-    this.$def.cache.user = u
+    if (Deno) {
+      this.$def.cache.user = u
+    } else {
+      console.info('appux',this)
+      this.cache.user = u
+    }
   }
+
 
   export default {
     showMenu: util.showMenu,
@@ -23,8 +34,11 @@
       user : null
     },
     onCreate(){
+
+      if (!Deno) {
+        $umeng_stat.init(this);   //友盟2333
+      }
       
-      $umeng_stat.init(this);   //友盟2333
     },
     initUser
   }

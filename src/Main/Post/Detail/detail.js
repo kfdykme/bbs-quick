@@ -360,7 +360,7 @@ export default {
 
         if(e.type == 'share'){
 
-          const url = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid="+this.topic.topic_id
+          const url = "https://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid="+this.topic.topic_id
 
           share.share({
             shareType: 0,
