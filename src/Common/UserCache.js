@@ -1,5 +1,5 @@
 // if (Deno) {
-  import { Hash } from "https://deno.land/x/checksum@1.2.0/mod.ts";
+  import { Hash } from "https://deno.land/x/checksum@1.4.0/mod.ts";
 // } else {
 //   const crypto = require('md5')
 // }
