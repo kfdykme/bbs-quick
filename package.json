@@ -6,16 +6,12 @@
   },
   "description": "电子科技大学官方学生论坛 快应用版",
   "scripts": {
-    "server": "hap server",
-    "postinstall": "hap postinstall",
-    "debug": "hap debug",
-    "build": "hap build",
-    "release": "hap release",
-    "watch": "hap watch",
-    "hap-update": "hap update"
+    "copyfetch": "rm -rf ./node_modules/knict-fetch && cp -rf ../knict-fetch ./node_modules/knict-fetch",
+    "build:dev": "yarn copyfetch && tsc",
+    "run:dev": "yarn build:dev && node dist/test/test.js"
   },
   "devDependencies": {
-    "hap-toolkit": "0.0.36",
+    "axios": "^0.21.4",
     "babel-cli": "^6.10.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
@@ -23,17 +19,22 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "cross-env": "^5.1.4",
     "css-what": "^2.1.0",
+    "hap-toolkit": "0.0.36",
     "koa": "^2.3.0",
-    "koa-send": "^4.1.1",
-    "koa-static": "^4.0.1",
     "koa-body": "^2.5.0",
     "koa-router": "^7.2.1",
+    "koa-send": "^4.1.1",
+    "koa-static": "^4.0.1",
     "socket.io": "^2.1.0",
     "webpack": "^3.11.0"
   },
   "dependencies": {
+    "@types/node": "^16.10.2",
+    "chai": "^4.3.4",
     "js-base64": "^2.4.9",
+    "knict-fetch": "^0.1.4",
     "less": "^3.8.1",
-    "less-loader": "^4.1.0"
+    "less-loader": "^4.1.0",
+    "mocha": "^9.1.2"
   }
 }
