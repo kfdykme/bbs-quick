@@ -1,16 +1,23 @@
-import BBS from '../src/index'
-import { LOGINTYPE } from '../src/knict/KnictBBSService'
+import BBS, { LOGINTYPE } from '../src/index' 
 import fs from 'fs'
+import path from 'path'
 
-const [ username, password ] = fs.readFileSync('./local/user', { encoding: 'utf-8'}).split(':')
+let username = ''
+let password = ''
+try {
+    const [ u, p ] = fs.readFileSync('./local/user', { encoding: 'utf-8'}).split(':')
+    username = u
+    password = p
+} catch (err) {
+    console.error(err)
+
+    // TODO: add
+}
  
-
-console.info(BBS)
-
 
 BBS.login(LOGINTYPE.login, username, password)
     .then(res => {
-        console.info(res)
+        // console.info(res)
     })
 
  
