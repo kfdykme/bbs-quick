@@ -1,5 +1,5 @@
-import { BBSService, LOGINTYPE } from '../src/knict/KnictBBSService'
+export { BBSService, LOGINTYPE } from '../src/knict/KnictBBSService'
 
-export { LOGINTYPE }
+export { knictCliService } from '../src/knict/KnictCliService'
 
-export default BBSService
+
