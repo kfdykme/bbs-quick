@@ -46,14 +46,26 @@ const handleHomeTag = () => {
     })
         .then(res => res.data)
         .then((data) => {
-        console.info(data);
+        // console.info(data.list)
         const showData = data.list.map((i) => {
+            let { title, user_nick_name, hits, replies, subject, summary, userTitle, gender, sourceWebUrl, board_name, last_reply_date } = i;
             return {
-                title: i.title
+                title,
+                user_nick_name,
+                hits,
+                replies,
+                subject: subject || summary,
+                userTitle: userTitle || '',
+                gender,
+                sourceWebUrl,
+                board_name,
+                last_reply_date
             };
         });
         console.info({
-            currentPage,
+            page: data.page,
+            hasNext: data.hax_next,
+            total: data.total_num,
             currentTag,
             showData
         });

@@ -2,37 +2,37 @@
 
 import { LOGINTYPE, knictCliService, BBSService } from '../src/index'
 import { Knict } from 'knict'
-import { FetchClientBuilder} from 'knict-fetch'
-import crypto from "md5" 
-import { http as HTTPC , CLIV} from '../src/knict/KnictBBSContants'
+import { FetchClientBuilder } from 'knict-fetch'
+import crypto from "md5"
+import { http as HTTPC, CLIV } from '../src/knict/KnictBBSContants'
 
 
 
 
-function appHash(){
+function appHash() {
 
     const KEY_APP_BY_ME = "appbyme_key"
-  let time = new Date().getTime().toString();
+    let time = new Date().getTime().toString();
 
-  let authkey = KEY_APP_BY_ME
+    let authkey = KEY_APP_BY_ME
 
-  let authString = time.substring(0,5) + authkey
+    let authString = time.substring(0, 5) + authkey
 
-  let hashkey = crypto(authString)
+    let hashkey = crypto(authString)
 
-  let appHashValue = hashkey.substring(8,16);
+    let appHashValue = hashkey.substring(8, 16);
 
-  return appHashValue
+    return appHashValue
 };
 
-let user:any = {}
+let user: any = {}
 let currentPage = 1;
 let currentTag = ''
 
-const handleHomeTag = ():Promise<any> => {
+const handleHomeTag = (): Promise<any> => {
     return Promise.resolve(0).then(() => {
         if (currentTag === CLIV.choiceHomeReply) {
-            return  BBSService.newReply(currentPage, appHash(), user.secret, user.token)
+            return BBSService.newReply(currentPage, appHash(), user.secret, user.token)
         } else if (currentTag === CLIV.choiceHomePost) {
             return BBSService.newPost(currentPage, appHash(), user.secret, user.token)
         } else if (currentTag === CLIV.choiceHomeHot) {
@@ -41,61 +41,85 @@ const handleHomeTag = ():Promise<any> => {
             return Promise.resolve(new Error('currentTag error: ' + currentTag))
         }
     })
-    .then(res => res.data)
-    .then((data:any) => {
-        console.info(data)
-        const showData = data.list.map((i:any) => {
-            return {
-                title: i.title
-            }
+        .then(res => res.data)
+        .then((data: any) => {
+            // console.info(data.list)
+            const showData = data.list.map((i: any) => {
+                let {
+                    title,
+                    user_nick_name,
+                    hits,
+                    replies,
+                    subject,
+                    summary,
+                    userTitle,
+                    gender,
+                    sourceWebUrl,
+                    board_name,
+                    last_reply_date
+                } = i
+                return {
+                    title,
+                    user_nick_name,
+                    hits,
+                    replies,
+                    subject: subject || summary,
+                    userTitle: userTitle || '',
+                    gender,
+                    sourceWebUrl,
+                    board_name,
+                    last_reply_date
+                }
+            })
+            console.info({
+                page: data.page,
+                hasNext: data.hax_next,
+                total: data.total_num,
+                currentTag,
+                showData
+            })
+            return knictCliService.afterHomeTag()
         })
-        console.info({
-            currentPage,
-            currentTag,
-            showData
-        })
-        return knictCliService.afterHomeTag()
-    })
-    .then(res => res.afterHomeTag)
-    .then((choice:string) => {
-        if (choice === CLIV.choiceAfterHomeBack) {
-            currentPage = 1
-            return home()
-        } else if (choice === CLIV.choiceAfterHomeNext) {
-            currentPage++
-            return handleHomeTag()
-        } else if (choice === CLIV.choiceAfterHomePre) {
-            if (currentPage <= 1) {
-                return knictCliService.afterHomeTag()
-            } else {
-                currentPage--
+        .then(res => res.afterHomeTag)
+        .then((choice: string) => {
+            if (choice === CLIV.choiceAfterHomeBack) {
+                currentPage = 1
+                return home()
+            } else if (choice === CLIV.choiceAfterHomeNext) {
+                currentPage++
                 return handleHomeTag()
+            } else if (choice === CLIV.choiceAfterHomePre) {
+                if (currentPage <= 1) {
+                    return knictCliService.afterHomeTag()
+                } else {
+                    currentPage--
+                    return handleHomeTag()
+                }
             }
-        }
-    })
+        })
 }
 
-const nextHome = ():Promise<any> => {
+const nextHome = (): Promise<any> => {
     return Promise.resolve(0).then(() => {
-       
+
     })
 }
 
-const home = ():Promise<any> => {
+const home = (): Promise<any> => {
     return Promise.resolve(0).then(() => {
         currentTag = ''
         return knictCliService.homeTag()
     })
-    .then((res: any) => {
-        const { homeTag } = res
-        currentTag = homeTag
-        return handleHomeTag()
-    })
-    .catch((res) => {
-        const status = res && res.response && res.response.status
-        console.error('home',  status || res)
-        return home()
-    })
+        .then((res: any) => {
+            const { homeTag } = res
+            currentTag = homeTag
+            return handleHomeTag()
+        })
+        .catch((res) => {
+            const status = res && res.response && res.response.status
+            console.error('home', status || res)
+            return home()
+        })
 }
 
 const main = async () => {
@@ -107,14 +131,14 @@ const main = async () => {
     // Knict.builder(new FetchClientBuilder().baseUrl('https://bbs.uestc.edu.cn/mobcent/'))
 
     BBSService.login(LOGINTYPE.login, username, password)
-        .then((res:any) => {
-            return res.data   
+        .then((res: any) => {
+            return res.data
         })
         .then((data: any) => {
             user = data
             return home()
         })
- 
+
 }
 
 main()
