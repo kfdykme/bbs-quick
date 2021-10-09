@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { LOGINTYPE, knictCliService, BBSService } from '../src/index'
 import { Knict } from 'knict'
 import { FetchClientBuilder} from 'knict-fetch'
