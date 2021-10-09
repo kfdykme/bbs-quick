@@ -3,3 +3,5 @@ node_modules
 dist
 .fastapp/
 fa-toolkit*
+local
+.knict-cli
