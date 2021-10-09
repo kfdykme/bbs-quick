@@ -71,12 +71,38 @@ const handleHomeTag = (): Promise<any> => {
                     last_reply_date
                 }
             })
+
+//             showData = showData.map((i:any) => {
+//                 let{
+//                     title,
+//                     user_nick_name,
+//                     hits,
+//                     replies,
+//                     subject,
+//                     userTitle,
+//                     gender,
+//                     sourceWebUrl,
+//                     board_name,
+//                     last_reply_date
+//                 } = i
+
+// //                 const r = 
+// // `『
+// //     [${board_name}] ${title} 
+// //     :${subject}
+// //                             ${user_nick_name}${userTitle}
+// //     ${sourceWebUrl}                                      』`
+// //                 console.info(r)
+// ret
+//             })
+
+            
+            showData.forEach(console.info)
             console.info({
                 page: data.page,
                 hasNext: data.hax_next,
                 total: data.total_num,
-                currentTag,
-                showData
+                currentTag
             })
             return knictCliService.afterHomeTag()
         })
