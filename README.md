@@ -2,3 +2,8 @@
 
 # 开始使用
 
+``` base
+npm i -g ubbs
+
+ubbs
+```
