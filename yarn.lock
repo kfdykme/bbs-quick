@@ -3813,10 +3813,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-knict-cli@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/knict-cli/-/knict-cli-0.0.8.tgz#3625e1519d54bd6f5ec8f023e4e7681294f4c983"
-  integrity sha512-j9vKnxusJvOq6ha9SGorQf05bRxQ11WWI2XxenJ7zK1YsN/VvtkUQovw5SSqZyzO/QoWqTdyVn4VHjjCv79s1A==
+knict-cli@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/knict-cli/-/knict-cli-0.0.9.tgz#a5c264dac2db3195e23f850266886b28a24c3e7f"
+  integrity sha512-liUjBjxKyZlpl6laL+TRC3cHtmz7Q3Ps7EbRTRJZTPcVrgCJgq1hhFPzIqfm6izIZZ0HHz2MNu8MerKWe2+iZA==
   dependencies:
     "@types/inquirer" "^8.1.3"
     "@types/prompt" "^1.1.1"
