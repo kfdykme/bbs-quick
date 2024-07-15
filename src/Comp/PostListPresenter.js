@@ -39,7 +39,7 @@ export default class PostListPresenter{
                   let time = re.list[x].last_reply_date
                   re.list[x].last_reply_date = DateUtil.convertTime(time)
 
-                  re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
+                  re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=small"
               }
               this.view.render(re.list)
           }
@@ -68,7 +68,7 @@ export default class PostListPresenter{
                 re.list[x].isMute = false
               let time = re.list[x].last_reply_date
               re.list[x].last_reply_date = DateUtil.convertTime(time)
-              re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=big"
+              re.list[x].userAvatar = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid="+re.list[x].user_id+"&size=small"
           }
 
           /**

@@ -3,3 +3,6 @@ node_modules
 dist
 .fastapp/
 fa-toolkit*
+package-lock.json
+.ide/
+.quickapp.preview.json

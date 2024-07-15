@@ -164,8 +164,8 @@ function fetch(url,data,suc,andError,onParseFail, tag){
 
 
 export default {
-  REGISTER_URL : "http://bbs.uestc.edu.cn/member.php?mod=register",
-  BASE_URL : "http://bbs.uestc.edu.cn/mobcent/",
+  REGISTER_URL : "https://bbs.uestc.edu.cn/member.php?mod=register",
+  BASE_URL : "https://bbs.uestc.edu.cn/mobcent/",
   login : "app/web/index.php?r=user/login/",
   formlist : "app/web/index.php?r=forum/forumlist",
   atuserlist : "app/web/index.php?r=forum/atuserlist",

@@ -10,7 +10,7 @@
 
               <block for="(i,b) in c.board_list">
                 <div  onclick="onClickEvent({type:'board',data :b.board_id})">
-                  <image class="board-icon" src="../Res/{{ic[x][i]}}"></image>
+                  <image class="board-icon" src="../Res/{{ ic[x][i]}}"></image>
                   <text class="board-name" >{{b.board_name}} </text>
                   <canvas class='board-canvas' id="boardCanvas{{b.board_id}}"></canvas>
                 </div>
@@ -256,12 +256,27 @@ export default{
     ],
     canvaDraw:{}
   },
+   
   view(){
       var View = new Object
       View.context = this
       View.renderBoard  = function(re){
 
           this.board = re.list
+          if (this.board != undefined) {
+
+          }
+          for(var x in this.board) {
+            const c = this.board[x]
+            for(var i in c) {
+              if (this.ic[x] == undefined) {
+                this.ic[x] = this.ic[0]
+              }
+              if (this.ic[x][i] == undefined) {
+                this.ic[x][i] = this.ic[0][0]
+              }
+            }
+          }
           this.canvaDraw = {}
       }.bind(this)
 
@@ -272,6 +287,9 @@ export default{
       View.renderCanvas = function(id, data, clear) {
         console.debug('renderCanvas', id, data, clear)
         let canvas = this.$element('boardCanvas' + id)
+        if (canvas == undefined) {
+          return 
+        }
         const ctx = canvas.getContext('2d')
         ctx.restore()
         if (data.length <10 || (this.canvaDraw[id] != null && this.canvaDraw[id].has && !clear) ) {
